@@ -1,4 +1,4 @@
-import 'package:aguazullavapp/constants/rutes.dart';
+import 'package:aguazullavapp/constants/rute/rutes.dart';
 import 'package:aguazullavapp/ui/addService/add_service_screen.dart';
 import 'package:aguazullavapp/ui/principal/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +19,11 @@ class MyApp extends StatelessWidget {
       darkTheme:
           ThemeData(useMaterial3: true, colorScheme: const ColorScheme.dark()),
       themeMode: ThemeMode.light,
-      initialRoute: Rutas.Principal.name,
+      initialRoute: const Rutas.Principal().route,
       routes: {
-        Rutas.Principal.name: (context) => const HomePage(),
-        Rutas.AddService.name: (context) =>  const AddServiceScreen(),
+        const Rutas.Principal().route: (context) => const HomePage(),
+        const Rutas.AddService().route: (context) => const AddServiceScreen(),
       },
-
     );
   }
 }

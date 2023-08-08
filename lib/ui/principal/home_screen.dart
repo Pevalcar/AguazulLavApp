@@ -1,10 +1,9 @@
-import 'package:aguazullavapp/model/car/car_model.dart';
+import 'package:aguazullavapp/model/car/vehiculo_model.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../constants/rutes.dart';
+import '../../constants/rute/rutes.dart';
 import '../../model/propietary/user.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,22 +23,24 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _ListProces(
         listServices: vv,
-        onPressed: (veicle) {
-
+        onPressed: (Vehiculo veicle) {
+          Navigator.pushNamed(context, const Rutas.AddService().route,
+              arguments: veicle);
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, Rutas.AddService.name) ;
+          Navigator.pushNamed(context, const Rutas.AddService().route,
+              arguments: const Vehiculo());
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
 
 class _ListProces extends StatelessWidget {
-  final List<Veiculo> listServices;
+  final List<Vehiculo> listServices;
   final Function onPressed;
 
   const _ListProces({
@@ -61,7 +62,7 @@ class _ListProces extends StatelessWidget {
 }
 
 class CardCarService extends StatelessWidget {
-  final Veiculo veicle;
+  final Vehiculo veicle;
   final Function onPressed;
 
   const CardCarService({
@@ -103,7 +104,7 @@ class CardCarService extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Vehiculo: ${veicle.type.name}"),
+                Text("Vehiculo: ${veicle.type}"),
                 Text("Servicio: ${veicle.servicios.name}"),
               ],
             ),
@@ -122,8 +123,8 @@ class CardCarService extends StatelessWidget {
   }
 }
 
-final List<Veiculo> vv = List.generate(50, (index) {
-  return Veiculo(
+final List<Vehiculo> vv = List.generate(50, (index) {
+  return Vehiculo(
     id: index.toString(),
     photo:
         'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
