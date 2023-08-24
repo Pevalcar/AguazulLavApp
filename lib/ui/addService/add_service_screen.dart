@@ -1,10 +1,13 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:image_picker/image_picker.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../model/car/vehiculo_model.dart';
+import '../../providers/index.dart';
 
 class AddServiceScreen extends StatefulWidget {
   const AddServiceScreen({super.key});
@@ -15,12 +18,11 @@ class AddServiceScreen extends StatefulWidget {
 
 class _AddServiceScreenState extends State<AddServiceScreen> {
   File? imageFile;
-  final bool platformMovile = (Platform.isIOS || Platform.isAndroid);
-  String _currentType = VeiculoType.Bus.name;
+  final bool platformMovil = (Platform.isIOS || Platform.isAndroid);
 
   @override
   Widget build(BuildContext context) {
-    Vehiculo veiculo = ModalRoute.of(context)?.settings.arguments as Vehiculo;
+    Vehicle vehicular = ModalRoute.of(context)?.settings.arguments as Vehicle;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agregar nuevo servicio'),
@@ -29,21 +31,21 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "ID : ${veiculo.id}",
+            "ID : ${vehicular.id}",
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           _Handled(
-            veiculo: veiculo,
+            vehiculo: vehicular,
             photo: imageFile,
           ),
-          Fromulario(
-            veiculo: veiculo,
+          Formulario(
+            vehiculo: vehicular,
           ),
           DropdownButton(
-              value: veiculo.type,
+              value: vehicular.type,
               items: VeiculoType.values
                   .toList()
                   .map((e) => DropdownMenuItem(
@@ -51,14 +53,10 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         child: Text(e.name),
                       ))
                   .toList(),
-              onChanged: (value) {
-                setState(() {
-                  veiculo = veiculo.copyWith(type: value!);
-                });
-              })
+              onChanged: (value) {})
         ],
       ),
-      floatingActionButton: (platformMovile)
+      floatingActionButton: (platformMovil)
           ? FloatingActionButton(
               onPressed: () {
                 _getFromCamera();
@@ -68,10 +66,10 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
           : FloatingActionButton(
               onPressed: () {
                 ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(veiculo.photo)));
-                veiculo = veiculo.copyWith(photo: "imageFile?.path");
+                    .showSnackBar(SnackBar(content: Text(vehicular.photo)));
+                vehicular = vehicular.copyWith(photo: "imageFile?.path");
                 ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(veiculo.photo)));
+                    .showSnackBar(SnackBar(content: Text(vehicular.photo)));
               },
               child: const Icon(Icons.add),
             ),
@@ -105,19 +103,21 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   }
 }
 
-class _Handled extends StatelessWidget {
-  final Vehiculo? veiculo;
+class _Handled extends ConsumerWidget {
+  final Vehicle? vehiculo;
   final File? photo;
 
-  const _Handled({required this.veiculo, this.photo});
+  const _Handled({required this.vehiculo, this.photo});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rutas = ref.watch(getRutasProvider);
+    rutas.toString();
     return Expanded(
       child: SizedBox(
         width: double.infinity,
         child: Hero(
-          tag: veiculo!.id,
+          tag: vehiculo!.id,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -125,9 +125,9 @@ class _Handled extends StatelessWidget {
               (photo == null)
                   ? FadeInImage.memoryNetwork(
                       placeholder: kTransparentImage,
-                      image: (veiculo!.photo.isEmpty)
+                      image: (vehiculo!.photo.isEmpty)
                           ? 'https://picsum.photos/200/300'
-                          : veiculo!.photo,
+                          : vehiculo!.photo,
                       fit: BoxFit.fitWidth,
                     )
                   : Image.file(
@@ -141,10 +141,10 @@ class _Handled extends StatelessWidget {
   }
 }
 
-class Fromulario extends StatelessWidget {
-  final Vehiculo veiculo;
+class Formulario extends StatelessWidget {
+  final Vehicle vehiculo;
 
-  Fromulario({super.key, required this.veiculo});
+  Formulario({super.key, required this.vehiculo});
 
   final _keyFrom = GlobalKey<FormState>();
 
@@ -156,7 +156,7 @@ class Fromulario extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
-            initialValue: veiculo.propietario.name,
+            initialValue: vehiculo.propietario.name,
             decoration: InputDecoration(
               suffixIcon: IconButton(
                   onPressed: () {
@@ -176,7 +176,7 @@ class Fromulario extends StatelessWidget {
             },
           ),
           TextFormField(
-            initialValue: veiculo.placa,
+            initialValue: vehiculo.placa,
             decoration: const InputDecoration(
               labelText: "Placa",
               icon: Icon(Icons.numbers_rounded),

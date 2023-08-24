@@ -3,35 +3,36 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'vehiculo_model.freezed.dart';
+
 part 'vehiculo_model.g.dart';
 
 enum VeiculoType {
-  AutoMovil,
-  Motosicleta,
-  Campero,
-  Camioneta,
-  Bus,
-  Camion,
-  Otro
+  autoMovil,
+  motocicleta,
+  campero,
+  camioneta,
+  bus,
+  camion,
+  otro
 }
 
-enum Servicio { Basico, Eco, Pro, Vip, Otro }
+enum Servicio { Basico, Eco, Pro, Vip, Otro, None }
 
 @freezed
-class Vehiculo with _$Vehiculo {
-  const factory Vehiculo({
-    @Default("") String id,
-    @Default("") String photo,
-    @Default("") String placa,
-    @Default(VeiculoType.AutoMovil) VeiculoType type,
-    @Default(User(id: "", name: "", phone: "")) User propietario,
-    @Default("") String entrada,
-    @Default("") String salida,
-    @Default(Servicio.Basico) Servicio servicios,
-    @Default(false) bool terminado,
-    @Default("0") String price,
+class Vehicle with _$Vehicle {
+  const factory Vehicle({
+    @Default("")String id,
+    @Default("")String photo,
+    @Default("")String placa,
+    @Default(VeiculoType.autoMovil)VeiculoType type,
+    @Default(User())User propietario,
+    @Default("")String entrada,
+    @Default("")String salida,
+    @Default(Servicio.None)Servicio servicios,
+    @Default(false)bool terminado,
+    @Default("")String price,
   }) = _Vehiculo;
 
-  factory Vehiculo.fromJson(Map<String, dynamic> json) =>
-      _$VehiculoFromJson(json);
+  factory Vehicle.fromJson(Map<String, dynamic> json) =>
+      _$VehicleFromJson(json);
 }

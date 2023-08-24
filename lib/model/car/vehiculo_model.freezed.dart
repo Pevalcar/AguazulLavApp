@@ -14,44 +14,32 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Vehiculo _$VehiculoFromJson(Map<String, dynamic> json) {
+Vehicle _$VehicleFromJson(Map<String, dynamic> json) {
   return _Vehiculo.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Vehiculo {
+mixin _$Vehicle {
   String get id => throw _privateConstructorUsedError;
-
   String get photo => throw _privateConstructorUsedError;
-
   String get placa => throw _privateConstructorUsedError;
-
   VeiculoType get type => throw _privateConstructorUsedError;
-
   User get propietario => throw _privateConstructorUsedError;
-
   String get entrada => throw _privateConstructorUsedError;
-
   String get salida => throw _privateConstructorUsedError;
-
   Servicio get servicios => throw _privateConstructorUsedError;
-
   bool get terminado => throw _privateConstructorUsedError;
-
   String get price => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
-  $VehiculoCopyWith<Vehiculo> get copyWith =>
-      throw _privateConstructorUsedError;
+  $VehicleCopyWith<Vehicle> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $VehiculoCopyWith<$Res> {
-  factory $VehiculoCopyWith(Vehiculo value, $Res Function(Vehiculo) then) =
-      _$VehiculoCopyWithImpl<$Res, Vehiculo>;
-
+abstract class $VehicleCopyWith<$Res> {
+  factory $VehicleCopyWith(Vehicle value, $Res Function(Vehicle) then) =
+      _$VehicleCopyWithImpl<$Res, Vehicle>;
   @useResult
   $Res call(
       {String id,
@@ -69,13 +57,12 @@ abstract class $VehiculoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$VehiculoCopyWithImpl<$Res, $Val extends Vehiculo>
-    implements $VehiculoCopyWith<$Res> {
-  _$VehiculoCopyWithImpl(this._value, this._then);
+class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
+    implements $VehicleCopyWith<$Res> {
+  _$VehicleCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -147,11 +134,10 @@ class _$VehiculoCopyWithImpl<$Res, $Val extends Vehiculo>
 }
 
 /// @nodoc
-abstract class _$$_VehiculoCopyWith<$Res> implements $VehiculoCopyWith<$Res> {
+abstract class _$$_VehiculoCopyWith<$Res> implements $VehicleCopyWith<$Res> {
   factory _$$_VehiculoCopyWith(
           _$_Vehiculo value, $Res Function(_$_Vehiculo) then) =
       __$$_VehiculoCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call(
@@ -172,7 +158,7 @@ abstract class _$$_VehiculoCopyWith<$Res> implements $VehiculoCopyWith<$Res> {
 
 /// @nodoc
 class __$$_VehiculoCopyWithImpl<$Res>
-    extends _$VehiculoCopyWithImpl<$Res, _$_Vehiculo>
+    extends _$VehicleCopyWithImpl<$Res, _$_Vehiculo>
     implements _$$_VehiculoCopyWith<$Res> {
   __$$_VehiculoCopyWithImpl(
       _$_Vehiculo _value, $Res Function(_$_Vehiculo) _then)
@@ -244,13 +230,13 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
       {this.id = "",
       this.photo = "",
       this.placa = "",
-      this.type = VeiculoType.AutoMovil,
-      this.propietario = const User(id: "", name: "", phone: ""),
+      this.type = VeiculoType.autoMovil,
+      this.propietario = const User(),
       this.entrada = "",
       this.salida = "",
-      this.servicios = Servicio.Basico,
+      this.servicios = Servicio.None,
       this.terminado = false,
-      this.price = "0"});
+      this.price = ""});
 
   factory _$_Vehiculo.fromJson(Map<String, dynamic> json) =>
       _$$_VehiculoFromJson(json);
@@ -288,14 +274,14 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Vehiculo(id: $id, photo: $photo, placa: $placa, type: $type, propietario: $propietario, entrada: $entrada, salida: $salida, servicios: $servicios, terminado: $terminado, price: $price)';
+    return 'Vehicle(id: $id, photo: $photo, placa: $placa, type: $type, propietario: $propietario, entrada: $entrada, salida: $salida, servicios: $servicios, terminado: $terminado, price: $price)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'Vehiculo'))
+      ..add(DiagnosticsProperty('type', 'Vehicle'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('photo', photo))
       ..add(DiagnosticsProperty('placa', placa))
@@ -347,7 +333,7 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
   }
 }
 
-abstract class _Vehiculo implements Vehiculo {
+abstract class _Vehiculo implements Vehicle {
   const factory _Vehiculo(
       {final String id,
       final String photo,
@@ -364,34 +350,24 @@ abstract class _Vehiculo implements Vehiculo {
 
   @override
   String get id;
-
   @override
   String get photo;
-
   @override
   String get placa;
-
   @override
   VeiculoType get type;
-
   @override
   User get propietario;
-
   @override
   String get entrada;
-
   @override
   String get salida;
-
   @override
   Servicio get servicios;
-
   @override
   bool get terminado;
-
   @override
   String get price;
-
   @override
   @JsonKey(ignore: true)
   _$$_VehiculoCopyWith<_$_Vehiculo> get copyWith =>

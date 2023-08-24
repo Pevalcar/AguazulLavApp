@@ -21,21 +21,14 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   String get id => throw _privateConstructorUsedError;
-
   String get name => throw _privateConstructorUsedError;
-
   String get phone => throw _privateConstructorUsedError;
-
   String? get email => throw _privateConstructorUsedError;
-
   String? get photo => throw _privateConstructorUsedError;
-
   String? get address => throw _privateConstructorUsedError;
-
   String? get bonus => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
@@ -44,7 +37,6 @@ mixin _$User {
 abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
-
   @useResult
   $Res call(
       {String id,
@@ -63,7 +55,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -115,7 +106,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$$_UserCopyWith(_$_User value, $Res Function(_$_User) then) =
       __$$_UserCopyWithImpl<$Res>;
-
   @override
   @useResult
   $Res call(
@@ -182,9 +172,9 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 @JsonSerializable()
 class _$_User implements _User {
   const _$_User(
-      {required this.id,
-      required this.name,
-      required this.phone,
+      {this.id = "",
+      this.name = "",
+      this.phone = "",
       this.email,
       this.photo,
       this.address,
@@ -193,10 +183,13 @@ class _$_User implements _User {
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
   @override
+  @JsonKey()
   final String id;
   @override
+  @JsonKey()
   final String name;
   @override
+  @JsonKey()
   final String phone;
   @override
   final String? email;
@@ -247,9 +240,9 @@ class _$_User implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final String id,
-      required final String name,
-      required final String phone,
+      {final String id,
+      final String name,
+      final String phone,
       final String? email,
       final String? photo,
       final String? address,
@@ -259,25 +252,18 @@ abstract class _User implements User {
 
   @override
   String get id;
-
   @override
   String get name;
-
   @override
   String get phone;
-
   @override
   String? get email;
-
   @override
   String? get photo;
-
   @override
   String? get address;
-
   @override
   String? get bonus;
-
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

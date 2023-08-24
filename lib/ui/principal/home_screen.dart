@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _ListProces(
         listServices: vv,
-        onPressed: (Vehiculo veicle) {
+        onPressed: (Vehicle veicle) {
           Navigator.pushNamed(context, const Rutas.AddService().route,
               arguments: veicle);
         },
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, const Rutas.AddService().route,
-              arguments: const Vehiculo());
+              arguments: const Vehicle());
         },
         child: const Icon(Icons.add),
       ),
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _ListProces extends StatelessWidget {
-  final List<Vehiculo> listServices;
+  final List<Vehicle> listServices;
   final Function onPressed;
 
   const _ListProces({
@@ -54,7 +54,7 @@ class _ListProces extends StatelessWidget {
         itemCount: listServices.length,
         itemBuilder: (context, index) {
           return CardCarService(
-            veicle: listServices[index],
+            vehicle: listServices[index],
             onPressed: onPressed,
           );
         });
@@ -62,37 +62,37 @@ class _ListProces extends StatelessWidget {
 }
 
 class CardCarService extends StatelessWidget {
-  final Vehiculo veicle;
+  final Vehicle vehicle;
   final Function onPressed;
 
   const CardCarService({
     super.key,
     required this.onPressed,
-    required this.veicle,
+    required this.vehicle,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shadowColor: (veicle.terminado) ? Colors.green : Colors.red,
+      shadowColor: (vehicle.terminado) ? Colors.green : Colors.red,
       elevation: 7,
       child: ListTile(
         onTap: () {
-          onPressed(veicle);
+          onPressed(vehicle);
         },
         title: Text(
-          "Propietario: ${veicle.propietario.name}",
+          "Propietario: ${vehicle.propietario.name}",
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         leading: Hero(
-          tag: veicle.id,
+          tag: vehicle.id,
           child: Stack(
             alignment: Alignment.center,
             children: [
               const CircularProgressIndicator(),
               FadeInImage.memoryNetwork(
-                  image: veicle.photo,
+                  image: vehicle.photo,
                   placeholder: kTransparentImage,
                   fit: BoxFit.cover),
             ],
@@ -104,34 +104,34 @@ class CardCarService extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Vehiculo: ${veicle.type}"),
-                Text("Servicio: ${veicle.servicios.name}"),
+                Text("Vehiculo: ${vehicle.type}"),
+                Text("Servicio: ${vehicle.servicios.name}"),
               ],
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Entrada: ${veicle.entrada}"),
-                Text("Salida: ${veicle.salida}"),
+                Text("Entrada: ${vehicle.entrada}"),
+                Text("Salida: ${vehicle.salida}"),
               ],
             ),
           ],
         ),
-        trailing: Text(" \$ ${veicle.price}"),
+        trailing: Text(" \$ ${vehicle.price}"),
       ),
     );
   }
 }
 
-final List<Vehiculo> vv = List.generate(50, (index) {
-  return Vehiculo(
+final List<Vehicle> vv = List.generate(50, (index) {
+  return Vehicle(
     id: index.toString(),
     photo:
         'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-    type: VeiculoType.AutoMovil,
+    type: VeiculoType.autoMovil,
     propietario: User(
       id: index.toString(),
-      name: 'Juan ${index}',
+      name: 'Juan $index',
       phone: '123456',
       email: 'jF5gK@example.com',
       photo: '',
