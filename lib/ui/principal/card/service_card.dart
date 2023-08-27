@@ -23,7 +23,7 @@ class _CardCarServiceState extends State<CardCarService> {
   @override
   Widget build(BuildContext context) {
     final ButtonStyle myStileButton = TextButton.styleFrom(
-      iconColor: Theme.of(context).colorScheme.secondary,
+      foregroundColor: Theme.of(context).colorScheme.secondary,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
@@ -88,8 +88,8 @@ class _CardCarServiceState extends State<CardCarService> {
                   _cardKey.currentState?.collapse();
                   widget.onPressed(widget.vehicle);
                 },
-                child: const Column(
-                  children: <Widget>[
+                child:Column(
+                  children: const <Widget>[
                     Icon(Icons.document_scanner_outlined),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 2.0),
@@ -105,8 +105,8 @@ class _CardCarServiceState extends State<CardCarService> {
                     // todo implementar
                     _cardKey.currentState?.collapse();
                   },
-                  child: const Column(
-                    children: <Widget>[
+                  child: Column(
+                    children: const <Widget>[
                       Icon(Icons.task),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 2.0),

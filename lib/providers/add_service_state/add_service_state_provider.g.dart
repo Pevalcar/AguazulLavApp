@@ -20,20 +20,20 @@ final listServiceProvider = AutoDisposeProvider<List<ServiceInfo>>.internal(
 );
 
 typedef ListServiceRef = AutoDisposeProviderRef<List<ServiceInfo>>;
-String _$veicleTypesHash() => r'c07939f7787ca416b7fa32da0fdd50719eda3f9f';
+String _$currentTimeHash() => r'56ee1f912cd5be56ba718151fe37dcea24193361';
 
-/// See also [VeicleTypes].
-@ProviderFor(VeicleTypes)
-final veicleTypesProvider = AutoDisposeProvider<VeiculoType>.internal(
-  VeicleTypes,
-  name: r'veicleTypesProvider',
+/// See also [CurrentTime].
+@ProviderFor(CurrentTime)
+final currentTimeProvider = AutoDisposeProvider<String>.internal(
+  CurrentTime,
+  name: r'currentTimeProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$veicleTypesHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$currentTimeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef VeicleTypesRef = AutoDisposeProviderRef<VeiculoType>;
+typedef CurrentTimeRef = AutoDisposeProviderRef<String>;
 String _$serviceSelectHash() => r'562e3aef19fedae5ffd0fa2682c80346b9f3342b';
 
 /// See also [ServiceSelect].

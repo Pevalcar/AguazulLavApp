@@ -14,6 +14,8 @@ class Vehiculo extends _$Vehiculo {
   void ModifierVeichle(Vehicle vehiculo) {
     state = vehiculo;
   }
-
+  void ModifiType(VeiculoType? type) {
+    state = state.copyWith(type: type!);
+  }
   
 }

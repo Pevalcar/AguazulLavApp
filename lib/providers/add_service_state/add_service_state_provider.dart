@@ -24,6 +24,8 @@ class ServiceSelect extends _$ServiceSelect {
 }
 
 @riverpod
-VeiculoType VeicleTypes (VeicleTypesRef ref) {
-  return VeiculoType.autoMovil;
+String CurrentTime(CurrentTimeRef ref) {
+  final time = DateTime.now();
+
+  return "${time.year}/${time.month}/${time.day} # ${time.hour}:${time.minute}:${time.second}";
 }

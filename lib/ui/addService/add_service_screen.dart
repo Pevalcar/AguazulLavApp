@@ -1,4 +1,6 @@
-import 'package:aguazullavapp/ui/addService/card/type_card.dart';
+import 'package:aguazullavapp/ui/addService/widgets/time_data_show.dart';
+import 'package:aguazullavapp/ui/addService/widgets/type_card.dart';
+import 'package:aguazullavapp/ui/addService/widgets/type_class_selecter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -29,18 +31,23 @@ class AddServiceScreen extends ConsumerWidget {
           ),
           _Handled(id: vehicular.id, photo: vehicular.photo),
           Formulario(vehiculo: vehicular),
-          TyperCardSelecter(vehicular: vehicular),
+          TyperCardSelecter(),
           _TypeCardSeleteable(
-              listServices: listServices, serviceSelection: serviceSelection),
+            listServices: listServices,
+            serviceSelection: serviceSelection,
+          ),
+          TimerDataShow(
+            initTime: vehicular.entrada,
+            endTime: vehicular.salida,
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(vehicular.photo)));
-          ref
-              .read(vehiculoProvider.notifier)
-              .ModifierVeichle(vehicular.copyWith(photo: "https://picsum.photos/200/300"));
+          ref.read(vehiculoProvider.notifier).ModifierVeichle(
+              vehicular.copyWith(photo: "https://picsum.photos/200/300"));
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(vehicular.photo)));
         },
@@ -106,33 +113,6 @@ class _TypeCardSeleteable extends StatelessWidget {
   }
 }
 
-class TyperCardSelecter extends StatelessWidget {
-  final Vehicle vehicular;
-  const TyperCardSelecter({
-    super.key,
-    required this.vehicular,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        const Text("Tipo de vehiculo:"),
-        DropdownButton(
-            value: vehicular.type,
-            items: VeiculoType.values
-                .toList()
-                .map((e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.name),
-                    ))
-                .toList(),
-            onChanged: (value) {}),
-      ],
-    );
-  }
-}
 
 class _Handled extends ConsumerWidget {
   final String id;
