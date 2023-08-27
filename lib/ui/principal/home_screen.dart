@@ -1,31 +1,27 @@
-import 'package:aguazullavapp/model/car/vehiculo_model.dart';
+import 'package:aguazullavapp/providers/index.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import '../../constants/rute/rutes.dart';
-import '../../model/propietary/user.dart';
+import '../../model/models.dart';
+import 'card/service_card.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Car wash Aguazul'),
         elevation: 10,
       ),
-      body: _ListProces(
+      body: _ListProcess(
         listServices: vv,
         onPressed: (Vehicle veicle) {
-          Navigator.pushNamed(context, const Rutas.AddService().route,
-              arguments: veicle);
+          Navigator.pushNamed(context, const Rutas.AddService().route);
+          ref.read(vehiculoProvider.notifier).ModifierVeichle(veicle);
+          
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -39,11 +35,11 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class _ListProces extends StatelessWidget {
+class _ListProcess extends StatelessWidget {
   final List<Vehicle> listServices;
   final Function onPressed;
 
-  const _ListProces({
+  const _ListProcess({
     required this.listServices,
     required this.onPressed,
   });
@@ -61,67 +57,7 @@ class _ListProces extends StatelessWidget {
   }
 }
 
-class CardCarService extends StatelessWidget {
-  final Vehicle vehicle;
-  final Function onPressed;
 
-  const CardCarService({
-    super.key,
-    required this.onPressed,
-    required this.vehicle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shadowColor: (vehicle.terminado) ? Colors.green : Colors.red,
-      elevation: 7,
-      child: ListTile(
-        onTap: () {
-          onPressed(vehicle);
-        },
-        title: Text(
-          "Propietario: ${vehicle.propietario.name}",
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
-        leading: Hero(
-          tag: vehicle.id,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              const CircularProgressIndicator(),
-              FadeInImage.memoryNetwork(
-                  image: vehicle.photo,
-                  placeholder: kTransparentImage,
-                  fit: BoxFit.cover),
-            ],
-          ),
-        ),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Vehiculo: ${vehicle.type}"),
-                Text("Servicio: ${vehicle.servicios.name}"),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Entrada: ${vehicle.entrada}"),
-                Text("Salida: ${vehicle.salida}"),
-              ],
-            ),
-          ],
-        ),
-        trailing: Text(" \$ ${vehicle.price}"),
-      ),
-    );
-  }
-}
 
 final List<Vehicle> vv = List.generate(50, (index) {
   return Vehicle(
@@ -140,8 +76,9 @@ final List<Vehicle> vv = List.generate(50, (index) {
     ),
     entrada: '2022-01-01',
     salida: "-",
-    servicios: Servicio.Pro,
-    terminado: true,
+    servicios: ServiceInfo(),
+    terminado: false,
     price: '15.000',
+    placa: 'ABC-$index',
   );
 });

@@ -1,34 +1,24 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:io';
-
+import 'package:aguazullavapp/ui/addService/card/type_card.dart';
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../model/car/vehiculo_model.dart';
+import '../../model/models.dart';
 import '../../providers/index.dart';
 
-class AddServiceScreen extends StatefulWidget {
+class AddServiceScreen extends ConsumerWidget {
   const AddServiceScreen({super.key});
-
   @override
-  State<AddServiceScreen> createState() => _AddServiceScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final listServices = ref.watch(listServiceProvider);
+    final vehicular = ref.watch(vehiculoProvider);
+    final serviceSelection = ref.watch(serviceSelectProvider);
 
-class _AddServiceScreenState extends State<AddServiceScreen> {
-  File? imageFile;
-  final bool platformMovil = (Platform.isIOS || Platform.isAndroid);
-
-  @override
-  Widget build(BuildContext context) {
-    Vehicle vehicular = ModalRoute.of(context)?.settings.arguments as Vehicle;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Agregar nuevo servicio'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: ListView(
         children: [
           Text(
             "ID : ${vehicular.id}",
@@ -37,42 +27,25 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          _Handled(
-            vehiculo: vehicular,
-            photo: imageFile,
-          ),
-          Formulario(
-            vehiculo: vehicular,
-          ),
-          DropdownButton(
-              value: vehicular.type,
-              items: VeiculoType.values
-                  .toList()
-                  .map((e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(e.name),
-                      ))
-                  .toList(),
-              onChanged: (value) {})
+          _Handled(id: vehicular.id, photo: vehicular.photo),
+          Formulario(vehiculo: vehicular),
+          TyperCardSelecter(vehicular: vehicular),
+          _TypeCardSeleteable(
+              listServices: listServices, serviceSelection: serviceSelection),
         ],
       ),
-      floatingActionButton: (platformMovil)
-          ? FloatingActionButton(
-              onPressed: () {
-                _getFromCamera();
-              },
-              child: const Icon(Icons.camera_alt),
-            )
-          : FloatingActionButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(vehicular.photo)));
-                vehicular = vehicular.copyWith(photo: "imageFile?.path");
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(vehicular.photo)));
-              },
-              child: const Icon(Icons.add),
-            ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(vehicular.photo)));
+          ref
+              .read(vehiculoProvider.notifier)
+              .ModifierVeichle(vehicular.copyWith(photo: "https://picsum.photos/200/300"));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(vehicular.photo)));
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
@@ -89,7 +62,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   //     });
   //   }
   // }
-  //get cameta
+  /*get cameta
+ 
   _getFromCamera() async {
     PickedFile pickedFile = (await ImagePicker().pickImage(
       source: ImageSource.camera,
@@ -100,38 +74,99 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
       imageFile = File(pickedFile.path);
       //veiculo = veiculo.copyWith(photo: pickedFile.path);
     });
+  }*/
+}
+
+class _TypeCardSeleteable extends StatelessWidget {
+  const _TypeCardSeleteable({
+    super.key,
+    required this.listServices,
+    required this.serviceSelection,
+  });
+
+  final List<ServiceInfo> listServices;
+  final ServiceInfo? serviceSelection;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: listServices
+                .map((e) => TypeCardService(
+                      typeCardService: e,
+                      value:
+                          (serviceSelection != null && serviceSelection == e),
+                    ))
+                .toList()),
+      ),
+    );
+  }
+}
+
+class TyperCardSelecter extends StatelessWidget {
+  final Vehicle vehicular;
+  const TyperCardSelecter({
+    super.key,
+    required this.vehicular,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        const Text("Tipo de vehiculo:"),
+        DropdownButton(
+            value: vehicular.type,
+            items: VeiculoType.values
+                .toList()
+                .map((e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e.name),
+                    ))
+                .toList(),
+            onChanged: (value) {}),
+      ],
+    );
   }
 }
 
 class _Handled extends ConsumerWidget {
-  final Vehicle? vehiculo;
-  final File? photo;
+  final String id;
+  final String photo;
 
-  const _Handled({required this.vehiculo, this.photo});
+  const _Handled({required this.id, required this.photo});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final rutas = ref.watch(getRutasProvider);
     rutas.toString();
-    return Expanded(
-      child: SizedBox(
-        width: double.infinity,
+    return SizedBox(
+      height: 200,
+      child: GestureDetector(
+        onTap: () {
+          // todo implementar un visor de fotos
+          print("se clikeo ");
+        },
         child: Hero(
-          tag: vehiculo!.id,
+          tag: id,
           child: Stack(
             alignment: Alignment.center,
             children: [
               const CircularProgressIndicator(),
-              (photo == null)
+              (photo == "")
                   ? FadeInImage.memoryNetwork(
                       placeholder: kTransparentImage,
-                      image: (vehiculo!.photo.isEmpty)
+                      image: (photo == "")
                           ? 'https://picsum.photos/200/300'
-                          : vehiculo!.photo,
+                          : photo,
                       fit: BoxFit.fitWidth,
                     )
-                  : Image.file(
-                      photo!,
+                  : Image.network(
+                      photo,
                     )
             ],
           ),

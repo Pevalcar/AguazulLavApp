@@ -27,7 +27,7 @@ mixin _$Vehicle {
   User get propietario => throw _privateConstructorUsedError;
   String get entrada => throw _privateConstructorUsedError;
   String get salida => throw _privateConstructorUsedError;
-  Servicio get servicios => throw _privateConstructorUsedError;
+  ServiceInfo? get servicios => throw _privateConstructorUsedError;
   bool get terminado => throw _privateConstructorUsedError;
   String get price => throw _privateConstructorUsedError;
 
@@ -49,11 +49,12 @@ abstract class $VehicleCopyWith<$Res> {
       User propietario,
       String entrada,
       String salida,
-      Servicio servicios,
+      ServiceInfo? servicios,
       bool terminado,
       String price});
 
   $UserCopyWith<$Res> get propietario;
+  $ServiceInfoCopyWith<$Res>? get servicios;
 }
 
 /// @nodoc
@@ -76,7 +77,7 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
     Object? propietario = null,
     Object? entrada = null,
     Object? salida = null,
-    Object? servicios = null,
+    Object? servicios = freezed,
     Object? terminado = null,
     Object? price = null,
   }) {
@@ -109,10 +110,10 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
           ? _value.salida
           : salida // ignore: cast_nullable_to_non_nullable
               as String,
-      servicios: null == servicios
+      servicios: freezed == servicios
           ? _value.servicios
           : servicios // ignore: cast_nullable_to_non_nullable
-              as Servicio,
+              as ServiceInfo?,
       terminado: null == terminado
           ? _value.terminado
           : terminado // ignore: cast_nullable_to_non_nullable
@@ -129,6 +130,18 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
   $UserCopyWith<$Res> get propietario {
     return $UserCopyWith<$Res>(_value.propietario, (value) {
       return _then(_value.copyWith(propietario: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ServiceInfoCopyWith<$Res>? get servicios {
+    if (_value.servicios == null) {
+      return null;
+    }
+
+    return $ServiceInfoCopyWith<$Res>(_value.servicios!, (value) {
+      return _then(_value.copyWith(servicios: value) as $Val);
     });
   }
 }
@@ -148,12 +161,14 @@ abstract class _$$_VehiculoCopyWith<$Res> implements $VehicleCopyWith<$Res> {
       User propietario,
       String entrada,
       String salida,
-      Servicio servicios,
+      ServiceInfo? servicios,
       bool terminado,
       String price});
 
   @override
   $UserCopyWith<$Res> get propietario;
+  @override
+  $ServiceInfoCopyWith<$Res>? get servicios;
 }
 
 /// @nodoc
@@ -174,7 +189,7 @@ class __$$_VehiculoCopyWithImpl<$Res>
     Object? propietario = null,
     Object? entrada = null,
     Object? salida = null,
-    Object? servicios = null,
+    Object? servicios = freezed,
     Object? terminado = null,
     Object? price = null,
   }) {
@@ -207,10 +222,10 @@ class __$$_VehiculoCopyWithImpl<$Res>
           ? _value.salida
           : salida // ignore: cast_nullable_to_non_nullable
               as String,
-      servicios: null == servicios
+      servicios: freezed == servicios
           ? _value.servicios
           : servicios // ignore: cast_nullable_to_non_nullable
-              as Servicio,
+              as ServiceInfo?,
       terminado: null == terminado
           ? _value.terminado
           : terminado // ignore: cast_nullable_to_non_nullable
@@ -234,7 +249,7 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
       this.propietario = const User(),
       this.entrada = "",
       this.salida = "",
-      this.servicios = Servicio.None,
+      this.servicios,
       this.terminado = false,
       this.price = ""});
 
@@ -263,8 +278,7 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
   @JsonKey()
   final String salida;
   @override
-  @JsonKey()
-  final Servicio servicios;
+  final ServiceInfo? servicios;
   @override
   @JsonKey()
   final bool terminado;
@@ -342,7 +356,7 @@ abstract class _Vehiculo implements Vehicle {
       final User propietario,
       final String entrada,
       final String salida,
-      final Servicio servicios,
+      final ServiceInfo? servicios,
       final bool terminado,
       final String price}) = _$_Vehiculo;
 
@@ -363,7 +377,7 @@ abstract class _Vehiculo implements Vehicle {
   @override
   String get salida;
   @override
-  Servicio get servicios;
+  ServiceInfo? get servicios;
   @override
   bool get terminado;
   @override

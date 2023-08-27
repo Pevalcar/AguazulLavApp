@@ -17,8 +17,9 @@ _$_Vehiculo _$$_VehiculoFromJson(Map<String, dynamic> json) => _$_Vehiculo(
           : User.fromJson(json['propietario'] as Map<String, dynamic>),
       entrada: json['entrada'] as String? ?? "",
       salida: json['salida'] as String? ?? "",
-      servicios: $enumDecodeNullable(_$ServicioEnumMap, json['servicios']) ??
-          Servicio.None,
+      servicios: json['servicios'] == null
+          ? null
+          : ServiceInfo.fromJson(json['servicios'] as Map<String, dynamic>),
       terminado: json['terminado'] as bool? ?? false,
       price: json['price'] as String? ?? "",
     );
@@ -32,7 +33,7 @@ Map<String, dynamic> _$$_VehiculoToJson(_$_Vehiculo instance) =>
       'propietario': instance.propietario,
       'entrada': instance.entrada,
       'salida': instance.salida,
-      'servicios': _$ServicioEnumMap[instance.servicios]!,
+      'servicios': instance.servicios,
       'terminado': instance.terminado,
       'price': instance.price,
     };
@@ -45,13 +46,4 @@ const _$VeiculoTypeEnumMap = {
   VeiculoType.bus: 'bus',
   VeiculoType.camion: 'camion',
   VeiculoType.otro: 'otro',
-};
-
-const _$ServicioEnumMap = {
-  Servicio.Basico: 'Basico',
-  Servicio.Eco: 'Eco',
-  Servicio.Pro: 'Pro',
-  Servicio.Vip: 'Vip',
-  Servicio.Otro: 'Otro',
-  Servicio.None: 'None',
 };

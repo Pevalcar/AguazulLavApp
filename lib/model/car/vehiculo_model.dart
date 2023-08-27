@@ -1,3 +1,4 @@
+import 'package:aguazullavapp/model/models.dart';
 import 'package:aguazullavapp/model/propietary/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,7 +17,8 @@ enum VeiculoType {
   otro
 }
 
-enum Servicio { Basico, Eco, Pro, Vip, Otro, None }
+// ignore: constant_identifier_names
+// enum Servicio { Basico, Eco, Pro, Vip, Otro, None }
 
 @freezed
 class Vehicle with _$Vehicle {
@@ -28,7 +30,7 @@ class Vehicle with _$Vehicle {
     @Default(User())User propietario,
     @Default("")String entrada,
     @Default("")String salida,
-    @Default(Servicio.None)Servicio servicios,
+    ServiceInfo? servicios,
     @Default(false)bool terminado,
     @Default("")String price,
   }) = _Vehiculo;
