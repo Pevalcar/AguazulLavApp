@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'type_services_provider.g.dart';
 
 @riverpod
-class ServicesList extends _$ServicesList {
+class TypeServicesList extends _$TypeServicesList {
 
   @override
    List<ServiceInfo> build() => ServiceTypeRepository().GetServicesData().toList();

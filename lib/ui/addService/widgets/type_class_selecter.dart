@@ -4,12 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../model/models.dart';
 import '../../../providers/index.dart';
 
-class TyperCardSelecter extends ConsumerWidget {
-  const TyperCardSelecter({super.key});
+class TypedCardSelector extends ConsumerWidget {
+  const TypedCardSelector({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vehicular = ref.watch(vehiculoProvider);
+    final vehicular = ref.watch(vehiculoStateProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -24,8 +24,7 @@ class TyperCardSelecter extends ConsumerWidget {
                     ))
                 .toList(),
             onChanged: (value) {
-              print(value);
-              ref.read(vehiculoProvider.notifier).ModifiType(value);
+              ref.read(vehiculoStateProvider.notifier).ModifyType(value);
             }),
       ],
     );

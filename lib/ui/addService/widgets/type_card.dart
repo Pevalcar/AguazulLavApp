@@ -23,7 +23,7 @@ class TypeCardService extends ConsumerWidget {
           Text(typeCardService.nameService),
           Checkbox(
             value: value,
-            onChanged: (value) => ref.read(serviceSelectProvider.notifier).selectService(typeCardService),
+            onChanged: (value) => ref.read(vehiculoStateProvider.notifier).selectService(typeCardService),
           )
         ],
       ),

@@ -38,3 +38,4 @@ class Vehicle with _$Vehicle {
   factory Vehicle.fromJson(Map<String, dynamic> json) =>
       _$VehicleFromJson(json);
 }
+

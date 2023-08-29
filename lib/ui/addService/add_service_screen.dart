@@ -1,57 +1,88 @@
-import 'package:aguazullavapp/ui/addService/widgets/time_data_show.dart';
-import 'package:aguazullavapp/ui/addService/widgets/type_card.dart';
-import 'package:aguazullavapp/ui/addService/widgets/type_class_selecter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../model/models.dart';
+import 'package:aguazullavapp/ui/addService/widgets/index.dart';
 import '../../providers/index.dart';
 
 class AddServiceScreen extends ConsumerWidget {
   const AddServiceScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final listServices = ref.watch(listServiceProvider);
-    final vehicular = ref.watch(vehiculoProvider);
-    final serviceSelection = ref.watch(serviceSelectProvider);
+    final listServices = ref.watch(typeServicesListProvider);
+    final vehicular = ref.watch(vehiculoStateProvider);
+    final error = ref.watch(errorStateProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Agregar nuevo servicio'),
-      ),
-      body: ListView(
-        children: [
-          Text(
-            "ID : ${vehicular.id}",
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: () {
+        ref.read(vehiculoStateProvider.notifier).reset();
+        Navigator.pop(context, false);
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Información del vehiculo'),
+          actions: [
+            IconButton(
+              onPressed: !vehicular.terminado
+                  ? null
+                  : () {
+                      //Todo Implementar impresión
+                    },
+              icon: const Icon(Icons.print),
             ),
-          ),
-          _Handled(id: vehicular.id, photo: vehicular.photo),
-          Formulario(vehiculo: vehicular),
-          TyperCardSelecter(),
-          _TypeCardSeleteable(
-            listServices: listServices,
-            serviceSelection: serviceSelection,
-          ),
-          TimerDataShow(
-            initTime: vehicular.entrada,
-            endTime: vehicular.salida,
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(vehicular.photo)));
-          ref.read(vehiculoProvider.notifier).ModifierVeichle(
-              vehicular.copyWith(photo: "https://picsum.photos/200/300"));
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(vehicular.photo)));
-        },
-        child: const Icon(Icons.add),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: vehicular.placa.isNotEmpty
+                      ? null
+                      : () {
+                          ref.read(vehiculoStateProvider.notifier).addService();
+                          if (error.isNotEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(error),
+                            ));
+                            ref.read(errorStateProvider.notifier).reset();
+                          }
+                        }),
+            )
+          ],
+        ),
+        body: ListView(
+          children: [
+            Text(
+              "Factura Numero: ${vehicular.id}",
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            _Handled(id: vehicular.id, photo: vehicular.photo),
+            Formulario(vehiculo: vehicular),
+            const TypedCardSelector(),
+            _TypeCardSelectable(
+              listServices: listServices,
+              serviceSelection: vehicular.servicios,
+            ),
+            TimerDataShow(
+              initTime: vehicular.entrada,
+              endTime: vehicular.salida,
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(vehicular.photo)));
+            ref.read(vehiculoStateProvider.notifier).ModifierVeichle(
+                vehicular.copyWith(photo: "https://picsum.photos/200/300"));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(vehicular.photo)));
+          },
+          child: const Icon(Icons.camera_alt),
+        ),
       ),
     );
   }
@@ -84,9 +115,8 @@ class AddServiceScreen extends ConsumerWidget {
   }*/
 }
 
-class _TypeCardSeleteable extends StatelessWidget {
-  const _TypeCardSeleteable({
-    super.key,
+class _TypeCardSelectable extends StatelessWidget {
+  const _TypeCardSelectable({
     required this.listServices,
     required this.serviceSelection,
   });
@@ -112,7 +142,6 @@ class _TypeCardSeleteable extends StatelessWidget {
     );
   }
 }
-
 
 class _Handled extends ConsumerWidget {
   final String id;
@@ -156,15 +185,14 @@ class _Handled extends ConsumerWidget {
   }
 }
 
-class Formulario extends StatelessWidget {
+class Formulario extends ConsumerWidget {
   final Vehicle vehiculo;
 
   Formulario({super.key, required this.vehiculo});
 
-  final _keyFrom = GlobalKey<FormState>();
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _keyFrom = ref.watch(keyFromAddServiceProvider);
     return Form(
       key: _keyFrom,
       child: Column(
@@ -172,16 +200,14 @@ class Formulario extends StatelessWidget {
         children: [
           TextFormField(
             initialValue: vehiculo.propietario.name,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               suffixIcon: IconButton(
-                  onPressed: () {
-                    // todo implementar elm agregar usuario y retornar el usuario
-                  },
-                  icon: const Icon(
+                  onPressed: null,
+                  icon: Icon(
                     Icons.person_search,
                   )),
               labelText: "Propietario",
-              icon: const Icon(Icons.person),
+              icon: Icon(Icons.person),
             ),
             validator: (value) {
               if (value!.isEmpty) {

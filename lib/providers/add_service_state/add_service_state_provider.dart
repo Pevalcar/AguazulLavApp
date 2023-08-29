@@ -11,13 +11,29 @@ class VehiculoState extends _$VehiculoState {
   @override
   Vehicle build() => const Vehicle();
 
+ void addService() {
+    
+    bool formValide =
+        ref.read(keyFromAddServiceProvider.notifier).CheckValues();
 
-  void addService (){
-    bool _formValide = ref.read(keyFromAddServiceProvider.notifier).CheckValues();
-      if (!_formValide){
-        return;
-      }
-
+    if (!formValide) {
+      ref.read(errorStateProvider.notifier).sendError("Error: Faltan datos");
+      return;
+    }
+    // if (state.photo.isEmpty || state.photo == "https://picsum.photos/200/300") {
+    //   ref.read(errorStateProvider.notifier).sendError("Error: No hay foto");
+    //   return;
+    // }
+    if (state.servicios == null) {
+      ref
+          .read(errorStateProvider.notifier)
+          .sendError("Error: No hay servicios seleccionado.");
+      return;
+    }
+    // si el vehiculo es correcto
+     
+    ref.read(serviceListProvider.notifier).addService(state);
+    ref.invalidate(serviceListProvider);
   }
 
   void ModifierVeichle(Vehicle vehiculo) {
@@ -34,9 +50,11 @@ class VehiculoState extends _$VehiculoState {
 
   void finihed() {
     final time = DateTime.now();
-    final endTime = "${time.year}/${time.month}/${time.day} # ${time.hour}:${time.minute}:${time.second}";
+    final endTime =
+        "${time.year}/${time.month}/${time.day} # ${time.hour}:${time.minute}:${time.second}";
     state = state.copyWith(salida: endTime, terminado: true);
   }
+
   void reset() {
     state = const Vehicle();
   }
@@ -45,8 +63,8 @@ class VehiculoState extends _$VehiculoState {
 @riverpod
 class ErrorState extends _$ErrorState {
   @override
-  String? build() {
-    return null;
+  String build() {
+    return "";
   }
 
   void sendError(String error) {
@@ -54,7 +72,7 @@ class ErrorState extends _$ErrorState {
   }
 
   void reset() {
-    state = null;
+    state = "";
   }
 }
 
@@ -70,12 +88,6 @@ class KeyFromAddService extends _$KeyFromAddService {
   bool CheckValues() {
     return _keyForm.currentState!.validate();
   }
-}
-
-@riverpod
-List<ServiceInfo> ListService(ListServiceRef ref) {
-  final listServices = ref.watch(servicesListProvider);
-  return listServices;
 }
 
 @riverpod

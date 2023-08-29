@@ -16,9 +16,11 @@ class TimerDataShow extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          const Text("Entrada: "),
           Text(
             initTime.isEmpty ? currentTime.toString() : initTime,
           ),
+          const Text("Salida: "),
           Text(
             endTime.isEmpty ? "No definido" : endTime,
           )
