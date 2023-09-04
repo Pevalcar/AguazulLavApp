@@ -1,5 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../model/models.dart';
@@ -11,109 +16,127 @@ class AddServiceScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listServices = ref.watch(typeServicesListProvider);
-    final vehicular = ref.watch(vehiculoStateProvider);
-    final error = ref.watch(errorStateProvider);
+    final state = ref.watch(vehiculoStateProvider);
 
     return WillPopScope(
       onWillPop: () {
-        ref.read(vehiculoStateProvider.notifier).reset();
-        Navigator.pop(context, false);
+        _completeFrom(ref.read(vehiculoStateProvider.notifier), context);
         return Future.value(false);
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Información del vehiculo'),
-          actions: [
-            IconButton(
-              onPressed: !vehicular.terminado
-                  ? null
-                  : () {
-                      //Todo Implementar impresión
-                    },
-              icon: const Icon(Icons.print),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: vehicular.placa.isNotEmpty
-                      ? null
-                      : () {
-                          ref.read(vehiculoStateProvider.notifier).addService();
-                          if (error.isNotEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(error),
-                            ));
-                            ref.read(errorStateProvider.notifier).reset();
-                          }
-                        }),
-            )
-          ],
+      child: state.when(
+        loading: () => const Scaffold(
+          body: Center(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              Text("Guardando el Nuevo Servicio..."),
+            ],
+          )),
         ),
-        body: ListView(
-          children: [
-            Text(
-              "Factura Numero: ${vehicular.id}",
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        error: (error, stackTrace) => Scaffold(
+          body: Center(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("error: ${error.toString()}."),
+            ],
+          )),
+        ),
+        data: (vehiculo) => Scaffold(
+          appBar: AppBar(
+            title: const Text('Información del vehiculo'),
+            actions: [
+              IconButton(
+                onPressed: vehiculo.terminado
+                    ? null
+                    : () {
+                        //Todo Implementar impresión
+                      },
+                icon: const Icon(Icons.print),
               ),
-            ),
-            _Handled(id: vehicular.id, photo: vehicular.photo),
-            Formulario(vehiculo: vehicular),
-            const TypedCardSelector(),
-            _TypeCardSelectable(
-              listServices: listServices,
-              serviceSelection: vehicular.servicios,
-            ),
-            TimerDataShow(
-              initTime: vehicular.entrada,
-              endTime: vehicular.salida,
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(vehicular.photo)));
-            ref.read(vehiculoStateProvider.notifier).ModifierVeichle(
-                vehicular.copyWith(photo: "https://picsum.photos/200/300"));
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(vehicular.photo)));
-          },
-          child: const Icon(Icons.camera_alt),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: vehiculo.placa.isNotEmpty
+                        ? null
+                        : () async {
+                            try {
+                              await ref
+                                  .read(vehiculoStateProvider.notifier)
+                                  .addService();
+                              _completeFrom(
+                                  ref.read(vehiculoStateProvider.notifier),
+                                  context);
+                            } on Exception catch (error) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(error.toString()),
+                              ));
+                            }
+                          }),
+              )
+            ],
+          ),
+          body: ListView(
+            children: [
+              Text(
+                "Factura Numero: ${vehiculo.id}",
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              _Handled(id: vehiculo.id, photo: vehiculo.photo),
+              Formulario(vehiculo: vehiculo),
+              const TypedCardSelector(),
+              _TypeCardSelectable(
+                listServices: listServices,
+                serviceSelection: vehiculo.servicios,
+              ),
+              TimerDataShow(
+                initTime: vehiculo.entrada,
+                endTime: vehiculo.salida,
+              ),
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _getFromGallery(ref.read(vehiculoStateProvider.notifier));
+            },
+            child: const Icon(Icons.camera_alt),
+          ),
         ),
       ),
     );
   }
 
+  _completeFrom(VehiculoState ref, context) {
+    ref.reset();
+    Navigator.pop(context, false);
+  }
+
   /// Get from gallery
-  // _getFromGallery() async {
-  //   PickedFile pickedFile = (await ImagePicker().pickImage(
-  //     source: ImageSource.gallery,
-  //     maxWidth: 1800,
-  //     maxHeight: 1800,
-  //   )) as PickedFile;
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       imageFile = File(pickedFile.path);
-  //     });
-  //   }
-  // }
-  /*get cameta
- 
-  _getFromCamera() async {
-    PickedFile pickedFile = (await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    )) as PickedFile;
-    setState(() {
-      imageFile = File(pickedFile.path);
-      //veiculo = veiculo.copyWith(photo: pickedFile.path);
-    });
-  }*/
+  _getFromGallery(VehiculoState ref) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      ref.addPhoto(image.path);
+    }
+  }
 }
+//get camera
+
+//_getFromCamera(Ref ref) async {
+//  PickedFile pickedFile = (await ImagePicker().pickImage(
+//    source: ImageSource.camera,
+//    maxWidth: 1800,
+//    maxHeight: 1800,
+//  )) as PickedFile;
+//
+//  ref.read(vehiculoStateProvider.notifier).addPhoto(pickedFile.path);
+//  }
 
 class _TypeCardSelectable extends StatelessWidget {
   const _TypeCardSelectable({
@@ -166,16 +189,16 @@ class _Handled extends ConsumerWidget {
             alignment: Alignment.center,
             children: [
               const CircularProgressIndicator(),
-              (photo == "")
+              (photo.contains("https://") || photo.isEmpty)
                   ? FadeInImage.memoryNetwork(
-                      placeholder: kTransparentImage,
-                      image: (photo == "")
-                          ? 'https://picsum.photos/200/300'
+                      image: photo.isEmpty
+                          ? "https://picsum.photos/200/300"
                           : photo,
-                      fit: BoxFit.fitWidth,
-                    )
-                  : Image.network(
-                      photo,
+                      placeholder: kTransparentImage,
+                      fit: BoxFit.cover)
+                  : Image.file(
+                      File(photo),
+                      fit: BoxFit.cover,
                     )
             ],
           ),

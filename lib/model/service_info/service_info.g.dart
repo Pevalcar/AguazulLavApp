@@ -9,7 +9,7 @@ part of 'service_info.dart';
 _$_ServiceInfo _$$_ServiceInfoFromJson(Map<String, dynamic> json) =>
     _$_ServiceInfo(
       servicioId: json['servicioId'] as String? ?? "",
-      nameService: json['nameService'] as String? ?? "defaultValue",
+      nameService: json['nameService'] as String? ?? "Lavado",
       description: json['description'] as String? ?? "",
       price: json['price'] as String? ?? "",
       icon: json['icon'] as String? ?? "",

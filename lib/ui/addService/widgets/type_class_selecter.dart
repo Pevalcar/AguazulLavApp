@@ -9,13 +9,13 @@ class TypedCardSelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vehicular = ref.watch(vehiculoStateProvider);
+    final state = ref.watch(vehiculoStateProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         const Text("Tipo de vehiculo:"),
         DropdownButton(
-            value: vehicular.type,
+            value: state.asData!.value.type,
             items: VeiculoType.values
                 .toList()
                 .map((e) => DropdownMenuItem(
@@ -24,7 +24,7 @@ class TypedCardSelector extends ConsumerWidget {
                     ))
                 .toList(),
             onChanged: (value) {
-              ref.read(vehiculoStateProvider.notifier).ModifyType(value);
+              ref.read(vehiculoStateProvider.notifier).modifyType(value);
             }),
       ],
     );

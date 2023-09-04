@@ -6,12 +6,20 @@ part 'list_services_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class ServiceList extends _$ServiceList {
+late List<Vehicle> listServices;
+
+
   @override
-  FutureOr<List<Vehicle>> build() {
-    return ListServicesRepository().GetServicesData();
+  FutureOr<List<Vehicle>> build() async {
+    return await ListServicesRepository().GetServicesData();
   }
 
-  addService(Vehicle vehiculo) {
-    ListServicesRepository().addService(vehiculo);
+  addService(Vehicle vehiculo) async {
+
+    state = const AsyncValue.loading();
+    await ListServicesRepository().addService(vehiculo);
+    listServices = await ListServicesRepository().GetServicesData();
+    state = AsyncValue.data(listServices);
+
   }
 }

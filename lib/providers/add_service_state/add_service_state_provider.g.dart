@@ -20,11 +20,12 @@ final currentTimeProvider = AutoDisposeProvider<String>.internal(
 );
 
 typedef CurrentTimeRef = AutoDisposeProviderRef<String>;
-String _$vehiculoStateHash() => r'a4dac63639e0acf5aeee922b51eb6cdb268d27a7';
+String _$vehiculoStateHash() => r'bb10d1fb17a0326ef8380099b8e1c3705babfd2c';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)
-final vehiculoStateProvider = NotifierProvider<VehiculoState, Vehicle>.internal(
+final vehiculoStateProvider =
+    AsyncNotifierProvider<VehiculoState, Vehicle>.internal(
   VehiculoState.new,
   name: r'vehiculoStateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -34,22 +35,7 @@ final vehiculoStateProvider = NotifierProvider<VehiculoState, Vehicle>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$VehiculoState = Notifier<Vehicle>;
-String _$errorStateHash() => r'ef581c7e6c2bcef6652aa429e6b5d0d230b115ef';
-
-/// See also [ErrorState].
-@ProviderFor(ErrorState)
-final errorStateProvider =
-    AutoDisposeNotifierProvider<ErrorState, String>.internal(
-  ErrorState.new,
-  name: r'errorStateProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$errorStateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ErrorState = AutoDisposeNotifier<String>;
+typedef _$VehiculoState = AsyncNotifier<Vehicle>;
 String _$keyFromAddServiceHash() => r'f70025133659c6936f4960100401456d0ec0fbb9';
 
 /// See also [KeyFromAddService].

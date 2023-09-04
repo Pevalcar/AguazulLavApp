@@ -153,7 +153,7 @@ class __$$_ServiceInfoCopyWithImpl<$Res>
 class _$_ServiceInfo implements _ServiceInfo {
   const _$_ServiceInfo(
       {this.servicioId = "",
-      this.nameService = "defaultValue",
+      this.nameService = "Lavado",
       this.description = "",
       this.price = "",
       this.icon = ""});

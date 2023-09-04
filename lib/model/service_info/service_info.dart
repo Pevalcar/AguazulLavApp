@@ -8,7 +8,7 @@ part 'service_info.g.dart';
 class ServiceInfo with _$ServiceInfo {
   const factory ServiceInfo({
     @Default("") String servicioId,
-    @Default("defaultValue") String nameService,
+    @Default("Lavado") String nameService,
     @Default("") String description,
     @Default("") String price,
     @Default("") String icon,

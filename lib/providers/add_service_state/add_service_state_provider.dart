@@ -9,70 +9,62 @@ part 'add_service_state_provider.g.dart';
 @Riverpod(keepAlive: true)
 class VehiculoState extends _$VehiculoState {
   @override
-  Vehicle build() => const Vehicle();
+  FutureOr<Vehicle> build() async => const Vehicle();
 
- void addService() {
-    
+  addService() async {
+    Vehicle vehicle = state.asData?.value ?? const Vehicle();
+
     bool formValide =
         ref.read(keyFromAddServiceProvider.notifier).CheckValues();
 
     if (!formValide) {
-      ref.read(errorStateProvider.notifier).sendError("Error: Faltan datos");
-      return;
+      throw Exception("Error: Faltan datos");
     }
-    // if (state.photo.isEmpty || state.photo == "https://picsum.photos/200/300") {
-    //   ref.read(errorStateProvider.notifier).sendError("Error: No hay foto");
-    //   return;
-    // }
-    if (state.servicios == null) {
-      ref
-          .read(errorStateProvider.notifier)
-          .sendError("Error: No hay servicios seleccionado.");
-      return;
+    if (vehicle.photo.isEmpty ||
+        vehicle.photo == "https://picsum.photos/200/300") {
+      throw Exception("Error: No hay foto");
+    }
+
+    if (vehicle.servicios == null) {
+      throw Exception("Error: No hay servicios seleccionado.");
     }
     // si el vehiculo es correcto
-     
-    ref.read(serviceListProvider.notifier).addService(state);
-    ref.invalidate(serviceListProvider);
+    try {
+      await ref
+          .read(serviceListProvider.notifier)
+          .addService(state.asData!.value);
+      
+    } catch (error) {
+      throw Exception(error);
+    }
   }
 
-  void ModifierVeichle(Vehicle vehiculo) {
-    state = vehiculo;
+  void modifierVehicle(Vehicle vehiculo) {
+    state = AsyncValue.data(vehiculo);
   }
 
-  void ModifyType(VeiculoType? type) {
-    state = state.copyWith(type: type!);
+  void addPhoto(String photo) {
+    state = AsyncValue.data(state.asData!.value.copyWith(photo: photo));
+  }
+
+  void modifyType(VeiculoType? type) {
+    state = AsyncValue.data(state.asData!.value.copyWith(type: type!));
   }
 
   void selectService(ServiceInfo service) {
-    state = state.copyWith(servicios: service);
+    state = AsyncValue.data(state.asData!.value.copyWith(servicios: service));
   }
 
-  void finihed() {
+  void finished() {
     final time = DateTime.now();
     final endTime =
         "${time.year}/${time.month}/${time.day} # ${time.hour}:${time.minute}:${time.second}";
-    state = state.copyWith(salida: endTime, terminado: true);
+    state = AsyncValue.data(
+        state.asData!.value.copyWith(salida: endTime, terminado: true));
   }
 
   void reset() {
-    state = const Vehicle();
-  }
-}
-
-@riverpod
-class ErrorState extends _$ErrorState {
-  @override
-  String build() {
-    return "";
-  }
-
-  void sendError(String error) {
-    state = error;
-  }
-
-  void reset() {
-    state = "";
+    state = const AsyncValue.data(Vehicle());
   }
 }
 

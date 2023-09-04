@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aguazullavapp/providers/index.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
@@ -42,31 +44,38 @@ class _CardCarServiceState extends State<CardCarService> {
             alignment: Alignment.center,
             children: [
               const CircularProgressIndicator(),
-              FadeInImage.memoryNetwork(
+              widget.vehicle.photo.contains("https://")
+              ? FadeInImage.memoryNetwork(
                   image: widget.vehicle.photo,
                   placeholder: kTransparentImage,
-                  fit: BoxFit.cover),
+                  fit: BoxFit.cover) 
+              : Image.file(
+                  File(widget.vehicle.photo),
+                  fit:  BoxFit.cover,
+              )
             ],
           ),
         ),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Vehiculo: ${widget.vehicle.type}"),
-                Text("Servicio: ${widget.vehicle.servicios!.nameService}"),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("Entrada: ${widget.vehicle.entrada}"),
-                Text("Salida: ${widget.vehicle.salida}"),
-              ],
-            ),
-          ],
+        subtitle: ClipRect(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("Vehiculo: ${widget.vehicle.type.name}"),
+                  Text("Servicio: ${widget.vehicle.servicios!.nameService}"),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("Entrada: ${widget.vehicle.entrada}"),
+                  Text("Salida: ${widget.vehicle.salida}"),
+                ],
+              ),
+            ],
+          ),
         ),
         trailing: Text(" \$ ${widget.vehicle.price}"),
         children: [
@@ -105,7 +114,7 @@ class ContentExpand extends ConsumerWidget {
           style: myStileButton,
           onPressed: () {
             Navigator.pushNamed(context, const Rutas.AddService().route);
-            ref.read(vehiculoStateProvider.notifier).ModifierVeichle(vehicle);
+            ref.read(vehiculoStateProvider.notifier).modifierVehicle(vehicle);
             cardKey.currentState?.collapse();
           },
           child: const Column(
