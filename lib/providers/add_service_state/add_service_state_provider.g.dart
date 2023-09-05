@@ -20,7 +20,7 @@ final currentTimeProvider = AutoDisposeProvider<String>.internal(
 );
 
 typedef CurrentTimeRef = AutoDisposeProviderRef<String>;
-String _$vehiculoStateHash() => r'bb10d1fb17a0326ef8380099b8e1c3705babfd2c';
+String _$vehiculoStateHash() => r'862d76f2e9a2f74f461387d9f6525050a2bd50c2';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)
@@ -36,6 +36,20 @@ final vehiculoStateProvider =
 );
 
 typedef _$VehiculoState = AsyncNotifier<Vehicle>;
+String _$isLoadingHash() => r'c455bc001c1255e8b4bdd58b41cf651a75ca4967';
+
+/// See also [IsLoading].
+@ProviderFor(IsLoading)
+final isLoadingProvider = AutoDisposeNotifierProvider<IsLoading, bool>.internal(
+  IsLoading.new,
+  name: r'isLoadingProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$isLoadingHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$IsLoading = AutoDisposeNotifier<bool>;
 String _$keyFromAddServiceHash() => r'f70025133659c6936f4960100401456d0ec0fbb9';
 
 /// See also [KeyFromAddService].

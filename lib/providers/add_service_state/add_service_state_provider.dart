@@ -17,9 +17,7 @@ class VehiculoState extends _$VehiculoState {
     bool formValide =
         ref.read(keyFromAddServiceProvider.notifier).CheckValues();
 
-    if (!formValide) {
-      throw Exception("Error: Faltan datos");
-    }
+    
     if (vehicle.photo.isEmpty ||
         vehicle.photo == "https://picsum.photos/200/300") {
       throw Exception("Error: No hay foto");
@@ -28,13 +26,19 @@ class VehiculoState extends _$VehiculoState {
     if (vehicle.servicios == null) {
       throw Exception("Error: No hay servicios seleccionado.");
     }
+    if (!formValide) {
+      throw Exception("Error: Faltan datos");
+    }
+    state = AsyncValue.data(vehicle.copyWith(price: vehicle.servicios!.price));
     // si el vehiculo es correcto
+    ref.read(isLoadingProvider.notifier).toggleState();
     try {
       await ref
           .read(serviceListProvider.notifier)
-          .addService(state.asData!.value);
-      
+          .addService(state.asData!.value.copyWith(onCreate: true));
+      ref.read(isLoadingProvider.notifier).toggleState();
     } catch (error) {
+      ref.read(isLoadingProvider.notifier).toggleState();
       throw Exception(error);
     }
   }
@@ -51,6 +55,15 @@ class VehiculoState extends _$VehiculoState {
     state = AsyncValue.data(state.asData!.value.copyWith(type: type!));
   }
 
+  void modifyPropietario(String propietario) {
+    state = AsyncValue.data(
+        state.asData!.value.copyWith(propietario: User(name: propietario)));
+  }
+
+  void modifyPlaca(String placa) {
+    state = AsyncValue.data(state.asData!.value.copyWith(placa: placa));
+  }
+
   void selectService(ServiceInfo service) {
     state = AsyncValue.data(state.asData!.value.copyWith(servicios: service));
   }
@@ -65,6 +78,16 @@ class VehiculoState extends _$VehiculoState {
 
   void reset() {
     state = const AsyncValue.data(Vehicle());
+  }
+}
+
+@riverpod
+class IsLoading extends _$IsLoading {
+  @override
+  bool build() => false;
+
+  toggleState() {
+    state = !state;
   }
 }
 

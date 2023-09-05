@@ -33,9 +33,11 @@ class Vehicle with _$Vehicle {
     ServiceInfo? servicios,
     @Default(false)bool terminado,
     @Default("")String price,
+    @Default(false)bool onCreate,
   }) = _Vehiculo;
 
   factory Vehicle.fromJson(Map<String, dynamic> json) =>
       _$VehicleFromJson(json);
+
 }
 

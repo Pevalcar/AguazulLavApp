@@ -30,6 +30,7 @@ mixin _$Vehicle {
   ServiceInfo? get servicios => throw _privateConstructorUsedError;
   bool get terminado => throw _privateConstructorUsedError;
   String get price => throw _privateConstructorUsedError;
+  bool get onCreate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +52,8 @@ abstract class $VehicleCopyWith<$Res> {
       String salida,
       ServiceInfo? servicios,
       bool terminado,
-      String price});
+      String price,
+      bool onCreate});
 
   $UserCopyWith<$Res> get propietario;
   $ServiceInfoCopyWith<$Res>? get servicios;
@@ -80,6 +82,7 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
     Object? servicios = freezed,
     Object? terminado = null,
     Object? price = null,
+    Object? onCreate = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -122,6 +125,10 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as String,
+      onCreate: null == onCreate
+          ? _value.onCreate
+          : onCreate // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -163,7 +170,8 @@ abstract class _$$_VehiculoCopyWith<$Res> implements $VehicleCopyWith<$Res> {
       String salida,
       ServiceInfo? servicios,
       bool terminado,
-      String price});
+      String price,
+      bool onCreate});
 
   @override
   $UserCopyWith<$Res> get propietario;
@@ -192,6 +200,7 @@ class __$$_VehiculoCopyWithImpl<$Res>
     Object? servicios = freezed,
     Object? terminado = null,
     Object? price = null,
+    Object? onCreate = null,
   }) {
     return _then(_$_Vehiculo(
       id: null == id
@@ -234,6 +243,10 @@ class __$$_VehiculoCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as String,
+      onCreate: null == onCreate
+          ? _value.onCreate
+          : onCreate // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -251,7 +264,8 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
       this.salida = "",
       this.servicios,
       this.terminado = false,
-      this.price = ""});
+      this.price = "",
+      this.onCreate = false});
 
   factory _$_Vehiculo.fromJson(Map<String, dynamic> json) =>
       _$$_VehiculoFromJson(json);
@@ -285,10 +299,13 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
   @override
   @JsonKey()
   final String price;
+  @override
+  @JsonKey()
+  final bool onCreate;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Vehicle(id: $id, photo: $photo, placa: $placa, type: $type, propietario: $propietario, entrada: $entrada, salida: $salida, servicios: $servicios, terminado: $terminado, price: $price)';
+    return 'Vehicle(id: $id, photo: $photo, placa: $placa, type: $type, propietario: $propietario, entrada: $entrada, salida: $salida, servicios: $servicios, terminado: $terminado, price: $price, onCreate: $onCreate)';
   }
 
   @override
@@ -305,7 +322,8 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
       ..add(DiagnosticsProperty('salida', salida))
       ..add(DiagnosticsProperty('servicios', servicios))
       ..add(DiagnosticsProperty('terminado', terminado))
-      ..add(DiagnosticsProperty('price', price));
+      ..add(DiagnosticsProperty('price', price))
+      ..add(DiagnosticsProperty('onCreate', onCreate));
   }
 
   @override
@@ -325,13 +343,15 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
                 other.servicios == servicios) &&
             (identical(other.terminado, terminado) ||
                 other.terminado == terminado) &&
-            (identical(other.price, price) || other.price == price));
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.onCreate, onCreate) ||
+                other.onCreate == onCreate));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, photo, placa, type,
-      propietario, entrada, salida, servicios, terminado, price);
+      propietario, entrada, salida, servicios, terminado, price, onCreate);
 
   @JsonKey(ignore: true)
   @override
@@ -358,7 +378,8 @@ abstract class _Vehiculo implements Vehicle {
       final String salida,
       final ServiceInfo? servicios,
       final bool terminado,
-      final String price}) = _$_Vehiculo;
+      final String price,
+      final bool onCreate}) = _$_Vehiculo;
 
   factory _Vehiculo.fromJson(Map<String, dynamic> json) = _$_Vehiculo.fromJson;
 
@@ -382,6 +403,8 @@ abstract class _Vehiculo implements Vehicle {
   bool get terminado;
   @override
   String get price;
+  @override
+  bool get onCreate;
   @override
   @JsonKey(ignore: true)
   _$$_VehiculoCopyWith<_$_Vehiculo> get copyWith =>

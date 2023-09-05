@@ -22,6 +22,7 @@ _$_Vehiculo _$$_VehiculoFromJson(Map<String, dynamic> json) => _$_Vehiculo(
           : ServiceInfo.fromJson(json['servicios'] as Map<String, dynamic>),
       terminado: json['terminado'] as bool? ?? false,
       price: json['price'] as String? ?? "",
+      onCreate: json['onCreate'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_VehiculoToJson(_$_Vehiculo instance) =>
@@ -36,6 +37,7 @@ Map<String, dynamic> _$$_VehiculoToJson(_$_Vehiculo instance) =>
       'servicios': instance.servicios,
       'terminado': instance.terminado,
       'price': instance.price,
+      'onCreate': instance.onCreate,
     };
 
 const _$VeiculoTypeEnumMap = {

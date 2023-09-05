@@ -40,21 +40,9 @@ class _CardCarServiceState extends State<CardCarService> {
         ),
         leading: Hero(
           tag: widget.vehicle.id,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              const CircularProgressIndicator(),
-              widget.vehicle.photo.contains("https://")
-              ? FadeInImage.memoryNetwork(
-                  image: widget.vehicle.photo,
-                  placeholder: kTransparentImage,
-                  fit: BoxFit.cover) 
-              : Image.file(
-                  File(widget.vehicle.photo),
-                  fit:  BoxFit.cover,
-              )
-            ],
-          ),
+          child: widget.vehicle.photo.contains("https://")
+              ? LoadPhotoUrl(widget: widget)
+              : LoadPhotoFile(widget: widget),
         ),
         subtitle: ClipRect(
           child: Row(
@@ -82,6 +70,49 @@ class _CardCarServiceState extends State<CardCarService> {
           ContentExpand(cardKey: _cardKey, vehicle: widget.vehicle),
         ],
       ),
+    );
+  }
+}
+
+class LoadPhotoUrl extends StatelessWidget {
+  const LoadPhotoUrl({
+    super.key,
+    required this.widget,
+  });
+
+  final CardCarService widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        const CircularProgressIndicator(), FadeInImage.memoryNetwork(
+                height: 50,
+                width: 50,
+                image: widget.vehicle.photo,
+                placeholder: kTransparentImage,
+                fit: BoxFit.scaleDown)
+    
+    ] ); 
+  }
+}
+
+class LoadPhotoFile extends StatelessWidget {
+  const LoadPhotoFile({
+    super.key,
+    required this.widget,
+  });
+
+  final CardCarService widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.file(
+      File(widget.vehicle.photo),
+      fit: BoxFit.scaleDown,
+      height: 50,
+      width: 50,
     );
   }
 }
@@ -131,7 +162,7 @@ class ContentExpand extends ConsumerWidget {
           TextButton(
             style: myStileButton,
             onPressed: () {
-              // todo implementar
+              ref.read(serviceListProvider.notifier).endService(vehicle);
               cardKey.currentState?.collapse();
             },
             child: const Column(

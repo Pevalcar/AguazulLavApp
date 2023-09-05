@@ -22,4 +22,15 @@ late List<Vehicle> listServices;
     state = AsyncValue.data(listServices);
 
   }
+  endService(Vehicle vehiculo) async {
+    await ListServicesRepository().endService(vehiculo);
+    listServices = await ListServicesRepository().GetServicesData();
+    state = AsyncValue.data(listServices);
+  }
+
+  delete(Vehicle vehiculo) async {
+    await ListServicesRepository().deleteService(vehiculo);
+    listServices = await ListServicesRepository().GetServicesData();
+    state = AsyncValue.data(listServices);
+  }
 }

@@ -2,13 +2,12 @@
 
 import 'dart:io';
 
+import 'package:aguazullavapp/ui/addService/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import '../../model/models.dart';
-import 'package:aguazullavapp/ui/addService/widgets/index.dart';
 import '../../providers/index.dart';
 
 class AddServiceScreen extends ConsumerWidget {
@@ -17,104 +16,124 @@ class AddServiceScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final listServices = ref.watch(typeServicesListProvider);
     final state = ref.watch(vehiculoStateProvider);
+    final loading = ref.watch(isLoadingProvider);
 
     return WillPopScope(
       onWillPop: () {
         _completeFrom(ref.read(vehiculoStateProvider.notifier), context);
         return Future.value(false);
       },
-      child: state.when(
-        loading: () => const Scaffold(
-          body: Center(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              Text("Guardando el Nuevo Servicio..."),
-            ],
-          )),
-        ),
-        error: (error, stackTrace) => Scaffold(
-          body: Center(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("error: ${error.toString()}."),
-            ],
-          )),
-        ),
-        data: (vehiculo) => Scaffold(
-          appBar: AppBar(
-            title: const Text('Información del vehiculo'),
-            actions: [
-              IconButton(
-                onPressed: vehiculo.terminado
-                    ? null
-                    : () {
-                        //Todo Implementar impresión
-                      },
-                icon: const Icon(Icons.print),
+      child: loading
+          ? const Loading()
+          : state.when(
+              loading: () => const Loading(),
+              error: (error, stackTrace) => Scaffold(
+                body: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("error: ${error.toString()}."),
+                  ],
+                )),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: vehiculo.placa.isNotEmpty
-                        ? null
-                        : () async {
-                            try {
-                              await ref
-                                  .read(vehiculoStateProvider.notifier)
-                                  .addService();
-                              _completeFrom(
-                                  ref.read(vehiculoStateProvider.notifier),
-                                  context);
-                            } on Exception catch (error) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text(error.toString()),
-                              ));
-                            }
-                          }),
-              )
-            ],
-          ),
-          body: ListView(
-            children: [
-              Text(
-                "Factura Numero: ${vehiculo.id}",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              data: (Vehicle vehiculo) => Scaffold(
+                appBar: AppBar(
+                  title: const Text('Información del vehiculo'),
+                  actions: [
+                    IconButton(
+                      onPressed: !vehiculo.terminado
+                          ? null
+                          : () {
+                              //Todo Implementar impresión
+                            },
+                      icon: const Icon(Icons.print),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: vehiculo.onCreate
+                              ? null
+                              : () async {
+                                  try {
+                                    await ref
+                                        .read(vehiculoStateProvider.notifier)
+                                        .addService();
+                                    _completeFrom(
+                                        ref.read(
+                                            vehiculoStateProvider.notifier),
+                                        context);
+                                  } on Exception catch (error) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(error.toString()),
+                                    ));
+                                  }
+                                }),
+                    )
+                  ],
+                ),
+                body: ListView(
+                  children: [
+                    Text(
+                      "Factura Numero: ${vehiculo.id}",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Handled(id: vehiculo.id, photo: vehiculo.photo),
+                    Formulario(vehiculo: vehiculo),
+                    const TypedCardSelector(),
+                    _TypeCardSelectable(
+                      listServices: listServices,
+                      serviceSelection: vehiculo.servicios,
+                    ),
+                    TimerDataShow(
+                      initTime: vehiculo.entrada,
+                      endTime: vehiculo.salida,
+                    ),
+                  ],
+                ),
+                floatingActionButton: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (!Platform.isWindows)
+                      FloatingActionButton(
+                        onPressed: () {
+                          _getFromCamera(
+                              ref.read(vehiculoStateProvider.notifier));
+                        },
+                        child: const Icon(Icons.camera_alt),
+                      ),
+                    const SizedBox(height: 10),
+                    FloatingActionButton(
+                      onPressed: () {
+                        _getFromGallery(
+                            ref.read(vehiculoStateProvider.notifier));
+                      },
+                      child: const Icon(Icons.photo_library_rounded),
+                    ),
+                  ],
                 ),
               ),
-              _Handled(id: vehiculo.id, photo: vehiculo.photo),
-              Formulario(vehiculo: vehiculo),
-              const TypedCardSelector(),
-              _TypeCardSelectable(
-                listServices: listServices,
-                serviceSelection: vehiculo.servicios,
-              ),
-              TimerDataShow(
-                initTime: vehiculo.entrada,
-                endTime: vehiculo.salida,
-              ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              _getFromGallery(ref.read(vehiculoStateProvider.notifier));
-            },
-            child: const Icon(Icons.camera_alt),
-          ),
-        ),
-      ),
+            ),
     );
   }
 
-  _completeFrom(VehiculoState ref, context) {
+  _completeFrom(VehiculoState ref,BuildContext context) async {
     ref.reset();
     Navigator.pop(context, false);
+  }
+
+//get camera
+  _getFromCamera(VehiculoState ref) async {
+    PickedFile pickedFile = (await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    )) as PickedFile;
+    ref.addPhoto(pickedFile.path);
   }
 
   /// Get from gallery
@@ -126,17 +145,27 @@ class AddServiceScreen extends ConsumerWidget {
     }
   }
 }
-//get camera
 
-//_getFromCamera(Ref ref) async {
-//  PickedFile pickedFile = (await ImagePicker().pickImage(
-//    source: ImageSource.camera,
-//    maxWidth: 1800,
-//    maxHeight: 1800,
-//  )) as PickedFile;
-//
-//  ref.read(vehiculoStateProvider.notifier).addPhoto(pickedFile.path);
-//  }
+class Loading extends StatelessWidget {
+  const Loading({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            Text("Guardando el Nuevo Servicio..."),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class _TypeCardSelectable extends StatelessWidget {
   const _TypeCardSelectable({
@@ -166,47 +195,6 @@ class _TypeCardSelectable extends StatelessWidget {
   }
 }
 
-class _Handled extends ConsumerWidget {
-  final String id;
-  final String photo;
-
-  const _Handled({required this.id, required this.photo});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final rutas = ref.watch(getRutasProvider);
-    rutas.toString();
-    return SizedBox(
-      height: 200,
-      child: GestureDetector(
-        onTap: () {
-          // todo implementar un visor de fotos
-          print("se clikeo ");
-        },
-        child: Hero(
-          tag: id,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              const CircularProgressIndicator(),
-              (photo.contains("https://") || photo.isEmpty)
-                  ? FadeInImage.memoryNetwork(
-                      image: photo.isEmpty
-                          ? "https://picsum.photos/200/300"
-                          : photo,
-                      placeholder: kTransparentImage,
-                      fit: BoxFit.cover)
-                  : Image.file(
-                      File(photo),
-                      fit: BoxFit.cover,
-                    )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class Formulario extends ConsumerWidget {
   final Vehicle vehiculo;
@@ -223,6 +211,9 @@ class Formulario extends ConsumerWidget {
         children: [
           TextFormField(
             initialValue: vehiculo.propietario.name,
+            onChanged: (value) => ref
+                .read(vehiculoStateProvider.notifier)
+                .modifyPropietario(value),
             decoration: const InputDecoration(
               suffixIcon: IconButton(
                   onPressed: null,
@@ -241,6 +232,7 @@ class Formulario extends ConsumerWidget {
           ),
           TextFormField(
             initialValue: vehiculo.placa,
+            onChanged: (value) => ref.read(vehiculoStateProvider.notifier).modifyPlaca(value),
             decoration: const InputDecoration(
               labelText: "Placa",
               icon: Icon(Icons.numbers_rounded),
@@ -248,6 +240,9 @@ class Formulario extends ConsumerWidget {
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Campo requerido';
+              }
+              if (value.length < 6) {
+                return 'Placa invalida';
               }
               return null;
             },
