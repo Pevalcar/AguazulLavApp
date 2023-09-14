@@ -4,20 +4,20 @@ import 'dart:io';
 
 import 'package:aguazullavapp/ui/addService/widgets/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../model/models.dart';
 import '../../providers/index.dart';
 
-class AddServiceScreen extends ConsumerWidget {
+class AddServiceScreen extends HookConsumerWidget {
   const AddServiceScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listServices = ref.watch(typeServicesListProvider);
-    final state = ref.watch(vehiculoStateProvider);
     final loading = ref.watch(isLoadingProvider);
-
+    print("se cargo la scrren");
     return WillPopScope(
       onWillPop: () {
         _completeFrom(ref.read(vehiculoStateProvider.notifier), context);
@@ -25,7 +25,7 @@ class AddServiceScreen extends ConsumerWidget {
       },
       child: loading
           ? const Loading()
-          : state.when(
+          : ref.watch(vehiculoStateProvider).when(
               loading: () => const Loading(),
               error: (error, stackTrace) => Scaffold(
                 body: Center(
@@ -98,14 +98,17 @@ class AddServiceScreen extends ConsumerWidget {
                 floatingActionButton: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (!Platform.isWindows)
-                      FloatingActionButton(
+                    (kIsWeb) 
+                    ? SizedBox(height: 10)
+                    : (Platform.isAndroid && Platform.isIOS) 
+                    ?FloatingActionButton(
                         onPressed: () {
                           _getFromCamera(
                               ref.read(vehiculoStateProvider.notifier));
                         },
                         child: const Icon(Icons.camera_alt),
-                      ),
+                      )
+                      : SizedBox(height: 10),
                     const SizedBox(height: 10),
                     FloatingActionButton(
                       onPressed: () {
@@ -121,19 +124,21 @@ class AddServiceScreen extends ConsumerWidget {
     );
   }
 
-  _completeFrom(VehiculoState ref,BuildContext context) async {
+  _completeFrom(VehiculoState ref, BuildContext context) async {
     ref.reset();
     Navigator.pop(context, false);
   }
 
 //get camera
   _getFromCamera(VehiculoState ref) async {
-    PickedFile pickedFile = (await ImagePicker().pickImage(
+    XFile? pickedFile = (await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxWidth: 1800,
       maxHeight: 1800,
-    )) as PickedFile;
-    ref.addPhoto(pickedFile.path);
+    ));
+    if (pickedFile != null) {
+      ref.addPhoto(pickedFile.path);
+    }
   }
 
   /// Get from gallery
@@ -195,7 +200,6 @@ class _TypeCardSelectable extends StatelessWidget {
   }
 }
 
-
 class Formulario extends ConsumerWidget {
   final Vehicle vehiculo;
 
@@ -232,7 +236,8 @@ class Formulario extends ConsumerWidget {
           ),
           TextFormField(
             initialValue: vehiculo.placa,
-            onChanged: (value) => ref.read(vehiculoStateProvider.notifier).modifyPlaca(value),
+            onChanged: (value) =>
+                ref.read(vehiculoStateProvider.notifier).modifyPlaca(value),
             decoration: const InputDecoration(
               labelText: "Placa",
               icon: Icon(Icons.numbers_rounded),
