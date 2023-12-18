@@ -227,7 +227,7 @@ class FormLogin extends HookConsumerWidget {
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             TextButton(
                 child: Text(
-                    _screensmode == screensMode.forgot
+                    _screensmode != screensMode.login 
                         ? "Ya tengo una cuenta"
                         : "¿Olvidaste tu \n contraseña?",
                     style: TextStyle(
