@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:aguazullavapp/providers/index.dart';
+import 'package:aguazullavapp/lib.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:transparent_image/transparent_image.dart';
-
-import '../../../model/car/vehiculo_model.dart';
 
 class CardCarService extends StatefulWidget {
   final Vehicle vehicle;
@@ -41,8 +39,8 @@ class _CardCarServiceState extends State<CardCarService> {
         leading: Hero(
           tag: widget.vehicle.id,
           child: widget.vehicle.photo.contains("https://")
-              ? LoadPhotoUrl(widget: widget)
-              : LoadPhotoFile(widget: widget),
+              ? _LoadPhotoUrl(widget: widget)
+              : _LoadPhotoFile(widget: widget),
         ),
         subtitle: ClipRect(
           child: Row(
@@ -74,8 +72,8 @@ class _CardCarServiceState extends State<CardCarService> {
   }
 }
 
-class LoadPhotoUrl extends StatelessWidget {
-  const LoadPhotoUrl({
+class _LoadPhotoUrl extends StatelessWidget {
+  const _LoadPhotoUrl({
     super.key,
     required this.widget,
   });
@@ -98,8 +96,8 @@ class LoadPhotoUrl extends StatelessWidget {
   }
 }
 
-class LoadPhotoFile extends StatelessWidget {
-  const LoadPhotoFile({
+class _LoadPhotoFile extends StatelessWidget {
+  const _LoadPhotoFile({
     super.key,
     required this.widget,
   });
@@ -122,7 +120,6 @@ class ContentExpand extends ConsumerWidget {
   final Vehicle vehicle;
 
   const ContentExpand({
-    super.key,
     required this.cardKey,
     required this.vehicle,
   });
@@ -144,6 +141,7 @@ class ContentExpand extends ConsumerWidget {
         TextButton(
           style: myStileButton,
           onPressed: () {
+            context.go("/vehicle/${vehicle.id}");
             context.go("/vehicle/${vehicle.id}");
             ref.read(vehiculoStateProvider.notifier).modifierVehicle(vehicle);
             cardKey.currentState?.collapse();

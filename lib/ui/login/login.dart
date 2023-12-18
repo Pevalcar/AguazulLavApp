@@ -1,6 +1,4 @@
-import 'package:aguazullavapp/gen/assets.gen.dart';
-import 'package:aguazullavapp/providers/global/firebase_control.dart';
-import 'package:aguazullavapp/ui/login/providers/providers_login.dart';
+import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../widgets/dark_mode_button.dart';
+import 'providers/providers.dart';
 
 class Login extends HookConsumerWidget {
   const Login({super.key});
@@ -27,8 +26,6 @@ class Login extends HookConsumerWidget {
       }),
     );
   }
-
- 
 }
 
 class LoginDesktop extends HookConsumerWidget {
@@ -78,7 +75,7 @@ class TitleHandles extends HookConsumerWidget {
             .image(alignment: Alignment.center, height: 80, width: 80),
         const SizedBox(height: 16),
         Text(
-          switch(_screensmode) {
+          switch (_screensmode) {
             screensMode.login => "Bienvenido",
             screensMode.register => "Registrarse",
             screensMode.forgot => "Recuperar Contraseña",
@@ -109,18 +106,17 @@ class FormLogin extends HookConsumerWidget {
     final _keyForm = GlobalKey<FormState>();
     final _passController = useTextEditingController();
     final _mailController = useTextEditingController();
-
+    final _screensmode = ref.watch(screensModeProvider);
     ref.listen(
       firebaseControlProvider,
       (previous, next) {
-
         if (next.asData?.value != null) {
           _showToast(context, "Bienvenido");
           context.go("/principal");
         }
-        if (next.asError?.error != null ) {
+        if (next.asError?.error != null) {
           debugPrint(next.asError!.error.toString());
-          _showToast(context,  "Usuario o contraseña incorrectos");
+          _showToast(context, "Usuario o contraseña incorrectos");
         }
       },
     );
@@ -159,12 +155,16 @@ class FormLogin extends HookConsumerWidget {
                           border: OutlineInputBorder(),
                         )),
                     const SizedBox(height: 16),
-                    Text(
-                      "Contraseña",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                    _screensmode == screensMode.forgot
+                        ? const SizedBox()
+                        : Text(
+                            "Contraseña",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                     const SizedBox(height: 16),
-                    passField(controllerPass: _passController)
+                    _screensmode == screensMode.forgot
+                        ? const SizedBox()
+                        : passField(controllerPass: _passController)
                   ]),
             ),
           ),
@@ -175,12 +175,40 @@ class FormLogin extends HookConsumerWidget {
             buttonType: ButtonType.mail,
             onPressed: () {
               if (_keyForm.currentState!.validate()) {
-                ref
-                    .read(firebaseControlProvider.notifier)
-                    .login(_mailController.text, _passController.text);
+                switch (_screensmode) {
+                  case screensMode.login:
+                    {
+                      ref
+                          .read(firebaseControlProvider.notifier)
+                          .login(_mailController.text, _passController.text);
+                    }
+
+                  case screensMode.register:
+                    {
+                      ref
+                          .read(firebaseControlProvider.notifier)
+                          .register(_mailController.text, _passController.text);
+                    }
+
+                  case screensMode.forgot:
+                    {
+                      ref
+                          .read(firebaseControlProvider.notifier)
+                          .forgot(_mailController.text);
+                      _showToast(context,
+                          "Se ha enviado un correo para recuperar tu contraseña");
+                      ref
+                          .read(screensModeProvider.notifier)
+                          .toggle(screensMode.login);
+                    }
+                }
               }
             },
-            btnText: "Ingresar",
+            btnText: switch (_screensmode) {
+              screensMode.login => "Ingresar",
+              screensMode.register => "Registrarse",
+              screensMode.forgot => "Recuperar Contraseña",
+            },
           ),
           const SizedBox(height: 16),
           Text(
@@ -198,11 +226,17 @@ class FormLogin extends HookConsumerWidget {
           const SizedBox(height: 32),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             TextButton(
-                child: Text("¿Olvidaste tu \n contraseña?",
+                child: Text(
+                    _screensmode == screensMode.forgot
+                        ? "Ya tengo una cuenta"
+                        : "¿Olvidaste tu \n contraseña?",
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.primary)),
                 onPressed: () {
-                  // TODO Implementar
+                  ref.read(screensModeProvider.notifier).toggle(
+                      _screensmode == screensMode.login
+                          ? screensMode.forgot
+                          : screensMode.login);
                 }),
             Column(
               children: [
@@ -216,7 +250,7 @@ class FormLogin extends HookConsumerWidget {
                     onPressed: () {
                       ref.read(screensModeProvider.notifier).toggle(
                             screensMode.register,
-                      ) ;
+                          );
                     }),
               ],
             )
@@ -225,7 +259,8 @@ class FormLogin extends HookConsumerWidget {
       ),
     );
   }
-   void _showToast(BuildContext context, String error) {
+
+  void _showToast(BuildContext context, String error) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
@@ -249,9 +284,12 @@ class passField extends HookConsumerWidget {
     final showPAss = ref.watch(showPassProvider);
     return TextFormField(
         controller: controllerPass,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           if (value!.isEmpty) {
             return 'Campo requerido';
+          } else if (value.length < 6) {
+            return 'Contraseña no válida debe tener almenos 6 caracteres';
           }
           return null;
         },

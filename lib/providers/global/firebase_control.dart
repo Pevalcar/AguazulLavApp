@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -45,6 +46,16 @@ class FirebaseControl extends _$FirebaseControl {
     });
   }
 
+  void forgot(String email) async {
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      //TODO create new user in firebase firestore
+      
+      return null;
+    });
+  }
+
   void signInWithGoogle() async {
     // Trigger the authentication flow
     state = const AsyncValue.loading();
@@ -54,7 +65,6 @@ class FirebaseControl extends _$FirebaseControl {
       if (kIsWeb && FirebaseAuth.instance.currentUser != null) {
         await _googleSignIn.canAccessScopes(scopes);
         return _fetch();
-      
       } else {
         final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
