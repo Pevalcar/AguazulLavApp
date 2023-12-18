@@ -6,19 +6,19 @@ part of 'rutes_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getRutasHash() => r'33a8e8a3bf44c8bef0bdcd545ce322a705cc28c4';
+String _$enrutadorHash() => r'e9cb454d1c392286152aaca3d6dc1d38595c4c34';
 
-/// See also [getRutas].
-@ProviderFor(getRutas)
-final getRutasProvider = AutoDisposeProvider<Rutas>.internal(
-  getRutas,
-  name: r'getRutasProvider',
+/// See also [enrutador].
+@ProviderFor(enrutador)
+final enrutadorProvider = AutoDisposeProvider<GoRouter>.internal(
+  enrutador,
+  name: r'enrutadorProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$getRutasHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$enrutadorHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef GetRutasRef = AutoDisposeProviderRef<Rutas>;
+typedef EnrutadorRef = AutoDisposeProviderRef<GoRouter>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

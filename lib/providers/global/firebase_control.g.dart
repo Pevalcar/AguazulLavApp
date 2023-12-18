@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'type_services_provider.dart';
+part of 'firebase_control.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$typeServicesListHash() => r'2d8f8568381d5857b3bfb1ca0a09015c4fd47018';
+String _$firebaseControlHash() => r'b7225a79494a353b2d8f4b89ca3b2f5df5c6e7ca';
 
-/// See also [TypeServicesList].
-@ProviderFor(TypeServicesList)
-final typeServicesListProvider =
-    AutoDisposeNotifierProvider<TypeServicesList, List<ServiceInfo>>.internal(
-  TypeServicesList.new,
-  name: r'typeServicesListProvider',
+/// See also [FirebaseControl].
+@ProviderFor(FirebaseControl)
+final firebaseControlProvider =
+    AutoDisposeAsyncNotifierProvider<FirebaseControl, User?>.internal(
+  FirebaseControl.new,
+  name: r'firebaseControlProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$typeServicesListHash,
+      : _$firebaseControlHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$TypeServicesList = AutoDisposeNotifier<List<ServiceInfo>>;
+typedef _$FirebaseControl = AutoDisposeAsyncNotifier<User?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

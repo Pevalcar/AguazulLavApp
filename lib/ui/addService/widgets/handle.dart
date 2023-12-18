@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../../providers/index.dart';
-
 class Handled extends ConsumerWidget {
   final String id;
   final String photo;
@@ -14,8 +12,6 @@ class Handled extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rutas = ref.watch(getRutasProvider);
-    rutas.toString();
     return SizedBox(
       height: 200,
       child: GestureDetector(

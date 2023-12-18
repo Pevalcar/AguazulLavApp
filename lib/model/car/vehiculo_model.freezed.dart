@@ -154,10 +154,10 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
 }
 
 /// @nodoc
-abstract class _$$_VehiculoCopyWith<$Res> implements $VehicleCopyWith<$Res> {
-  factory _$$_VehiculoCopyWith(
-          _$_Vehiculo value, $Res Function(_$_Vehiculo) then) =
-      __$$_VehiculoCopyWithImpl<$Res>;
+abstract class _$$VehiculoImplCopyWith<$Res> implements $VehicleCopyWith<$Res> {
+  factory _$$VehiculoImplCopyWith(
+          _$VehiculoImpl value, $Res Function(_$VehiculoImpl) then) =
+      __$$VehiculoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -180,11 +180,11 @@ abstract class _$$_VehiculoCopyWith<$Res> implements $VehicleCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_VehiculoCopyWithImpl<$Res>
-    extends _$VehicleCopyWithImpl<$Res, _$_Vehiculo>
-    implements _$$_VehiculoCopyWith<$Res> {
-  __$$_VehiculoCopyWithImpl(
-      _$_Vehiculo _value, $Res Function(_$_Vehiculo) _then)
+class __$$VehiculoImplCopyWithImpl<$Res>
+    extends _$VehicleCopyWithImpl<$Res, _$VehiculoImpl>
+    implements _$$VehiculoImplCopyWith<$Res> {
+  __$$VehiculoImplCopyWithImpl(
+      _$VehiculoImpl _value, $Res Function(_$VehiculoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -202,7 +202,7 @@ class __$$_VehiculoCopyWithImpl<$Res>
     Object? price = null,
     Object? onCreate = null,
   }) {
-    return _then(_$_Vehiculo(
+    return _then(_$VehiculoImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -253,8 +253,8 @@ class __$$_VehiculoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
-  const _$_Vehiculo(
+class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
+  const _$VehiculoImpl(
       {this.id = "",
       this.photo = "",
       this.placa = "",
@@ -267,8 +267,8 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
       this.price = "",
       this.onCreate = false});
 
-  factory _$_Vehiculo.fromJson(Map<String, dynamic> json) =>
-      _$$_VehiculoFromJson(json);
+  factory _$VehiculoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VehiculoImplFromJson(json);
 
   @override
   @JsonKey()
@@ -327,10 +327,10 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Vehiculo &&
+            other is _$VehiculoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.photo, photo) || other.photo == photo) &&
             (identical(other.placa, placa) || other.placa == placa) &&
@@ -356,12 +356,12 @@ class _$_Vehiculo with DiagnosticableTreeMixin implements _Vehiculo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_VehiculoCopyWith<_$_Vehiculo> get copyWith =>
-      __$$_VehiculoCopyWithImpl<_$_Vehiculo>(this, _$identity);
+  _$$VehiculoImplCopyWith<_$VehiculoImpl> get copyWith =>
+      __$$VehiculoImplCopyWithImpl<_$VehiculoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_VehiculoToJson(
+    return _$$VehiculoImplToJson(
       this,
     );
   }
@@ -379,9 +379,10 @@ abstract class _Vehiculo implements Vehicle {
       final ServiceInfo? servicios,
       final bool terminado,
       final String price,
-      final bool onCreate}) = _$_Vehiculo;
+      final bool onCreate}) = _$VehiculoImpl;
 
-  factory _Vehiculo.fromJson(Map<String, dynamic> json) = _$_Vehiculo.fromJson;
+  factory _Vehiculo.fromJson(Map<String, dynamic> json) =
+      _$VehiculoImpl.fromJson;
 
   @override
   String get id;
@@ -407,6 +408,6 @@ abstract class _Vehiculo implements Vehicle {
   bool get onCreate;
   @override
   @JsonKey(ignore: true)
-  _$$_VehiculoCopyWith<_$_Vehiculo> get copyWith =>
+  _$$VehiculoImplCopyWith<_$VehiculoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

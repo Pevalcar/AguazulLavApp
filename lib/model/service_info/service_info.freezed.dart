@@ -91,11 +91,11 @@ class _$ServiceInfoCopyWithImpl<$Res, $Val extends ServiceInfo>
 }
 
 /// @nodoc
-abstract class _$$_ServiceInfoCopyWith<$Res>
+abstract class _$$ServiceInfoImplCopyWith<$Res>
     implements $ServiceInfoCopyWith<$Res> {
-  factory _$$_ServiceInfoCopyWith(
-          _$_ServiceInfo value, $Res Function(_$_ServiceInfo) then) =
-      __$$_ServiceInfoCopyWithImpl<$Res>;
+  factory _$$ServiceInfoImplCopyWith(
+          _$ServiceInfoImpl value, $Res Function(_$ServiceInfoImpl) then) =
+      __$$ServiceInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -107,11 +107,11 @@ abstract class _$$_ServiceInfoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ServiceInfoCopyWithImpl<$Res>
-    extends _$ServiceInfoCopyWithImpl<$Res, _$_ServiceInfo>
-    implements _$$_ServiceInfoCopyWith<$Res> {
-  __$$_ServiceInfoCopyWithImpl(
-      _$_ServiceInfo _value, $Res Function(_$_ServiceInfo) _then)
+class __$$ServiceInfoImplCopyWithImpl<$Res>
+    extends _$ServiceInfoCopyWithImpl<$Res, _$ServiceInfoImpl>
+    implements _$$ServiceInfoImplCopyWith<$Res> {
+  __$$ServiceInfoImplCopyWithImpl(
+      _$ServiceInfoImpl _value, $Res Function(_$ServiceInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +123,7 @@ class __$$_ServiceInfoCopyWithImpl<$Res>
     Object? price = null,
     Object? icon = null,
   }) {
-    return _then(_$_ServiceInfo(
+    return _then(_$ServiceInfoImpl(
       servicioId: null == servicioId
           ? _value.servicioId
           : servicioId // ignore: cast_nullable_to_non_nullable
@@ -150,16 +150,16 @@ class __$$_ServiceInfoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ServiceInfo implements _ServiceInfo {
-  const _$_ServiceInfo(
+class _$ServiceInfoImpl implements _ServiceInfo {
+  const _$ServiceInfoImpl(
       {this.servicioId = "",
       this.nameService = "Lavado",
       this.description = "",
       this.price = "",
       this.icon = ""});
 
-  factory _$_ServiceInfo.fromJson(Map<String, dynamic> json) =>
-      _$$_ServiceInfoFromJson(json);
+  factory _$ServiceInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ServiceInfoImplFromJson(json);
 
   @override
   @JsonKey()
@@ -183,10 +183,10 @@ class _$_ServiceInfo implements _ServiceInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ServiceInfo &&
+            other is _$ServiceInfoImpl &&
             (identical(other.servicioId, servicioId) ||
                 other.servicioId == servicioId) &&
             (identical(other.nameService, nameService) ||
@@ -205,12 +205,12 @@ class _$_ServiceInfo implements _ServiceInfo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ServiceInfoCopyWith<_$_ServiceInfo> get copyWith =>
-      __$$_ServiceInfoCopyWithImpl<_$_ServiceInfo>(this, _$identity);
+  _$$ServiceInfoImplCopyWith<_$ServiceInfoImpl> get copyWith =>
+      __$$ServiceInfoImplCopyWithImpl<_$ServiceInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ServiceInfoToJson(
+    return _$$ServiceInfoImplToJson(
       this,
     );
   }
@@ -222,10 +222,10 @@ abstract class _ServiceInfo implements ServiceInfo {
       final String nameService,
       final String description,
       final String price,
-      final String icon}) = _$_ServiceInfo;
+      final String icon}) = _$ServiceInfoImpl;
 
   factory _ServiceInfo.fromJson(Map<String, dynamic> json) =
-      _$_ServiceInfo.fromJson;
+      _$ServiceInfoImpl.fromJson;
 
   @override
   String get servicioId;
@@ -239,6 +239,6 @@ abstract class _ServiceInfo implements ServiceInfo {
   String get icon;
   @override
   @JsonKey(ignore: true)
-  _$$_ServiceInfoCopyWith<_$_ServiceInfo> get copyWith =>
+  _$$ServiceInfoImplCopyWith<_$ServiceInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

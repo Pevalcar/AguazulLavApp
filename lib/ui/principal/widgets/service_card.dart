@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aguazullavapp/providers/index.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../../constants/rute/rutes.dart';
 import '../../../model/car/vehiculo_model.dart';
 
 class CardCarService extends StatefulWidget {
@@ -144,7 +144,7 @@ class ContentExpand extends ConsumerWidget {
         TextButton(
           style: myStileButton,
           onPressed: () {
-            Navigator.pushNamed(context, const Rutas.AddService().route);
+            context.go("/vehicle/${vehicle.id}");
             ref.read(vehiculoStateProvider.notifier).modifierVehicle(vehicle);
             cardKey.currentState?.collapse();
           },

@@ -95,6 +95,7 @@ class AddServiceScreen extends HookConsumerWidget {
                     ),
                   ],
                 ),
+                
                 floatingActionButton: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

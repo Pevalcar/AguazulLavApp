@@ -6,8 +6,8 @@ part of 'service_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ServiceInfo _$$_ServiceInfoFromJson(Map<String, dynamic> json) =>
-    _$_ServiceInfo(
+_$ServiceInfoImpl _$$ServiceInfoImplFromJson(Map<String, dynamic> json) =>
+    _$ServiceInfoImpl(
       servicioId: json['servicioId'] as String? ?? "",
       nameService: json['nameService'] as String? ?? "Lavado",
       description: json['description'] as String? ?? "",
@@ -15,7 +15,7 @@ _$_ServiceInfo _$$_ServiceInfoFromJson(Map<String, dynamic> json) =>
       icon: json['icon'] as String? ?? "",
     );
 
-Map<String, dynamic> _$$_ServiceInfoToJson(_$_ServiceInfo instance) =>
+Map<String, dynamic> _$$ServiceInfoImplToJson(_$ServiceInfoImpl instance) =>
     <String, dynamic>{
       'servicioId': instance.servicioId,
       'nameService': instance.nameService,

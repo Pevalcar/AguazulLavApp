@@ -6,7 +6,8 @@ part of 'vehiculo_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Vehiculo _$$_VehiculoFromJson(Map<String, dynamic> json) => _$_Vehiculo(
+_$VehiculoImpl _$$VehiculoImplFromJson(Map<String, dynamic> json) =>
+    _$VehiculoImpl(
       id: json['id'] as String? ?? "",
       photo: json['photo'] as String? ?? "",
       placa: json['placa'] as String? ?? "",
@@ -25,7 +26,7 @@ _$_Vehiculo _$$_VehiculoFromJson(Map<String, dynamic> json) => _$_Vehiculo(
       onCreate: json['onCreate'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$$_VehiculoToJson(_$_Vehiculo instance) =>
+Map<String, dynamic> _$$VehiculoImplToJson(_$VehiculoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'photo': instance.photo,
