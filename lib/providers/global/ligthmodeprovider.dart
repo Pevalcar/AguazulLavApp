@@ -6,7 +6,7 @@ part "ligthmodeprovider.g.dart";
 
 @riverpod
 class DartMode extends _$DartMode {
-  bool mode = false;
+  bool mode = true;
   @override
   ThemeMode build() {
     return ThemeMode.dark;

@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ligthmodeprovider.dart';
+part of 'firestore_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dartModeHash() => r'82b18a68d0b885c2399b6a68c3e78345bed29b81';
+String _$exapleDataHash() => r'7e88c14ac21c40c7e33b55bdd1b4c72e5a4e2a61';
 
-/// See also [DartMode].
-@ProviderFor(DartMode)
-final dartModeProvider =
-    AutoDisposeNotifierProvider<DartMode, ThemeMode>.internal(
-  DartMode.new,
-  name: r'dartModeProvider',
+/// See also [ExapleData].
+@ProviderFor(ExapleData)
+final exapleDataProvider =
+    AutoDisposeAsyncNotifierProvider<ExapleData, String>.internal(
+  ExapleData.new,
+  name: r'exapleDataProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$dartModeHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$exapleDataHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$DartMode = AutoDisposeNotifier<ThemeMode>;
+typedef _$ExapleData = AutoDisposeAsyncNotifier<String>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "203264626600-frm0i3011tcfkkqeiu6tl08injnq3jtn.apps.googleusercontent.com",
+          "client_id": "203264626600-pmokrgsbo3oq4f45g1dk8fhlrfpcu5ph.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.pevalcar.aguazullavapp",
+            "certificate_hash": "c0f1683d94b3ae8a5333bf5d0d410d3e20f41ae4"
+          }
+        },
+        {
+          "client_id": "203264626600-o0p6h2kptknc4ofv7fcgghocce8lh2nt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

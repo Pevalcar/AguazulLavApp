@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'firebase_control.g.dart';
 
@@ -49,12 +48,11 @@ class FirebaseControl extends _$FirebaseControl {
   void forgot(String email) async {
     state = AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      //TODO create new user in firebase firestore
-      
+      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return null;
     });
   }
+  
 
   void signInWithGoogle() async {
     // Trigger the authentication flow

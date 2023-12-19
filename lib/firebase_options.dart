@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -67,7 +64,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '203264626600',
     projectId: 'aguazullavapp',
     storageBucket: 'aguazullavapp.appspot.com',
-    iosClientId: '203264626600-2liudnl39s89nlirnsedes5c7nrc1qmn.apps.googleusercontent.com',
+    androidClientId:
+        '203264626600-pmokrgsbo3oq4f45g1dk8fhlrfpcu5ph.apps.googleusercontent.com',
+    iosClientId:
+        '203264626600-2liudnl39s89nlirnsedes5c7nrc1qmn.apps.googleusercontent.com',
     iosBundleId: 'io.pevalcar.aguazullavapp',
   );
 
@@ -77,7 +77,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '203264626600',
     projectId: 'aguazullavapp',
     storageBucket: 'aguazullavapp.appspot.com',
-    iosClientId: '203264626600-1fpnl9vqlf44m6v86gdj25ev2o18ghsi.apps.googleusercontent.com',
+    androidClientId:
+        '203264626600-pmokrgsbo3oq4f45g1dk8fhlrfpcu5ph.apps.googleusercontent.com',
+    iosClientId:
+        '203264626600-1fpnl9vqlf44m6v86gdj25ev2o18ghsi.apps.googleusercontent.com',
     iosBundleId: 'io.pevalcar.aguazullavapp.RunnerTests',
   );
 }

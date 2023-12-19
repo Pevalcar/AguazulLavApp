@@ -1,11 +1,11 @@
 import 'package:aguazullavapp/lib.dart';
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_button/sign_button.dart';
 
-import '../widgets/dark_mode_button.dart';
 import 'providers/providers.dart';
 
 class Login extends HookConsumerWidget {
@@ -115,8 +115,7 @@ class FormLogin extends HookConsumerWidget {
           context.go("/principal");
         }
         if (next.asError?.error != null) {
-          debugPrint(next.asError!.error.toString());
-          _showToast(context, "Usuario o contraseña incorrectos");
+          _showErrorToast(context, next.asError!.error.toString());
         }
       },
     );
@@ -164,7 +163,8 @@ class FormLogin extends HookConsumerWidget {
                     const SizedBox(height: 16),
                     _screensmode == screensMode.forgot
                         ? const SizedBox()
-                        : passField(controllerPass: _passController)
+                        : passField(controllerPass: _passController, submited: (_
+                        ) => _login(context, _mailController, _passController, _keyForm, ref, _screensmode)),
                   ]),
             ),
           ),
@@ -173,37 +173,8 @@ class FormLogin extends HookConsumerWidget {
             btnColor: Theme.of(context).colorScheme.primary,
             buttonSize: ButtonSize.large,
             buttonType: ButtonType.mail,
-            onPressed: () {
-              if (_keyForm.currentState!.validate()) {
-                switch (_screensmode) {
-                  case screensMode.login:
-                    {
-                      ref
-                          .read(firebaseControlProvider.notifier)
-                          .login(_mailController.text, _passController.text);
-                    }
-
-                  case screensMode.register:
-                    {
-                      ref
-                          .read(firebaseControlProvider.notifier)
-                          .register(_mailController.text, _passController.text);
-                    }
-
-                  case screensMode.forgot:
-                    {
-                      ref
-                          .read(firebaseControlProvider.notifier)
-                          .forgot(_mailController.text);
-                      _showToast(context,
-                          "Se ha enviado un correo para recuperar tu contraseña");
-                      ref
-                          .read(screensModeProvider.notifier)
-                          .toggle(screensMode.login);
-                    }
-                }
-              }
-            },
+            onPressed: () => _login(context, _mailController, _passController,
+                _keyForm, ref, _screensmode),
             btnText: switch (_screensmode) {
               screensMode.login => "Ingresar",
               screensMode.register => "Registrarse",
@@ -211,12 +182,13 @@ class FormLogin extends HookConsumerWidget {
             },
           ),
           const SizedBox(height: 16),
-          Text(
+          defaultTargetPlatform == TargetPlatform.windows ? const SizedBox() :Text(
             "O ",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 16),
-          SignInButton.mini(
+          
+          defaultTargetPlatform == TargetPlatform.windows ? const SizedBox() : SignInButton.mini(
             buttonSize: ButtonSize.large,
             buttonType: ButtonType.googleDark,
             onPressed: () {
@@ -227,7 +199,7 @@ class FormLogin extends HookConsumerWidget {
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             TextButton(
                 child: Text(
-                    _screensmode != screensMode.login 
+                    _screensmode != screensMode.login
                         ? "Ya tengo una cuenta"
                         : "¿Olvidaste tu \n contraseña?",
                     style: TextStyle(
@@ -270,19 +242,85 @@ class FormLogin extends HookConsumerWidget {
       ),
     );
   }
+
+  void _showErrorToast(BuildContext context, String error) {
+    final scaffold = ScaffoldMessenger.of(context);
+    String _error = error;
+
+    if (_error.contains("email-already-in-use")) {
+      _error = "El correo ya se encuentra registrado";
+    } else if (_error.contains("invalid-credential")) {
+      _error = "El usuario o la contraseña son incorrectos";
+    } else if (_error.contains("invalid-email")) {
+      _error = "Email no válido";
+    } else if (_error.contains("user-not-found")) {
+      _error = "Usuario no encontrado";
+    } else if (_error.contains("too-many-requests")) {
+      _error = "Demaciados intetnos fallidos, intente mas tarde o recuperar su contraseña";
+    } else if (_error.contains("popup_closed")) {
+      _error = "Inicio cancelado";
+    }
+    debugPrint(_error);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(_error),
+        action: SnackBarAction(
+            label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
+
+  void _login(
+      BuildContext context,
+      TextEditingController mail,
+      TextEditingController pass,
+      GlobalKey<FormState> _keyForm,
+      WidgetRef ref,
+      screensMode _screensmode) {
+    if (_keyForm.currentState!.validate()) {
+      switch (_screensmode) {
+        case screensMode.login:
+          {
+            ref
+                .read(firebaseControlProvider.notifier)
+                .login(mail.text, pass.text);
+          }
+
+        case screensMode.register:
+          {
+            ref
+                .read(firebaseControlProvider.notifier)
+                .register(mail.text, pass.text);
+          }
+
+        case screensMode.forgot:
+          {
+            ref.read(firebaseControlProvider.notifier).forgot(mail.text);
+            _showToast(context,
+                "Se ha enviado un correo para recuperar tu contraseña");
+            ref.read(screensModeProvider.notifier).toggle(screensMode.login);
+          }
+      }
+    }
+  }
 }
 
 class passField extends HookConsumerWidget {
   final controllerPass;
-  const passField({
+
+  final Function submited;
+
+  passField( {
     super.key,
     required this.controllerPass,
+    required this.submited,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final showPAss = ref.watch(showPassProvider);
     return TextFormField(
+      onFieldSubmitted: (value) => submited(value),
         controller: controllerPass,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
