@@ -1,5 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +10,7 @@ import 'providers/providers.dart';
 
 class Login extends HookConsumerWidget {
   const Login({super.key});
-
+//TODO agregar guardado en pc de credenciales
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -182,19 +182,19 @@ class FormLogin extends HookConsumerWidget {
             },
           ),
           const SizedBox(height: 16),
-          defaultTargetPlatform == TargetPlatform.windows ? const SizedBox() :Text(
+          defaultTargetPlatform != TargetPlatform.windows || kIsWeb ?  Text(
             "O ",
             style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          ) : const SizedBox(),
           const SizedBox(height: 16),
           
-          defaultTargetPlatform == TargetPlatform.windows ? const SizedBox() : SignInButton.mini(
+          defaultTargetPlatform != TargetPlatform.windows || kIsWeb ?  SignInButton.mini(
             buttonSize: ButtonSize.large,
             buttonType: ButtonType.googleDark,
             onPressed: () {
               ref.read(firebaseControlProvider.notifier).signInWithGoogle();
             },
-          ),
+          ) : const SizedBox(),
           const SizedBox(height: 32),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             TextButton(

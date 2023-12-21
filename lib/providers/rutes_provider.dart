@@ -1,7 +1,4 @@
-import 'package:aguazullavapp/providers/global/firebase_control.dart';
-import 'package:aguazullavapp/ui/addService/add_service_screen.dart';
-import 'package:aguazullavapp/ui/login/login.dart';
-import 'package:aguazullavapp/ui/principal/home_screen.dart';
+import 'package:aguazullavapp/lib.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,7 +8,7 @@ part 'rutes_provider.g.dart';
 GoRouter enrutador(EnrutadorRef ref) {
   final user = ref.watch(firebaseControlProvider);
   return GoRouter(
-      initialLocation: user.asData?.value == null ? '/' : "/principal",
+      initialLocation: user.asData?.value == null ? '/' : "/menu",
       routes: [
         GoRoute(
           path: "/",
@@ -24,6 +21,10 @@ GoRouter enrutador(EnrutadorRef ref) {
         GoRoute(
           path: "/principal",
           builder: (context, state) => const HomePage(),
+        ),
+        GoRoute(
+          path: "/menu",
+          builder: (context, state) => const MainMenuScreen(),
         )
       ]);
 }

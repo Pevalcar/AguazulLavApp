@@ -11,6 +11,7 @@ class DarkModeButton extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mode = ref.watch(dartModeProvider);
     return IconButton(
+    
       onPressed: () {
         ref.read(dartModeProvider.notifier).toggle();
       },
