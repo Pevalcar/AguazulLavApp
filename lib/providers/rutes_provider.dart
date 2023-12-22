@@ -15,6 +15,11 @@ GoRouter enrutador(EnrutadorRef ref) {
           builder: (context, state) => const Login(),
         ),
         GoRoute(
+          path: "/menu",
+          builder: (context, state) => const MainMenuScreen(),
+          routes: []
+        ),
+        GoRoute(
           path: "/addService",
           builder: (context, state) => const AddServiceScreen(),
         ),
@@ -22,9 +27,6 @@ GoRouter enrutador(EnrutadorRef ref) {
           path: "/principal",
           builder: (context, state) => const HomePage(),
         ),
-        GoRoute(
-          path: "/menu",
-          builder: (context, state) => const MainMenuScreen(),
-        )
+        
       ]);
 }

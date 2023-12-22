@@ -1,4 +1,5 @@
-import 'package:aguazullavapp/providers/index.dart';
+
+import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

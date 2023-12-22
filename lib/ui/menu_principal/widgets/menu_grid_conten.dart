@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:go_router/go_router.dart';
 
 import 'action_card_menu.dart';
 
@@ -22,8 +22,8 @@ class MenuGridConten extends StatelessWidget {
         ActionCardMenu(
             title: "Agregar Servicio",
             icon: Icons.add,
-            color: Theme.of(context).colorScheme.primary,
-            onPressed: () {}),
+            color: Theme.of(context).colorScheme.secondary,
+            onPressed: () { GoRouter.of(context).push('/addservice'); }),
         ActionCardMenu(
             title: "Modificar Servicio",
             icon: Icons.edit,

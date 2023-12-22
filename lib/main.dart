@@ -22,9 +22,8 @@ class MyApp extends HookConsumerWidget {
     final themeMode = ref.watch(dartModeProvider);
     return MaterialApp.router(
       title: 'Flutter Demo',
-      
       theme:
-          ThemeData(useMaterial3: true, colorScheme: const ColorScheme.light()),
+          ThemeData(useMaterial3: true, colorScheme: const ColorScheme.light(),),
       darkTheme:
           ThemeData(useMaterial3: true, colorScheme: const ColorScheme.dark()),
       themeMode: themeMode,

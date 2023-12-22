@@ -1,4 +1,5 @@
-import 'package:aguazullavapp/providers/index.dart';
+
+import 'package:aguazullavapp/lib.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aguazullavapp/model/models.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,10 @@ class TypeCardService extends ConsumerWidget {
           Text(typeCardService.nameService),
           Checkbox(
             value: value,
-            onChanged: (value) => ref.read(vehiculoStateProvider.notifier).selectService(typeCardService),
+            onChanged: (value) {
+              
+            }
+            // onChanged: (value) => ref.read(vehiculoStateProvider.notifier).selectService(typeCardService),
           )
         ],
       ),

@@ -1,8 +1,6 @@
+import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../model/models.dart';
-import '../../../providers/index.dart';
 
 class TypedCardSelector extends ConsumerWidget {
   const TypedCardSelector({super.key});
@@ -24,7 +22,7 @@ class TypedCardSelector extends ConsumerWidget {
                     ))
                 .toList(),
             onChanged: (value) {
-              ref.read(vehiculoStateProvider.notifier).modifyType(value);
+              // ref.read(vehiculoStateProvider.notifier).modifyType(value);
             }),
       ],
     );

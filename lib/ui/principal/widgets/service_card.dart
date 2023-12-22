@@ -142,8 +142,7 @@ class ContentExpand extends ConsumerWidget {
           style: myStileButton,
           onPressed: () {
             context.go("/vehicle/${vehicle.id}");
-            context.go("/vehicle/${vehicle.id}");
-            ref.read(vehiculoStateProvider.notifier).modifierVehicle(vehicle);
+            // ref.read(vehiculoStateProvider.notifier).modifierVehicle(vehicle);
             cardKey.currentState?.collapse();
           },
           child: const Column(
