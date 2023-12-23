@@ -13,7 +13,14 @@ class DesktopAddService extends HookConsumerWidget {
         title: const Text('Información del vehiculo'),
         actions: [const AppBarAddService(mobile: true)],
       ),
-      body: const Center(child: Handled()),
+      body: Row(
+        children: [
+          const Center(child: Handled()),
+          Expanded(
+            child: Formulario(),
+          )
+        ],
+      ),
     );
   }
 }
