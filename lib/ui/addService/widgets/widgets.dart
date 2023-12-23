@@ -1,5 +1,9 @@
 export 'app_bar_add_service.dart';
+export 'desktop_ui/desktop_ui.dart';
+export 'formulario.dart';
 export 'handle.dart';
+export 'mobile_ui/mobile_ui.dart';
 export 'time_data_show.dart';
 export 'type_card.dart';
+export 'type_card_selectable.dart';
 export 'type_class_selecter.dart';

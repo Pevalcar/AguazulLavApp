@@ -12,9 +12,9 @@ class MenuGridConten extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView(
       padding: const EdgeInsets.all(8),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisExtent: 80,// taaño de la tarjeta
+      gridDelegate: const   SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 250,
+        childAspectRatio: 3 / 2,
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),

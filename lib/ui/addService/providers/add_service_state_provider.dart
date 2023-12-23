@@ -38,9 +38,9 @@ class VehiculoState extends _$VehiculoState {
   //   // si el vehiculo es correcto
   //   ref.read(isLoadingProvider.notifier).toggleState();
   //   try {
-  //     // await ref
-  //         // .read(serviceListProvider.notifier)
-  //         // .addService(state.asData!.value?.copyWith(onCreate: true));
+      // await ref
+         // .read(serviceListProvider.notifier)
+           // .addService(state.asData!.value?.copyWith(onCreate: true));
   //     ref.read(isLoadingProvider.notifier).toggleState();
   //   } catch (error) {
   //     ref.read(isLoadingProvider.notifier).toggleState();
@@ -60,14 +60,14 @@ class VehiculoState extends _$VehiculoState {
   //   state = AsyncValue.data(state.asData!.value?.copyWith(type: type!));
   // }
 
-  // void modifyPropietario(String propietario) {
-  //   state = AsyncValue.data(
-  //       state.asData!.value?.copyWith(propietario: User(name: propietario)));
-  // }
+  void modifyPropietario(String propietario) {
+    state = AsyncValue.data(
+        state.asData!.value.copyWith(propietario: User(name: propietario)));
+  }
 
-  // void modifyPlaca(String placa) {
-  //   state = AsyncValue.data(state.asData!.value?.copyWith(placa: placa));
-  // }
+  void modifyPlaca(String placa) {
+    state = AsyncValue.data(state.asData!.value.copyWith(placa: placa));
+  }
 
   // void selectService(ServiceInfo service) {
   //   state = AsyncValue.data(state.asData!.value?.copyWith(servicios: service));
@@ -97,19 +97,6 @@ class IsLoading extends _$IsLoading {
   }
 }
 
-@riverpod
-class KeyFromAddService extends _$KeyFromAddService {
-  final _keyForm = GlobalKey<FormState>();
-
-  @override
-  GlobalKey<FormState> build() {
-    return _keyForm;
-  }
-
-  bool CheckValues() {
-    return _keyForm.currentState!.validate();
-  }
-}
 
 @riverpod
 String CurrentTime(CurrentTimeRef ref) {

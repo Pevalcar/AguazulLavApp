@@ -3,28 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppBarAddService extends HookConsumerWidget {
+  final bool mobile;
   const AppBarAddService({
     super.key,
+    required this.mobile,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final vehiculo = ref.watch(vehiculoStateProvider);
-    ref.listen(vehiculoStateProvider, (previous, next) { 
+    ref.listen(vehiculoStateProvider, (previous, next) {
       if (next.error != null) {
         _sendMessage(context, next.error);
-      } 
-    }) ;
+      }
+    });
     return Row(
       children: [
         const DarkModeButton(),
-        vehiculo.when(
+        mobile ? const SizedBox() : vehiculo.when(
           data: (data) => IconButton(
               icon: const Icon(Icons.add),
               onPressed: data.terminado
                   ? null
                   : () {
-                    //TODO add service
+                      //TODO add service
                       // ref.read(vehiculoStateProvider.notifier).addService();
                     }),
           error: (error, stackTrace) {
@@ -44,7 +46,7 @@ class AppBarAddService extends HookConsumerWidget {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(error.toString()),
       action: SnackBarAction(
-        label: 'Close',
+        label: 'Ok',
         onPressed: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
         },

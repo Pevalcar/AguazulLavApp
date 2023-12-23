@@ -1,33 +1,33 @@
 import 'dart:io';
-
+import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class Handled extends ConsumerWidget {
-  final String id;
-  final String photo;
 
-  const Handled({super.key, required this.id, required this.photo});
+  const Handled({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      height: 200,
-      child: GestureDetector(
-        onTap: () {
-          // todo implementar un visor de fotos
-          print("se clikeo ");
+    final vehicle = ref.watch(vehiculoStateProvider);
+    return vehicle.when(
+        data: (data) {
+          return SizedBox(
+              height: 200,
+              child: Hero(
+                  tag: data.id,
+                  child: data.photo.contains("https://") || data.photo.isEmpty
+                      ? LoadPhotoUrl(photo: data.photo)
+                      : Image.file(
+                          File(data.photo),
+                          fit: BoxFit.cover,
+                        )));
         },
-        child: Hero(
-            tag: id,
-            child: photo.contains("https://") || photo.isEmpty
-                ? LoadPhotoUrl(photo: photo)
-                : Image.file(
-                    File(photo),
-                  )),
-      ),
-    );
+        error: (error, stackTrace) {
+          debugPrint('error: ${error}');
+          return const Icon(Icons.error);
+        },
+        loading: () => const CircularProgressIndicator());
   }
 }
 
@@ -45,10 +45,10 @@ class LoadPhotoUrl extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         const CircularProgressIndicator(),
-        FadeInImage.memoryNetwork(
-            image: photo.isEmpty ? "https://picsum.photos/200/300" : photo,
-            placeholder: kTransparentImage,
-            fit: BoxFit.cover)
+        Image.network(
+          photo.isEmpty ? "https://picsum.photos/200/300" : photo,
+          fit: BoxFit.cover,
+        ),
       ],
     );
   }
