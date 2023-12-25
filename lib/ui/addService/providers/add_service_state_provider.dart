@@ -109,7 +109,7 @@ class IsLoading extends _$IsLoading {
   }
 }
 
-//? FIXME lista de usuarios
+//? FIXME reubircar este provider
 
 @riverpod
 class ListPropietarios extends _$ListPropietarios {
