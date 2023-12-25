@@ -22,14 +22,14 @@ enum VeiculoType {
 
 @freezed
 class Vehicle with _$Vehicle {
-  const factory Vehicle({
+   factory Vehicle({
     @Default("")String id,
     @Default("")String photo,
     @Default("")String placa,
     @Default(VeiculoType.autoMovil)VeiculoType type,
     @Default(User())User propietario,
-    @Default("")String entrada,
-    @Default("")String salida,
+    DateTime? entrada,
+    DateTime? salida,
     ServiceInfo? servicios,
     @Default(false)bool terminado,
     @Default("")String price,

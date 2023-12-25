@@ -15,6 +15,7 @@ class MobileAddService extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final listServices = ref.watch(typeServicesListProvider);
     final vehicle = ref.watch(vehiculoStateProvider);
+    
     return Scaffold(
         appBar: AppBar(
           title: const Text('Información del vehiculo'),
@@ -23,7 +24,7 @@ class MobileAddService extends HookConsumerWidget {
         body: SingleChildScrollView(
           child: Column(children: [
             Text(
-              "Factura Numero: ${vehicle.value!.id}",
+              "Factura Numero: ${vehicle.id}",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -34,11 +35,9 @@ class MobileAddService extends HookConsumerWidget {
             const TypedCardSelector(),
             TypeCardSelectable(
               listServices: listServices,
-              serviceSelection: vehicle.value!.servicios,
+              serviceSelection: vehicle.servicios,
             ),
             TimerDataShow(
-              initTime: vehicle.value!.entrada,
-              endTime: vehicle.value!.salida,
             ),
           ]),
         ),
@@ -59,7 +58,7 @@ class MobileAddService extends HookConsumerWidget {
             const SizedBox(height: 10),
             FloatingActionButton(
               onPressed: () {
-                getFromGallery(ref.read(vehiculoStateProvider.notifier));
+
               },
               child: const Icon(Icons.photo_library_rounded),
             ),

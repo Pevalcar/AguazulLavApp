@@ -5,16 +5,8 @@ part 'add_service_state_provider.g.dart';
 
 @riverpod
 class VehiculoState extends _$VehiculoState {
-   _fetch()   async {
-    state = AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      return Vehicle();
-    } ,
-    );}
-  
   @override
-  Future<Vehicle> build() => _fetch(); 
-
+  Vehicle build() => Vehicle();
 
   // addService() async {
   //   Vehicle vehicle = state.asData?.value ?? const Vehicle();
@@ -37,9 +29,9 @@ class VehiculoState extends _$VehiculoState {
   //   // si el vehiculo es correcto
   //   ref.read(isLoadingProvider.notifier).toggleState();
   //   try {
-      // await ref
-         // .read(serviceListProvider.notifier)
-           // .addService(state.asData!.value?.copyWith(onCreate: true));
+  // await ref
+  // .read(serviceListProvider.notifier)
+  // .addService(state.asData!.value?.copyWith(onCreate: true));
   //     ref.read(isLoadingProvider.notifier).toggleState();
   //   } catch (error) {
   //     ref.read(isLoadingProvider.notifier).toggleState();
@@ -60,12 +52,11 @@ class VehiculoState extends _$VehiculoState {
   // }
 
   void modifyPropietario(String propietario) {
-    state = AsyncValue.data(
-        state.asData!.value.copyWith(propietario: User(name: propietario)));
+    state = state.copyWith(propietario: User(name: propietario));
   }
 
   void modifyPlaca(String placa) {
-    state = AsyncValue.data(state.asData!.value.copyWith(placa: placa));
+    state = state.copyWith(placa: placa);
   }
 
   // void selectService(ServiceInfo service) {
@@ -83,7 +74,29 @@ class VehiculoState extends _$VehiculoState {
   // void reset() {
   //   state = const AsyncValue.data(Vehicle());
   // }
+}
 
+@riverpod
+class Placa extends _$Placa {
+  @override
+  String build() {
+    return "";
+  }
+  void modifyPlaca(String placa) {
+    state = placa;
+  }
+}
+
+@riverpod
+class Propietario extends _$Propietario {
+  @override
+  User build() {
+    return User();
+  }
+  void modifyPropietario(User propietario) {
+    state = propietario;
+
+  }
 }
 
 @riverpod
@@ -96,10 +109,21 @@ class IsLoading extends _$IsLoading {
   }
 }
 
+//? FIXME lista de usuarios
 
 @riverpod
-String CurrentTime(CurrentTimeRef ref) {
-  final time = DateTime.now();
-
-  return "${time.year}/${time.month}/${time.day} # ${time.hour}:${time.minute}:${time.second}";
+class ListPropietarios extends _$ListPropietarios {
+  
+  @override
+  List<User> build() {
+    return <User>[
+    User(name: 'Alice', email: 'alice@example.com'),
+    User(name: 'Bob', email: 'bob@example.com'),
+    User(name: 'Charlie', email: 'charlie123@gmail.com'),
+  ];
+  }
+  addPropietario() {
+    final user = User( name: "PEdro" , email: "pedro@pedro" );
+    state = [...state, user];
+  }
 }

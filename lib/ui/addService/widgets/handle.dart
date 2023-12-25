@@ -4,30 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Handled extends ConsumerWidget {
-
   const Handled({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final vehicle = ref.watch(vehiculoStateProvider);
-    return vehicle.when(
-        data: (data) {
-          return SizedBox(
-              height: 200,
-              child: Hero(
-                  tag: data.id,
-                  child: data.photo.contains("https://") || data.photo.isEmpty
-                      ? LoadPhotoUrl(photo: data.photo)
-                      : Image.file(
-                          File(data.photo),
-                          fit: BoxFit.cover,
-                        )));
-        },
-        error: (error, stackTrace) {
-          debugPrint('error: ${error}');
-          return const Icon(Icons.error);
-        },
-        loading: () => const CircularProgressIndicator());
+    return SizedBox(
+        height: 200,
+        child: Hero(
+            tag: vehicle.id,
+            child: vehicle.photo.contains("https://") || vehicle.photo.isEmpty
+                ? LoadPhotoUrl(photo: vehicle.photo)
+                : Image.file(
+                    File(vehicle.photo),
+                    fit: BoxFit.cover,
+                  )));
   }
 }
 

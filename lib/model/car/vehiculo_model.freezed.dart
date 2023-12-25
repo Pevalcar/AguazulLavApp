@@ -25,8 +25,8 @@ mixin _$Vehicle {
   String get placa => throw _privateConstructorUsedError;
   VeiculoType get type => throw _privateConstructorUsedError;
   User get propietario => throw _privateConstructorUsedError;
-  String get entrada => throw _privateConstructorUsedError;
-  String get salida => throw _privateConstructorUsedError;
+  DateTime? get entrada => throw _privateConstructorUsedError;
+  DateTime? get salida => throw _privateConstructorUsedError;
   ServiceInfo? get servicios => throw _privateConstructorUsedError;
   bool get terminado => throw _privateConstructorUsedError;
   String get price => throw _privateConstructorUsedError;
@@ -48,8 +48,8 @@ abstract class $VehicleCopyWith<$Res> {
       String placa,
       VeiculoType type,
       User propietario,
-      String entrada,
-      String salida,
+      DateTime? entrada,
+      DateTime? salida,
       ServiceInfo? servicios,
       bool terminado,
       String price,
@@ -77,8 +77,8 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
     Object? placa = null,
     Object? type = null,
     Object? propietario = null,
-    Object? entrada = null,
-    Object? salida = null,
+    Object? entrada = freezed,
+    Object? salida = freezed,
     Object? servicios = freezed,
     Object? terminado = null,
     Object? price = null,
@@ -105,14 +105,14 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
           ? _value.propietario
           : propietario // ignore: cast_nullable_to_non_nullable
               as User,
-      entrada: null == entrada
+      entrada: freezed == entrada
           ? _value.entrada
           : entrada // ignore: cast_nullable_to_non_nullable
-              as String,
-      salida: null == salida
+              as DateTime?,
+      salida: freezed == salida
           ? _value.salida
           : salida // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       servicios: freezed == servicios
           ? _value.servicios
           : servicios // ignore: cast_nullable_to_non_nullable
@@ -166,8 +166,8 @@ abstract class _$$VehiculoImplCopyWith<$Res> implements $VehicleCopyWith<$Res> {
       String placa,
       VeiculoType type,
       User propietario,
-      String entrada,
-      String salida,
+      DateTime? entrada,
+      DateTime? salida,
       ServiceInfo? servicios,
       bool terminado,
       String price,
@@ -195,8 +195,8 @@ class __$$VehiculoImplCopyWithImpl<$Res>
     Object? placa = null,
     Object? type = null,
     Object? propietario = null,
-    Object? entrada = null,
-    Object? salida = null,
+    Object? entrada = freezed,
+    Object? salida = freezed,
     Object? servicios = freezed,
     Object? terminado = null,
     Object? price = null,
@@ -223,14 +223,14 @@ class __$$VehiculoImplCopyWithImpl<$Res>
           ? _value.propietario
           : propietario // ignore: cast_nullable_to_non_nullable
               as User,
-      entrada: null == entrada
+      entrada: freezed == entrada
           ? _value.entrada
           : entrada // ignore: cast_nullable_to_non_nullable
-              as String,
-      salida: null == salida
+              as DateTime?,
+      salida: freezed == salida
           ? _value.salida
           : salida // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       servicios: freezed == servicios
           ? _value.servicios
           : servicios // ignore: cast_nullable_to_non_nullable
@@ -254,14 +254,14 @@ class __$$VehiculoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
-  const _$VehiculoImpl(
+  _$VehiculoImpl(
       {this.id = "",
       this.photo = "",
       this.placa = "",
       this.type = VeiculoType.autoMovil,
       this.propietario = const User(),
-      this.entrada = "",
-      this.salida = "",
+      this.entrada,
+      this.salida,
       this.servicios,
       this.terminado = false,
       this.price = "",
@@ -286,11 +286,9 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
   @JsonKey()
   final User propietario;
   @override
-  @JsonKey()
-  final String entrada;
+  final DateTime? entrada;
   @override
-  @JsonKey()
-  final String salida;
+  final DateTime? salida;
   @override
   final ServiceInfo? servicios;
   @override
@@ -368,14 +366,14 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
 }
 
 abstract class _Vehiculo implements Vehicle {
-  const factory _Vehiculo(
+  factory _Vehiculo(
       {final String id,
       final String photo,
       final String placa,
       final VeiculoType type,
       final User propietario,
-      final String entrada,
-      final String salida,
+      final DateTime? entrada,
+      final DateTime? salida,
       final ServiceInfo? servicios,
       final bool terminado,
       final String price,
@@ -395,9 +393,9 @@ abstract class _Vehiculo implements Vehicle {
   @override
   User get propietario;
   @override
-  String get entrada;
+  DateTime? get entrada;
   @override
-  String get salida;
+  DateTime? get salida;
   @override
   ServiceInfo? get servicios;
   @override

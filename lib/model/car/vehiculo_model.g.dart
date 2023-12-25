@@ -16,8 +16,12 @@ _$VehiculoImpl _$$VehiculoImplFromJson(Map<String, dynamic> json) =>
       propietario: json['propietario'] == null
           ? const User()
           : User.fromJson(json['propietario'] as Map<String, dynamic>),
-      entrada: json['entrada'] as String? ?? "",
-      salida: json['salida'] as String? ?? "",
+      entrada: json['entrada'] == null
+          ? null
+          : DateTime.parse(json['entrada'] as String),
+      salida: json['salida'] == null
+          ? null
+          : DateTime.parse(json['salida'] as String),
       servicios: json['servicios'] == null
           ? null
           : ServiceInfo.fromJson(json['servicios'] as Map<String, dynamic>),
@@ -33,8 +37,8 @@ Map<String, dynamic> _$$VehiculoImplToJson(_$VehiculoImpl instance) =>
       'placa': instance.placa,
       'type': _$VeiculoTypeEnumMap[instance.type]!,
       'propietario': instance.propietario,
-      'entrada': instance.entrada,
-      'salida': instance.salida,
+      'entrada': instance.entrada?.toIso8601String(),
+      'salida': instance.salida?.toIso8601String(),
       'servicios': instance.servicios,
       'terminado': instance.terminado,
       'price': instance.price,

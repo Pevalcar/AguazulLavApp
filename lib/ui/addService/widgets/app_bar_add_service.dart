@@ -12,29 +12,17 @@ class AppBarAddService extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final vehiculo = ref.watch(vehiculoStateProvider);
-    ref.listen(vehiculoStateProvider, (previous, next) {
-      if (next.error != null) {
-        _sendMessage(context, next.error);
-      }
-    });
     return Row(
       children: [
         const DarkModeButton(),
-        mobile ? const SizedBox() : vehiculo.when(
-          data: (data) => IconButton(
+        mobile ? const SizedBox() :IconButton(
               icon: const Icon(Icons.add),
-              onPressed: data.terminado
+              onPressed: vehiculo.terminado
                   ? null
                   : () {
                       //TODO add service
                       // ref.read(vehiculoStateProvider.notifier).addService();
                     }),
-          error: (error, stackTrace) {
-            debugPrint('error: ${error}');
-            return const Icon(Icons.error);
-          },
-          loading: () => const CircularProgressIndicator(),
-        ),
         const SizedBox(
           width: 16,
         ),

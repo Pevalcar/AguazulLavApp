@@ -1,103 +1,126 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Formulario extends HookConsumerWidget {
+class Formulario extends HookWidget {
   Formulario({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final _keyFrom = GlobalKey<FormState>();
-    return Form(
-      key: _keyFrom,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClientSearcher(),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            initialValue: ref.watch(vehiculoStateProvider).value?.placa,
-            onChanged: (value) {
-              ref.read(vehiculoStateProvider.notifier).modifyPlaca(value);
-            },
-            decoration: const InputDecoration(
-              labelText: "Placa",
-              icon: Icon(Icons.numbers_rounded),
-            ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Campo requerido';
-              }
-              if (value.length < 6) {
-                return 'Placa invalida';
-              }
-              return null;
-            },
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+      child: Form(
+        key: _keyFrom,
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClientSearcher(),
+            PlacaTextField(),
+          ],
+        ),
       ),
     );
   }
 }
 
-class ClientSearcher extends HookWidget {
-  const ClientSearcher({
+class PlacaTextField extends HookConsumerWidget {
+  const PlacaTextField({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    //TODO add client implementacion 
-    final querry = useState('');
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Flexible(
-            child: SearchAnchor(
-              builder: (context, controller) {
-                return SearchBar(
-                  controller: controller,
-                  onTap: () {
-                    controller.openView();
-                  },
-                  onChanged: (value) {
-                    querry.value = value;
-                    controller.openView();
-                  },
-                  hintText: "Buscar propietario",
-                  leading: Icon(Icons.person_outline_outlined),
-                );
-              },
-              suggestionsBuilder: (context, controller) {
-                return List<ListTile>.generate(5, (int index) {
-                  final String item = 'item $index';
-                  return ListTile(
-                    title: Text(item),
-                    onTap: () {
-                      controller.closeView(item);
-                    },
-                  );
-                });
-              },
-            ),
-          ),
-          const SizedBox(width: 8),
-          Tooltip(
-            message: 'Agregar Cliente',
-            child: IconButton(
-              icon: Icon(
-                Icons.person_search_outlined,
-              ),
-              onPressed: () {},
-            ),
-          )
-        ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final placa = ref.watch(placaProvider);
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      initialValue: placa,
+      onChanged: (value) {
+        ref.read(placaProvider.notifier).modifyPlaca(value);
+      },
+      decoration: const InputDecoration(
+        labelText: "Placa",
+        icon: Icon(Icons.numbers_rounded),
       ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Campo requerido';
+        }
+        if (value.length < 6) {
+          return 'Placa invalida ';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+class ClientSearcher extends HookConsumerWidget {
+  const ClientSearcher({
+    super.key,
+  });
+  static String _displayStringForOption(User option) => option.name;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _userOptions = ref.watch(listPropietariosProvider);
+
+    //TODO add client implementacion
+    return Row(
+      children: [
+        Flexible(
+          child: Autocomplete(
+            fieldViewBuilder:
+                (context, textEditingController, focusNode, onEditingComplete) {
+              return TextField(
+                autofocus: true,
+                controller: textEditingController,
+                focusNode: focusNode,
+                decoration: const InputDecoration(
+                  icon: Icon(
+                    Icons.person_search_outlined,
+                  ),
+                  labelText: 'Search for a client',
+                  hintText: 'Search for a client',
+                ),
+                onSubmitted: (String value) {
+                  onEditingComplete();
+                },
+              );
+            },
+            displayStringForOption: _displayStringForOption,
+            optionsBuilder: (TextEditingValue textEditingValue) async {
+              //! FIXME agregar provider para el filtro asyncronicamente
+              if (textEditingValue.text.isEmpty) {
+                return const Iterable<User>.empty();
+              }
+              return _userOptions.where((User option) {
+                return option
+                    .toString()
+                    .contains(textEditingValue.text.toLowerCase());
+              });
+            },
+            onSelected: (User selection) {
+              ref
+                  .read(propietarioProvider.notifier)
+                  .modifyPropietario(selection);
+              debugPrint(
+                  'You just selected ${_displayStringForOption(selection)}');
+            },
+          ),
+        ),
+        const SizedBox(width: 8.0),
+        IconButton(
+          icon: const Icon(Icons.person_add_alt_1),
+          onPressed: () {
+          ref.read(listPropietariosProvider.notifier).addPropietario();
+            //TODO add client
+          },
+        ),
+      ],
     );
   }
 }

@@ -13,7 +13,7 @@ class TypedCardSelector extends ConsumerWidget {
       children: [
         const Text("Tipo de vehiculo:"),
         DropdownButton(
-            value: state.asData!.value.type,
+            value: state.type,
             items: VeiculoType.values
                 .toList()
                 .map((e) => DropdownMenuItem(

@@ -44,8 +44,6 @@ List<Vehicle> vv = List.generate(3, (index) {
       address: '',
       bonus: '',
     ),
-    entrada: '2022-01-01',
-    salida: "",
     servicios: const ServiceInfo(),
     terminado: false,
     price: '15.000',
