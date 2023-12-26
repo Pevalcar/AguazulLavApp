@@ -20,7 +20,10 @@ class MainMenuScreen extends StatelessWidget {
               const DarkModeButton(),
               const SizedBox(width: 16),
               InkWell(
-                onTap: () {},
+                onTap: () {
+
+                  //TODO agregar cicle avatar
+                },
                 child: const CircleAvatar(
                   child: Icon(Icons.person),
                 ),
@@ -60,11 +63,11 @@ class MainMenuDesktop extends StatelessWidget {
   const MainMenuDesktop({super.key});
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment:  MainAxisAlignment.end,
       children: [
-        const InfoCount(),
-        const Expanded(
+        InfoCount(),
+        Expanded(
           child: MenuGridConten(),
         ),
       ],

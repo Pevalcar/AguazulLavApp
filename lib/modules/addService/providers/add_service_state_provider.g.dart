@@ -6,7 +6,7 @@ part of 'add_service_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$vehiculoStateHash() => r'8918d8996e8fcfec63c966140a6175292db200b2';
+String _$vehiculoStateHash() => r'9fa9f972c7b6988e0e4029910b66fb3ed1d53ce0';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)
@@ -51,6 +51,22 @@ final propietarioProvider =
 );
 
 typedef _$Propietario = AutoDisposeNotifier<User>;
+String _$typoDeVehiculoHash() => r'8b5802deb4581c8eaa64304af6ef894cc43723b6';
+
+/// See also [TypoDeVehiculo].
+@ProviderFor(TypoDeVehiculo)
+final typoDeVehiculoProvider =
+    AutoDisposeNotifierProvider<TypoDeVehiculo, String>.internal(
+  TypoDeVehiculo.new,
+  name: r'typoDeVehiculoProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$typoDeVehiculoHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$TypoDeVehiculo = AutoDisposeNotifier<String>;
 String _$isLoadingHash() => r'c455bc001c1255e8b4bdd58b41cf651a75ca4967';
 
 /// See also [IsLoading].
@@ -81,5 +97,21 @@ final listPropietariosProvider =
 );
 
 typedef _$ListPropietarios = AutoDisposeNotifier<List<User>>;
+String _$typosDeVeiculosHash() => r'6f9213ba43e7d5f4fbff410251d89e001b63d14a';
+
+/// See also [TyposDeVeiculos].
+@ProviderFor(TyposDeVeiculos)
+final typosDeVeiculosProvider =
+    AutoDisposeNotifierProvider<TyposDeVeiculos, List<String>>.internal(
+  TyposDeVeiculos.new,
+  name: r'typosDeVeiculosProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$typosDeVeiculosHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$TyposDeVeiculos = AutoDisposeNotifier<List<String>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

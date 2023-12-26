@@ -1,4 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'add_service_state_provider.g.dart';
@@ -47,16 +48,8 @@ class VehiculoState extends _$VehiculoState {
   //   state = AsyncValue.data(state.asData!.value?.copyWith(photo: photo));
   // }
 
-  // void modifyType(VeiculoType? type) {
-  //   state = AsyncValue.data(state.asData!.value?.copyWith(type: type!));
-  // }
-
-  void modifyPropietario(String propietario) {
-    state = state.copyWith(propietario: User(name: propietario));
-  }
-
-  void modifyPlaca(String placa) {
-    state = state.copyWith(placa: placa);
+  void modifyType(VeiculoType? type) {
+    debugPrint('type: ${type}');
   }
 
   // void selectService(ServiceInfo service) {
@@ -100,6 +93,24 @@ class Propietario extends _$Propietario {
 }
 
 @riverpod
+class TypoDeVehiculo extends _$TypoDeVehiculo {
+  //TODO fecth de datos sobre base de typos
+  _fetchTypo() {
+    final typo = ref.watch(typosDeVeiculosProvider);
+    return typo.first;
+  }
+  @override
+  String build() {
+
+    return _fetchTypo();
+  }
+  void modifyTypo(String tipo) {
+    state = tipo;
+  }
+
+}
+
+@riverpod
 class IsLoading extends _$IsLoading {
   @override
   bool build() => false;
@@ -109,11 +120,11 @@ class IsLoading extends _$IsLoading {
   }
 }
 
-//? FIXME reubircar este provider
+//? FIXME reubircar estos providers
 
 @riverpod
 class ListPropietarios extends _$ListPropietarios {
-  
+  //TODO fecth de datos sobre base de ´propietarios
   @override
   List<User> build() {
     return <User>[
@@ -125,5 +136,23 @@ class ListPropietarios extends _$ListPropietarios {
   addPropietario() {
     final user = User( name: "PEdro" , email: "pedro@pedro" );
     state = [...state, user];
+  }
+}
+
+
+@riverpod
+class TyposDeVeiculos extends _$TyposDeVeiculos {
+  @override
+  List<String> build() {
+    return [
+      "Carro",
+      "Camioneta",
+      "Motocicleta",
+      "Bicicleta",
+      "Moto",
+      "Trailer",
+      "Vagoneta",
+      "Otros",
+    ];
   }
 }

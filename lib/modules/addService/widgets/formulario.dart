@@ -93,7 +93,6 @@ class ClientSearcher extends HookConsumerWidget {
             },
             displayStringForOption: _displayStringForOption,
             optionsBuilder: (TextEditingValue textEditingValue) {
-              
               if (textEditingValue.text.isEmpty) {
                 return const Iterable<User>.empty();
               }
@@ -114,9 +113,9 @@ class ClientSearcher extends HookConsumerWidget {
         IconButton(
           icon: const Icon(Icons.person_add_alt_1),
           onPressed: () {
-
+            
             //! TODO add client ventan emergente con informacion requerida
-          ref.read(listPropietariosProvider.notifier).addPropietario();
+            ref.read(listPropietariosProvider.notifier).addPropietario();
           },
         ),
       ],

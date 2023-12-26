@@ -35,6 +35,11 @@ class MenuGridConten extends StatelessWidget {
             color: Colors.red,
             onPressed: () {}),
         ActionCardMenu(
+            title: "Clientes",
+            icon: Icons.person_add_alt,
+            color: Colors.red,
+            onPressed: () {}),
+        ActionCardMenu(
             title: "Historial de Servicios",
             icon: Icons.history,
             color: Colors.red,
@@ -52,11 +57,6 @@ class MenuGridConten extends StatelessWidget {
         ActionCardMenu(
             title: "Imprimir Factura",
             icon: Icons.print,
-            color: Colors.red,
-            onPressed: () {}),
-        ActionCardMenu(
-            title: "Clientes",
-            icon: Icons.person_add_alt,
             color: Colors.red,
             onPressed: () {}),
             

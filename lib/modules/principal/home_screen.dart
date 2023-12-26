@@ -1,7 +1,4 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:aguazullavapp/providers/global/firebase_control.dart';
-import 'package:aguazullavapp/providers/index.dart';
-import 'package:aguazullavapp/ui/principal/providers/firestore_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
