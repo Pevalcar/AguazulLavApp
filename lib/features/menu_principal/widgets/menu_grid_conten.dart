@@ -27,7 +27,7 @@ class MenuGridConten extends StatelessWidget {
         ActionCardMenu(
             title: "Modificar Servicio",
             icon: Icons.edit,
-            color: Colors.red,
+            color: Colors.yellowAccent,
             onPressed: () {}),
         ActionCardMenu(
             title: "Lista de Servicios",

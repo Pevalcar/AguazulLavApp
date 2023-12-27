@@ -1,5 +1,5 @@
 import 'package:aguazullavapp/data/index.dart';
-import 'package:aguazullavapp/model/models.dart';
+import 'package:aguazullavapp/lib.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'list_services_provider.g.dart';

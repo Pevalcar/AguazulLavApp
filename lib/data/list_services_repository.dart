@@ -1,4 +1,4 @@
-import 'package:aguazullavapp/model/models.dart';
+import 'package:aguazullavapp/lib.dart';
 
 class ListServicesRepository {
   Future<List<Vehicle>> GetServicesData() async {
