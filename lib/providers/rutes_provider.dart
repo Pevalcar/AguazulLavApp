@@ -4,6 +4,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'rutes_provider.g.dart';
 
+
+
+
 @riverpod
 GoRouter enrutador(EnrutadorRef ref) {
   final user = ref.watch(firebaseControlProvider);

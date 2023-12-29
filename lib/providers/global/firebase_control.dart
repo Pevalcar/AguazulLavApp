@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,7 +18,11 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 @riverpod
 class FirebaseControl extends _$FirebaseControl {
   Future<User?> _fetch() async {
-    return FirebaseAuth.instance.currentUser;
+    final user = FirebaseAuth.instance.currentUser;
+      debugPrint('user: ${user}');
+    if (user != null) {
+      return user;
+    }
   }
 
   @override

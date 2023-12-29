@@ -44,7 +44,7 @@ List<Vehicle> vv = List.generate(3, (index) {
       address: '',
       bonus: '',
     ),
-    servicios: const ServiceInfo(),
+    servicios: const ServiceType(),
     terminado: false,
     price: '15.000',
     placa: 'ABC-$index',
