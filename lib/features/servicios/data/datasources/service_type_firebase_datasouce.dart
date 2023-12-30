@@ -2,6 +2,7 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class ServiceTypeFireStoreDatasource {
   final CollectionReference _firestore;
@@ -17,8 +18,6 @@ class ServiceTypeFireStoreDatasource {
               ServiceType.fromJson(element.data() as Map<String, dynamic>));
         });
       });
-
-      debugPrint('list: ${list}');
       return list;
     } on FirebaseException catch (e) {
       print(e.toString());
@@ -27,8 +26,10 @@ class ServiceTypeFireStoreDatasource {
   }
 
   void addServiceType(ServiceType service) async {
+    final uuid = Uuid().v4();
+    ServiceType serviceType = service.copyWith(servicioId: uuid);
     try {
-      await _firestore.add(service.toJson());
+      await _firestore.doc(serviceType.servicioId).set(serviceType.toJson());
     } on FirebaseException catch (e) {
       print(e.toString());
     }
@@ -44,7 +45,7 @@ class ServiceTypeFireStoreDatasource {
 
   void modifieServiceType(ServiceType service) async {
     try {
-     await _firestore.doc(service.servicioId).update(service.toJson());
+      await _firestore.doc(service.servicioId).update(service.toJson());
     } on FirebaseException catch (e) {
       print(e.toString());
     }
