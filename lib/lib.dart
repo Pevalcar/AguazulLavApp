@@ -38,7 +38,6 @@ export 'features/principal/providers/providers.dart';
 export 'features/principal/widgets/list_process.dart';
 export 'features/principal/widgets/service_card.dart';
 export 'features/principal/widgets/widgets.dart';
-export 'features/servicios/addService.dart';
 export 'features/servicios/data/data.dart';
 export 'features/servicios/data/datasources/datasources.dart';
 export 'features/servicios/data/datasources/service_type_firebase_datasouce.dart';

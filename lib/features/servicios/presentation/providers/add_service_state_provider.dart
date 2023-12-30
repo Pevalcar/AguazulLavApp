@@ -82,7 +82,7 @@ class ServiceTypeList extends _$ServiceTypeList {
     state = await AsyncValue.guard(() async {
       await ref
           .watch(serviceTypeRepositoryProvider)
-          .modifieServiceType( service);
+          .modifieServiceType(service);
       return loadData();
     });
   }
