@@ -20,7 +20,7 @@ class TypeCardService extends ConsumerWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(typeCardService.nameService),
+          Text(typeCardService.typeVehiculo),
           Checkbox(
             value: value,
             onChanged: (value) => ref.read(vehiculoStateProvider.notifier).selectService(typeCardService),

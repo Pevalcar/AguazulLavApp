@@ -6,7 +6,7 @@ part of 'rutes_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$enrutadorHash() => r'1c1fb75da89110b2cd2f50fc722ae77c168172bd';
+String _$enrutadorHash() => r'e1e693c308327f032647a3a352041826436cc1bf';
 
 /// See also [enrutador].
 @ProviderFor(enrutador)

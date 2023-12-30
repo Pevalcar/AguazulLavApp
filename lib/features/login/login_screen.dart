@@ -111,11 +111,11 @@ class FormLogin extends HookConsumerWidget {
       firebaseControlProvider,
       (previous, next) {
         if (next.asData?.value != null) {
-          _showToast(context, "Bienvenido");
+          showToast(context, "Bienvenido");
           context.go("/principal");
         }
         if (next.asError?.error != null) {
-          _showErrorToast(context, next.asError!.error.toString());
+          showErrorToast(context, next.asError!.error.toString());
         }
       },
     );
@@ -232,43 +232,9 @@ class FormLogin extends HookConsumerWidget {
     );
   }
 
-  void _showToast(BuildContext context, String error) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(error),
-        action: SnackBarAction(
-            label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
-      ),
-    );
-  }
+  
 
-  void _showErrorToast(BuildContext context, String error) {
-    final scaffold = ScaffoldMessenger.of(context);
-    String _error = error;
-
-    if (_error.contains("email-already-in-use")) {
-      _error = "El correo ya se encuentra registrado";
-    } else if (_error.contains("invalid-credential")) {
-      _error = "El usuario o la contraseña son incorrectos";
-    } else if (_error.contains("invalid-email")) {
-      _error = "Email no válido";
-    } else if (_error.contains("user-not-found")) {
-      _error = "Usuario no encontrado";
-    } else if (_error.contains("too-many-requests")) {
-      _error = "Demaciados intetnos fallidos, intente mas tarde o recuperar su contraseña";
-    } else if (_error.contains("popup_closed")) {
-      _error = "Inicio cancelado";
-    }
-    debugPrint(_error);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(_error),
-        action: SnackBarAction(
-            label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
-      ),
-    );
-  }
+  
 
   void _login(
       BuildContext context,
@@ -296,7 +262,7 @@ class FormLogin extends HookConsumerWidget {
         case screensMode.forgot:
           {
             ref.read(firebaseControlProvider.notifier).forgot(mail.text);
-            _showToast(context,
+            showToast(context,
                 "Se ha enviado un correo para recuperar tu contraseña");
             ref.read(screensModeProvider.notifier).toggle(screensMode.login);
           }

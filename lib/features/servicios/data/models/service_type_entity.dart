@@ -16,13 +16,4 @@ class ServiceTypeEntity with _$ServiceTypeEntity {
 
   factory ServiceTypeEntity.fromJson(Map<String, dynamic> json) =>
       _$ServiceTypeEntityFromJson(json);
-
-  factory ServiceTypeEntity.fromEntity(ServiceType service) =>
-      ServiceTypeEntity(
-        servicioId: service.servicioId,
-        nameService: service.nameService,
-        description: service.description,
-        price: service.price,
-        icon: service.icon,
-      );
 }

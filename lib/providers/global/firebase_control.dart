@@ -19,7 +19,6 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 class FirebaseControl extends _$FirebaseControl {
   Future<User?> _fetch() async {
     final user = FirebaseAuth.instance.currentUser;
-      debugPrint('user: ${user}');
     if (user != null) {
       return user;
     }

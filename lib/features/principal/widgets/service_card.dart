@@ -50,7 +50,7 @@ class _CardCarServiceState extends State<CardCarService> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text("Vehiculo: ${widget.vehicle.type.name}"),
-                  Text("Servicio: ${widget.vehicle.servicios!.nameService}"),
+                  Text("Servicio: ${widget.vehicle.servicios!.typeVehiculo}"),
                 ],
               ),
               Column(

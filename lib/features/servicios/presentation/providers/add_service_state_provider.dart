@@ -21,7 +21,8 @@ ServiceTypeFireStoreDatasource serviceTypeFireStoreDatasource(
 }
 
 @riverpod
-ServiceTypeFirebaseRepositoryImpl serviceTypeRepository(ServiceTypeRepositoryRef ref) {
+ServiceTypeFirebaseRepositoryImpl serviceTypeRepository(
+    ServiceTypeRepositoryRef ref) {
   final localDataSource = ref.watch(serviceTypeFireStoreDatasourceProvider);
   return ServiceTypeFirebaseRepositoryImpl(localDataSource);
 }
@@ -65,6 +66,7 @@ class ServiceTypeList extends _$ServiceTypeList {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.watch(serviceTypeRepositoryProvider).addServiceType(service);
+      
       return loadData();
     });
   }
@@ -225,19 +227,31 @@ class ListPropietarios extends _$ListPropietarios {
   }
 }
 
+//TODO fetch de datos sobre base de typos
 @riverpod
-class TyposDeVeiculos extends _$TyposDeVeiculos {
-  @override
-  List<String> build() {
-    return [
-      "Carro",
-      "Camioneta",
-      "Motocicleta",
-      "Bicicleta",
-      "Moto",
-      "Trailer",
-      "Vagoneta",
-      "Otros",
-    ];
-  }
+List<String> TyposDeVeiculos(TyposDeVeiculosRef ref) {
+  final lista = [
+    "BUSETA COLECTIVO",
+    "MOTO",
+    "AUTOMOVIL",
+    "CAMIONETA",
+    "TURBO NKR",
+    "TURBO NPR",
+    "VOLQUETA",
+    "DOBLETROQUE",
+    "GRUA PLANCHON",
+    "CAMION",
+    "PAJARITA",
+    "CABEZOTE MULA",
+    "MOTO CARRO",
+    "CARROTANQUE",
+    "BUS",
+    "BUSETON",
+    "BUSETA",
+    "TRACTOR",
+    "GRUA CON BRAZO",
+  ];
+  lista.sort();
+  lista.add("OTRO.");
+  return lista;
 }

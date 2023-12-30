@@ -9,7 +9,7 @@ class DartMode extends _$DartMode {
   bool mode = true;
   @override
   ThemeMode build() {
-    return ThemeMode.dark;
+    return ThemeMode.system;
   }
 //TODO : toggle the mode save in local storage
   void toggle() {

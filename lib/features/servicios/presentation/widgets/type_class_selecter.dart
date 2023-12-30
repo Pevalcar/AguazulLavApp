@@ -1,22 +1,26 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 class TypedCardSelector extends ConsumerWidget {
-  const TypedCardSelector({super.key});
+  List<String> typesList;
+  String type;
+   TypedCardSelector({required this.typesList, required this.type, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final typesList = ref.watch(typosDeVeiculosProvider);
-    final type = ref.watch(typoDeVehiculoProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(
-          "Tipo de vehiculo:",
-          style: Theme.of(context).textTheme.titleLarge,
+        Flexible(
+          child: Text(
+            "Tipo de vehiculo:",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
         ),
         Flexible(
+          flex: 2,
           child: DropdownButton(
               borderRadius: const BorderRadius.all(Radius.circular(8.0)),
               dropdownColor: Theme.of(context).secondaryHeaderColor,

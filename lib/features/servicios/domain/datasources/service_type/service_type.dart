@@ -6,15 +6,13 @@ part 'service_type.g.dart';
 @freezed
 class ServiceType with _$ServiceType {
   const factory ServiceType({
-    @Default("") String servicioId,
-    @Default("Lavado") String nameService,
-    @Default("") String description,
-    @Default("") String price,
-    @Default("") String icon,
+    @Default('') String servicioId,
+    required String typeVehiculo,
+    required String clase,
+    required String description,
+    required String price, 
   }) = _ServiceType;
 
   factory ServiceType.fromJson(Map<String, dynamic> json) =>
       _$ServiceTypeFromJson(json);
-
-  
 }

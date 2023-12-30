@@ -4,9 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'rutes_provider.g.dart';
 
-
-
-
 @riverpod
 GoRouter enrutador(EnrutadorRef ref) {
   final user = ref.watch(firebaseControlProvider);
@@ -18,10 +15,9 @@ GoRouter enrutador(EnrutadorRef ref) {
           builder: (context, state) => const Login(),
         ),
         GoRoute(
-          path: "/menu",
-          builder: (context, state) => const MainMenuScreen(),
-          routes: []
-        ),
+            path: "/menu",
+            builder: (context, state) => const MainMenuScreen(),
+            routes: []),
         GoRoute(
           path: "/addService",
           builder: (context, state) => const AddServiceScreen(),
@@ -30,6 +26,9 @@ GoRouter enrutador(EnrutadorRef ref) {
           path: "/principal",
           builder: (context, state) => const HomePage(),
         ),
-        
+        GoRoute(
+          path: "/addServiceType",
+          builder: (context, state) => const AddServiceTypeScreen(),
+        )
       ]);
 }

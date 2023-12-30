@@ -6,7 +6,7 @@ part of 'firebase_control.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$firebaseControlHash() => r'7048f7028205696c310a1cff7ac460c51da29f71';
+String _$firebaseControlHash() => r'21d7592c8856767b06d84abce13a15dc76c7af3c';
 
 /// See also [FirebaseControl].
 @ProviderFor(FirebaseControl)

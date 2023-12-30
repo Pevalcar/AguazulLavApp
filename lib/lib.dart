@@ -1,5 +1,7 @@
 export 'app/app.dart';
 export 'app/app_main.dart';
+export 'config/config.dart';
+export 'config/constants.dart';
 export 'data/data.dart';
 export 'data/list_services_repository.dart';
 export 'data/services_type_repository.dart';
@@ -65,6 +67,7 @@ export 'features/servicios/presentation/providers/add_service_state_provider.dar
 export 'features/servicios/presentation/providers/providers.dart';
 export 'features/servicios/presentation/providers/type_services_provider.dart';
 export 'features/servicios/presentation/screens/add_service_screen.dart';
+export 'features/servicios/presentation/screens/add_service_type_screen.dart';
 export 'features/servicios/presentation/screens/screens.dart';
 export 'features/servicios/presentation/widgets/app_bar_add_service.dart';
 export 'features/servicios/presentation/widgets/desktop_ui/desktop_add_service.dart';

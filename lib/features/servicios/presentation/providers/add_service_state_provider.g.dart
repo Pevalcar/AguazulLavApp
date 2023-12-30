@@ -105,6 +105,21 @@ final modifieServiceTypeProvider =
 );
 
 typedef ModifieServiceTypeRef = AutoDisposeProviderRef<ModifieServiceType>;
+String _$typosDeVeiculosHash() => r'88e5eb783584cc3b629be6f287da1f5b3a65bcf8';
+
+/// See also [TyposDeVeiculos].
+@ProviderFor(TyposDeVeiculos)
+final typosDeVeiculosProvider = AutoDisposeProvider<List<String>>.internal(
+  TyposDeVeiculos,
+  name: r'typosDeVeiculosProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$typosDeVeiculosHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef TyposDeVeiculosRef = AutoDisposeProviderRef<List<String>>;
 String _$serviceTypeListHash() => r'7611c457be37a56cded5716fbb63369c290ec3e1';
 
 /// See also [ServiceTypeList].
@@ -212,21 +227,5 @@ final listPropietariosProvider =
 );
 
 typedef _$ListPropietarios = AutoDisposeNotifier<List<User>>;
-String _$typosDeVeiculosHash() => r'6f9213ba43e7d5f4fbff410251d89e001b63d14a';
-
-/// See also [TyposDeVeiculos].
-@ProviderFor(TyposDeVeiculos)
-final typosDeVeiculosProvider =
-    AutoDisposeNotifierProvider<TyposDeVeiculos, List<String>>.internal(
-  TyposDeVeiculos.new,
-  name: r'typosDeVeiculosProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$typosDeVeiculosHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$TyposDeVeiculos = AutoDisposeNotifier<List<String>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

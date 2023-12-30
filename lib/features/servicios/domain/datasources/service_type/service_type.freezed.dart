@@ -21,10 +21,10 @@ ServiceType _$ServiceTypeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ServiceType {
   String get servicioId => throw _privateConstructorUsedError;
-  String get nameService => throw _privateConstructorUsedError;
+  String get typeVehiculo => throw _privateConstructorUsedError;
+  String get clase => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get price => throw _privateConstructorUsedError;
-  String get icon => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,10 +40,10 @@ abstract class $ServiceTypeCopyWith<$Res> {
   @useResult
   $Res call(
       {String servicioId,
-      String nameService,
+      String typeVehiculo,
+      String clase,
       String description,
-      String price,
-      String icon});
+      String price});
 }
 
 /// @nodoc
@@ -60,19 +60,23 @@ class _$ServiceTypeCopyWithImpl<$Res, $Val extends ServiceType>
   @override
   $Res call({
     Object? servicioId = null,
-    Object? nameService = null,
+    Object? typeVehiculo = null,
+    Object? clase = null,
     Object? description = null,
     Object? price = null,
-    Object? icon = null,
   }) {
     return _then(_value.copyWith(
       servicioId: null == servicioId
           ? _value.servicioId
           : servicioId // ignore: cast_nullable_to_non_nullable
               as String,
-      nameService: null == nameService
-          ? _value.nameService
-          : nameService // ignore: cast_nullable_to_non_nullable
+      typeVehiculo: null == typeVehiculo
+          ? _value.typeVehiculo
+          : typeVehiculo // ignore: cast_nullable_to_non_nullable
+              as String,
+      clase: null == clase
+          ? _value.clase
+          : clase // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
           ? _value.description
@@ -81,10 +85,6 @@ class _$ServiceTypeCopyWithImpl<$Res, $Val extends ServiceType>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String,
-      icon: null == icon
-          ? _value.icon
-          : icon // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -100,10 +100,10 @@ abstract class _$$ServiceTypeImplCopyWith<$Res>
   @useResult
   $Res call(
       {String servicioId,
-      String nameService,
+      String typeVehiculo,
+      String clase,
       String description,
-      String price,
-      String icon});
+      String price});
 }
 
 /// @nodoc
@@ -118,19 +118,23 @@ class __$$ServiceTypeImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? servicioId = null,
-    Object? nameService = null,
+    Object? typeVehiculo = null,
+    Object? clase = null,
     Object? description = null,
     Object? price = null,
-    Object? icon = null,
   }) {
     return _then(_$ServiceTypeImpl(
       servicioId: null == servicioId
           ? _value.servicioId
           : servicioId // ignore: cast_nullable_to_non_nullable
               as String,
-      nameService: null == nameService
-          ? _value.nameService
-          : nameService // ignore: cast_nullable_to_non_nullable
+      typeVehiculo: null == typeVehiculo
+          ? _value.typeVehiculo
+          : typeVehiculo // ignore: cast_nullable_to_non_nullable
+              as String,
+      clase: null == clase
+          ? _value.clase
+          : clase // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
           ? _value.description
@@ -140,10 +144,6 @@ class __$$ServiceTypeImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as String,
-      icon: null == icon
-          ? _value.icon
-          : icon // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -152,11 +152,11 @@ class __$$ServiceTypeImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ServiceTypeImpl implements _ServiceType {
   const _$ServiceTypeImpl(
-      {this.servicioId = "",
-      this.nameService = "Lavado",
-      this.description = "",
-      this.price = "",
-      this.icon = ""});
+      {this.servicioId = '',
+      required this.typeVehiculo,
+      required this.clase,
+      required this.description,
+      required this.price});
 
   factory _$ServiceTypeImpl.fromJson(Map<String, dynamic> json) =>
       _$$ServiceTypeImplFromJson(json);
@@ -165,21 +165,17 @@ class _$ServiceTypeImpl implements _ServiceType {
   @JsonKey()
   final String servicioId;
   @override
-  @JsonKey()
-  final String nameService;
+  final String typeVehiculo;
   @override
-  @JsonKey()
+  final String clase;
+  @override
   final String description;
   @override
-  @JsonKey()
   final String price;
-  @override
-  @JsonKey()
-  final String icon;
 
   @override
   String toString() {
-    return 'ServiceType(servicioId: $servicioId, nameService: $nameService, description: $description, price: $price, icon: $icon)';
+    return 'ServiceType(servicioId: $servicioId, typeVehiculo: $typeVehiculo, clase: $clase, description: $description, price: $price)';
   }
 
   @override
@@ -189,18 +185,18 @@ class _$ServiceTypeImpl implements _ServiceType {
             other is _$ServiceTypeImpl &&
             (identical(other.servicioId, servicioId) ||
                 other.servicioId == servicioId) &&
-            (identical(other.nameService, nameService) ||
-                other.nameService == nameService) &&
+            (identical(other.typeVehiculo, typeVehiculo) ||
+                other.typeVehiculo == typeVehiculo) &&
+            (identical(other.clase, clase) || other.clase == clase) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.price, price) || other.price == price) &&
-            (identical(other.icon, icon) || other.icon == icon));
+            (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, servicioId, nameService, description, price, icon);
+      runtimeType, servicioId, typeVehiculo, clase, description, price);
 
   @JsonKey(ignore: true)
   @override
@@ -219,10 +215,10 @@ class _$ServiceTypeImpl implements _ServiceType {
 abstract class _ServiceType implements ServiceType {
   const factory _ServiceType(
       {final String servicioId,
-      final String nameService,
-      final String description,
-      final String price,
-      final String icon}) = _$ServiceTypeImpl;
+      required final String typeVehiculo,
+      required final String clase,
+      required final String description,
+      required final String price}) = _$ServiceTypeImpl;
 
   factory _ServiceType.fromJson(Map<String, dynamic> json) =
       _$ServiceTypeImpl.fromJson;
@@ -230,13 +226,13 @@ abstract class _ServiceType implements ServiceType {
   @override
   String get servicioId;
   @override
-  String get nameService;
+  String get typeVehiculo;
+  @override
+  String get clase;
   @override
   String get description;
   @override
   String get price;
-  @override
-  String get icon;
   @override
   @JsonKey(ignore: true)
   _$$ServiceTypeImplCopyWith<_$ServiceTypeImpl> get copyWith =>
