@@ -3,11 +3,11 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
-class TypeCardService extends ConsumerWidget {
+class ServiceTypeCard extends ConsumerWidget {
   final ServiceType typeCardService;
   final bool value;
 
-  const TypeCardService({
+  const ServiceTypeCard({
     super.key,
     required this.typeCardService,
     required this.value,
@@ -23,7 +23,8 @@ class TypeCardService extends ConsumerWidget {
           Text(typeCardService.typeVehiculo),
           Checkbox(
             value: value,
-            onChanged: (value) => ref.read(vehiculoStateProvider.notifier).selectService(typeCardService),
+            onChanged: (value) {},
+            // onChanged: (value) => ref.read(vehiculoStateProvider.notifier).selectService(typeCardService),
           )
         ],
       ),

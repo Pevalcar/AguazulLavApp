@@ -11,9 +11,10 @@ class AddServiceTypeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final typeSelect = ref.watch(typoDeVehiculoProvider);
-    
+
     final _keyForm = GlobalKey<FormState>();
     final filters = useState<SERVICETYPE?>(null);
+    final typeController = useTextEditingController();
     final descriptionController = useTextEditingController();
     final priceController = useTextEditingController();
 
@@ -35,7 +36,9 @@ class AddServiceTypeScreen extends HookConsumerWidget {
         _keyForm.currentState!.save();
         final service = ServiceType(
           typeVehiculo: typeSelect,
-          clase: filters.value.toString(),
+          clase: typeSelect == "OTRO."
+              ? typeController.text
+              : filters.value.toString().replaceAll("SERVICETYPE.", ""),
           description: descriptionController.text,
           price: priceController.text,
         );
@@ -65,14 +68,46 @@ class AddServiceTypeScreen extends HookConsumerWidget {
                   type: typeSelect,
                 ),
                 spacer,
-                const Text("Servicio"),
+                Text("Servicio", style: Theme.of(context).textTheme.titleLarge),
                 spacer,
-                typeSelect != "OTRO."
-                    ? ServiciosWrap(filters: filters)
-                    : TextFormField(),
+                ...typeSelect != "OTRO."
+                    ? [ServiciosWrap(filters: filters)]
+                    : [
+                        TextFormField(
+                          controller: typeController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor ingresa un tipo de Servicio';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Escribe el tipo de Servicio",
+                            border: UnderlineInputBorder(),
+                            helperText: "Tipo de Servicio",
+                            hintText: "Tipo de Servicio",
+                          ),
+                        ),
+                        Text("Descripción",
+                            style: Theme.of(context).textTheme.titleLarge),
+                        spacer,
+                        _descriptionTetField(
+                          descriptionController: descriptionController,
+                        ),
+                        spacer,
+                        Text("Precio",
+                            style: Theme.of(context).textTheme.titleLarge),
+                        spacer,
+                        _priceTextField(priceController: priceController),
+                        AceptForm(
+                          submit: _submit,
+                        )
+                      ],
                 spacer,
                 filters.value == null
-                    ? const Text("Selecciona un Tipo de Servicio")
+                    ? typeSelect != "OTRO."
+                        ? const Text("Selecciona un Tipo de Servicio")
+                        : spacer
                     : spacer,
                 spacer,
                 ...filters.value == null
@@ -82,70 +117,17 @@ class AddServiceTypeScreen extends HookConsumerWidget {
                         Text("Descripción",
                             style: Theme.of(context).textTheme.titleLarge),
                         spacer,
-                        TextFormField(
-                          controller: descriptionController,
-                          decoration: const InputDecoration(
-                            border: UnderlineInputBorder(),
-                            hintText: "Descripción",
-                            helperText: "Descripción del Servicio",
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor ingresa una descripción';
-                            } else if (value.length > 300) {
-                              return 'La descripción es demasiado larga';
-                            }
-                            return null;
-                          },
-                        ),
+                        _descriptionTetField(
+                            descriptionController: descriptionController),
                         spacer,
                         const Text("Precio"),
                         spacer,
-                        TextFormField(
-                          controller: priceController,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            CurrencyInputFormatter()
-                          ],
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor ingresa un precio';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            border: UnderlineInputBorder(),
-                            hintText: "Precio",
-                            helperText: "Precio del Servicio",
-                          ),
-                        ),
+                        _priceTextField(priceController: priceController),
                         const SizedBox(
                           height: 8,
                         ),
-                        ElevatedButton(
-                          onPressed: () => showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: const Text(
-                                    "¿Estas seguro de agregar este servicio?",
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text("Cancelar"),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: const Text("Guardar"),
-                                      onPressed: _submit,
-                                    )
-                                  ],
-                                );
-                              }),
-                          child: const Text("Guardar"),
+                        AceptForm(
+                          submit: _submit,
                         )
                       ],
               ],
@@ -153,6 +135,103 @@ class AddServiceTypeScreen extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class AceptForm extends StatelessWidget {
+  final VoidCallback submit;
+  AceptForm({
+    super.key,
+    required this.submit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: const Text(
+                "¿Estas seguro de agregar este servicio?",
+              ),
+              actions: [
+                TextButton(
+                  child: const Text("Cancelar"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                TextButton(
+                  child: const Text("Guardar"),
+                  onPressed: submit,
+                )
+              ],
+            );
+          }),
+      child: const Text("Guardar"),
+    );
+  }
+}
+
+class _priceTextField extends StatelessWidget {
+  const _priceTextField({
+    super.key,
+    required this.priceController,
+  });
+
+  final TextEditingController priceController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: priceController,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        CurrencyInputFormatter()
+      ],
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Por favor ingresa un precio';
+        }
+        return null;
+      },
+      decoration: const InputDecoration(
+        border: UnderlineInputBorder(),
+        hintText: "Precio",
+        helperText: "Precio del Servicio",
+      ),
+    );
+  }
+}
+
+class _descriptionTetField extends StatelessWidget {
+  const _descriptionTetField({
+    super.key,
+    required this.descriptionController,
+  });
+
+  final TextEditingController descriptionController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: descriptionController,
+      decoration: const InputDecoration(
+        border: UnderlineInputBorder(),
+        hintText: "Descripción",
+        helperText: "Descripción del Servicio",
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Por favor ingresa una descripción';
+        } else if (value.length > 300) {
+          return 'La descripción es demasiado larga';
+        }
+        return null;
+      },
     );
   }
 }

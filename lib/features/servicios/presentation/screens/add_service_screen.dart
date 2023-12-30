@@ -18,23 +18,4 @@ class AddServiceScreen extends HookConsumerWidget {
   }
 }
 
-//get camera
-getFromCamera(VehiculoState ref) async {
-  XFile? pickedFile = (await ImagePicker().pickImage(
-    source: ImageSource.camera,
-    maxWidth: 1800,
-    maxHeight: 1800,
-  ));
-  if (pickedFile != null) {
-    // ref.addPhoto(pickedFile.path);
-  }
-}
-
-/// Get from gallery
-getFromGallery(VehiculoState ref) async {
-  final ImagePicker picker = ImagePicker();
-  final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-  if (image != null) {
-    // ref.addPhoto(image.path);
-  }
-}
+//get camer

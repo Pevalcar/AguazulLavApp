@@ -17,7 +17,7 @@ class AppBarAddService extends HookConsumerWidget {
         const DarkModeButton(),
         mobile ? const SizedBox() :IconButton(
               icon: const Icon(Icons.add),
-              onPressed: vehiculo.terminado
+              onPressed: vehiculo.asData?.value.terminado ?? false
                   ? null
                   : () {
                       //TODO add service

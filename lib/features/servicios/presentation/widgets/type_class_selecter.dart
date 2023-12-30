@@ -1,12 +1,11 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 class TypedCardSelector extends ConsumerWidget {
   List<String> typesList;
   String type;
-   TypedCardSelector({required this.typesList, required this.type, super.key});
+  TypedCardSelector({required this.typesList, required this.type, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

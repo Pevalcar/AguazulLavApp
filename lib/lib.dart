@@ -63,6 +63,7 @@ export 'features/servicios/domain/usecases/service_info/modifie_serviceInfo.dart
 export 'features/servicios/domain/usecases/service_info/service_info.dart';
 export 'features/servicios/domain/usecases/usecases.dart';
 export 'features/servicios/presentation/presentation.dart';
+export 'features/servicios/presentation/providers/add_service_providers.dart';
 export 'features/servicios/presentation/providers/add_service_state_provider.dart';
 export 'features/servicios/presentation/providers/providers.dart';
 export 'features/servicios/presentation/providers/type_services_provider.dart';

@@ -11,19 +11,25 @@ import '../type_card_selectable.dart';
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});
 
+  _submit( WidgetRef ref ) {
+    //TODO
+    // ref.read(vehiculoStateProvider.notifier).();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final vehicle = ref.watch(vehiculoStateProvider);
+    final typeService = ref.watch(typoDeVehiculoProvider);
 
     return Scaffold(
         appBar: AppBar(
           title: const Text('Información del vehiculo'),
-          actions: [const AppBarAddService(mobile: false)],
+          actions: const [AppBarAddService(mobile: false)],
         ),
         body: SingleChildScrollView(
           child: Column(children: [
             Text(
-              "Factura Numero: ${vehicle.id}",
+              "Factura Numero: ${vehicle.asData?.value.id}",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -34,9 +40,11 @@ class MobileAddService extends HookConsumerWidget {
             //TODO  renombrar la clase de la card esa y agregar que en otro se pueda colocar precio y descripccion
             TypedCardSelector(
               typesList: ref.watch(typosDeVeiculosProvider),
-              type: ref.watch(typoDeVehiculoProvider),
+              type: typeService,
             ),
-            TypeCardSelectable(),
+            typeService == "OTRO."
+                ? const OtroOptions()
+                : ServiceTypeSelecte(type: typeService),
             const TimerDataShow(),
           ]),
         ),
@@ -48,8 +56,8 @@ class MobileAddService extends HookConsumerWidget {
                 : (Platform.isAndroid && Platform.isIOS)
                     ? FloatingActionButton(
                         onPressed: () {
-                          getFromCamera(
-                              ref.read(vehiculoStateProvider.notifier));
+                          // getFromCamera(
+                          //     ref.read(vehiculoStateProvider.notifier));
                         },
                         child: const Icon(Icons.camera_alt),
                       )
@@ -63,5 +71,20 @@ class MobileAddService extends HookConsumerWidget {
             ),
           ],
         ));
+  }
+}
+
+class OtroOptions extends StatelessWidget {
+  const OtroOptions({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final _keyForm = GlobalKey<FormState>();
+    return Form(
+      key: _keyForm,
+      child: const Text("Servicio"),
+    );
   }
 }
