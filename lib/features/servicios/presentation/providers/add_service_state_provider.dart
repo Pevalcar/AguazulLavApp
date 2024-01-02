@@ -51,6 +51,7 @@ ModifieServiceType modifieServiceType(ModifieServiceTypeRef ref) {
   return ModifieServiceType(repository);
 }
 
+//!Clase que se encarga de cargar los datos
 @riverpod
 class ServiceTypeList extends _$ServiceTypeList {
   @override
@@ -59,13 +60,13 @@ class ServiceTypeList extends _$ServiceTypeList {
   }
 
   Future<List<ServiceType>?> loadData() async {
-    return await ref.watch(serviceTypeRepositoryProvider).GetServicesInfo();
+    return await ref.read(getServiceTypeProvider).call();
   }
 
   void addServiceType(ServiceType service) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref.watch(serviceTypeRepositoryProvider).addServiceType(service);
+      await ref.watch(addServiceTypeProvider).call(service);
       
       return loadData();
     });
@@ -74,7 +75,7 @@ class ServiceTypeList extends _$ServiceTypeList {
   void deleteServiceType(ServiceType service) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref.watch(serviceTypeRepositoryProvider).deleteServiceType(service);
+      await ref.watch(deleteServiceTypeProvider).call(service);
       return loadData();
     });
   }
@@ -83,8 +84,8 @@ class ServiceTypeList extends _$ServiceTypeList {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref
-          .watch(serviceTypeRepositoryProvider)
-          .modifieServiceType(service);
+          .watch(modifieServiceTypeProvider)
+          .call(service);
       return loadData();
     });
   }

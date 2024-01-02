@@ -1,9 +1,33 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "add_service_providers.g.dart";
+
+@riverpod
+PhotoDataResource PhotoDataResourcer(PhotoDataResourcerRef ref) {
+  final dataResource = FirebaseStorage.instance.ref();
+  return PhotoDataResource(dataResource);
+}
+
+@riverpod
+PhotoDataRepositoryImpl PhotoDataRepositoryp(PhotoDataRepositorypRef ref) {
+  final localDataSource = ref.watch(photoDataResourcerProvider);
+  return PhotoDataRepositoryImpl(localDataSource);
+}
+
+@riverpod
+AddPhoto AddPhotoGrafie(AddPhotoGrafieRef ref) {
+  final repository = ref.watch(photoDataRepositorypProvider);
+  return AddPhoto(repository);
+}
+
+@riverpod
+DeletePhoto DeletePhotoGrafie(DeletePhotoGrafieRef ref) {
+  final repository = ref.watch(photoDataRepositorypProvider);
+  return DeletePhoto(repository);
+}
 
 @riverpod
 class VehiculoState extends _$VehiculoState {
@@ -16,48 +40,34 @@ class VehiculoState extends _$VehiculoState {
   }
 }
 
-
 //TODO optimizar subida de datos a la red
 //provider photo
 @riverpod
 class PhotoVehicule extends _$PhotoVehicule {
+  late XFile _temp;
   @override
-  String? build() {
+  FutureOr<String?> build() {
     return null;
   }
 
-  void modifyPhoto(String photo) {
-    state = photo;
+  void modifyPhoto(String photo) async {
+    state = AsyncValue.data(photo);
   }
 
-  void findPhotoCamera() async {
-    state = await getFromCamera();
+  void uploadPhoto(XFile photo) async {
+    _temp = photo;
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return await ref.read(addPhotoGrafieProvider).call(_temp);
+    });
   }
 
-  void findPhotoGallery() async {
-    state = await getFromGallery();
-  }
-
-  getFromCamera() async {
-    XFile? pickedFile = (await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      maxWidth: 1800,
-      maxHeight: 1800,
-      imageQuality: 100,
-    ) );
-    if (pickedFile != null) {
-      state = pickedFile.path;
-    }
-  }
-
-  /// Get from gallery
-  getFromGallery() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery,imageQuality:  100,)
-    ;
-    if (image != null) {
-      state = image.path;
-    }
+  void deletePhoto() async {
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(deletePhotoGrafieProvider).call(_temp);
+      return null;
+    });
   }
 }
 

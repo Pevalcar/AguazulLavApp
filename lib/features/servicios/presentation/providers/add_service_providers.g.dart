@@ -6,6 +6,71 @@ part of 'add_service_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$photoDataResourcerHash() =>
+    r'5216221b2d1137aaced47f4ef4898d98ea8b2a84';
+
+/// See also [PhotoDataResourcer].
+@ProviderFor(PhotoDataResourcer)
+final photoDataResourcerProvider =
+    AutoDisposeProvider<PhotoDataResource>.internal(
+  PhotoDataResourcer,
+  name: r'photoDataResourcerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$photoDataResourcerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef PhotoDataResourcerRef = AutoDisposeProviderRef<PhotoDataResource>;
+String _$photoDataRepositorypHash() =>
+    r'048a895993e4833e4b7c56322c1c3e556ee6b5b9';
+
+/// See also [PhotoDataRepositoryp].
+@ProviderFor(PhotoDataRepositoryp)
+final photoDataRepositorypProvider =
+    AutoDisposeProvider<PhotoDataRepositoryImpl>.internal(
+  PhotoDataRepositoryp,
+  name: r'photoDataRepositorypProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$photoDataRepositorypHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef PhotoDataRepositorypRef
+    = AutoDisposeProviderRef<PhotoDataRepositoryImpl>;
+String _$addPhotoGrafieHash() => r'350c71fb1a723efbd1d206ccc98150a36eccd8fd';
+
+/// See also [AddPhotoGrafie].
+@ProviderFor(AddPhotoGrafie)
+final addPhotoGrafieProvider = AutoDisposeProvider<AddPhoto>.internal(
+  AddPhotoGrafie,
+  name: r'addPhotoGrafieProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$addPhotoGrafieHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AddPhotoGrafieRef = AutoDisposeProviderRef<AddPhoto>;
+String _$deletePhotoGrafieHash() => r'995bdd486b168679dec27a2b51af459672ed6b0c';
+
+/// See also [DeletePhotoGrafie].
+@ProviderFor(DeletePhotoGrafie)
+final deletePhotoGrafieProvider = AutoDisposeProvider<DeletePhoto>.internal(
+  DeletePhotoGrafie,
+  name: r'deletePhotoGrafieProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$deletePhotoGrafieHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef DeletePhotoGrafieRef = AutoDisposeProviderRef<DeletePhoto>;
 String _$vehiculoStateHash() => r'eb95e8f215154f41b93e3196aec154b2eb7ed8ed';
 
 /// See also [VehiculoState].
@@ -22,12 +87,12 @@ final vehiculoStateProvider =
 );
 
 typedef _$VehiculoState = AutoDisposeAsyncNotifier<Vehicle>;
-String _$photoVehiculeHash() => r'882036224333c73865dae265c673365117dd2547';
+String _$photoVehiculeHash() => r'c641213d1750c5208f8857b4dc018410fcda1738';
 
 /// See also [PhotoVehicule].
 @ProviderFor(PhotoVehicule)
 final photoVehiculeProvider =
-    AutoDisposeNotifierProvider<PhotoVehicule, String?>.internal(
+    AutoDisposeAsyncNotifierProvider<PhotoVehicule, String?>.internal(
   PhotoVehicule.new,
   name: r'photoVehiculeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -37,7 +102,7 @@ final photoVehiculeProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$PhotoVehicule = AutoDisposeNotifier<String?>;
+typedef _$PhotoVehicule = AutoDisposeAsyncNotifier<String?>;
 String _$placaHash() => r'f84eaaed1b7c8d30a573ac8d1d1d4a7d5e350c25';
 
 /// See also [Placa].
