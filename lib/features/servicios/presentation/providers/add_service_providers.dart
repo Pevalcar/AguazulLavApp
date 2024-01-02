@@ -1,33 +1,7 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "add_service_providers.g.dart";
-
-@riverpod
-PhotoDataResource PhotoDataResourcer(PhotoDataResourcerRef ref) {
-  final dataResource = FirebaseStorage.instance.ref();
-  return PhotoDataResource(dataResource);
-}
-
-@riverpod
-PhotoDataRepositoryImpl PhotoDataRepositoryp(PhotoDataRepositorypRef ref) {
-  final localDataSource = ref.watch(photoDataResourcerProvider);
-  return PhotoDataRepositoryImpl(localDataSource);
-}
-
-@riverpod
-AddPhoto AddPhotoGrafie(AddPhotoGrafieRef ref) {
-  final repository = ref.watch(photoDataRepositorypProvider);
-  return AddPhoto(repository);
-}
-
-@riverpod
-DeletePhoto DeletePhotoGrafie(DeletePhotoGrafieRef ref) {
-  final repository = ref.watch(photoDataRepositorypProvider);
-  return DeletePhoto(repository);
-}
 
 @riverpod
 class VehiculoState extends _$VehiculoState {
@@ -35,41 +9,11 @@ class VehiculoState extends _$VehiculoState {
   FutureOr<Vehicle> build() => Vehicle();
 
   void setDataVehicle(Vehicle vehicle) {
-    state = AsyncValue.loading();
+    state = const AsyncValue.loading();
     state = AsyncValue.data(vehicle);
   }
 }
 
-//TODO optimizar subida de datos a la red
-//provider photo
-@riverpod
-class PhotoVehicule extends _$PhotoVehicule {
-  late XFile _temp;
-  @override
-  FutureOr<String?> build() {
-    return null;
-  }
-
-  void modifyPhoto(String photo) async {
-    state = AsyncValue.data(photo);
-  }
-
-  void uploadPhoto(XFile photo) async {
-    _temp = photo;
-    state = AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      return await ref.read(addPhotoGrafieProvider).call(_temp);
-    });
-  }
-
-  void deletePhoto() async {
-    state = AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      await ref.read(deletePhotoGrafieProvider).call(_temp);
-      return null;
-    });
-  }
-}
 
 @riverpod
 class Placa extends _$Placa {
@@ -87,7 +31,7 @@ class Placa extends _$Placa {
 class Propietario extends _$Propietario {
   @override
   User build() {
-    return User();
+    return const User();
   }
 
   void modifyPropietario(User propietario) {
@@ -131,14 +75,14 @@ class ListPropietarios extends _$ListPropietarios {
   @override
   List<User> build() {
     return <User>[
-      User(name: 'Alice', email: 'alice@example.com'),
-      User(name: 'Bob', email: 'bob@example.com'),
-      User(name: 'Charlie', email: 'charlie123@gmail.com'),
+      const User(name: 'Alice', email: 'alice@example.com'),
+      const User(name: 'Bob', email: 'bob@example.com'),
+      const User(name: 'Charlie', email: 'charlie123@gmail.com'),
     ];
   }
 
   addPropietario() {
-    final user = User(name: "PEdro", email: "pedro@pedro");
+    final user = const User(name: "PEdro", email: "pedro@pedro");
     state = [...state, user];
   }
 }

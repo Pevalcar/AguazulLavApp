@@ -6,72 +6,7 @@ part of 'add_service_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$photoDataResourcerHash() =>
-    r'5216221b2d1137aaced47f4ef4898d98ea8b2a84';
-
-/// See also [PhotoDataResourcer].
-@ProviderFor(PhotoDataResourcer)
-final photoDataResourcerProvider =
-    AutoDisposeProvider<PhotoDataResource>.internal(
-  PhotoDataResourcer,
-  name: r'photoDataResourcerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$photoDataResourcerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef PhotoDataResourcerRef = AutoDisposeProviderRef<PhotoDataResource>;
-String _$photoDataRepositorypHash() =>
-    r'048a895993e4833e4b7c56322c1c3e556ee6b5b9';
-
-/// See also [PhotoDataRepositoryp].
-@ProviderFor(PhotoDataRepositoryp)
-final photoDataRepositorypProvider =
-    AutoDisposeProvider<PhotoDataRepositoryImpl>.internal(
-  PhotoDataRepositoryp,
-  name: r'photoDataRepositorypProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$photoDataRepositorypHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef PhotoDataRepositorypRef
-    = AutoDisposeProviderRef<PhotoDataRepositoryImpl>;
-String _$addPhotoGrafieHash() => r'350c71fb1a723efbd1d206ccc98150a36eccd8fd';
-
-/// See also [AddPhotoGrafie].
-@ProviderFor(AddPhotoGrafie)
-final addPhotoGrafieProvider = AutoDisposeProvider<AddPhoto>.internal(
-  AddPhotoGrafie,
-  name: r'addPhotoGrafieProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$addPhotoGrafieHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AddPhotoGrafieRef = AutoDisposeProviderRef<AddPhoto>;
-String _$deletePhotoGrafieHash() => r'995bdd486b168679dec27a2b51af459672ed6b0c';
-
-/// See also [DeletePhotoGrafie].
-@ProviderFor(DeletePhotoGrafie)
-final deletePhotoGrafieProvider = AutoDisposeProvider<DeletePhoto>.internal(
-  DeletePhotoGrafie,
-  name: r'deletePhotoGrafieProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$deletePhotoGrafieHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef DeletePhotoGrafieRef = AutoDisposeProviderRef<DeletePhoto>;
-String _$vehiculoStateHash() => r'eb95e8f215154f41b93e3196aec154b2eb7ed8ed';
+String _$vehiculoStateHash() => r'46bff804e8a1bb7eec5b91a5c2f08cc3a6f0b125';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)
@@ -87,22 +22,6 @@ final vehiculoStateProvider =
 );
 
 typedef _$VehiculoState = AutoDisposeAsyncNotifier<Vehicle>;
-String _$photoVehiculeHash() => r'c641213d1750c5208f8857b4dc018410fcda1738';
-
-/// See also [PhotoVehicule].
-@ProviderFor(PhotoVehicule)
-final photoVehiculeProvider =
-    AutoDisposeAsyncNotifierProvider<PhotoVehicule, String?>.internal(
-  PhotoVehicule.new,
-  name: r'photoVehiculeProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$photoVehiculeHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$PhotoVehicule = AutoDisposeAsyncNotifier<String?>;
 String _$placaHash() => r'f84eaaed1b7c8d30a573ac8d1d1d4a7d5e350c25';
 
 /// See also [Placa].
@@ -117,7 +36,7 @@ final placaProvider = AutoDisposeNotifierProvider<Placa, String>.internal(
 );
 
 typedef _$Placa = AutoDisposeNotifier<String>;
-String _$propietarioHash() => r'5c6bdc4d963330f258b31ef9b66781f796a07d9f';
+String _$propietarioHash() => r'bb02799c82bda4c9a292f28e1ccd8dc937adedc5';
 
 /// See also [Propietario].
 @ProviderFor(Propietario)
@@ -162,7 +81,7 @@ final isLoadingProvider = AutoDisposeNotifierProvider<IsLoading, bool>.internal(
 );
 
 typedef _$IsLoading = AutoDisposeNotifier<bool>;
-String _$listPropietariosHash() => r'ed58a7162265c283eaeea6d5083babcdb57e7ad8';
+String _$listPropietariosHash() => r'4d042ea33210b9262df4fb8798d57c7bc3001e0d';
 
 /// See also [ListPropietarios].
 @ProviderFor(ListPropietarios)

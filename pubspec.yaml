@@ -37,6 +37,7 @@ dependencies:
   riverpod_generator: ^2.3.1
   riverpod_lint: ^2.0.3
   sign_button: ^2.0.6
+  skeletonizer: ^0.9.0
   transparent_image: ^2.0.1
   uuid: ^4.2.2
 

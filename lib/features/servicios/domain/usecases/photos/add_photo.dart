@@ -6,7 +6,7 @@ class AddPhoto {
   final PhotoDataRepository serviceInfoRepository;
   AddPhoto(this.serviceInfoRepository);
 
-  Future<String> call( XFile service) async {
+  Future<PhotoState> call( XFile service) async {
     return serviceInfoRepository.addPhoto( service);
   }
 }

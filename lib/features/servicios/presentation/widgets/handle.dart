@@ -4,9 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+//TODO implementar la edicion solo para administradores
 class Handled extends HookConsumerWidget {
-  const Handled({super.key});
+  final bool isEdit;
+  const Handled({
+    super.key,
+    this.isEdit = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,41 +20,89 @@ class Handled extends HookConsumerWidget {
     final id = useState("");
 
     ref.listen(vehiculoStateProvider, (previous, next) {
-      if (next.asData?.value.id != "" && next.asData?.value.id != null) {
+      if (isEdit) {
         id.value = next.asData!.value.id;
         ref
             .read(photoVehiculeProvider.notifier)
             .modifyPhoto(next.asData!.value.photo);
       }
     });
+    ref.listen(photoVehiculeProvider, (previous, next) {
+      if (previous?.asData?.value?.message != next.asData?.value?.message) {
+        if (next.asData?.value?.message != ""  && next.asData?.value?.message != null) {
+          showToast(context, next.asData?.value?.message ?? "");
+        }
+      }
+    });
 
-    return SizedBox(
-        height: 200,
-        child: Hero(
-          tag: id,
-          child: GestureDetector(
-            onTap: () => getFromCamera(context),
-            onLongPress: () => showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Image.network(photo.asData?.value ?? ""),
-                  ]),
-                );
-              },
-            ),
+    return Column(
+      children: [
+        SizedBox(
+          height: 250,
+          child: Hero(
+            tag: id,
             child: photo.when(
-                data: (data) => Image.network(data ?? ""),
-                error: (error, stackTrace) => Text('Error: $error'),
-                loading: () => CircularProgressIndicator()),
+              data: (data) {
+                return data?.url == null || data?.url == ""
+                    ? Assets.images.placeholder.image()
+                    : PhotoView(url: data?.url ?? "");
+              },
+              error: (error, stackTrace) => Text('Error: $error'),
+              loading: () => Skeletonizer(
+                enabled: true,
+                child: Assets.images.placeholder.image(),
+              ),
+            ),
+            // LoadPhotoUrl(photo: photo)
           ),
-        )
-        // LoadPhotoUrl(photo: photo)
-        );
+        ),
+        const SizedBox(height: 10),
+        const Text("Selecciona una imagen"),
+        const SizedBox(height: 10),
+
+        //TODO implementar la edicion solo para administradores y solo en moviles las acciones
+        photo.asData?.value?.url != null && !isEdit
+            ? Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                const SizedBox(width: 10),
+                CloseButton(
+                  onPressed: () => ref
+                      .read(photoVehiculeProvider.notifier)
+                      .deletePhoto( null),
+                )
+              ])
+            : Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                const SizedBox(width: 10),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () => getFromCamera(
+                        (photo) => _showImagePickerDialog(photo, context)),
+                    child: const Icon(Icons.camera_alt),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () => getFromGallery(
+                        (photo) => _showImagePickerDialog(photo, context)),
+                    child: const Icon(Icons.photo_library_rounded),
+                  ),
+                ),
+                const SizedBox(width: 10),
+              ])
+      ],
+    );
   }
 
-  getFromCamera(BuildContext context) async {
+  void _showImagePickerDialog(XFile image, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ConfirmImagePickerDialog(pickedFile: image);
+      },
+    );
+  }
+
+  void getFromCamera(Function(XFile) onImageSelected) async {
     XFile? pickedFile = (await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxWidth: 900,
@@ -56,28 +110,42 @@ class Handled extends HookConsumerWidget {
       imageQuality: 50,
     ));
     if (pickedFile != null) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return ConfirmImagePickerDialog(pickedFile: pickedFile);
-          });
+      onImageSelected(pickedFile);
     }
   }
 
-  /// Get from gallery
-  getFromGallery(BuildContext context) async {
+  void getFromGallery(Function(XFile) onImageSelected) async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(
       source: ImageSource.gallery,
+      maxWidth: 900,
+      maxHeight: 900,
       imageQuality: 50,
     );
     if (image != null) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return ConfirmImagePickerDialog(pickedFile: image);
-          });
+      onImageSelected(image);
     }
+  }
+}
+
+class PhotoView extends StatelessWidget {
+  final String url;
+  const PhotoView({super.key, required this.url});
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(mainAxisSize: MainAxisSize.min, children: [
+              Image.network(url),
+            ]),
+          );
+        },
+      ),
+      child: Image.network(url),
+    );
   }
 }
 
@@ -93,7 +161,7 @@ class ConfirmImagePickerDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint('pickedFile: ${pickedFile?.name}');
     return AlertDialog(
-        title: Text("¿Seguro que desea subir esta imagen?"),
+        title: const Text("¿Seguro que desea subir esta imagen?"),
         content: Image.file(
           File(pickedFile!.path),
         ),
@@ -112,30 +180,5 @@ class ConfirmImagePickerDialog extends HookConsumerWidget {
             child: const Text("Subir"),
           )
         ]);
-  }
-}
-
-class LoadPhotoUrl extends StatelessWidget {
-  const LoadPhotoUrl({
-    super.key,
-    required this.photo,
-  });
-
-  final String? photo;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        const CircularProgressIndicator(),
-        Image.network(
-          photo == null
-              ? "https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png?alt=media&token=014c8681-7981-49cc-9f9a-0e9b1894c84c"
-              : photo!,
-          fit: BoxFit.cover,
-        ),
-      ],
-    );
   }
 }

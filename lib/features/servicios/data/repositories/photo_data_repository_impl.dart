@@ -7,12 +7,12 @@ class PhotoDataRepositoryImpl implements PhotoDataRepository {
   PhotoDataRepositoryImpl(this._localDataSource);
 
   @override
-  Future<String> addPhoto(XFile photo) async {
+  Future<PhotoState> addPhoto(XFile photo) async {
     return _localDataSource.addPhoto(photo);
   }
 
   @override
-  Future<void> deletePhoto(XFile service) async {
-    _localDataSource.deletePhoto(service);
+  Future<PhotoState> deletePhoto(XFile service) async {
+   return _localDataSource.deletePhoto(service);
   }
 }
