@@ -11,5 +11,5 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(DevicePreview(enabled: !kReleaseMode, builder:(context) =>  const ProviderScope(child: MyApp())));
+  runApp(  const ProviderScope(child: MyApp()));
 }

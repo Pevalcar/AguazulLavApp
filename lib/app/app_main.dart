@@ -20,9 +20,6 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(enrutadorProvider),
 
-      useInheritedMediaQuery:  true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:aguazullavapp/core/widgets/carcgas_desde_cache.dart';
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -44,13 +45,13 @@ class Handled extends HookConsumerWidget {
             child: photo.when(
               data: (data) {
                 return data?.url == null || data?.url == ""
-                    ? Assets.images.placeholder.image()
+                    ? Assets.images.placeolder.image()
                     : PhotoView(url: data?.url ?? "");
               },
               error: (error, stackTrace) => Text('Error: $error'),
               loading: () => Skeletonizer(
                 enabled: true,
-                child: Assets.images.placeholder.image(),
+                child: Assets.images.placeolder.image(),
               ),
             ),
             // LoadPhotoUrl(photo: photo)
@@ -139,12 +140,12 @@ class PhotoView extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             content: Column(mainAxisSize: MainAxisSize.min, children: [
-              Image.network(url),
+              CarcgasDesdeCache(imageUrl: url),
             ]),
           );
         },
       ),
-      child: Image.network(url),
+      child: CarcgasDesdeCache(imageUrl: url),
     );
   }
 }

@@ -71,7 +71,7 @@ class TitleHandles extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Assets.images.pruebaCopy2
+        Assets.images.placeolder
             .image(alignment: Alignment.center, height: 80, width: 80),
         const SizedBox(height: 16),
         Text(

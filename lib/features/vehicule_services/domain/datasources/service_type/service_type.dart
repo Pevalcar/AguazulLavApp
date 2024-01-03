@@ -5,6 +5,7 @@ part 'service_type.g.dart';
 
 @freezed
 class ServiceType with _$ServiceType {
+  //TODO is obsolete? , optener solo informacion que necesita, precio y tipo
   const factory ServiceType({
     @Default('') String servicioId,
     @Default('') String typeVehiculo,

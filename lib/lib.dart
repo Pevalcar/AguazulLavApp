@@ -43,7 +43,6 @@ export 'features/principal/list_vehiculos.dart';
 export 'features/principal/principal.dart';
 export 'features/principal/providers/firestore_provider.dart';
 export 'features/principal/providers/providers.dart';
-export 'features/principal/widgets/list_process.dart';
 export 'features/principal/widgets/service_card.dart';
 export 'features/principal/widgets/widgets.dart';
 export 'features/vehicule_services/data/data.dart';
