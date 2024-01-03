@@ -32,8 +32,8 @@ class MenuGridConten extends StatelessWidget {
         ActionCardMenu(
             title: "Lista de Servicios",
             icon: Icons.list_alt,
-            color: Colors.red,
-            onPressed: () {}),
+            color: Theme.of(context).colorScheme.secondary,
+            onPressed: () { GoRouter.of(context).push('/listvehiculos'); }),
         ActionCardMenu(
             title: "Clientes",
             icon: Icons.person_add_alt,

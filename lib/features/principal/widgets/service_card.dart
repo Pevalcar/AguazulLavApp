@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:aguazullavapp/lib.dart';
-import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:transparent_image/transparent_image.dart';
 
-class CardCarService extends StatefulWidget {
+class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
 
   const CardCarService({
@@ -16,111 +12,51 @@ class CardCarService extends StatefulWidget {
   });
 
   @override
-  State<CardCarService> createState() => _CardCarServiceState();
-}
-
-class _CardCarServiceState extends State<CardCarService> {
-  final GlobalKey<ExpansionTileCardState> _cardKey = GlobalKey();
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _controller = ExpansionTileController();
     return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: ExpansionTileCard(
-        key: _cardKey,
-        shadowColor: (widget.vehicle.terminado) ? Colors.green : Colors.red,
-        elevation: 7,
-        initialElevation: 5,
-        expandedTextColor: Theme.of(context).colorScheme.onSurface,
-        title: Text(
-          "Propietario: ${widget.vehicle.propietario.name}",
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
+      padding: const EdgeInsets.all(8.0),
+      child: ExpansionTile(
+        controller: _controller,
+        collapsedShape: RoundedRectangleBorder(
+            side: BorderSide(
+                width: 1, color: Theme.of(context).colorScheme.outline),
+            borderRadius: BorderRadius.circular(
+              10.0,
+            )),
+        shape: RoundedRectangleBorder(
+            side: BorderSide(
+                width: 1, color: Theme.of(context).colorScheme.outline),
+            borderRadius: BorderRadius.circular(
+              50.0,
+            )),
+        title: Row(
+          children: [
+            Icon(
+              Icons.numbers,
+            ),
+            Text(
+              "${vehicle.placa == "" ? "FXL000" : vehicle.placa}",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
-        leading: Hero(
-          tag: widget.vehicle.id,
-          child: widget.vehicle.photo.contains("https://")
-              ? _LoadPhotoUrl(widget: widget)
-              : _LoadPhotoFile(widget: widget),
-        ),
-        subtitle: ClipRect(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text("Vehiculo: ${widget.vehicle.type.name}"),
-                  Text("Servicio: ${widget.vehicle.servicios!.typeVehiculo}"),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text("Entrada: ${widget.vehicle.entrada}"),
-                  Text("Salida: ${widget.vehicle.salida}"),
-                ],
-              ),
-            ],
-          ),
-        ),
-        trailing: Text(" \$ ${widget.vehicle.price}"),
+        subtitle: Text("Entrada: ${vehicle.entrada}"),
+        trailing: Text(" \$ ${vehicle.typeid}"),
         children: [
-          ContentExpand(cardKey: _cardKey, vehicle: widget.vehicle),
+          ContentExpand(vehicle: vehicle),
         ],
       ),
     );
   }
 }
 
-class _LoadPhotoUrl extends StatelessWidget {
-  const _LoadPhotoUrl({
-    super.key,
-    required this.widget,
-  });
-
-  final CardCarService widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        const CircularProgressIndicator(), FadeInImage.memoryNetwork(
-                height: 50,
-                width: 50,
-                image: widget.vehicle.photo,
-                placeholder: kTransparentImage,
-                fit: BoxFit.scaleDown)
-    
-    ] ); 
-  }
-}
-
-class _LoadPhotoFile extends StatelessWidget {
-  const _LoadPhotoFile({
-    super.key,
-    required this.widget,
-  });
-
-  final CardCarService widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.file(
-      File(widget.vehicle.photo),
-      fit: BoxFit.scaleDown,
-      height: 50,
-      width: 50,
-    );
-  }
-}
-
 class ContentExpand extends ConsumerWidget {
-  final GlobalKey<ExpansionTileCardState> cardKey;
   final Vehicle vehicle;
 
   const ContentExpand({
-    required this.cardKey,
+    super.key,
     required this.vehicle,
   });
 
@@ -143,7 +79,7 @@ class ContentExpand extends ConsumerWidget {
           onPressed: () {
             context.go("/vehicle/${vehicle.id}");
             // ref.read(vehiculoStateProvider.notifier).modifierVehicle(vehicle);
-            cardKey.currentState?.collapse();
+            // cardKey.currentState?.collapse();
           },
           child: const Column(
             children: <Widget>[
@@ -160,7 +96,7 @@ class ContentExpand extends ConsumerWidget {
             style: myStileButton,
             onPressed: () {
               ref.read(serviceListProvider.notifier).endService(vehicle);
-              cardKey.currentState?.collapse();
+              // cardKey.currentState?.collapse();
             },
             child: const Column(
               children: <Widget>[
