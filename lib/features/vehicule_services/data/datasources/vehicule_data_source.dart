@@ -10,7 +10,6 @@ class VehiculoDataSource {
   void addVehicle(Vehicle vehicle) async {
     final uuid = Uuid().v4();
     final Vehicle newVehicle = vehicle.copyWith(id: uuid);
-    debugPrint('newVehicle: ${newVehicle}');
     try {
       await _firebase.doc(newVehicle.id).set(newVehicle.toJson());
     } on FirebaseException catch (e) {
@@ -26,16 +25,15 @@ class VehiculoDataSource {
     }
   }
 
+//TODO optimizar la bsuqeda de vehiculos por valores
   Future<List<Vehicle>> getVehicles() async {
     List<Vehicle> list = [];
     try {
-      await _firebase.get().then((value) {
+      await _firebase.orderBy("entrada", descending: true).get().then((value) {
         value.docs.forEach((element) {
           list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));
         });
       });
-
-      debugPrint('list: ${list}');
       return list;
     } on FirebaseException catch (e) {
       debugPrint('error Firebase: ${e.code}');
@@ -44,6 +42,7 @@ class VehiculoDataSource {
   }
 
   void modifieVehicle(Vehicle vehicle) async {
+    debugPrint('vehicle to update: ${vehicle}');
     try {
       await _firebase.doc(vehicle.id).update(vehicle.toJson());
     } on FirebaseException catch (e) {

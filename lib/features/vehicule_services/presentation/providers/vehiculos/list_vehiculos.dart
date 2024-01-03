@@ -36,15 +36,17 @@ class ServiceList extends _$ServiceList {
     return _fetch();
   }
 
-  loadData() async {
+  Future loadData() async {
     state = AsyncValue.loading();
-    state = await AsyncValue.guard(() => _fetch());
+    state = await AsyncValue.guard(()  async => _fetch());
+
   }
 
   endService(Vehicle vehicle) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      // await ref.read(endServiceProvider).call(vehicle);
+      Vehicle _vehicle = vehicle.copyWith(terminado: true, salida: DateTime.now());
+      await ref.read(modifieVehiculeProvider).call(_vehicle);
       return _fetch();
     });
   }

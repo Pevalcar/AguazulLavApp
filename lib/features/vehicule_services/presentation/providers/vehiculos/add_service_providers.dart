@@ -43,10 +43,10 @@ class VehiculoState extends _$VehiculoState {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(addVehiculoProvider).call(vehicle);
+      ref.read(serviceListProvider.notifier).loadData();
       if (callback != null) {
         callback();
       }
-      ref.read(serviceListProvider.notifier).loadData();
       return vehicle;
     });
   }
@@ -127,14 +127,30 @@ class ListPropietarios extends _$ListPropietarios {
   @override
   List<User> build() {
     return <User>[
-      const User(name: 'Alice', email: 'alice@example.com', photo: '', address: '', bonus: '' ),
-      const User(name: 'Bob', email: 'bob@example.com', photo: '', address: '', bonus: '' ),
-      const User(name: 'Charlie', email: 'charlie123@gmail.com', photo: '', address: '', bonus: '' ),
+      const User(
+          name: 'Alice',
+          email: 'alice@example.com',
+          photo: '',
+          address: '',
+          bonus: ''),
+      const User(
+          name: 'Bob',
+          email: 'bob@example.com',
+          photo: '',
+          address: '',
+          bonus: ''),
+      const User(
+          name: 'Charlie',
+          email: 'charlie123@gmail.com',
+          photo: '',
+          address: '',
+          bonus: ''),
     ];
   }
 
   addPropietario() {
-    final user = const User(name: "PEdro", email: "pedro@pedro", photo: '', address: '', bonus: '' );
+    final user = const User(
+        name: "PEdro", email: "pedro@pedro", photo: '', address: '', bonus: '');
     state = [...state, user];
   }
 }
