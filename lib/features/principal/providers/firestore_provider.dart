@@ -14,7 +14,7 @@ class ExapleData extends _$ExapleData {
   }
   
   _fetchs() async{
-    state = AsyncLoading();
+    state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       final data = await  db.collection('Servicios').get();
       return data.docs.first.data().toString();

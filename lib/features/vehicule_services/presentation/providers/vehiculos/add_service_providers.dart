@@ -36,8 +36,9 @@ class VehiculoState extends _$VehiculoState {
       photo: ref.watch(photoVehiculeProvider).asData?.value?.url ?? "",
       propietarioid: ref.watch(propietarioProvider)?.id ?? "",
       placa: ref.watch(placaProvider),
-      typeid: ref.watch(serviceTypeSelectProvider).servicioId,
       entrada: DateTime.now(),
+      typeService: '',
+      typePrice: '',
     );
 
     state = const AsyncValue.loading();
@@ -59,7 +60,7 @@ class VehiculoState extends _$VehiculoState {
 class ServiceTypeSelect extends _$ServiceTypeSelect {
   @override
   ServiceType build() {
-    return ServiceType();
+    return const ServiceType();
   }
 
   void modifyServiceType(ServiceType type) {
@@ -149,7 +150,7 @@ class ListPropietarios extends _$ListPropietarios {
   }
 
   addPropietario() {
-    final user = const User(
+    const user = User(
         name: "PEdro", email: "pedro@pedro", photo: '', address: '', bonus: '');
     state = [...state, user];
   }

@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../formulario.dart';
-import '../type_card_selectable.dart';
 
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});
@@ -41,7 +39,7 @@ class MobileAddService extends HookConsumerWidget {
                 ),
               ),
               const Handled(),
-              Formulario(),
+              const Formulario(),
               //TODO  renombrar la clase de la card esa y agregar que en otro se pueda colocar precio y descripccion
               TypedCardSelector(
                 typesList: ref.watch(typosDeVeiculosProvider),
@@ -87,9 +85,9 @@ class OtroOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _keyForm = GlobalKey<FormState>();
+    final keyForm = GlobalKey<FormState>();
     return Form(
-      key: _keyForm,
+      key: keyForm,
       child: const Text("Servicio"),
     );
   }

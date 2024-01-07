@@ -50,7 +50,7 @@ final modifieVehiculeProvider = AutoDisposeProvider<ModifiVehiculo>.internal(
 );
 
 typedef ModifieVehiculeRef = AutoDisposeProviderRef<ModifiVehiculo>;
-String _$vehiculoStateHash() => r'75e3650ac1a3e3d22891c6af7990366c924d4517';
+String _$vehiculoStateHash() => r'48b3e339585b891d6e43bfdbe3ec6bceaeaf78bb';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)
@@ -66,7 +66,7 @@ final vehiculoStateProvider =
 );
 
 typedef _$VehiculoState = AutoDisposeAsyncNotifier<Vehicle?>;
-String _$serviceTypeSelectHash() => r'4375c766a842d4582a863fb21f1e2b4f31b164b3';
+String _$serviceTypeSelectHash() => r'7e19b9c76b6e6f8fb715c46146b880c645e48b5a';
 
 /// See also [ServiceTypeSelect].
 @ProviderFor(ServiceTypeSelect)
@@ -141,7 +141,7 @@ final isLoadingProvider = AutoDisposeNotifierProvider<IsLoading, bool>.internal(
 );
 
 typedef _$IsLoading = AutoDisposeNotifier<bool>;
-String _$listPropietariosHash() => r'd331c93ffab8db5b92a7075eb17d55745f24a7bd';
+String _$listPropietariosHash() => r'9b518c3fcde6b3d42f25d884c1b4705da62bcb64';
 
 /// See also [ListPropietarios].
 @ProviderFor(ListPropietarios)

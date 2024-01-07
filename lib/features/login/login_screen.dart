@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_button/sign_button.dart';
 
-import 'providers/providers.dart';
 
 class Login extends HookConsumerWidget {
   const Login({super.key});
@@ -15,7 +14,7 @@ class Login extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        actions: [DarkModeButton()],
+        actions: const [DarkModeButton()],
       ),
       body: LayoutBuilder(builder: (context, constraints) {
         if (constraints.maxWidth > 600) {
@@ -66,7 +65,7 @@ class TitleHandles extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _screensmode = ref.watch(screensModeProvider);
+    final screensmode = ref.watch(screensModeProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +74,7 @@ class TitleHandles extends HookConsumerWidget {
             .image(alignment: Alignment.center, height: 80, width: 80),
         const SizedBox(height: 16),
         Text(
-          switch (_screensmode) {
+          switch (screensmode) {
             screensMode.login => "Bienvenido",
             screensMode.register => "Registrarse",
             screensMode.forgot => "Recuperar Contraseña",
@@ -97,16 +96,15 @@ class TitleHandles extends HookConsumerWidget {
 }
 
 class FormLogin extends HookConsumerWidget {
-  const FormLogin({
-    Key? key,
+  const FormLogin({super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _keyForm = GlobalKey<FormState>();
-    final _passController = useTextEditingController();
-    final _mailController = useTextEditingController();
-    final _screensmode = ref.watch(screensModeProvider);
+    final keyForm = GlobalKey<FormState>();
+    final passController = useTextEditingController();
+    final mailController = useTextEditingController();
+    final screensmode = ref.watch(screensModeProvider);
     ref.listen(
       firebaseControlProvider,
       (previous, next) {
@@ -124,7 +122,7 @@ class FormLogin extends HookConsumerWidget {
       child: Column(
         children: [
           Form(
-            key: _keyForm,
+            key: keyForm,
             child: Padding(
               padding: const EdgeInsets.all(32.0),
               child: Column(
@@ -137,7 +135,7 @@ class FormLogin extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
-                        controller: _mailController,
+                        controller: mailController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Campo requerido';
@@ -154,17 +152,17 @@ class FormLogin extends HookConsumerWidget {
                           border: OutlineInputBorder(),
                         )),
                     const SizedBox(height: 16),
-                    _screensmode == screensMode.forgot
+                    screensmode == screensMode.forgot
                         ? const SizedBox()
                         : Text(
                             "Contraseña",
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                     const SizedBox(height: 16),
-                    _screensmode == screensMode.forgot
+                    screensmode == screensMode.forgot
                         ? const SizedBox()
-                        : passField(controllerPass: _passController, submited: (_
-                        ) => _login(context, _mailController, _passController, _keyForm, ref, _screensmode)),
+                        : passField(controllerPass: passController, submited: (_
+                        ) => _login(context, mailController, passController, keyForm, ref, screensmode)),
                   ]),
             ),
           ),
@@ -173,9 +171,9 @@ class FormLogin extends HookConsumerWidget {
             btnColor: Theme.of(context).colorScheme.primary,
             buttonSize: ButtonSize.large,
             buttonType: ButtonType.mail,
-            onPressed: () => _login(context, _mailController, _passController,
-                _keyForm, ref, _screensmode),
-            btnText: switch (_screensmode) {
+            onPressed: () => _login(context, mailController, passController,
+                keyForm, ref, screensmode),
+            btnText: switch (screensmode) {
               screensMode.login => "Ingresar",
               screensMode.register => "Registrarse",
               screensMode.forgot => "Recuperar Contraseña",
@@ -199,14 +197,14 @@ class FormLogin extends HookConsumerWidget {
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             TextButton(
                 child: Text(
-                    _screensmode != screensMode.login
+                    screensmode != screensMode.login
                         ? "Ya tengo una cuenta"
                         : "¿Olvidaste tu \n contraseña?",
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.primary)),
                 onPressed: () {
                   ref.read(screensModeProvider.notifier).toggle(
-                      _screensmode == screensMode.login
+                      screensmode == screensMode.login
                           ? screensMode.forgot
                           : screensMode.login);
                 }),
@@ -240,11 +238,11 @@ class FormLogin extends HookConsumerWidget {
       BuildContext context,
       TextEditingController mail,
       TextEditingController pass,
-      GlobalKey<FormState> _keyForm,
+      GlobalKey<FormState> keyForm,
       WidgetRef ref,
-      screensMode _screensmode) {
-    if (_keyForm.currentState!.validate()) {
-      switch (_screensmode) {
+      screensMode screensmode) {
+    if (keyForm.currentState!.validate()) {
+      switch (screensmode) {
         case screensMode.login:
           {
             ref
@@ -276,7 +274,7 @@ class passField extends HookConsumerWidget {
 
   final Function submited;
 
-  passField( {
+  const passField( {
     super.key,
     required this.controllerPass,
     required this.submited,

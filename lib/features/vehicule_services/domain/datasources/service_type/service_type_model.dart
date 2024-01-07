@@ -1,10 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'service_type.freezed.dart';
-part 'service_type.g.dart';
+part 'service_type_model.freezed.dart';
+part 'service_type_model.g.dart';
 
 @freezed
 class ServiceType with _$ServiceType {
+
   //TODO is obsolete? , optener solo informacion que necesita, precio y tipo
   const factory ServiceType({
     @Default('') String servicioId,

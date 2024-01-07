@@ -1,6 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'list_vehiculos.g.dart';
@@ -37,7 +36,7 @@ class ServiceList extends _$ServiceList {
   }
 
   Future loadData() async {
-    state = AsyncValue.loading();
+    state = const AsyncValue.loading();
     state = await AsyncValue.guard(()  async => _fetch());
 
   }
@@ -45,8 +44,8 @@ class ServiceList extends _$ServiceList {
   endService(Vehicle vehicle) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      Vehicle _vehicle = vehicle.copyWith(terminado: true, salida: DateTime.now());
-      await ref.read(modifieVehiculeProvider).call(_vehicle);
+      Vehicle vehicle0 = vehicle.copyWith(terminado: true, salida: DateTime.now());
+      await ref.read(modifieVehiculeProvider).call(vehicle0);
       return _fetch();
     });
   }

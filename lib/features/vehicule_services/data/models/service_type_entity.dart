@@ -1,4 +1,3 @@
-import 'package:aguazullavapp/lib.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'service_type_entity.freezed.dart';

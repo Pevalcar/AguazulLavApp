@@ -8,7 +8,7 @@ class VehiculoDataSource {
   VehiculoDataSource(this._firebase);
 
   void addVehicle(Vehicle vehicle) async {
-    final uuid = Uuid().v4();
+    final uuid = const Uuid().v4();
     final Vehicle newVehicle = vehicle.copyWith(id: uuid);
     try {
       await _firebase.doc(newVehicle.id).set(newVehicle.toJson());
@@ -30,9 +30,9 @@ class VehiculoDataSource {
     List<Vehicle> list = [];
     try {
       await _firebase.orderBy("entrada", descending: true).get().then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));
-        });
+        }
       });
       return list;
     } on FirebaseException catch (e) {
@@ -42,7 +42,7 @@ class VehiculoDataSource {
   }
 
   void modifieVehicle(Vehicle vehicle) async {
-    debugPrint('vehicle to update: ${vehicle}');
+    debugPrint('vehicle to update: $vehicle');
     try {
       await _firebase.doc(vehicle.id).update(vehicle.toJson());
     } on FirebaseException catch (e) {

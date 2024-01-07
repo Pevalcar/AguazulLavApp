@@ -34,7 +34,7 @@ DeletePhoto DeletePhotoGrafie(DeletePhotoGrafieRef ref) {
 //provider photo
 @riverpod
 class PhotoVehicule extends _$PhotoVehicule {
-  XFile? _temp  = null;
+  XFile? _temp;
   @override
   FutureOr<PhotoState?> build() {
     return null;
@@ -49,7 +49,7 @@ class PhotoVehicule extends _$PhotoVehicule {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final statefinal = await ref.read(addPhotoGrafieProvider).call(photo);
-      debugPrint('statefinal: ${statefinal}');
+      debugPrint('statefinal: $statefinal');
       return statefinal;
     });
   }
@@ -62,7 +62,7 @@ class PhotoVehicule extends _$PhotoVehicule {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final statefinal = await ref.read(deletePhotoGrafieProvider).call(_temp!);
-      debugPrint('statefinal: ${statefinal}');
+      debugPrint('statefinal: $statefinal');
       if (callback != null) {
         callback();
       }

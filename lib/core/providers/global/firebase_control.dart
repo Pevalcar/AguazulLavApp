@@ -22,6 +22,7 @@ class FirebaseControl extends _$FirebaseControl {
     if (user != null) {
       return user;
     }
+    return null;
   }
 
   @override
@@ -30,7 +31,7 @@ class FirebaseControl extends _$FirebaseControl {
   }
 
   void login(String email, String password) async {
-    state = AsyncValue.loading();
+    state = const AsyncValue.loading();
 
     state = await AsyncValue.guard(() async {
       final credenciales = await FirebaseAuth.instance
@@ -40,7 +41,7 @@ class FirebaseControl extends _$FirebaseControl {
   }
 
   void register(String email, String password) async {
-    state = AsyncValue.loading();
+    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final credenciales = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -49,7 +50,7 @@ class FirebaseControl extends _$FirebaseControl {
   }
 
   void forgot(String email) async {
-    state = AsyncValue.loading();
+    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return null;

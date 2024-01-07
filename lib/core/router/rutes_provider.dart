@@ -17,7 +17,7 @@ GoRouter enrutador(EnrutadorRef ref) {
         GoRoute(
             path: "/menu",
             builder: (context, state) => const MainMenuScreen(),
-            routes: []),
+            routes: const []),
         GoRoute(
           path: "/addService",
           builder: (context, state) => const AddServiceScreen(),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TypedCardSelector extends ConsumerWidget {
-  List<String> typesList;
-  String type;
-  TypedCardSelector({required this.typesList, required this.type, super.key});
+  final List<String> typesList;
+  final String type;
+  const TypedCardSelector({required this.typesList, required this.type, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

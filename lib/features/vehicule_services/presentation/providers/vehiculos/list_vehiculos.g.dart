@@ -54,7 +54,7 @@ final getVehiculoProvider = AutoDisposeProvider<GetVehiculos>.internal(
 );
 
 typedef GetVehiculoRef = AutoDisposeProviderRef<GetVehiculos>;
-String _$serviceListHash() => r'cb2285a40e76d279ce903e5b6c32cea415e02db0';
+String _$serviceListHash() => r'6f2abd716f19058e3c352532d9849063f988fdcc';
 
 /// See also [ServiceList].
 @ProviderFor(ServiceList)

@@ -4,17 +4,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Formulario extends HookWidget {
-  Formulario({
+  const Formulario({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final _keyFrom = GlobalKey<FormState>();
+    final keyFrom = GlobalKey<FormState>();
     return Padding(
       padding: const EdgeInsets.only(left: 32.0, right: 32.0),
       child: Form(
-        key: _keyFrom,
+        key: keyFrom,
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -66,7 +66,7 @@ class ClientSearcher extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _userOptions = ref.watch(listPropietariosProvider);
+    final userOptions = ref.watch(listPropietariosProvider);
 
     //TODO add client implementacion
     return Row(
@@ -96,7 +96,7 @@ class ClientSearcher extends HookConsumerWidget {
               if (textEditingValue.text.isEmpty) {
                 return const Iterable<User>.empty();
               }
-              return _userOptions.where((User option) {
+              return userOptions.where((User option) {
                 return option
                     .toString()
                     .contains(textEditingValue.text.toLowerCase());

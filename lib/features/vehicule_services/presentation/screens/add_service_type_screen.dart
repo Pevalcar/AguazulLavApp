@@ -12,13 +12,13 @@ class AddServiceTypeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final typeSelect = ref.watch(typoDeVehiculoProvider);
 
-    final _keyForm = GlobalKey<FormState>();
+    final keyForm = GlobalKey<FormState>();
     final filters = useState<SERVICETYPE?>(null);
     final typeController = useTextEditingController();
     final descriptionController = useTextEditingController();
     final priceController = useTextEditingController();
 
-    final spacer = SizedBox(height: 16);
+    const spacer = SizedBox(height: 16);
 
     ref.listen(serviceTypeListProvider, (previous, next) {
       if (previous != next) {
@@ -31,9 +31,9 @@ class AddServiceTypeScreen extends HookConsumerWidget {
       }
     });
 
-    void _submit() async {
-      if (_keyForm.currentState!.validate()) {
-        _keyForm.currentState!.save();
+    void submit() async {
+      if (keyForm.currentState!.validate()) {
+        keyForm.currentState!.save();
         final service = ServiceType(
           typeVehiculo: typeSelect,
           clase: typeSelect == "OTRO."
@@ -51,12 +51,12 @@ class AddServiceTypeScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tipo de Servicio"),
-        actions: [const DarkModeButton()],
+        actions: const [DarkModeButton()],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: _keyForm,
+          key: keyForm,
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -100,7 +100,7 @@ class AddServiceTypeScreen extends HookConsumerWidget {
                         spacer,
                         _priceTextField(priceController: priceController),
                         AceptForm(
-                          submit: _submit,
+                          submit: submit,
                         )
                       ],
                 spacer,
@@ -127,7 +127,7 @@ class AddServiceTypeScreen extends HookConsumerWidget {
                           height: 8,
                         ),
                         AceptForm(
-                          submit: _submit,
+                          submit: submit,
                         )
                       ],
               ],
@@ -141,7 +141,7 @@ class AddServiceTypeScreen extends HookConsumerWidget {
 
 class AceptForm extends StatelessWidget {
   final VoidCallback submit;
-  AceptForm({
+  const AceptForm({
     super.key,
     required this.submit,
   });
@@ -164,8 +164,8 @@ class AceptForm extends StatelessWidget {
                   },
                 ),
                 TextButton(
-                  child: const Text("Guardar"),
                   onPressed: submit,
+                  child: const Text("Guardar"),
                 )
               ],
             );
@@ -177,7 +177,6 @@ class AceptForm extends StatelessWidget {
 
 class _priceTextField extends StatelessWidget {
   const _priceTextField({
-    super.key,
     required this.priceController,
   });
 
@@ -209,7 +208,6 @@ class _priceTextField extends StatelessWidget {
 
 class _descriptionTetField extends StatelessWidget {
   const _descriptionTetField({
-    super.key,
     required this.descriptionController,
   });
 
@@ -262,6 +260,7 @@ class ServiciosWrap extends HookWidget {
 }
 
 class CurrencyInputFormatter extends TextInputFormatter {
+  @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.selection.baseOffset == 0) {
@@ -274,7 +273,7 @@ class CurrencyInputFormatter extends TextInputFormatter {
     String newText = formatter.format(value / 100);
     return newValue.copyWith(
         text: newText,
-        selection: new TextSelection.collapsed(offset: newText.length));
+        selection: TextSelection.collapsed(offset: newText.length));
   }
 }
 

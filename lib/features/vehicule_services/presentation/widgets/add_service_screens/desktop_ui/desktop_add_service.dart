@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DesktopAddService extends HookConsumerWidget {
-  const DesktopAddService();
+  const DesktopAddService({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -11,11 +11,11 @@ class DesktopAddService extends HookConsumerWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Información del vehiculo'),
-        actions: [const AppBarAddService(mobile: true)],
+        actions: const [AppBarAddService(mobile: true)],
       ),
-      body: Row(
+      body: const Row(
         children: [
-          const Center(child: Handled()),
+          Center(child: Handled()),
           Expanded(
             child: Formulario(),
           )

@@ -1,9 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../widgets/desktop_ui/desktop_add_service.dart';
 
 class AddServiceScreen extends HookConsumerWidget {
   const AddServiceScreen({super.key});
@@ -18,4 +15,3 @@ class AddServiceScreen extends HookConsumerWidget {
   }
 }
 
-//get camer

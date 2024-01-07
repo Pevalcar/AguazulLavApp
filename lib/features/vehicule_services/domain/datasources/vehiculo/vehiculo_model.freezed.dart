@@ -22,8 +22,11 @@ Vehicle _$VehicleFromJson(Map<String, dynamic> json) {
 mixin _$Vehicle {
   String get id => throw _privateConstructorUsedError;
   String get photo => throw _privateConstructorUsedError;
-  String get placa => throw _privateConstructorUsedError;
-  String get typeid => throw _privateConstructorUsedError;
+  String get placa =>
+      throw _privateConstructorUsedError; //Puden cambiar siempre
+  String get typeService => throw _privateConstructorUsedError;
+  String get typePrice =>
+      throw _privateConstructorUsedError; //propietario siempre seran los mismos
   String get propietarioid => throw _privateConstructorUsedError;
   DateTime get entrada => throw _privateConstructorUsedError;
   DateTime? get salida => throw _privateConstructorUsedError;
@@ -44,7 +47,8 @@ abstract class $VehicleCopyWith<$Res> {
       {String id,
       String photo,
       String placa,
-      String typeid,
+      String typeService,
+      String typePrice,
       String propietarioid,
       DateTime entrada,
       DateTime? salida,
@@ -68,7 +72,8 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
     Object? id = null,
     Object? photo = null,
     Object? placa = null,
-    Object? typeid = null,
+    Object? typeService = null,
+    Object? typePrice = null,
     Object? propietarioid = null,
     Object? entrada = null,
     Object? salida = freezed,
@@ -88,9 +93,13 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
           ? _value.placa
           : placa // ignore: cast_nullable_to_non_nullable
               as String,
-      typeid: null == typeid
-          ? _value.typeid
-          : typeid // ignore: cast_nullable_to_non_nullable
+      typeService: null == typeService
+          ? _value.typeService
+          : typeService // ignore: cast_nullable_to_non_nullable
+              as String,
+      typePrice: null == typePrice
+          ? _value.typePrice
+          : typePrice // ignore: cast_nullable_to_non_nullable
               as String,
       propietarioid: null == propietarioid
           ? _value.propietarioid
@@ -127,7 +136,8 @@ abstract class _$$VehiculoImplCopyWith<$Res> implements $VehicleCopyWith<$Res> {
       {String id,
       String photo,
       String placa,
-      String typeid,
+      String typeService,
+      String typePrice,
       String propietarioid,
       DateTime entrada,
       DateTime? salida,
@@ -149,7 +159,8 @@ class __$$VehiculoImplCopyWithImpl<$Res>
     Object? id = null,
     Object? photo = null,
     Object? placa = null,
-    Object? typeid = null,
+    Object? typeService = null,
+    Object? typePrice = null,
     Object? propietarioid = null,
     Object? entrada = null,
     Object? salida = freezed,
@@ -169,9 +180,13 @@ class __$$VehiculoImplCopyWithImpl<$Res>
           ? _value.placa
           : placa // ignore: cast_nullable_to_non_nullable
               as String,
-      typeid: null == typeid
-          ? _value.typeid
-          : typeid // ignore: cast_nullable_to_non_nullable
+      typeService: null == typeService
+          ? _value.typeService
+          : typeService // ignore: cast_nullable_to_non_nullable
+              as String,
+      typePrice: null == typePrice
+          ? _value.typePrice
+          : typePrice // ignore: cast_nullable_to_non_nullable
               as String,
       propietarioid: null == propietarioid
           ? _value.propietarioid
@@ -204,7 +219,8 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
       {this.id = "",
       required this.photo,
       required this.placa,
-      required this.typeid,
+      required this.typeService,
+      required this.typePrice,
       required this.propietarioid,
       required this.entrada,
       this.salida = null,
@@ -221,8 +237,12 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
   final String photo;
   @override
   final String placa;
+//Puden cambiar siempre
   @override
-  final String typeid;
+  final String typeService;
+  @override
+  final String typePrice;
+//propietario siempre seran los mismos
   @override
   final String propietarioid;
   @override
@@ -239,7 +259,7 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Vehicle(id: $id, photo: $photo, placa: $placa, typeid: $typeid, propietarioid: $propietarioid, entrada: $entrada, salida: $salida, terminado: $terminado, onCreate: $onCreate)';
+    return 'Vehicle(id: $id, photo: $photo, placa: $placa, typeService: $typeService, typePrice: $typePrice, propietarioid: $propietarioid, entrada: $entrada, salida: $salida, terminado: $terminado, onCreate: $onCreate)';
   }
 
   @override
@@ -250,7 +270,8 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('photo', photo))
       ..add(DiagnosticsProperty('placa', placa))
-      ..add(DiagnosticsProperty('typeid', typeid))
+      ..add(DiagnosticsProperty('typeService', typeService))
+      ..add(DiagnosticsProperty('typePrice', typePrice))
       ..add(DiagnosticsProperty('propietarioid', propietarioid))
       ..add(DiagnosticsProperty('entrada', entrada))
       ..add(DiagnosticsProperty('salida', salida))
@@ -266,7 +287,10 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.photo, photo) || other.photo == photo) &&
             (identical(other.placa, placa) || other.placa == placa) &&
-            (identical(other.typeid, typeid) || other.typeid == typeid) &&
+            (identical(other.typeService, typeService) ||
+                other.typeService == typeService) &&
+            (identical(other.typePrice, typePrice) ||
+                other.typePrice == typePrice) &&
             (identical(other.propietarioid, propietarioid) ||
                 other.propietarioid == propietarioid) &&
             (identical(other.entrada, entrada) || other.entrada == entrada) &&
@@ -279,8 +303,8 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, photo, placa, typeid,
-      propietarioid, entrada, salida, terminado, onCreate);
+  int get hashCode => Object.hash(runtimeType, id, photo, placa, typeService,
+      typePrice, propietarioid, entrada, salida, terminado, onCreate);
 
   @JsonKey(ignore: true)
   @override
@@ -301,7 +325,8 @@ abstract class _Vehiculo implements Vehicle {
       {final String id,
       required final String photo,
       required final String placa,
-      required final String typeid,
+      required final String typeService,
+      required final String typePrice,
       required final String propietarioid,
       required final DateTime entrada,
       final DateTime? salida,
@@ -317,9 +342,11 @@ abstract class _Vehiculo implements Vehicle {
   String get photo;
   @override
   String get placa;
+  @override //Puden cambiar siempre
+  String get typeService;
   @override
-  String get typeid;
-  @override
+  String get typePrice;
+  @override //propietario siempre seran los mismos
   String get propietarioid;
   @override
   DateTime get entrada;

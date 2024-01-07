@@ -1,4 +1,3 @@
-import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,7 +11,10 @@ class Vehicle with _$Vehicle {
     @Default("") String id,
     required String photo,
     required String placa,
-    required String typeid,
+    //Puden cambiar siempre
+    required String typeService,
+    required String typePrice,
+    //propietario siempre seran los mismos
     required String propietarioid,
     required DateTime entrada,
     @Default(null) DateTime? salida,

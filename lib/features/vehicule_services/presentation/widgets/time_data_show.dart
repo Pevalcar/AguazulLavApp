@@ -17,7 +17,7 @@ class TimerDataShow extends ConsumerWidget {
         children: [
           _TextDateTime(
             text: "Entrada: ",
-            time: initTime == null ? DateTime.now() : initTime,
+            time: initTime ?? DateTime.now(),
           ),
           _TextDateTime(text: "Salida: ", time: endTime),
         ],
@@ -31,7 +31,6 @@ class _TextDateTime extends StatelessWidget {
   final String text;
 
   const _TextDateTime({
-    super.key,
     required this.time,
     required this.text,
   });

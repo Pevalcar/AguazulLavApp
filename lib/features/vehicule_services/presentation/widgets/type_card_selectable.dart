@@ -1,11 +1,11 @@
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ServiceTypeSelecte extends HookConsumerWidget {
   final String type;
-  ServiceTypeSelecte({
+  const ServiceTypeSelecte({
     super.key,
     required this.type,
   });
@@ -36,8 +36,7 @@ class ServiceTypeSelecte extends HookConsumerWidget {
             return filteredList.value
                     .map((e) =>
                         ServiceTypeCard(typeCardService: e, value: false))
-                    .toList() ??
-                [];
+                    .toList();
           },
           error: (error, stackTrace) => [Text(error.toString())],
           loading: () => [const Center(child: CircularProgressIndicator())],

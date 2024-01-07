@@ -1,10 +1,7 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../core/widgets/carcgas_desde_cache.dart';
 
 class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
@@ -62,7 +59,7 @@ class CardCarService extends HookConsumerWidget {
                 ),
               ],
             ),
-            Text(" \$ ${vehicle.typeid == "" ? "25.000.00" : vehicle.typeid}")
+            Text(" \$ ${vehicle.typePrice == "" ? "25.000.00" : vehicle.typePrice}")
           ],
         ),
         subtitle: Row(
@@ -80,7 +77,7 @@ class CardCarService extends HookConsumerWidget {
                   children: [
                     TextSpan(
                         style: Theme.of(context).textTheme.bodySmall,
-                        text: vehicle.typeid)
+                        text: vehicle.typeService)
                   ],
                 ),
               ),
@@ -96,7 +93,7 @@ class CardCarService extends HookConsumerWidget {
                       style: Theme.of(context).textTheme.bodySmall,
                       text: vehicle.propietarioid == ""
                           ? "Sin propietario"
-                          : vehicle.propietarioid ?? "Sin propietario",
+                          : vehicle.propietarioid,
                     )
                   ])),
             ])),
@@ -118,7 +115,7 @@ class CardCarService extends HookConsumerWidget {
                 },
               );
             },
-            child: Container(
+            child: SizedBox(
                 height: 150, child: CarcgasDesdeCache(imageUrl: vehicle.photo)),
           ),
           ButtonBar(

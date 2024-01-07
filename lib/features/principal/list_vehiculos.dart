@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ListVehiculos extends ConsumerWidget {
-  const ListVehiculos({Key? key}) : super(key: key);
+  const ListVehiculos({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -72,8 +72,8 @@ class ListaVehiculos extends HookConsumerWidget {
                 child: SliverList.builder(
               itemCount: 5,
               itemBuilder: (context, index) {
-                return Card(
-                    child: Container(
+                return const Card(
+                    child: SizedBox(
                   height: 150,
                   width: double.infinity,
                 ));
