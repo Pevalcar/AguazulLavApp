@@ -3,5 +3,6 @@
     "svg.preview.background": "transparent",
     "cSpell.words": [
         "Skeletonizer"
-    ]
+    ],
+    "IDX.aI.enableInlineCompletion": true
 }
