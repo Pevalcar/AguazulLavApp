@@ -66,13 +66,15 @@ class ClientSearcher extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userOptions = ref.watch(listPropietariosProvider);
+    final userOptions = ref.watch(clientListProvider);
+    final userSelect = ref.watch(propietarioProvider);
 
     //TODO add client implementacion
     return Row(
       children: [
         Flexible(
           child: Autocomplete(
+            initialValue: TextEditingValue(text: userSelect?.name ?? ''),
             fieldViewBuilder:
                 (context, textEditingController, focusNode, onEditingComplete) {
               return TextField(
@@ -96,7 +98,7 @@ class ClientSearcher extends HookConsumerWidget {
               if (textEditingValue.text.isEmpty) {
                 return const Iterable<User>.empty();
               }
-              return userOptions.where((User option) {
+              return userOptions.asData!.value.where((User option) {
                 return option
                     .toString()
                     .contains(textEditingValue.text.toLowerCase());
@@ -113,12 +115,95 @@ class ClientSearcher extends HookConsumerWidget {
         IconButton(
           icon: const Icon(Icons.person_add_alt_1),
           onPressed: () {
-            
-            //! TODO add client ventan emergente con informacion requerida
-            ref.read(listPropietariosProvider.notifier).addPropietario();
+            showDialog(
+                context: context,
+                builder: (_) {
+                  return _AddClient(
+                    onAddClient: (User _user) async {
+                      ref.read(clientListProvider.notifier).addUSer(_user,(us) {
+                          showToast(context, "Cliente agregado");
+                          ref.read(propietarioProvider.notifier).modifyPropietario(us);
+                      },);
+                    },
+                  );
+                });
           },
         ),
       ],
+    );
+  }
+}
+
+class _AddClient extends HookWidget {
+  final Function(User) onAddClient;
+  const _AddClient({required this.onAddClient});
+
+  @override
+  Widget build(BuildContext context) {
+    //fast adduser dialog
+    final _keyForm = GlobalKey<FormState>();
+    final nameController = useTextEditingController();
+    final phoneController = useTextEditingController();
+    final idController = useTextEditingController();
+
+    final spacer = SizedBox(height: 10);
+    return AlertDialog(
+      actions: [
+        TextButton(
+          child: const Text("Cancelar"),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        TextButton(
+          child: const Text("Guardar"),
+          onPressed: () {
+            _keyForm.currentState!.save();
+            if (_keyForm.currentState!.validate()) {
+              onAddClient(
+                User(
+                  name: nameController.text,
+                  phone: phoneController.text,
+                  identification: idController.text,
+                )
+              );
+            }
+            Navigator.of(context).pop();
+          }
+        )
+      ],
+      scrollable: true,
+      title: const Text("Añadir cliente"),
+      content: Form(
+        key: _keyForm,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.person),
+                labelText: 'Nombre',
+              ),
+            ),
+            spacer,
+            TextFormField(
+              controller: phoneController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.person),
+                labelText: 'Telefono',
+              ),
+            ),
+            spacer,
+            TextFormField(
+              controller: idController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.person),
+                labelText: 'Identificacion',
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

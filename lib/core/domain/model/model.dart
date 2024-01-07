@@ -1,1 +1,0 @@
-export 'propietary/propietary.dart';

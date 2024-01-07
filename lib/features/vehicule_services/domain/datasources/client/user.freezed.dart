@@ -24,9 +24,11 @@ mixin _$User {
   String get name => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get photo => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
-  String get bonus => throw _privateConstructorUsedError;
+  String get city => throw _privateConstructorUsedError;
+  String get departamento => throw _privateConstructorUsedError;
+  String get identification => throw _privateConstructorUsedError;
+  int get bonus => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,9 +45,11 @@ abstract class $UserCopyWith<$Res> {
       String name,
       String phone,
       String email,
-      String photo,
       String address,
-      String bonus});
+      String city,
+      String departamento,
+      String identification,
+      int bonus});
 }
 
 /// @nodoc
@@ -65,8 +69,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? name = null,
     Object? phone = null,
     Object? email = null,
-    Object? photo = null,
     Object? address = null,
+    Object? city = null,
+    Object? departamento = null,
+    Object? identification = null,
     Object? bonus = null,
   }) {
     return _then(_value.copyWith(
@@ -86,18 +92,26 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      photo: null == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
-              as String,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
+      city: null == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String,
+      departamento: null == departamento
+          ? _value.departamento
+          : departamento // ignore: cast_nullable_to_non_nullable
+              as String,
+      identification: null == identification
+          ? _value.identification
+          : identification // ignore: cast_nullable_to_non_nullable
+              as String,
       bonus: null == bonus
           ? _value.bonus
           : bonus // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ) as $Val);
   }
 }
@@ -114,9 +128,11 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String name,
       String phone,
       String email,
-      String photo,
       String address,
-      String bonus});
+      String city,
+      String departamento,
+      String identification,
+      int bonus});
 }
 
 /// @nodoc
@@ -133,8 +149,10 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? name = null,
     Object? phone = null,
     Object? email = null,
-    Object? photo = null,
     Object? address = null,
+    Object? city = null,
+    Object? departamento = null,
+    Object? identification = null,
     Object? bonus = null,
   }) {
     return _then(_$UserImpl(
@@ -154,18 +172,26 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      photo: null == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
-              as String,
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
+      city: null == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String,
+      departamento: null == departamento
+          ? _value.departamento
+          : departamento // ignore: cast_nullable_to_non_nullable
+              as String,
+      identification: null == identification
+          ? _value.identification
+          : identification // ignore: cast_nullable_to_non_nullable
+              as String,
       bonus: null == bonus
           ? _value.bonus
           : bonus // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ));
   }
 }
@@ -175,12 +201,14 @@ class __$$UserImplCopyWithImpl<$Res>
 class _$UserImpl implements _User {
   const _$UserImpl(
       {this.id = "",
-      this.name = "",
-      this.phone = "",
-      required this.email,
-      required this.photo,
-      required this.address,
-      required this.bonus});
+      required this.name,
+      required this.phone,
+      this.email = "",
+      this.address = "",
+      this.city = "",
+      this.departamento = "",
+      required this.identification,
+      this.bonus = 0});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -189,23 +217,30 @@ class _$UserImpl implements _User {
   @JsonKey()
   final String id;
   @override
-  @JsonKey()
   final String name;
   @override
-  @JsonKey()
   final String phone;
   @override
+  @JsonKey()
   final String email;
   @override
-  final String photo;
-  @override
+  @JsonKey()
   final String address;
   @override
-  final String bonus;
+  @JsonKey()
+  final String city;
+  @override
+  @JsonKey()
+  final String departamento;
+  @override
+  final String identification;
+  @override
+  @JsonKey()
+  final int bonus;
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, phone: $phone, email: $email, photo: $photo, address: $address, bonus: $bonus)';
+    return 'User(id: $id, name: $name, phone: $phone, email: $email, address: $address, city: $city, departamento: $departamento, identification: $identification, bonus: $bonus)';
   }
 
   @override
@@ -217,15 +252,19 @@ class _$UserImpl implements _User {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.photo, photo) || other.photo == photo) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.departamento, departamento) ||
+                other.departamento == departamento) &&
+            (identical(other.identification, identification) ||
+                other.identification == identification) &&
             (identical(other.bonus, bonus) || other.bonus == bonus));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, phone, email, photo, address, bonus);
+  int get hashCode => Object.hash(runtimeType, id, name, phone, email, address,
+      city, departamento, identification, bonus);
 
   @JsonKey(ignore: true)
   @override
@@ -244,12 +283,14 @@ class _$UserImpl implements _User {
 abstract class _User implements User {
   const factory _User(
       {final String id,
-      final String name,
-      final String phone,
-      required final String email,
-      required final String photo,
-      required final String address,
-      required final String bonus}) = _$UserImpl;
+      required final String name,
+      required final String phone,
+      final String email,
+      final String address,
+      final String city,
+      final String departamento,
+      required final String identification,
+      final int bonus}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -262,11 +303,15 @@ abstract class _User implements User {
   @override
   String get email;
   @override
-  String get photo;
-  @override
   String get address;
   @override
-  String get bonus;
+  String get city;
+  @override
+  String get departamento;
+  @override
+  String get identification;
+  @override
+  int get bonus;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

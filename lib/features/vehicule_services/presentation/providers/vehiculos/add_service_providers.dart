@@ -119,39 +119,3 @@ class IsLoading extends _$IsLoading {
     state = !state;
   }
 }
-
-//? FIXME reubircar estos providers
-
-@riverpod
-class ListPropietarios extends _$ListPropietarios {
-  //TODO fecth de datos sobre base de ´propietarios
-  @override
-  List<User> build() {
-    return <User>[
-      const User(
-          name: 'Alice',
-          email: 'alice@example.com',
-          photo: '',
-          address: '',
-          bonus: ''),
-      const User(
-          name: 'Bob',
-          email: 'bob@example.com',
-          photo: '',
-          address: '',
-          bonus: ''),
-      const User(
-          name: 'Charlie',
-          email: 'charlie123@gmail.com',
-          photo: '',
-          address: '',
-          bonus: ''),
-    ];
-  }
-
-  addPropietario() {
-    const user = User(
-        name: "PEdro", email: "pedro@pedro", photo: '', address: '', bonus: '');
-    state = [...state, user];
-  }
-}

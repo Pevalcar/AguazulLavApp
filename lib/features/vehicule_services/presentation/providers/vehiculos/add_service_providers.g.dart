@@ -141,21 +141,5 @@ final isLoadingProvider = AutoDisposeNotifierProvider<IsLoading, bool>.internal(
 );
 
 typedef _$IsLoading = AutoDisposeNotifier<bool>;
-String _$listPropietariosHash() => r'9b518c3fcde6b3d42f25d884c1b4705da62bcb64';
-
-/// See also [ListPropietarios].
-@ProviderFor(ListPropietarios)
-final listPropietariosProvider =
-    AutoDisposeNotifierProvider<ListPropietarios, List<User>>.internal(
-  ListPropietarios.new,
-  name: r'listPropietariosProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$listPropietariosHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ListPropietarios = AutoDisposeNotifier<List<User>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
