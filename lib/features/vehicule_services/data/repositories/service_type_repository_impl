@@ -1,0 +1,39 @@
+import 'package:aguazullavapp/features/servicios/domain/datasources/service_type/service_type.dart';
+import 'package:aguazullavapp/lib.dart';
+
+class ServiceTypeRepositoryImpl implements ServiceTypeRepository {
+  final ServiceTypeLocalDatasource _localDataSource;
+  ServiceTypeRepositoryImpl(this._localDataSource);
+
+  @override
+  Future<List<ServiceType>> GetServicesInfo() async {
+    final list = _localDataSource.GetServiceType();
+    List<ServiceType> services = list
+        .map((e) => ServiceType(
+              servicioId: e.servicioId,
+              nameService: e.nameService,
+              description: e.description,
+              price: e.price,
+              icon: e.icon,
+            ))
+        .toList();
+    return services;
+  }
+
+  @override
+  Future<void> addServiceType(ServiceType service) async {
+    final serviceTypeEntity = ServiceTypeEntity.fromEntity(service);
+    _localDataSource.addServiceType(serviceTypeEntity);
+  }
+
+  @override
+  Future<void> deleteServiceType(String index) async {
+    _localDataSource.deleteServiceType(index);
+  }
+
+  @override
+  Future<void> modifieServiceType(String index, ServiceType service) async {
+    final serviceTypeEntity = ServiceTypeEntity.fromEntity(service);
+    _localDataSource.modifieServiceType(index, serviceTypeEntity);
+  }
+}

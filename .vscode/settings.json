@@ -1,0 +1,9 @@
+{
+    "cmake.configureOnOpen": false,
+    "svg.preview.background": "transparent",
+    "cSpell.words": [
+        "Skeletonizer",
+        "Uuid"
+    ],
+    "IDX.aI.enableInlineCompletion": true
+}
