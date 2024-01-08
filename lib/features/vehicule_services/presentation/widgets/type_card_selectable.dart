@@ -25,22 +25,23 @@ class ServiceTypeSelecte extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var filteredList = useState<List<ServiceType>>([]);
     final listServices = ref.watch(serviceTypeListProvider);
-    // final serviceSelection = ref.watch(vehiculoStateProvider).servicios;
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: listServices.when(
-          data: (data) {
-            filteredList.value = _sortList(data, type);
-            return filteredList.value
-                    .map((e) =>
-                        ServiceTypeCard(typeCardService: e, value: false))
-                    .toList();
-          },
-          error: (error, stackTrace) => [Text(error.toString())],
-          loading: () => [const Center(child: CircularProgressIndicator())],
-        ),
+    final serviceSelection = ref.watch(serviceTypeSelectProvider);
+    return Wrap(
+      direction: Axis.horizontal,
+      runSpacing: 20,
+      spacing: 10,
+      children: listServices.when(
+        data: (data) {
+          filteredList.value = _sortList(data, type);
+          return filteredList.value
+              .map((e) => SizedBox(
+                  width: 150,
+                  child: ServiceTypeCard(
+                      typeCardService: e, value: serviceSelection == e)))
+              .toList();
+        },
+        error: (error, stackTrace) => [Text(error.toString())],
+        loading: () => [const Center(child: CircularProgressIndicator())],
       ),
     );
   }

@@ -8,7 +8,7 @@ part of 'photo_state_model.dart';
 
 _$PhotoStateImpl _$$PhotoStateImplFromJson(Map<String, dynamic> json) =>
     _$PhotoStateImpl(
-      url: json['url'] as String? ?? "",
+      url: json['url'] as String,
       message: json['message'] as String? ?? null,
       code: json['code'] as String? ?? null,
     );

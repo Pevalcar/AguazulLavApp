@@ -71,12 +71,11 @@ class ClientList extends _$ClientList {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final _userGuard = await ref.watch(addUserProvider).call(user);
-      List<User> newList = state.asData?.value ?? [];
+      List<User> newList = state.value ?? [];
       if (_userGuard != null) {
         onAddClient == null ? null : onAddClient(_userGuard);
-        [...state.asData?.value ?? [], _userGuard];
+        state.value?.add(_userGuard);
       }
-
       return newList;
     });
   }
@@ -106,7 +105,12 @@ class ClientList extends _$ClientList {
     });
   }
 
-  Future<User?> getUsers(String userID) async {
+  Future<User?> getUser(String userID) async {
+    if (userID == "") return null;
+    //si la base de taos local l contiene
+    if (state.asData?.value != null) {
+      return state.asData?.value.firstWhere((element) => element.id == userID);
+    }
     return await ref.watch(getUserProvider).call(userID);
   }
 }

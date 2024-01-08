@@ -41,7 +41,7 @@ class ListVehiculos extends ConsumerWidget {
           // ref.read(firebaseControlProvider.notifier).signOut();
           ref
               .read(vehiculoStateProvider.notifier)
-              .addVehiculo(() => showToast(context, 'Vehiculo Agregado'));
+              .addVehiculo(() => showToast(context, 'Vehiculo Agregado'), null);
         },
         child: const Icon(Icons.add),
       ),

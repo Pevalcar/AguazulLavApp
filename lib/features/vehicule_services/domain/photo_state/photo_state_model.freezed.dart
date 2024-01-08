@@ -20,7 +20,7 @@ PhotoState _$PhotoStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PhotoState {
-  String? get url => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
 
@@ -36,7 +36,7 @@ abstract class $PhotoStateCopyWith<$Res> {
           PhotoState value, $Res Function(PhotoState) then) =
       _$PhotoStateCopyWithImpl<$Res, PhotoState>;
   @useResult
-  $Res call({String? url, String? message, String? code});
+  $Res call({String url, String? message, String? code});
 }
 
 /// @nodoc
@@ -52,15 +52,15 @@ class _$PhotoStateCopyWithImpl<$Res, $Val extends PhotoState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? url = freezed,
+    Object? url = null,
     Object? message = freezed,
     Object? code = freezed,
   }) {
     return _then(_value.copyWith(
-      url: freezed == url
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,7 @@ abstract class _$$PhotoStateImplCopyWith<$Res>
       __$$PhotoStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? url, String? message, String? code});
+  $Res call({String url, String? message, String? code});
 }
 
 /// @nodoc
@@ -95,15 +95,15 @@ class __$$PhotoStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? url = freezed,
+    Object? url = null,
     Object? message = freezed,
     Object? code = freezed,
   }) {
     return _then(_$PhotoStateImpl(
-      url: freezed == url
+      url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -120,14 +120,13 @@ class __$$PhotoStateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PhotoStateImpl implements _PhotoState {
   const _$PhotoStateImpl(
-      {this.url = "", this.message = null, this.code = null});
+      {required this.url, this.message = null, this.code = null});
 
   factory _$PhotoStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$PhotoStateImplFromJson(json);
 
   @override
-  @JsonKey()
-  final String? url;
+  final String url;
   @override
   @JsonKey()
   final String? message;
@@ -170,7 +169,7 @@ class _$PhotoStateImpl implements _PhotoState {
 
 abstract class _PhotoState implements PhotoState {
   const factory _PhotoState(
-      {final String? url,
+      {required final String url,
       final String? message,
       final String? code}) = _$PhotoStateImpl;
 
@@ -178,7 +177,7 @@ abstract class _PhotoState implements PhotoState {
       _$PhotoStateImpl.fromJson;
 
   @override
-  String? get url;
+  String get url;
   @override
   String? get message;
   @override

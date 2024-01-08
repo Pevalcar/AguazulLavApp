@@ -109,12 +109,12 @@ export 'features/vehicule_services/presentation/widgets/add_service_screens/desk
 export 'features/vehicule_services/presentation/widgets/add_service_screens/mobile_ui/mobile_add_service.dart';
 export 'features/vehicule_services/presentation/widgets/add_service_screens/mobile_ui/mobile_ui.dart';
 export 'features/vehicule_services/presentation/widgets/app_bar_add_service.dart';
+export 'features/vehicule_services/presentation/widgets/drop_down_type_vehicle.dart';
 export 'features/vehicule_services/presentation/widgets/formulario.dart';
 export 'features/vehicule_services/presentation/widgets/handle.dart';
 export 'features/vehicule_services/presentation/widgets/time_data_show.dart';
 export 'features/vehicule_services/presentation/widgets/type_card.dart';
 export 'features/vehicule_services/presentation/widgets/type_card_selectable.dart';
-export 'features/vehicule_services/presentation/widgets/type_class_selecter.dart';
 export 'features/vehicule_services/presentation/widgets/widgets.dart';
 export 'features/vehicule_services/servicios.dart';
 export 'features/vehicule_services/vehicule_services.dart';

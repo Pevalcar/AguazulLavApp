@@ -108,7 +108,7 @@ final getUsersProvider = AutoDisposeProvider<GetUsers>.internal(
 );
 
 typedef GetUsersRef = AutoDisposeProviderRef<GetUsers>;
-String _$clientListHash() => r'b2d4ca7c9ac63623c31b884eb8ca25ef67862478';
+String _$clientListHash() => r'e1c081498f14e22ca45e70edfeaf85ffe21ef299';
 
 /// See also [ClientList].
 @ProviderFor(ClientList)

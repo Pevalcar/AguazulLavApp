@@ -29,7 +29,8 @@ class Handled extends HookConsumerWidget {
     });
     ref.listen(photoVehiculeProvider, (previous, next) {
       if (previous?.asData?.value?.message != next.asData?.value?.message) {
-        if (next.asData?.value?.message != ""  && next.asData?.value?.message != null) {
+        if (next.asData?.value?.message != "" &&
+            next.asData?.value?.message != null) {
           showToast(context, next.asData?.value?.message ?? "");
         }
       }
@@ -44,7 +45,12 @@ class Handled extends HookConsumerWidget {
             child: photo.when(
               data: (data) {
                 return data?.url == null || data?.url == ""
-                    ? Assets.images.placeolder.image()
+                    ? Assets.images.placeolder.image(
+                        cacheHeight: 430,
+                        cacheWidth: 300,
+                        width: 300,
+                        height: 430,
+                      )
                     : PhotoView(url: data?.url ?? "");
               },
               error: (error, stackTrace) => Text('Error: $error'),
@@ -67,7 +73,7 @@ class Handled extends HookConsumerWidget {
                 CloseButton(
                   onPressed: () => ref
                       .read(photoVehiculeProvider.notifier)
-                      .deletePhoto( null),
+                      .deletePhoto(null),
                 )
               ])
             : Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [

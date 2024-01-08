@@ -2,7 +2,6 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
 class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
 
@@ -59,7 +58,8 @@ class CardCarService extends HookConsumerWidget {
                 ),
               ],
             ),
-            Text(" \$ ${vehicle.typePrice == "" ? "25.000.00" : vehicle.typePrice}")
+            Text(
+                " \$ ${vehicle.typePrice == "" ? "25.000.00" : vehicle.typePrice}")
           ],
         ),
         subtitle: Row(
@@ -103,6 +103,11 @@ class CardCarService extends HookConsumerWidget {
           ],
         ),
         children: [
+          /* TODO ════════ Exception caught by painting library ══════════════════════════════════
+Image null has a display size of 501×921 but a decode size of 1002×1840, which uses an additional 7196KB (assuming a device pixel ratio of 1.75).
+
+Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 501, a cacheHeight parameter of 921, or using a ResizeImage.
+════════════════════════════════════════════════════════════════════════════════*/
           GestureDetector(
             onTap: () {
               showDialog(
@@ -141,7 +146,7 @@ class CardCarService extends HookConsumerWidget {
                   style: myStileButton,
                   onPressed: () {
                     ref.read(serviceListProvider.notifier).endService(vehicle);
-                    // cardKey.currentState?.collapse();
+                    controller.collapse();
                   },
                   child: const Column(
                     children: <Widget>[

@@ -22,7 +22,8 @@ class UserDataSource {
     }
   }
 
-  Future<User?> getUser(String id) async {
+  Future<User?> getUser(String id ) async {
+    if (id.isEmpty) return null;
     try {
       final doc = await firestore.where("id", isEqualTo: id).get();
       return User.fromJson(doc.docs.first.data() as Map<String, dynamic>);

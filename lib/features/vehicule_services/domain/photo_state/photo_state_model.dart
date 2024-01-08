@@ -6,7 +6,7 @@ part 'photo_state_model.g.dart';
 @freezed
 class PhotoState with _$PhotoState {
   const factory PhotoState({
-    @Default("") String? url,
+    required String url,
     @Default(null) String? message,
     @Default(null) String? code,
   }) = _PhotoState;

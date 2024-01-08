@@ -2,10 +2,10 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TypedCardSelector extends ConsumerWidget {
+class DropDownTypeVehicle extends ConsumerWidget {
   final List<String> typesList;
   final String type;
-  const TypedCardSelector({required this.typesList, required this.type, super.key});
+  const DropDownTypeVehicle({required this.typesList, required this.type, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

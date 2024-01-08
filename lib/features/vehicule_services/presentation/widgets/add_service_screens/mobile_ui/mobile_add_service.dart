@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:aguazullavapp/lib.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
+//TODO interfaz de pc, agregar eliminar y modificar servicio, modificar la card de lista para ver mas informacion, agregar cuentas para ver ganancias, agregar caja menor y gastos
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});
 
@@ -16,7 +14,6 @@ class MobileAddService extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vehicle = ref.watch(vehiculoStateProvider);
     final typeService = ref.watch(typoDeVehiculoProvider);
 //on back pressed delete photo
     return PopScope(
@@ -31,17 +28,9 @@ class MobileAddService extends HookConsumerWidget {
           ),
           body: SingleChildScrollView(
             child: Column(children: [
-              Text(
-                "Factura Numero: ${vehicle.asData!.value?.id}",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               const Handled(),
               const Formulario(),
-              //TODO  renombrar la clase de la card esa y agregar que en otro se pueda colocar precio y descripccion
-              TypedCardSelector(
+              DropDownTypeVehicle(
                 typesList: ref.watch(typosDeVeiculosProvider),
                 type: typeService,
               ),
@@ -49,30 +38,14 @@ class MobileAddService extends HookConsumerWidget {
                   ? const OtroOptions()
                   : ServiceTypeSelecte(type: typeService),
               const TimerDataShow(),
+              const SizedBox(height: 16),
             ]),
           ),
-          floatingActionButton: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              (kIsWeb)
-                  ? const SizedBox(height: 10)
-                  : (Platform.isAndroid && Platform.isIOS)
-                      ? FloatingActionButton(
-                          onPressed: () {
-                            // getFromCamera(
-                            //     ref.read(vehiculoStateProvider.notifier));
-                          },
-                          child: const Icon(Icons.camera_alt),
-                        )
-                      : const SizedBox(height: 10),
-              const SizedBox(height: 10),
-              FloatingActionButton(
-                onPressed: () {
-                  GoRouter.of(context).push('/addServiceType');
-                },
-                child: const Icon(Icons.photo_library_rounded),
-              ),
-            ],
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              GoRouter.of(context).push('/addServiceType');
+            },
+            child: const Icon(Icons.photo_library_rounded),
           )),
     );
   }

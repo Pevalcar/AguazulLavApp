@@ -13,10 +13,11 @@ class Vehicle with _$Vehicle {
     required String placa,
     //Puden cambiar siempre
     required String typeService,
-    required String typePrice,
+    required int typePrice,
     //propietario siempre seran los mismos
     required String propietarioid,
     required DateTime entrada,
+    required String trabjador,
     @Default(null) DateTime? salida,
     @Default(false) bool terminado,
     @Default(false) bool onCreate,

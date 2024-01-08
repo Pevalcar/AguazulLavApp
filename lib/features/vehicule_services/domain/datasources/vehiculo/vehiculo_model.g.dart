@@ -12,9 +12,10 @@ _$VehiculoImpl _$$VehiculoImplFromJson(Map<String, dynamic> json) =>
       photo: json['photo'] as String,
       placa: json['placa'] as String,
       typeService: json['typeService'] as String,
-      typePrice: json['typePrice'] as String,
+      typePrice: json['typePrice'] as int,
       propietarioid: json['propietarioid'] as String,
       entrada: DateTime.parse(json['entrada'] as String),
+      trabjador: json['trabjador'] as String,
       salida: json['salida'] == null
           ? null
           : DateTime.parse(json['salida'] as String),
@@ -31,6 +32,7 @@ Map<String, dynamic> _$$VehiculoImplToJson(_$VehiculoImpl instance) =>
       'typePrice': instance.typePrice,
       'propietarioid': instance.propietarioid,
       'entrada': instance.entrada.toIso8601String(),
+      'trabjador': instance.trabjador,
       'salida': instance.salida?.toIso8601String(),
       'terminado': instance.terminado,
       'onCreate': instance.onCreate,

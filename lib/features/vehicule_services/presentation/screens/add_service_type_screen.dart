@@ -19,7 +19,7 @@ class AddServiceTypeScreen extends HookConsumerWidget {
     final priceController = useTextEditingController();
 
     const spacer = SizedBox(height: 16);
-
+//FIXME arreglar este llamocon un call back desde la funcion encargada
     ref.listen(serviceTypeListProvider, (previous, next) {
       if (previous != next) {
         if (next.hasValue) {
@@ -63,7 +63,7 @@ class AddServiceTypeScreen extends HookConsumerWidget {
               children: [
                 const Text("Tipo de Vehiculo"),
                 spacer,
-                TypedCardSelector(
+                DropDownTypeVehicle(
                   typesList: ref.watch(typosDeVeiculosProvider),
                   type: typeSelect,
                 ),
