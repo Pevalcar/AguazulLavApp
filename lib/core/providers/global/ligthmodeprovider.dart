@@ -6,14 +6,14 @@ part "ligthmodeprovider.g.dart";
 
 @riverpod
 class DartMode extends _$DartMode {
-  bool mode = true;
+  bool _mode = true;
   @override
   ThemeMode build() {
     return ThemeMode.system;
   }
 //TODO : toggle the mode save in local storage
   void toggle() {
-    mode = !mode;
-    state = mode ? ThemeMode.dark : ThemeMode.light ;
+    _mode = !_mode;
+    state = _mode ? ThemeMode.dark : ThemeMode.light ;
   }
 }

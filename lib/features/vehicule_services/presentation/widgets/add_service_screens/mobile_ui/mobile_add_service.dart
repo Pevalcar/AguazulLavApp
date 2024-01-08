@@ -7,10 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});
 
-  _submit(WidgetRef ref) {
-    //TODO
-    // ref.read(vehiculoStateProvider.notifier).();
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

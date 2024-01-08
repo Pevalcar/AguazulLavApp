@@ -11,25 +11,26 @@ enum SERVICETYPE {
 
 void showErrorToast(BuildContext context, String error) {
     final scaffold = ScaffoldMessenger.of(context);
-    String error0 = error;
+    String _error = error;
 
-    if (error0.contains("email-already-in-use")) {
-      error0 = "El correo ya se encuentra registrado";
-    } else if (error0.contains("invalid-credential")) {
-      error0 = "El usuario o la contraseña son incorrectos";
-    } else if (error0.contains("invalid-email")) {
-      error0 = "Email no válido";
-    } else if (error0.contains("user-not-found")) {
-      error0 = "Usuario no encontrado";
-    } else if (error0.contains("too-many-requests")) {
-      error0 = "Demaciados intetnos fallidos, intente mas tarde o recuperar su contraseña";
-    } else if (error0.contains("popup_closed")) {
-      error0 = "Inicio cancelado";
+    if (_error.contains("email-already-in-use")) {
+      _error = "El correo ya se encuentra registrado";
+    } else if (_error.contains("invalid-credential")) {
+      _error = "El usuario o la contraseña son incorrectos";
+    } else if (_error.contains("invalid-email")) {
+      _error = "Email no válido";
+    } else if (_error.contains("user-not-found")) {
+      _error = "Usuario no encontrado";
+    } else if (_error.contains("too-many-requests")) {
+      _error = "Demaciados intetnos fallidos, intente mas tarde o recuperar su contraseña";
+    } else if (_error.contains("popup_closed")) {
+      _error = "Inicio cancelado";
     }
-    debugPrint(error0);
+    debugPrint(_error);
     scaffold.showSnackBar(
       SnackBar(
-        content: Text(error0),
+        backgroundColor: Theme.of(context).colorScheme.error,
+        content: Text(_error),
         action: SnackBarAction(
             label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
       ),

@@ -19,18 +19,8 @@ class AddServiceTypeScreen extends HookConsumerWidget {
     final priceController = useTextEditingController();
 
     const spacer = SizedBox(height: 16);
-//FIXME arreglar este llamocon un call back desde la funcion encargada
-    ref.listen(serviceTypeListProvider, (previous, next) {
-      if (previous != next) {
-        if (next.hasValue) {
-          showToast(context, "Servicio agregado con exito");
-        }
-        if (next.hasError) {
-          showErrorToast(context, next.error.toString());
-        }
-      }
-    });
 
+//TODO manejo de la opcion otros
     void submit() async {
       if (keyForm.currentState!.validate()) {
         keyForm.currentState!.save();
@@ -42,8 +32,12 @@ class AddServiceTypeScreen extends HookConsumerWidget {
           description: descriptionController.text,
           price: priceController.text,
         );
-        showToast(context, "Agregando Servicio");
-        ref.read(serviceTypeListProvider.notifier).addServiceType(service);
+          showToast(context, "Agregando Servicio");
+        ref.read(serviceTypeListProvider.notifier).addServiceType(service, () {
+          showToast(context, "Agregado");
+        } , (error) {
+          showErrorToast(context, error);
+        });
       }
       Navigator.pop(context);
     }
@@ -276,6 +270,3 @@ class CurrencyInputFormatter extends TextInputFormatter {
         selection: TextSelection.collapsed(offset: newText.length));
   }
 }
-
-
-//TODO Agregar Skeletons

@@ -1,5 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'add_service_state_provider.g.dart';
@@ -62,13 +63,17 @@ class ServiceTypeList extends _$ServiceTypeList {
     return await ref.read(getServiceTypeProvider).call();
   }
 
-  void addServiceType(ServiceType service) async {
+  void addServiceType(ServiceType service, Function() onAddDone,Function(String) onCatchError) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.watch(addServiceTypeProvider).call(service);
-      
+      onAddDone();
       return loadData();
     });
+    if (state.hasError) {
+      debugPrint(' error subiendo el servicio : ${state.error}');
+      onCatchError("Problemas al agregar servicio, intente mas tarde.");
+    }
   }
 
   void deleteServiceType(ServiceType service) async {
@@ -82,9 +87,7 @@ class ServiceTypeList extends _$ServiceTypeList {
   void modifieServiceType(ServiceType service) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref
-          .watch(modifieServiceTypeProvider)
-          .call(service);
+      await ref.watch(modifieServiceTypeProvider).call(service);
       return loadData();
     });
   }

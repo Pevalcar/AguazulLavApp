@@ -69,7 +69,6 @@ class VehiculoState extends _$VehiculoState {
 
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      //TODO ? retornar un
       await ref.read(addVehiculoProvider).call(carro);
       if (onCarroSave != null) {
         onCarroSave();
@@ -108,7 +107,6 @@ class Placa extends _$Placa {
 
 @riverpod
 class TypoDeVehiculo extends _$TypoDeVehiculo {
-  //TODO fecth de datos sobre base de typos
   _fetchTypo() {
     final typo = ref.watch(typosDeVeiculosProvider);
     return typo.first;

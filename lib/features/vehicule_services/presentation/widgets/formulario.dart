@@ -95,7 +95,6 @@ class ClientSearcher extends HookConsumerWidget {
     super.key,
   });
   static String _displayStringForOption(User option) => option.name;
-//FIXME! si por error no se pone un usuario que pasa?
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userOptions = ref.watch(clientListProvider);
