@@ -15,9 +15,9 @@ class PhotoDataResource {
       final urle = await upref.getDownloadURL();
       return PhotoState(url: urle, message: "La foto se subio con exito");
     } on FirebaseException catch (e) {
-      return PhotoState(url: null, code: e.code, message: e.message);
+      return PhotoState(url: "", code: e.code, message: e.message);
     } catch (e) {
-      return PhotoState(url: null, code: e.toString(), message: e.toString());
+      return PhotoState(url: "", code: e.toString(), message: e.toString());
     }
   }
 
@@ -25,11 +25,11 @@ class PhotoDataResource {
     try {
       final upref = _firestore.child("imagenes/${photo.name}");
       await upref.delete();
-      return const PhotoState(url: null, message: "La foto eliminada");
+      return const PhotoState(url: "", message: "La foto eliminada");
     } on FirebaseException catch (e) {
-      return PhotoState(url: null, code: e.code, message: e.message);
+      return PhotoState(url: "", code: e.code, message: e.message);
     } catch (e) {
-      return PhotoState(url: null, code: e.toString(), message: e.toString());
+      return PhotoState(url: "", code: e.toString(), message: e.toString());
     }
   }
 }
