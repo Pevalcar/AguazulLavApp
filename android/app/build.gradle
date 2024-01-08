@@ -70,8 +70,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-<<<<<<< HEAD
-=======
     implementation 'com.android.support:multidex:2.0.1'
->>>>>>> initialdev
 }

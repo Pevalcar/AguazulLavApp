@@ -30,9 +30,8 @@ class MobileAddService extends HookConsumerWidget {
                 typesList: ref.watch(typosDeVeiculosProvider),
                 type: typeService,
               ),
-              typeService == "OTRO."
-                  ? const OtroOptions()
-                  : ServiceTypeSelecte(type: typeService),
+               ServiceTypeSelecte(type: typeService),
+               
               const TimerDataShow(),
               const SizedBox(height: 16),
             ]),
@@ -43,21 +42,6 @@ class MobileAddService extends HookConsumerWidget {
             },
             child: const Icon(Icons.photo_library_rounded),
           )),
-    );
-  }
-}
-
-class OtroOptions extends StatelessWidget {
-  const OtroOptions({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final keyForm = GlobalKey<FormState>();
-    return Form(
-      key: keyForm,
-      child: const Text("Servicio"),
     );
   }
 }

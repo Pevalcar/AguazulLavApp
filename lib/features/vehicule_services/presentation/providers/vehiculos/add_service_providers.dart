@@ -1,5 +1,4 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
