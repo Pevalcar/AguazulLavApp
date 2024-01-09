@@ -8,39 +8,6 @@ class ListVehiculos extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      bottomSheet: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            leading: const Icon(Icons.photo),
-            title: const Text('Photo'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.music_note),
-            title: const Text('Music'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.videocam),
-            title: const Text('Video'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.share),
-            title: const Text('Share'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -50,6 +17,52 @@ class ListVehiculos extends ConsumerWidget {
             physics: const BouncingScrollPhysics(),
             primary: true,
             slivers: [
+              SliverToBoxAdapter(
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ListTile(
+                                  leading: new Icon(Icons.photo),
+                                  title: new Text('Photo'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                ListTile(
+                                  leading: new Icon(Icons.music_note),
+                                  title: new Text('Music'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                ListTile(
+                                  leading: new Icon(Icons.videocam),
+                                  title: new Text('Video'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                ListTile(
+                                  leading: new Icon(Icons.share),
+                                  title: new Text('Share'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    child: Text('Mostrar Bottom Sheet'),
+                  ),
+                ),
+              ),
               SliverAppBar(
                 elevation: 10.0,
                 flexibleSpace: FlexibleSpaceBar(
