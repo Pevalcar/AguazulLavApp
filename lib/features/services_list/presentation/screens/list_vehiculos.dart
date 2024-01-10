@@ -1,12 +1,15 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class ListVehiculos extends ConsumerWidget {
+class ListVehiculos extends HookConsumerWidget {
   const ListVehiculos({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _iniciatejornada = useState(true);
+    final _cajainicialController = useTextEditingController();
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
@@ -17,65 +20,68 @@ class ListVehiculos extends ConsumerWidget {
             physics: const BouncingScrollPhysics(),
             primary: true,
             slivers: [
-              SliverToBoxAdapter(
-                child: Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                  leading: new Icon(Icons.photo),
-                                  title: new Text('Photo'),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                ListTile(
-                                  leading: new Icon(Icons.music_note),
-                                  title: new Text('Music'),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                ListTile(
-                                  leading: new Icon(Icons.videocam),
-                                  title: new Text('Video'),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                ListTile(
-                                  leading: new Icon(Icons.share),
-                                  title: new Text('Share'),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                    child: Text('Mostrar Bottom Sheet'),
-                  ),
-                ),
-              ),
               SliverAppBar(
+                pinned: true,
                 elevation: 10.0,
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text(
-                    'Listado de Servicios',
-                    style: Theme.of(context).textTheme.titleLarge,
+                  title: Text('Listado de Servicios',
+                      style: Theme.of(context).textTheme.titleLarge),
+                  background: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            _iniciatejornada.value = !_iniciatejornada.value;
+                          },
+                          child: Text(_iniciatejornada.value
+                              ? "Iniciar Jornada"
+                              : "Finalizar Jornada"),
+                        ),
+                        SizedBox(
+                          width: 300.0,
+                          child: TextFormField(
+                            readOnly: !_iniciatejornada.value,
+                            autofocus: true,
+                            autovalidateMode:  AutovalidateMode.onUserInteraction,
+                            controller: _cajainicialController,
+                            decoration: const InputDecoration(
+                              hintText: "Caja inicial",
+                              labelText: 'Caja base',
+                              icon: Icon(Icons.numbers),
+                              border: UnderlineInputBorder(),
+                              helperText: "Caja base",
+                            ),
+                            onChanged: (value) {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Agregar un valor";
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.number,
+                            onFieldSubmitted: (value) {},
+                            textInputAction: TextInputAction.done,
+                          
+                          ),
+                        ),
+                        Text(
+                          'Listado de Servicios',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Text(
+                          'Listado de Servicios',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
+                    ),
                   ),
                   centerTitle: true,
                   collapseMode: CollapseMode.parallax,
                   titlePadding: const EdgeInsets.all(10.0),
                 ),
+                expandedHeight: MediaQuery.of(context).size.height * 0.5,
                 actions: const [DarkModeButton()],
-                pinned: true,
               ),
               const ListaVehiculos(),
             ],
