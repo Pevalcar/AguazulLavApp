@@ -27,53 +27,40 @@ class ListVehiculos extends HookConsumerWidget {
                   title: Text('Listado de Servicios',
                       style: Theme.of(context).textTheme.titleLarge),
                   background: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            _iniciatejornada.value = !_iniciatejornada.value;
-                          },
-                          child: Text(_iniciatejornada.value
-                              ? "Iniciar Jornada"
-                              : "Finalizar Jornada"),
-                        ),
-                        SizedBox(
-                          width: 300.0,
-                          child: TextFormField(
-                            readOnly: !_iniciatejornada.value,
-                            autofocus: true,
-                            autovalidateMode:  AutovalidateMode.onUserInteraction,
-                            controller: _cajainicialController,
-                            decoration: const InputDecoration(
-                              hintText: "Caja inicial",
-                              labelText: 'Caja base',
-                              icon: Icon(Icons.numbers),
-                              border: UnderlineInputBorder(),
-                              helperText: "Caja base",
-                            ),
-                            onChanged: (value) {},
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Agregar un valor";
-                              }
-                              return null;
+                    child: SizedBox(
+                      width: 300,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              _iniciatejornada.value = !_iniciatejornada.value;
                             },
-                            keyboardType: TextInputType.number,
-                            onFieldSubmitted: (value) {},
-                            textInputAction: TextInputAction.done,
-                          
+                            child: Text(_iniciatejornada.value
+                                ? "Iniciar Jornada"
+                                : "Finalizar Jornada"),
                           ),
-                        ),
-                        Text(
-                          'Listado de Servicios',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        Text(
-                          'Listado de Servicios',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ],
+                          TextToTextFieldIniciaBase(
+                              iniciatejornada: _iniciatejornada,
+                              cajainicialController: _cajainicialController),
+                          Row(
+                            children: [
+                              Text(
+                                'Listado de Servicios',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              Text(
+                                'Listado de Servicios',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'Listado de Servicios',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   centerTitle: true,
@@ -98,6 +85,71 @@ class ListVehiculos extends HookConsumerWidget {
         child: const Icon(Icons.add),
       ),
     );
+  }
+}
+
+class TextToTextFieldIniciaBase extends StatelessWidget {
+  const TextToTextFieldIniciaBase({
+    super.key,
+    required ValueNotifier<bool> iniciatejornada,
+    required TextEditingController cajainicialController,
+  })  : _iniciatejornada = iniciatejornada,
+        _cajainicialController = cajainicialController;
+
+  final ValueNotifier<bool> _iniciatejornada;
+  final TextEditingController _cajainicialController;
+
+  @override
+  Widget build(BuildContext context) {
+    return !_iniciatejornada.value
+        ? Text("Caja inicial ..... \$ ${_cajainicialController.text}")
+        : TextFormField(
+            autofocus: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            controller: _cajainicialController,
+            decoration: const InputDecoration(
+              hintText: "Caja inicial",
+              labelText: 'Caja base',
+              icon: Icon(Icons.numbers),
+              border: UnderlineInputBorder(),
+              helperText: "Caja base",
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Agregar un valor";
+              }
+              return null;
+            },
+            keyboardType: TextInputType.number,
+            onFieldSubmitted: (value) {
+              showDialog(context : context, builder: (_) {
+                return AlertDialog(
+                  
+                  title: const Text("¿Seguro que desea iniciar jornada?"),
+                  content: Text("Caja inicial: \$ ${_cajainicialController.text}"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("Cancelar"),
+
+                    ),
+                    TextButton(
+                      onPressed: () {
+              _iniciatejornada.value = !_iniciatejornada.value;
+                        //TODO Agregar la jurnada para base de datos de jornadas
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("Iniciar"),
+                    )
+                  ]
+                );
+              },
+              );
+            },
+            textInputAction: TextInputAction.done,
+          );
   }
 }
 
