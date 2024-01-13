@@ -4,23 +4,7 @@ import 'package:uuid/uuid.dart';
 
 part "add_service_providers.g.dart";
 
-@riverpod
-AddVehiculo addVehiculo(AddVehiculoRef ref) {
-  final repository = ref.watch(vehiculoRepositoryProvider);
-  return AddVehiculo(repository);
-}
 
-@riverpod
-DeleteVehiculo deleteVehiculo(DeleteVehiculoRef ref) {
-  final repository = ref.watch(vehiculoRepositoryProvider);
-  return DeleteVehiculo(repository);
-}
-
-@riverpod
-ModifiVehiculo modifieVehicule(ModifieVehiculeRef ref) {
-  final repository = ref.watch(vehiculoRepositoryProvider);
-  return ModifiVehiculo(repository);
-}
 
 @riverpod
 class VehiculoState extends _$VehiculoState {
@@ -55,29 +39,28 @@ class VehiculoState extends _$VehiculoState {
       return onSaveError?.call("Favor de colocar una Placa");
     }
 
+    final _time = DateTime.now();
     final Vehicle carro = Vehicle(
       id: const Uuid().v4(),
       photo: _photo,
       propietarioid: _propietario,
       placa: _placa,
-      entrada: DateTime.now(),
+      entrada: _time,
       typeService: _typeService,
       typePrice: correctionPrice(ref.watch(serviceTypeSelectProvider)?.price),
       trabjador: _worker,
+      diaJronada: DateTime(_time.year, _time.month, _time.day),
     );
 
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref.read(addVehiculoProvider).call(carro);
+      await ref.read(serviceListProvider.notifier).addService(carro);
       if (onCarroSave != null) {
         onCarroSave();
       }
       return carro;
     });
   }
-
-  void deleteVehiculo(Function()? callback) {}
-  void modifierVehiculo(Function()? callback) {}
 }
 
 @riverpod

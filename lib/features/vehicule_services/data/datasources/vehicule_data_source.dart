@@ -39,9 +39,22 @@ class VehiculoDataSource {
   }
 
   void modifieVehicle(Vehicle vehicle) async {
-    debugPrint('vehicle to update: $vehicle');
     try {
       await _firebase.doc(vehicle.id).update(vehicle.toJson());
+    } on FirebaseException catch (e) {
+      debugPrint('error Firebase: ${e.code}');
+    }
+  }
+
+  getVehiculesToday(List<String> ids) async {
+    List<Vehicle> list = [];
+    try {
+      await _firebase.where('id', whereIn: ids).get().then((value) {
+        for (var element in value.docs) {
+          list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));
+        }
+      });
+      return list;
     } on FirebaseException catch (e) {
       debugPrint('error Firebase: ${e.code}');
     }

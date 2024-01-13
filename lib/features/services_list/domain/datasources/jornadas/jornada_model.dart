@@ -7,14 +7,14 @@ part 'jornada_model.g.dart';
 
 @freezed
 class Jornada with _$Jornada {
-  const factory Jornada({
-    @Default('') String id,
-    @Default([]) List<String> jornadasList,
-    @Default('') DateTime dia,
+  factory Jornada({
+    required String id,
+    @Default([]) List<String> jornadasListIDs,
+    @Default([]) List<String> entradaSalidaIDs,
+    required DateTime? dateInit,
+    @Default(null) DateTime? dateEnd,
     @Default(false) bool enJornada,
-    @Default(0) int cajaInicial,
-    @Default([]) List<String> entrada,
-    @Default([]) List<String> salida,
+    required int cajaInicial,
     @Default(0) int ingresos,
 
   }) = _Jornada;

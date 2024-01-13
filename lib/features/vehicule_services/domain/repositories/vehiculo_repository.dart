@@ -5,4 +5,5 @@ abstract class VehiculoRepository {
   Future<void> addVehicle(Vehicle vehicle);
   Future<void> deleteVehicle(Vehicle vehicle);
   Future<void> modifieVehicle(Vehicle vehicle);
+  Future<List<Vehicle>> getVehiculesToday(  List<String> ids);
 }

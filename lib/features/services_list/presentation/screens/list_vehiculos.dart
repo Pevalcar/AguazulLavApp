@@ -280,7 +280,7 @@ class ListaVehiculos extends HookConsumerWidget {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return CardCarService(
-                  vehicle: data[index],
+                  vehicle: data[index] ,
                 );
               },
             ),

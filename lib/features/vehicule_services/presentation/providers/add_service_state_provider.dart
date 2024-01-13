@@ -91,6 +91,7 @@ class ServiceTypeList extends _$ServiceTypeList {
       return loadData();
     });
   }
+  
 }
 
 //TODO fetch de datos sobre base de typos

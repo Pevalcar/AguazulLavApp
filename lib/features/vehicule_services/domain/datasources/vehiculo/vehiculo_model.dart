@@ -14,6 +14,7 @@ class Vehicle with _$Vehicle {
     //Puden cambiar siempre
     required String typeService,
     required int typePrice,
+    required DateTime diaJronada,
     //propietario siempre seran los mismos
     required String propietarioid,
     required DateTime entrada,

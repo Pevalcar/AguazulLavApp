@@ -6,51 +6,7 @@ part of 'add_service_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$addVehiculoHash() => r'd6093ff582d246b0c54a10472f35d34320d948f9';
-
-/// See also [addVehiculo].
-@ProviderFor(addVehiculo)
-final addVehiculoProvider = AutoDisposeProvider<AddVehiculo>.internal(
-  addVehiculo,
-  name: r'addVehiculoProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$addVehiculoHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AddVehiculoRef = AutoDisposeProviderRef<AddVehiculo>;
-String _$deleteVehiculoHash() => r'6f6d1bebd362c2e7f93030d3a412f478c06cf935';
-
-/// See also [deleteVehiculo].
-@ProviderFor(deleteVehiculo)
-final deleteVehiculoProvider = AutoDisposeProvider<DeleteVehiculo>.internal(
-  deleteVehiculo,
-  name: r'deleteVehiculoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$deleteVehiculoHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef DeleteVehiculoRef = AutoDisposeProviderRef<DeleteVehiculo>;
-String _$modifieVehiculeHash() => r'67391a47c91ca36e7124d24d9c5c331c03dc7d89';
-
-/// See also [modifieVehicule].
-@ProviderFor(modifieVehicule)
-final modifieVehiculeProvider = AutoDisposeProvider<ModifiVehiculo>.internal(
-  modifieVehicule,
-  name: r'modifieVehiculeProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$modifieVehiculeHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef ModifieVehiculeRef = AutoDisposeProviderRef<ModifiVehiculo>;
-String _$vehiculoStateHash() => r'399d55566a777cc684de9aa869f627cd584e4478';
+String _$vehiculoStateHash() => r'66915cb4dda34008c24c5a2ab44616949eacb5a8';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)
