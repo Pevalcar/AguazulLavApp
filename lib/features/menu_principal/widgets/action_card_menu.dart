@@ -5,12 +5,14 @@ class ActionCardMenu extends StatelessWidget {
   final IconData icon;
   final Color color;
   final Function() onPressed;
+  final bool _disabled;
   const ActionCardMenu(
       {super.key,
       required this.title,
       required this.icon,
       required this.color,
-      required this.onPressed});
+      required this.onPressed,
+      bool disabled = false}) : _disabled = disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +21,10 @@ class ActionCardMenu extends StatelessWidget {
       width: 100.0,
       child: Card(
         
-        color: color,
+        color:  _disabled ? Colors.grey : color,
         child: InkWell(
           
-          onTap: onPressed,
+          onTap:  _disabled ? null : onPressed,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -75,6 +75,7 @@ class ServiceList extends _$ServiceList {
     state = await AsyncValue.guard(() async {
       List<Vehicle> list = state.value ?? [];
       await ref.read(addVehiculoProvider).call(vehicle);
+      await ref.read(jornadaStateProvider.notifier).addServicio(vehicle.id);
       list.insert(0, vehicle);
       return list;
     });
@@ -85,6 +86,8 @@ class ServiceList extends _$ServiceList {
     state = await AsyncValue.guard(() async {
       int? index = state.value?.indexWhere((element) => element == vehicle.id);
       List<Vehicle> list = state.value ?? [];
+      await ref.read(deleteVehiculoProvider).call(vehicle);
+      await ref.read(jornadaStateProvider.notifier).deleteServicio(vehicle.id);
       if (index != null) {
         list.removeAt(index);
       }

@@ -1,15 +1,18 @@
+import 'package:aguazullavapp/lib.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'action_card_menu.dart';
 
-class MenuGridConten extends StatelessWidget {
+class MenuGridConten extends HookConsumerWidget {
   const MenuGridConten({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final jornadaState = ref.watch(jornadaStateProvider);
     return GridView(
       padding: const EdgeInsets.all(8),
       gridDelegate: const   SliverGridDelegateWithMaxCrossAxisExtent(
@@ -20,6 +23,7 @@ class MenuGridConten extends StatelessWidget {
       ),
       children: [
         ActionCardMenu(
+          disabled: jornadaState.asData?.value == null,
             title: "Agregar Servicio",
             icon: Icons.add,
             color: Theme.of(context).colorScheme.secondary,

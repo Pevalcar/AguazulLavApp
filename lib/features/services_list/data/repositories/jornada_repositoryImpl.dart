@@ -10,12 +10,16 @@ class JornadaRepositoryImpl implements JornadaRepository {
 
   @override
   Future<void> deleteJornada(Jornada jornada) {
-    
     return dataSource.deleteJornada(jornada);
   }
 
   @override
   Future<List<Jornada>> getJornadas() {
     return dataSource.getJornadas();
+  }
+
+  @override
+  Future<void> editJornada(Jornada jornada) {
+    return dataSource.editJornada(jornada);
   }
 }

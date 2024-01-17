@@ -9,7 +9,7 @@ class ListVehiculos extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _iniciarJornada = useState(true);
+    final _sizeBar = useState(0.6);
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
@@ -25,9 +25,9 @@ class ListVehiculos extends HookConsumerWidget {
                 pinned: true,
                 elevation: 10.0,
                 flexibleSpace:
-                    InformacionJornada(iniciarJornada: _iniciarJornada),
+                    InformacionJornada(sizeBar: _sizeBar),
                 expandedHeight: MediaQuery.of(context).size.height *
-                    (_iniciarJornada.value ? 0.6 : 0.5),
+                    _sizeBar.value,
                 actions: const [DarkModeButton()],
               ),
               const ListaVehiculos(),
@@ -38,9 +38,9 @@ class ListVehiculos extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // ref.read(firebaseControlProvider.notifier).signOut();
-          ref
-              .read(vehiculoStateProvider.notifier)
-              .addVehiculo(() => showToast(context, 'Vehiculo Agregado'), null);
+          // ref
+          //     .read(vehiculoStateProvider.notifier)
+          //     .addVehiculo(() => showToast(context, 'Vehiculo Agregado'), null);
         },
         child: const Icon(Icons.add),
       ),
@@ -50,19 +50,20 @@ class ListVehiculos extends HookConsumerWidget {
 
 class InformacionJornada extends HookConsumerWidget {
   const InformacionJornada({
-    required ValueNotifier<bool> iniciarJornada,
+    required this.sizeBar,
     super.key,
-  }) : _iniciarJornada = iniciarJornada;
+  });
 
-  final ValueNotifier<bool> _iniciarJornada;
+  final ValueNotifier<double> sizeBar;
 
   _mostrarAlertDialogo(
-      BuildContext context, String _title, Function() onAcept, bool jornada) {
+      BuildContext context, String _title, Function() onAceptar, bool jornada) {
     showDialog(
       context: context,
       builder: (context) => AlertDialogOKJornada(
         title: _title,
         onAcept: () {
+          onAceptar();
           if (jornada) {
             //TODO finalizar jornada
           } else {
@@ -75,6 +76,8 @@ class InformacionJornada extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //TODO Corregir la logica de el true y el false
+    final _iniciarJornada = ref.watch(jornadaStateProvider).asData?.value?.enJornada ?? false;
     final _cajainicialController = useTextEditingController();
     return FlexibleSpaceBar(
       title: Text('Listado de Servicios',
@@ -88,13 +91,13 @@ class InformacionJornada extends HookConsumerWidget {
               onPressed: () {
                 _mostrarAlertDialogo(
                     context,
-                    _iniciarJornada.value
+                    _iniciarJornada
                         ? "¿Desea iniciar la jornada?"
                         : "¿Desea finalizar la jornada?", () {
-                  _iniciarJornada.value = !_iniciarJornada.value;
-                }, _iniciarJornada.value);
+                  _iniciarJornada ?? false  ? sizeBar.value = 0.6: sizeBar.value = 0.5;
+                }, _iniciarJornada);
               },
-              child: Text(_iniciarJornada.value
+              child: Text(_iniciarJornada
                   ? "Iniciar Jornada"
                   : "Finalizar Jornada"),
             ),
@@ -102,8 +105,7 @@ class InformacionJornada extends HookConsumerWidget {
                 onSubmitedtext: () {
                   _mostrarAlertDialogo(context, "¿Desea iniciar la jornada?",
                       () {
-                    _iniciarJornada.value = !_iniciarJornada.value;
-                  }, _iniciarJornada.value);
+                  }, _iniciarJornada);
                 },
                 iniciatejornada: _iniciarJornada,
                 cajainicialController: _cajainicialController),
@@ -193,20 +195,20 @@ class StadisticRow extends StatelessWidget {
 class TextToTextFieldIniciaBase extends StatelessWidget {
   const TextToTextFieldIniciaBase({
     super.key,
-    required ValueNotifier<bool> iniciatejornada,
+    required bool iniciatejornada,
     required TextEditingController cajainicialController,
     required Function() onSubmitedtext,
   })  : _iniciatejornada = iniciatejornada,
         _cajainicialController = cajainicialController,
         _onSubmitedtext = onSubmitedtext;
 
-  final ValueNotifier<bool> _iniciatejornada;
+  final bool _iniciatejornada;
   final TextEditingController _cajainicialController;
   final Function() _onSubmitedtext;
 
   @override
   Widget build(BuildContext context) {
-    return !_iniciatejornada.value
+    return !_iniciatejornada
         ? StadisticRow(
             title: "Caja inicial ",
             valor: _cajainicialController.text,
@@ -236,12 +238,12 @@ class TextToTextFieldIniciaBase extends StatelessWidget {
 }
 
 class AlertDialogOKJornada extends StatelessWidget {
+  final Function() onAcept;
+
   const AlertDialogOKJornada(
-      {super.key, required Function() onAcept, required String title})
-      : _onAcept = onAcept,
+      {super.key, required this.onAcept, required String title}):
         _title = title;
 
-  final Function() _onAcept;
   final String _title;
 
   @override
@@ -258,7 +260,7 @@ class AlertDialogOKJornada extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              _onAcept();
+              onAcept();
               Navigator.of(context).pop();
             },
             child: const Text("Continuar"),

@@ -13,7 +13,7 @@ class Jornada with _$Jornada {
     @Default([]) List<String> entradaSalidaIDs,
     required DateTime? dateInit,
     @Default(null) DateTime? dateEnd,
-    @Default(false) bool enJornada,
+    @Default(true) bool enJornada,
     required int cajaInicial,
     @Default(0) int ingresos,
 

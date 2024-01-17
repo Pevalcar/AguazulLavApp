@@ -81,7 +81,21 @@ final deleteJornadaProvider = AutoDisposeProvider<DeleteJornada>.internal(
 );
 
 typedef DeleteJornadaRef = AutoDisposeProviderRef<DeleteJornada>;
-String _$jornadasListHash() => r'776631a0699e09fd7d4d1fec7fe824c9b06a5457';
+String _$editJornadaHash() => r'2128bc2711b3927fcb55b96a675b01909a2dd5cc';
+
+/// See also [editJornada].
+@ProviderFor(editJornada)
+final editJornadaProvider = AutoDisposeProvider<EditJornada>.internal(
+  editJornada,
+  name: r'editJornadaProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$editJornadaHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef EditJornadaRef = AutoDisposeProviderRef<EditJornada>;
+String _$jornadasListHash() => r'4cea8899b085e67ab501ab6d8bfeb802599961cb';
 
 /// See also [JornadasList].
 @ProviderFor(JornadasList)

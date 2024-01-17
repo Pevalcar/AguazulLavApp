@@ -193,7 +193,7 @@ class _$JornadaImpl implements _Jornada {
       final List<String> entradaSalidaIDs = const [],
       required this.dateInit,
       this.dateEnd = null,
-      this.enJornada = false,
+      this.enJornada = true,
       required this.cajaInicial,
       this.ingresos = 0})
       : _jornadasListIDs = jornadasListIDs,

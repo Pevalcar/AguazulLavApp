@@ -23,7 +23,7 @@ _$JornadaImpl _$$JornadaImplFromJson(Map<String, dynamic> json) =>
       dateEnd: json['dateEnd'] == null
           ? null
           : DateTime.parse(json['dateEnd'] as String),
-      enJornada: json['enJornada'] as bool? ?? false,
+      enJornada: json['enJornada'] as bool? ?? true,
       cajaInicial: json['cajaInicial'] as int,
       ingresos: json['ingresos'] as int? ?? 0,
     );
