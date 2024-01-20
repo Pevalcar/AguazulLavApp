@@ -27,6 +27,7 @@ class EntradaSalidaDataSource {
     try {
       await colection
           .where("id", whereIn: ids)
+          .orderBy("fecha", descending: true)
           .get()
           .then((value) {
         value.docs.forEach((element) {
@@ -37,7 +38,10 @@ class EntradaSalidaDataSource {
       return list;
     } on FirebaseException catch (e) {
       debugPrint('error Firebase: ${e.code}');
-      return [];
+      return list;
+    } catch (e) {
+      debugPrint('error Firebase: ${e.toString()}');
+      return list;
     }
   }
 
