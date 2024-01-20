@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:uuid/uuid.dart';
 
-
 //TODO quitar los circulos de loading
 //TODO quitar entradas y salidas bordercolor mejorar la card
 //TODO agregar el historial de las Jornadas
@@ -100,33 +99,58 @@ class EntradaSalidaCard extends StatelessWidget {
     super.key,
     required EntradaSalida informacion,
   }) : _informacion = informacion;
-
   @override
   Widget build(BuildContext context) {
+    final dateDay = DateTime(_informacion.fecha?.year ?? 0,
+        _informacion.fecha?.month ?? 0, _informacion.fecha?.day ?? 0);
+
+    final dateHour =
+        "${_informacion.fecha?.hour ?? 0}:${_informacion.fecha?.minute ?? 0}";
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      child: ExpansionTile(
-          collapsedShape: RoundedRectangleBorder(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Card(
+        color: _informacion.entrada
+            ? (Colors.green[100] ?? Colors.green)
+            : Colors.red[100] ?? Colors.red,
+        shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(
-                width: 1,
-                color: _informacion.entrada
-                    ? Colors.greenAccent
-                    : Colors.redAccent),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-            side: BorderSide(
-                width: 1,
-                color: _informacion.entrada
-                    ? Colors.greenAccent
-                    : Colors.redAccent),
-          ),
-          title: Text(_informacion.concepto),
-          children: [
-            const Divider(),
-            Text(formatearIntACantidad(_informacion.valor)),
+              width: 1,
+              color: _informacion.entrada
+                  ? (Colors.green[300] ?? Colors.green)
+                  : Colors.red[300] ?? Colors.red,
+            )),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              Text(_informacion.concepto,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: _informacion.entrada
+                            ? (Colors.green[600] ?? Colors.green)
+                            : Colors.red[600] ?? Colors.red,
+                      )),
+              Text("Fecha: $dateDay"),
+              Text("Hora: $dateHour"),
+              Text(formatearIntACantidad(_informacion.valor),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                  )
+              ),
+            ]),
+            IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.delete,
+                    color: _informacion.entrada
+                        ? (Colors.green[600] ?? Colors.green)
+                        : Colors.red[600] ?? Colors.red)),
           ]),
+        ),
+      ),
     );
   }
 }
