@@ -49,7 +49,7 @@ class VehiculoDataSource {
   Future<List<Vehicle>> getVehiculesToday(List<String> ids) async {
     List<Vehicle> list = [];
     try {
-      await _firebase.where('id', whereIn: ids).get().then((value) {
+      await _firebase.where('id', whereIn: ids).orderBy("entrada", descending: true).get().then((value) {
         for (var element in value.docs) {
           list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));
         }
