@@ -4,8 +4,6 @@ import 'package:uuid/uuid.dart';
 
 part "add_service_providers.g.dart";
 
-
-
 @riverpod
 class VehiculoState extends _$VehiculoState {
   @override
@@ -14,6 +12,32 @@ class VehiculoState extends _$VehiculoState {
   void setDataVehicle(Vehicle vehicle) {
     state = const AsyncValue.loading();
     state = AsyncValue.data(vehicle);
+  }
+
+  void addVehiculoTest(
+      Function()? onCarroSave, Function(String)? onSaveError) async {
+    final _time = DateTime.now();
+    final Vehicle carro = Vehicle(
+      id: const Uuid().v4(),
+      photo:
+          "https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png?alt=media&token=014c8681-7981-49cc-9f9a-0e9b1894c84c",
+      propietarioid: "1234",
+      placa: "ABC123",
+      entrada: _time,
+      typeService: "Servicio",
+      typePrice: correctionPrice(ref.watch(serviceTypeSelectProvider)?.price),
+      trabjador: "1234",
+      diaJronada: DateTime(_time.year, _time.month, _time.day),
+    );
+
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(serviceListProvider.notifier).addService(carro);
+      if (onCarroSave != null) {
+        onCarroSave();
+      }
+      return carro;
+    });
   }
 
   void addVehiculo(
@@ -126,15 +150,4 @@ class TrabajadorName extends _$TrabajadorName {
   void modifyTrabajadorName(String name) {
     state = name;
   }
-}
-
-int correctionPrice(String? value) {
-  if (value == null) {
-    return 0;
-  }
-  return int.parse(value
-      .replaceAll('.00', '')
-      .replaceAll(',', '')
-      .replaceAll('\$', '')
-      .trim());
 }

@@ -27,7 +27,11 @@ mixin _$Jornada {
   DateTime? get dateEnd => throw _privateConstructorUsedError;
   bool get enJornada => throw _privateConstructorUsedError;
   int get cajaInicial => throw _privateConstructorUsedError;
+  String get procesos => throw _privateConstructorUsedError;
   int get ingresos => throw _privateConstructorUsedError;
+  int get entradas => throw _privateConstructorUsedError;
+  int get salidas => throw _privateConstructorUsedError;
+  int get total => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +51,11 @@ abstract class $JornadaCopyWith<$Res> {
       DateTime? dateEnd,
       bool enJornada,
       int cajaInicial,
-      int ingresos});
+      String procesos,
+      int ingresos,
+      int entradas,
+      int salidas,
+      int total});
 }
 
 /// @nodoc
@@ -70,7 +78,11 @@ class _$JornadaCopyWithImpl<$Res, $Val extends Jornada>
     Object? dateEnd = freezed,
     Object? enJornada = null,
     Object? cajaInicial = null,
+    Object? procesos = null,
     Object? ingresos = null,
+    Object? entradas = null,
+    Object? salidas = null,
+    Object? total = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -101,9 +113,25 @@ class _$JornadaCopyWithImpl<$Res, $Val extends Jornada>
           ? _value.cajaInicial
           : cajaInicial // ignore: cast_nullable_to_non_nullable
               as int,
+      procesos: null == procesos
+          ? _value.procesos
+          : procesos // ignore: cast_nullable_to_non_nullable
+              as String,
       ingresos: null == ingresos
           ? _value.ingresos
           : ingresos // ignore: cast_nullable_to_non_nullable
+              as int,
+      entradas: null == entradas
+          ? _value.entradas
+          : entradas // ignore: cast_nullable_to_non_nullable
+              as int,
+      salidas: null == salidas
+          ? _value.salidas
+          : salidas // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -124,7 +152,11 @@ abstract class _$$JornadaImplCopyWith<$Res> implements $JornadaCopyWith<$Res> {
       DateTime? dateEnd,
       bool enJornada,
       int cajaInicial,
-      int ingresos});
+      String procesos,
+      int ingresos,
+      int entradas,
+      int salidas,
+      int total});
 }
 
 /// @nodoc
@@ -145,7 +177,11 @@ class __$$JornadaImplCopyWithImpl<$Res>
     Object? dateEnd = freezed,
     Object? enJornada = null,
     Object? cajaInicial = null,
+    Object? procesos = null,
     Object? ingresos = null,
+    Object? entradas = null,
+    Object? salidas = null,
+    Object? total = null,
   }) {
     return _then(_$JornadaImpl(
       id: null == id
@@ -176,9 +212,25 @@ class __$$JornadaImplCopyWithImpl<$Res>
           ? _value.cajaInicial
           : cajaInicial // ignore: cast_nullable_to_non_nullable
               as int,
+      procesos: null == procesos
+          ? _value.procesos
+          : procesos // ignore: cast_nullable_to_non_nullable
+              as String,
       ingresos: null == ingresos
           ? _value.ingresos
           : ingresos // ignore: cast_nullable_to_non_nullable
+              as int,
+      entradas: null == entradas
+          ? _value.entradas
+          : entradas // ignore: cast_nullable_to_non_nullable
+              as int,
+      salidas: null == salidas
+          ? _value.salidas
+          : salidas // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -193,9 +245,13 @@ class _$JornadaImpl implements _Jornada {
       final List<String> entradaSalidaIDs = const [],
       required this.dateInit,
       this.dateEnd = null,
-      this.enJornada = true,
+      this.enJornada = false,
       required this.cajaInicial,
-      this.ingresos = 0})
+      this.procesos = "0 de (0)",
+      this.ingresos = 0,
+      this.entradas = 0,
+      this.salidas = 0,
+      this.total = 0})
       : _jornadasListIDs = jornadasListIDs,
         _entradaSalidaIDs = entradaSalidaIDs;
 
@@ -235,11 +291,23 @@ class _$JornadaImpl implements _Jornada {
   final int cajaInicial;
   @override
   @JsonKey()
+  final String procesos;
+  @override
+  @JsonKey()
   final int ingresos;
+  @override
+  @JsonKey()
+  final int entradas;
+  @override
+  @JsonKey()
+  final int salidas;
+  @override
+  @JsonKey()
+  final int total;
 
   @override
   String toString() {
-    return 'Jornada(id: $id, jornadasListIDs: $jornadasListIDs, entradaSalidaIDs: $entradaSalidaIDs, dateInit: $dateInit, dateEnd: $dateEnd, enJornada: $enJornada, cajaInicial: $cajaInicial, ingresos: $ingresos)';
+    return 'Jornada(id: $id, jornadasListIDs: $jornadasListIDs, entradaSalidaIDs: $entradaSalidaIDs, dateInit: $dateInit, dateEnd: $dateEnd, enJornada: $enJornada, cajaInicial: $cajaInicial, procesos: $procesos, ingresos: $ingresos, entradas: $entradas, salidas: $salidas, total: $total)';
   }
 
   @override
@@ -259,8 +327,14 @@ class _$JornadaImpl implements _Jornada {
                 other.enJornada == enJornada) &&
             (identical(other.cajaInicial, cajaInicial) ||
                 other.cajaInicial == cajaInicial) &&
+            (identical(other.procesos, procesos) ||
+                other.procesos == procesos) &&
             (identical(other.ingresos, ingresos) ||
-                other.ingresos == ingresos));
+                other.ingresos == ingresos) &&
+            (identical(other.entradas, entradas) ||
+                other.entradas == entradas) &&
+            (identical(other.salidas, salidas) || other.salidas == salidas) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @JsonKey(ignore: true)
@@ -274,7 +348,11 @@ class _$JornadaImpl implements _Jornada {
       dateEnd,
       enJornada,
       cajaInicial,
-      ingresos);
+      procesos,
+      ingresos,
+      entradas,
+      salidas,
+      total);
 
   @JsonKey(ignore: true)
   @override
@@ -299,7 +377,11 @@ abstract class _Jornada implements Jornada {
       final DateTime? dateEnd,
       final bool enJornada,
       required final int cajaInicial,
-      final int ingresos}) = _$JornadaImpl;
+      final String procesos,
+      final int ingresos,
+      final int entradas,
+      final int salidas,
+      final int total}) = _$JornadaImpl;
 
   factory _Jornada.fromJson(Map<String, dynamic> json) = _$JornadaImpl.fromJson;
 
@@ -318,7 +400,15 @@ abstract class _Jornada implements Jornada {
   @override
   int get cajaInicial;
   @override
+  String get procesos;
+  @override
   int get ingresos;
+  @override
+  int get entradas;
+  @override
+  int get salidas;
+  @override
+  int get total;
   @override
   @JsonKey(ignore: true)
   _$$JornadaImplCopyWith<_$JornadaImpl> get copyWith =>

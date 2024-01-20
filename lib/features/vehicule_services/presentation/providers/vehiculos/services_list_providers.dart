@@ -60,10 +60,9 @@ class ServiceList extends _$ServiceList {
     state = await AsyncValue.guard(() async {
       return ref.read(getVehiculoProvider).call();
     });
-
   }
 
-  Future loadServicesToDay( List<String> ids) async {
+  Future loadServicesToDay(List<String> ids) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       return ref.read(getVehiculesTodayProvider).call(ids);
@@ -75,8 +74,8 @@ class ServiceList extends _$ServiceList {
     state = await AsyncValue.guard(() async {
       List<Vehicle> list = state.value ?? [];
       await ref.read(addVehiculoProvider).call(vehicle);
-      await ref.read(jornadaStateProvider.notifier).addServicio(vehicle.id);
       list.insert(0, vehicle);
+      await ref.read(jornadaStateProvider.notifier).addServicio(vehicle.id);
       return list;
     });
   }
@@ -87,13 +86,14 @@ class ServiceList extends _$ServiceList {
       int? index = state.value?.indexWhere((element) => element == vehicle.id);
       List<Vehicle> list = state.value ?? [];
       await ref.read(deleteVehiculoProvider).call(vehicle);
-      await ref.read(jornadaStateProvider.notifier).deleteServicio(vehicle.id);
       if (index != null) {
         list.removeAt(index);
+      await ref.read(jornadaStateProvider.notifier).deleteServicio(vehicle.id);
       }
       return list;
     });
   }
+
   Future modifierService(Vehicle vehicle) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -120,5 +120,19 @@ class ServiceList extends _$ServiceList {
       }
       return list;
     });
+  }
+
+  Future<Map<String, int>> getServicesCount() async {
+    final entServices =
+        state.value?.where((element) => element.terminado == true) ?? [];
+    int total = 0;
+    entServices.forEach((element) {
+      total += element.typePrice;
+    });
+    return {
+      'terminado': entServices.length,
+      'cantidad': state.value?.length ?? 0,
+      'total': total
+    };
   }
 }

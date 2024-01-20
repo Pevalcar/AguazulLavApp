@@ -95,7 +95,7 @@ final editJornadaProvider = AutoDisposeProvider<EditJornada>.internal(
 );
 
 typedef EditJornadaRef = AutoDisposeProviderRef<EditJornada>;
-String _$jornadasListHash() => r'4cea8899b085e67ab501ab6d8bfeb802599961cb';
+String _$jornadasListHash() => r'542f1f1a65fda3038515a67eaf796d07264e72c4';
 
 /// See also [JornadasList].
 @ProviderFor(JornadasList)

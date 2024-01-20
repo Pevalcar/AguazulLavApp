@@ -24,7 +24,7 @@ GoRouter enrutador(EnrutadorRef ref) {
         ),
         GoRoute(
           path: "/listvehiculos",
-          builder: (context, state) => const ListVehiculos(),
+          builder: (context, state) => const ListVehicles(),
         ),
         GoRoute(
           path: "/addServiceType",

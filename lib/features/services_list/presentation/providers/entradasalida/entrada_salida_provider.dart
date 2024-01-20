@@ -74,11 +74,11 @@ class EntradaSalidaList extends _$EntradaSalidaList {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<EntradaSalida> list = state.value ?? [];
+      list.insert(0, entradaSalida);
       await ref.read(addEntradaSalidaProvider).call(entradaSalida);
       await ref
           .read(jornadaStateProvider.notifier)
           .addEntradaSalida(entradaSalida.id);
-      list.insert(0, entradaSalida);
       return list;
     });
   }
@@ -88,11 +88,30 @@ class EntradaSalidaList extends _$EntradaSalidaList {
     state = await AsyncValue.guard(() async {
       List<EntradaSalida> list = state.value ?? [];
       await ref.read(deleteEntradaSalidaProvider).call(entradaSalida);
+      list.remove(entradaSalida);
       await ref
           .read(jornadaStateProvider.notifier)
           .deleteEntradaSalida(entradaSalida.id);
-      list.remove(entradaSalida);
       return list;
     });
+  }
+
+  Future<Map<String, int>> getEntradaSalidaCount() async {
+    final entradas =
+        state.value?.where((element) => element.entrada == true) ?? [];
+    final salidas =
+        state.value?.where((element) => element.entrada == false) ?? [];
+    int totalEntrdas = 0;
+    int totalSalidas = 0;
+    entradas.forEach((element) {
+      totalEntrdas += element.valor;
+    });
+    salidas.forEach((element) {
+      totalSalidas += element.valor;
+    });
+    return {
+      'entradas': totalEntrdas,
+      'salidas': totalSalidas,
+    };
   }
 }

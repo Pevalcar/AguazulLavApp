@@ -23,6 +23,7 @@ mixin _$EntradaSalida {
   String get id => throw _privateConstructorUsedError;
   DateTime? get fecha => throw _privateConstructorUsedError;
   bool get entrada => throw _privateConstructorUsedError;
+  String get concepto => throw _privateConstructorUsedError;
   int get valor => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +38,8 @@ abstract class $EntradaSalidaCopyWith<$Res> {
           EntradaSalida value, $Res Function(EntradaSalida) then) =
       _$EntradaSalidaCopyWithImpl<$Res, EntradaSalida>;
   @useResult
-  $Res call({String id, DateTime? fecha, bool entrada, int valor});
+  $Res call(
+      {String id, DateTime? fecha, bool entrada, String concepto, int valor});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$EntradaSalidaCopyWithImpl<$Res, $Val extends EntradaSalida>
     Object? id = null,
     Object? fecha = freezed,
     Object? entrada = null,
+    Object? concepto = null,
     Object? valor = null,
   }) {
     return _then(_value.copyWith(
@@ -71,6 +74,10 @@ class _$EntradaSalidaCopyWithImpl<$Res, $Val extends EntradaSalida>
           ? _value.entrada
           : entrada // ignore: cast_nullable_to_non_nullable
               as bool,
+      concepto: null == concepto
+          ? _value.concepto
+          : concepto // ignore: cast_nullable_to_non_nullable
+              as String,
       valor: null == valor
           ? _value.valor
           : valor // ignore: cast_nullable_to_non_nullable
@@ -87,7 +94,8 @@ abstract class _$$JornadaImplCopyWith<$Res>
       __$$JornadaImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, DateTime? fecha, bool entrada, int valor});
+  $Res call(
+      {String id, DateTime? fecha, bool entrada, String concepto, int valor});
 }
 
 /// @nodoc
@@ -104,6 +112,7 @@ class __$$JornadaImplCopyWithImpl<$Res>
     Object? id = null,
     Object? fecha = freezed,
     Object? entrada = null,
+    Object? concepto = null,
     Object? valor = null,
   }) {
     return _then(_$JornadaImpl(
@@ -119,6 +128,10 @@ class __$$JornadaImplCopyWithImpl<$Res>
           ? _value.entrada
           : entrada // ignore: cast_nullable_to_non_nullable
               as bool,
+      concepto: null == concepto
+          ? _value.concepto
+          : concepto // ignore: cast_nullable_to_non_nullable
+              as String,
       valor: null == valor
           ? _value.valor
           : valor // ignore: cast_nullable_to_non_nullable
@@ -131,7 +144,11 @@ class __$$JornadaImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$JornadaImpl implements _Jornada {
   _$JornadaImpl(
-      {this.id = '', this.fecha = null, this.entrada = false, this.valor = 0});
+      {this.id = '',
+      this.fecha = null,
+      this.entrada = false,
+      required this.concepto,
+      required this.valor});
 
   factory _$JornadaImpl.fromJson(Map<String, dynamic> json) =>
       _$$JornadaImplFromJson(json);
@@ -146,12 +163,13 @@ class _$JornadaImpl implements _Jornada {
   @JsonKey()
   final bool entrada;
   @override
-  @JsonKey()
+  final String concepto;
+  @override
   final int valor;
 
   @override
   String toString() {
-    return 'EntradaSalida(id: $id, fecha: $fecha, entrada: $entrada, valor: $valor)';
+    return 'EntradaSalida(id: $id, fecha: $fecha, entrada: $entrada, concepto: $concepto, valor: $valor)';
   }
 
   @override
@@ -162,12 +180,15 @@ class _$JornadaImpl implements _Jornada {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.fecha, fecha) || other.fecha == fecha) &&
             (identical(other.entrada, entrada) || other.entrada == entrada) &&
+            (identical(other.concepto, concepto) ||
+                other.concepto == concepto) &&
             (identical(other.valor, valor) || other.valor == valor));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, fecha, entrada, valor);
+  int get hashCode =>
+      Object.hash(runtimeType, id, fecha, entrada, concepto, valor);
 
   @JsonKey(ignore: true)
   @override
@@ -188,7 +209,8 @@ abstract class _Jornada implements EntradaSalida {
       {final String id,
       final DateTime? fecha,
       final bool entrada,
-      final int valor}) = _$JornadaImpl;
+      required final String concepto,
+      required final int valor}) = _$JornadaImpl;
 
   factory _Jornada.fromJson(Map<String, dynamic> json) = _$JornadaImpl.fromJson;
 
@@ -198,6 +220,8 @@ abstract class _Jornada implements EntradaSalida {
   DateTime? get fecha;
   @override
   bool get entrada;
+  @override
+  String get concepto;
   @override
   int get valor;
   @override

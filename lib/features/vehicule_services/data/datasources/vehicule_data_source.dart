@@ -46,7 +46,7 @@ class VehiculoDataSource {
     }
   }
 
-  getVehiculesToday(List<String> ids) async {
+  Future<List<Vehicle>> getVehiculesToday(List<String> ids) async {
     List<Vehicle> list = [];
     try {
       await _firebase.where('id', whereIn: ids).get().then((value) {
@@ -57,6 +57,10 @@ class VehiculoDataSource {
       return list;
     } on FirebaseException catch (e) {
       debugPrint('error Firebase: ${e.code}');
+      return list;
+    } catch (e) {
+      debugPrint('error Firebase: ${e.toString()}');
+      return list;
     }
   }
 }

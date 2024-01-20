@@ -23,9 +23,13 @@ _$JornadaImpl _$$JornadaImplFromJson(Map<String, dynamic> json) =>
       dateEnd: json['dateEnd'] == null
           ? null
           : DateTime.parse(json['dateEnd'] as String),
-      enJornada: json['enJornada'] as bool? ?? true,
+      enJornada: json['enJornada'] as bool? ?? false,
       cajaInicial: json['cajaInicial'] as int,
+      procesos: json['procesos'] as String? ?? "0 de (0)",
       ingresos: json['ingresos'] as int? ?? 0,
+      entradas: json['entradas'] as int? ?? 0,
+      salidas: json['salidas'] as int? ?? 0,
+      total: json['total'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$JornadaImplToJson(_$JornadaImpl instance) =>
@@ -37,5 +41,9 @@ Map<String, dynamic> _$$JornadaImplToJson(_$JornadaImpl instance) =>
       'dateEnd': instance.dateEnd?.toIso8601String(),
       'enJornada': instance.enJornada,
       'cajaInicial': instance.cajaInicial,
+      'procesos': instance.procesos,
       'ingresos': instance.ingresos,
+      'entradas': instance.entradas,
+      'salidas': instance.salidas,
+      'total': instance.total,
     };

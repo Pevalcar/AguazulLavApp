@@ -1,5 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'jornada_list_provider.g.dart';
@@ -42,17 +43,17 @@ EditJornada editJornada(EditJornadaRef ref) {
 
 @Riverpod(keepAlive: true)
 class JornadasList extends _$JornadasList {
-
   @override
   FutureOr<List<Jornada>> build() async {
     return _fetch();
   }
+
   _fetch() async {
     List<Jornada> list = [];
     list = await ref.read(getJornadasProvider).call();
+
     return list;
   }
-
 
   Future<void> addJornada(Jornada jornada) async {
     state = const AsyncValue.loading();
@@ -105,6 +106,9 @@ class JornadasList extends _$JornadasList {
 
   Future<Jornada?> getCurrentJornada() async {
     //verificar si ela lista esta basia en el state
+    state = await AsyncValue.guard(() async {
+      return ref.read(getJornadasProvider).call();
+    });
     if (state.value == null) {
       return null;
     }
