@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:uuid/uuid.dart';
 
@@ -101,8 +102,9 @@ class EntradaSalidaCard extends StatelessWidget {
   }) : _informacion = informacion;
   @override
   Widget build(BuildContext context) {
-    final dateDay = DateTime(_informacion.fecha?.year ?? 0,
-        _informacion.fecha?.month ?? 0, _informacion.fecha?.day ?? 0);
+    final formateadorFecha = DateFormat('dd/MM/yyyy');
+    final dateDay = formateadorFecha.format(DateTime(_informacion.fecha?.year ?? 0,
+        _informacion.fecha?.month ?? 0, _informacion.fecha?.day ?? 0));
 
     final dateHour =
         "${_informacion.fecha?.hour ?? 0}:${_informacion.fecha?.minute ?? 0}";
