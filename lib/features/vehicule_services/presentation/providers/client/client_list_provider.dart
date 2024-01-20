@@ -107,10 +107,16 @@ class ClientList extends _$ClientList {
 
   Future<User?> getUser(String userID) async {
     if (userID == "") return null;
+    if (userID == "1234") return null;
     //si la base de taos local l contiene
     if (state.asData?.value != null) {
       return state.asData?.value.firstWhere((element) => element.id == userID);
     }
     return await ref.watch(getUserProvider).call(userID);
   }
+}
+
+@riverpod
+Future<User?> GetUserInfo (GetUserInfoRef ref, String userID) async {
+  return await ref.read(clientListProvider.notifier).getUser(userID);
 }

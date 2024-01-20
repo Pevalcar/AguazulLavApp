@@ -9,7 +9,6 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:uuid/uuid.dart';
 
 //TODO quitar los circulos de loading
-//TODO quitar entradas y salidas bordercolor mejorar la card
 //TODO agregar el historial de las Jornadas
 //TODO Organizar pagos por jornadas
 class ListVehicles extends HookConsumerWidget {
@@ -514,6 +513,7 @@ class ListaVehiculos extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listServices = ref.watch(serviceListProvider);
+    
     return listServices.when(
         data: (data) => ListView.builder(
               itemCount: data.length,
@@ -528,8 +528,8 @@ class ListaVehiculos extends HookConsumerWidget {
         loading: () => ListView.builder(
               itemCount: 5,
               itemBuilder: (context, index) {
-                return Skeletonizer(
-                  child: const Card(
+                return const Skeletonizer(
+                  child: Card(
                       child: SizedBox(
                     height: 150,
                     width: double.infinity,

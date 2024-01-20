@@ -12,6 +12,11 @@ class CardCarService extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final client = ref.watch(getUserInfoProvider (
+     vehicle.propietarioid
+    ));
+    debugPrint('client: ${client}');
+
     final ButtonStyle myStileButton = TextButton.styleFrom(
       foregroundColor: Theme.of(context).colorScheme.secondary,
       shape: const RoundedRectangleBorder(
@@ -63,6 +68,7 @@ class CardCarService extends HookConsumerWidget {
           ],
         ),
         subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
                 child: Column(children: [
@@ -91,9 +97,7 @@ class CardCarService extends HookConsumerWidget {
                   children: [
                     TextSpan(
                       style: Theme.of(context).textTheme.bodySmall,
-                      text: vehicle.propietarioid == ""
-                          ? "Sin propietario"
-                          : vehicle.propietarioid,
+                      text: client.asData?.value?.name ?? "No definido",
                     )
                   ])),
             ])),
