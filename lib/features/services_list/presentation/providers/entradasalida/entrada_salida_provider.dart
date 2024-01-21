@@ -60,7 +60,9 @@ class EntradaSalidaList extends _$EntradaSalidaList {
       return list;
     });
   }
-
+ void cleanList() async {
+   state = const AsyncValue.data([]);
+ }
   Future<void> loadDataToday(List<String> ids) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -97,6 +99,9 @@ class EntradaSalidaList extends _$EntradaSalidaList {
   }
 
   Future<Map<String, int>> getEntradaSalidaCount() async {
+     if (state.value == null || state.value!.isEmpty) {
+      return { 'entradas': 0, 'salidas': 0 };
+    }
     final entradas =
         state.value?.where((element) => element.entrada == true) ?? [];
     final salidas =

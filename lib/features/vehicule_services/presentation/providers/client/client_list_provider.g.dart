@@ -108,7 +108,7 @@ final getUsersProvider = AutoDisposeProvider<GetUsers>.internal(
 );
 
 typedef GetUsersRef = AutoDisposeProviderRef<GetUsers>;
-String _$getUserInfoHash() => r'b5ee7f155798244e681fab2b08c2d70ae34ed2d5';
+String _$getUserInfoHash() => r'40ae645d8eef97dc2b8fa9cf49c226f6b1816838';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -257,12 +257,12 @@ class _GetUserInfoProviderElement
   String get userID => (origin as GetUserInfoProvider).userID;
 }
 
-String _$clientListHash() => r'4e2312a7d61fda030381644048be66701c0c3184';
+String _$clientListHash() => r'6373a96c3b4f3766843620c750f1f8961591000d';
 
 /// See also [ClientList].
 @ProviderFor(ClientList)
 final clientListProvider =
-    AutoDisposeAsyncNotifierProvider<ClientList, List<User>>.internal(
+    AsyncNotifierProvider<ClientList, List<User>>.internal(
   ClientList.new,
   name: r'clientListProvider',
   debugGetCreateSourceHash:
@@ -271,6 +271,6 @@ final clientListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ClientList = AutoDisposeAsyncNotifier<List<User>>;
+typedef _$ClientList = AsyncNotifier<List<User>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

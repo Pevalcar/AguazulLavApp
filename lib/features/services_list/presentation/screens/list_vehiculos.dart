@@ -17,36 +17,36 @@ class ListVehicles extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tabcontroller = useTabController(initialLength: 2);
-    final _sizeBar = useState(0.6);
     return Scaffold(
-      appBar: AppBar(
-          title: const Text('Servicios'), actions: const [DarkModeButton()]),
+      appBar: AppBar(title: const Text('Servicios'), actions: [
+        IconButton(
+            onPressed: () {
+              ref.read(jornadaStateProvider.notifier).fetch();
+            },
+            icon: const Icon(Icons.refresh)),
+        const DarkModeButton()
+      ]),
       body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async {
-            await ref.read(serviceListProvider.notifier).loadData();
-          },
-          child: Column(
-            children: [
-              InformacionJornada(sizeBar: _sizeBar),
-              TabBar(
-                controller: tabcontroller,
-                tabs: const [
-                  Tab(
-                    child: Text('Vehiculos'),
-                  ),
-                  Tab(
-                    child: Text('Entradas y salidas'),
-                  ),
-                ],
-              ),
-              Expanded(
-                  child: TabBarView(controller: tabcontroller, children: const [
-                ListaVehiculos(),
-                EntradasSalidasList(),
-              ]))
-            ],
-          ),
+        child: Column(
+          children: [
+            const InformacionJornada(),
+            TabBar(
+              controller: tabcontroller,
+              tabs: const [
+                Tab(
+                  child: Text('Vehiculos'),
+                ),
+                Tab(
+                  child: Text('Entradas y salidas'),
+                ),
+              ],
+            ),
+            Expanded(
+                child: TabBarView(controller: tabcontroller, children: const [
+              ListaVehiculos(),
+              EntradasSalidasList(),
+            ]))
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -102,8 +102,10 @@ class EntradaSalidaCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formateadorFecha = DateFormat('dd/MM/yyyy');
-    final dateDay = formateadorFecha.format(DateTime(_informacion.fecha?.year ?? 0,
-        _informacion.fecha?.month ?? 0, _informacion.fecha?.day ?? 0));
+    final dateDay = formateadorFecha.format(DateTime(
+        _informacion.fecha?.year ?? 0,
+        _informacion.fecha?.month ?? 0,
+        _informacion.fecha?.day ?? 0));
 
     final dateHour =
         "${_informacion.fecha?.hour ?? 0}:${_informacion.fecha?.minute ?? 0}";
@@ -125,9 +127,7 @@ class EntradaSalidaCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(_informacion.concepto,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
@@ -140,8 +140,7 @@ class EntradaSalidaCard extends StatelessWidget {
               Text(formatearIntACantidad(_informacion.valor),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                  )
-              ),
+                      )),
             ]),
             IconButton(
                 onPressed: () {},
@@ -158,29 +157,8 @@ class EntradaSalidaCard extends StatelessWidget {
 
 class InformacionJornada extends HookConsumerWidget {
   const InformacionJornada({
-    required this.sizeBar,
     super.key,
   });
-
-  final ValueNotifier<double> sizeBar;
-
-  _mostrarAlertDialogo(
-      BuildContext context, String _title, Function() onAceptar, bool jornada) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialogOKJornada(
-        title: _title,
-        onAcept: () {
-          onAceptar();
-          if (jornada) {
-            //TODO finalizar jornada
-          } else {
-            //TODO iniciar jornada
-          }
-        },
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -191,6 +169,7 @@ class InformacionJornada extends HookConsumerWidget {
       error: (error, stackTrace) => Text(error.toString()),
       data: (data) {
         var _enjornada = data?.enJornada ?? false;
+        logger.w('_enjornada: ${_enjornada}');
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -208,14 +187,32 @@ class InformacionJornada extends HookConsumerWidget {
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 ElevatedButton(
                   onPressed: () {
-                    _mostrarAlertDialogo(
-                        //TODO corregir emision de evento para finalizar jornada
-                        context,
-                        _enjornada
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialogOKJornada(
+                        title: _enjornada
                             ? "¿Desea finalizar la jornada?"
-                            : "¿Desea iniciar la jornada?", () {
-                      _enjornada ? sizeBar.value = 0.5 : sizeBar.value = 0.6;
-                    }, _enjornada);
+                            : "¿Desea iniciar la jornada?",
+                        onAcept: () {
+                          if (_enjornada) {
+                            //TODO finalizar jornada
+                            ref
+                                .read(jornadaStateProvider.notifier)
+                                .finalizarJornada((String message) {
+                              showToast(context, message);
+                            }, (String message) {
+                              showErrorToast(context, message);
+                            });
+                          } else {
+                            //TODO iniciar jornada
+                            ref
+                                .read(jornadaStateProvider.notifier)
+                                .iniciarJornada(correctionPrice(
+                                    _cajainicialController.text));
+                          }
+                        },
+                      ),
+                    );
                   },
                   child: Text(
                     _enjornada ? "Finalizar Jornada" : "Iniciar Jornada",
@@ -254,12 +251,30 @@ class InformacionJornada extends HookConsumerWidget {
               ]),
               TextToTextFieldIniciaBase(
                 onSubmitedtext: () {
-                  _mostrarAlertDialogo(context, "¿Desea iniciar la jornada?",
-                      () {
-                    ref.read(jornadaStateProvider.notifier).iniciarJornada(
-                          correctionPrice(_cajainicialController.text),
-                        );
-                  }, _enjornada);
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialogOKJornada(
+                      title: "¿Desea iniciar la jornada?",
+                      onAcept: () {
+                        if (_enjornada) {
+                          //TODO finalizar jornada
+                          ref
+                              .read(jornadaStateProvider.notifier)
+                              .finalizarJornada((String message) {
+                            showToast(context, message);
+                          }, (String message) {
+                            showErrorToast(context, message);
+                          });
+                        } else {
+                          //TODO iniciar jornada
+                          ref
+                              .read(jornadaStateProvider.notifier)
+                              .iniciarJornada(
+                                  correctionPrice(_cajainicialController.text));
+                        }
+                      },
+                    ),
+                  );
                 },
                 iniciatejornada: _enjornada,
                 cajainicialController: _cajainicialController,
@@ -513,7 +528,7 @@ class ListaVehiculos extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listServices = ref.watch(serviceListProvider);
-    
+
     return listServices.when(
         data: (data) => ListView.builder(
               itemCount: data.length,

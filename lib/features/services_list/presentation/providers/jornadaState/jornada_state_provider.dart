@@ -1,21 +1,22 @@
 import 'package:aguazullavapp/lib.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part "jornada_state_provider.g.dart";
 
-//TODO hacer funcinar apartir de aqui el estado de la jornada
 @Riverpod(keepAlive: true)
 class JornadaState extends _$JornadaState {
   @override
   FutureOr<Jornada?> build() {
-    return _fetch();
+    return fetch();
   }
 
-  Future<Jornada?> _fetch() async {
+  Future<Jornada?> fetch() async {
     final Jornada? jornada =
         await ref.read(jornadasListProvider.notifier).getCurrentJornada();
+    logger.w('jornada: ${jornada}');
     if (jornada != null) {
       await ref
           .read(serviceListProvider.notifier)
@@ -24,9 +25,18 @@ class JornadaState extends _$JornadaState {
           .read(entradaSalidaListProvider.notifier)
           .loadDataToday(jornada.entradaSalidaIDs);
       state = AsyncValue.data(jornada);
-      await calcularValores();
-    }
+    } else {
+      ref.read(serviceListProvider.notifier).cleanList();
+      ref.read(entradaSalidaListProvider.notifier).cleanList();
+      state = AsyncValue.data(Jornada(
+        id: "",
+        dateInit: DateTime.now(),
+        enJornada: false,
+        cajaInicial: 0,
+      ));
 
+    }
+      await calcularValores();
     return state.value;
   }
 
@@ -49,14 +59,19 @@ class JornadaState extends _$JornadaState {
     calcularValores();
   }
 
-  void finalizarJornada() async {
+  void finalizarJornada(
+      Function(String)? finishedJornada, Function(String)? error) async {
+    final coneccion = await (Connectivity().checkConnectivity());
+    if (coneccion == ConnectivityResult.none) {
+      return error!('No hay internet para finalizar la jornada');
+    }
     state = const AsyncValue.loading();
 
     state = await AsyncValue.guard(() async {
       final Jornada? jorndadInit =
           state.value?.copyWith(dateEnd: DateTime.now(), enJornada: false);
       editarJornada(jorndadInit!);
-      return _fetch();
+      return fetch();
     });
   }
 

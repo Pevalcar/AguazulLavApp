@@ -6,7 +6,7 @@ part of 'jornada_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$jornadaStateHash() => r'4404dce001fffb3475dea4b0319f13a7f83bb63c';
+String _$jornadaStateHash() => r'337f131cc820e2c2b04905760110b45b2c90aad5';
 
 /// See also [JornadaState].
 @ProviderFor(JornadaState)
