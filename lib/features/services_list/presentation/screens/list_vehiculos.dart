@@ -43,6 +43,7 @@ class ListVehicles extends HookConsumerWidget {
             ),
             Expanded(
                 child: TabBarView(controller: tabcontroller, children: const [
+              //TODO agregar una iamgen bonita para mostrar meintas se agrga algo ala lista
               ListaVehiculos(),
               EntradasSalidasList(),
             ]))
@@ -68,21 +69,28 @@ class EntradasSalidasList extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final entradasSaldiadList = ref.watch(entradaSalidaListProvider);
-    return entradasSaldiadList.when(
-        data: (data) => ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return EntradaSalidaCard(
-                  informacion: data[index],
-                );
-              },
-            ),
+    final entradasSalidaList = ref.watch(entradaSalidaListProvider);
+    return entradasSalidaList.when(
+        data: (data) {
+          if (data.isEmpty) {
+            return Center(
+              child: Assets.images.emptyList.image(width: 250, height: 250),
+            );
+          }
+          return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return EntradaSalidaCard(
+                information: data[index],
+              );
+            },
+          );
+        },
         loading: () => ListView.builder(
               itemCount: 5,
               itemBuilder: (context, index) {
                 return EntradaSalidaCard(
-                    informacion: EntradaSalida(
+                    information: EntradaSalida(
                   concepto: 'Cargando',
                   valor: 0,
                 ));
@@ -97,8 +105,8 @@ class EntradaSalidaCard extends StatelessWidget {
   final EntradaSalida _informacion;
   const EntradaSalidaCard({
     super.key,
-    required EntradaSalida informacion,
-  }) : _informacion = informacion;
+    required EntradaSalida information,
+  }) : _informacion = information;
   @override
   Widget build(BuildContext context) {
     final formateadorFecha = DateFormat('dd/MM/yyyy');
@@ -169,7 +177,6 @@ class InformacionJornada extends HookConsumerWidget {
       error: (error, stackTrace) => Text(error.toString()),
       data: (data) {
         var _enjornada = data?.enJornada ?? false;
-        logger.w('_enjornada: ${_enjornada}');
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -530,16 +537,23 @@ class ListaVehiculos extends HookConsumerWidget {
     final listServices = ref.watch(serviceListProvider);
 
     return listServices.when(
-        data: (data) => ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return CardCarService(
-                  vehicle: data[index],
-                );
-              },
-            ),
+        data: (data) {
+          if (data.isEmpty) {
+            return Center(
+              child: Assets.images.emptyList.image(width: 250, height: 250),
+            );
+          }
+          return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return CardCarService(
+                vehicle: data[index],
+              );
+            },
+          );
+        },
         error: (error, stackTrace) =>
-            SliverToBoxAdapter(child: Text(error.toString())),
+            Text(error.toString()),
         loading: () => ListView.builder(
               itemCount: 5,
               itemBuilder: (context, index) {

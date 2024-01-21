@@ -63,8 +63,11 @@ class JornadasList extends _$JornadasList {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<Jornada> list = state.value ?? [];
-      await ref.read(addJornadaProvider).call(jornada);
-      list.insert(0, jornada);
+      final addedJornada = await ref.read(addJornadaProvider).call(jornada);
+      if (addedJornada != null) {
+        list.insert(0, addedJornada);
+      }
+      
       return list;
     });
   }

@@ -23,10 +23,11 @@ class MenuGridConten extends HookConsumerWidget {
       ),
       children: [
         ActionCardMenu(
-          disabled: jornadaState.asData?.value == null,
+          disabled: jornadaState.asData?.value?.enJornada == false,
             title: "Agregar Servicio",
             icon: Icons.add,
             color: Theme.of(context).colorScheme.secondary,
+            //TODO indicador de que la jornada no ha iniciado parpadeo o algo
             onPressed: () { GoRouter.of(context).push('/addservice'); }),
         ActionCardMenu(
             title: "Modificar Servicio",

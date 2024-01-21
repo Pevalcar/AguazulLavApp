@@ -16,7 +16,6 @@ class JornadaState extends _$JornadaState {
   Future<Jornada?> fetch() async {
     final Jornada? jornada =
         await ref.read(jornadasListProvider.notifier).getCurrentJornada();
-    logger.w('jornada: ${jornada}');
     if (jornada != null) {
       await ref
           .read(serviceListProvider.notifier)
@@ -26,14 +25,14 @@ class JornadaState extends _$JornadaState {
           .loadDataToday(jornada.entradaSalidaIDs);
       state = AsyncValue.data(jornada);
     } else {
-      ref.read(serviceListProvider.notifier).cleanList();
-      ref.read(entradaSalidaListProvider.notifier).cleanList();
       state = AsyncValue.data(Jornada(
         id: "",
         dateInit: DateTime.now(),
         enJornada: false,
         cajaInicial: 0,
       ));
+      ref.read(serviceListProvider.notifier).cleanList();
+      ref.read(entradaSalidaListProvider.notifier).cleanList();
 
     }
       await calcularValores();
@@ -47,14 +46,14 @@ class JornadaState extends _$JornadaState {
   void iniciarJornada(int cajaicial) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final jorndadInit = Jornada(
+      Jornada jorndadInit = Jornada(
         id: const Uuid().v4(),
         dateInit: DateTime.now(),
         cajaInicial: cajaicial,
         enJornada: true,
       );
       await ref.read(jornadasListProvider.notifier).addJornada(jorndadInit);
-      return jorndadInit;
+      return fetch();
     });
     calcularValores();
   }

@@ -26,9 +26,11 @@ class JornadaDataSource {
   }
 
   Future<Jornada?> addJornada(Jornada jornada) async {
+    Jornada? _jornada;
     try {
       await colection.doc(jornada.id).set(jornada.toJson());
-      return jornada;
+      
+      return _jornada;
     } on FirebaseException catch (e) {
       debugPrint('e: ${e}');
       return null;
