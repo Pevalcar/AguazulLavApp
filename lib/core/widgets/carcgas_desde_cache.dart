@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CarcgasDesdeCache extends StatelessWidget {
   final String imageUrl;
@@ -21,7 +22,7 @@ class CarcgasDesdeCache extends StatelessWidget {
       //             Colors.red, BlendMode.colorBurn)),
       // ),
       // ),
-      placeholder: (context, url) => const CircularProgressIndicator(),
+      placeholder: (context, url) => Skeletonizer(child: Container(width: 200, height: 200, color: Colors.grey.shade300)),
       errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
