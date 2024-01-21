@@ -8,9 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:uuid/uuid.dart';
 
-//TODO quitar los circulos de loading
-//TODO agregar el historial de las Jornadas
-//TODO Organizar pagos por jornadas
+//TODO posibilidad de ver el informe desde esta pantalla
 class ListVehicles extends HookConsumerWidget {
   const ListVehicles({super.key});
 
@@ -43,21 +41,20 @@ class ListVehicles extends HookConsumerWidget {
             ),
             Expanded(
                 child: TabBarView(controller: tabcontroller, children: const [
-              //TODO agregar una iamgen bonita para mostrar meintas se agrga algo ala lista
               ListaVehiculos(),
               EntradasSalidasList(),
             ]))
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // ref.read(firebaseControlProvider.notifier).signOut();
-          ref.read(vehiculoStateProvider.notifier).addVehiculoTest(
-              () => showToast(context, 'Vehiculo Agregado'), null);
-        },
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // ref.read(firebaseControlProvider.notifier).signOut();
+      //     ref.read(vehiculoStateProvider.notifier).addVehiculoTest(
+      //         () => showToast(context, 'Vehiculo Agregado'), null);
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }
@@ -170,6 +167,7 @@ class InformacionJornada extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _initialCountFormKey = GlobalKey<FormState>();
     final _jornada = ref.watch(jornadaStateProvider);
     final _cajainicialController = useTextEditingController();
     return _jornada.when(
@@ -202,7 +200,6 @@ class InformacionJornada extends HookConsumerWidget {
                             : "¿Desea iniciar la jornada?",
                         onAcept: () {
                           if (_enjornada) {
-                            //TODO finalizar jornada
                             ref
                                 .read(jornadaStateProvider.notifier)
                                 .finalizarJornada((String message) {
@@ -211,7 +208,10 @@ class InformacionJornada extends HookConsumerWidget {
                               showErrorToast(context, message);
                             });
                           } else {
-                            //TODO iniciar jornada
+                            if (!_initialCountFormKey.currentState!
+                                .validate()) {
+                              return;
+                            }
                             ref
                                 .read(jornadaStateProvider.notifier)
                                 .iniciarJornada(correctionPrice(
@@ -226,37 +226,43 @@ class InformacionJornada extends HookConsumerWidget {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) => EntradaSalidaDialog(
-                              good: true,
-                              onAdd: (EntradaSalida doc) {
-                                ref
-                                    .read(entradaSalidaListProvider.notifier)
-                                    .addEntradaSalida(doc);
-                              }));
-                    },
+                    onPressed: !_enjornada
+                        ? null
+                        : () {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => EntradaSalidaDialog(
+                                    good: true,
+                                    onAdd: (EntradaSalida doc) {
+                                      ref
+                                          .read(entradaSalidaListProvider
+                                              .notifier)
+                                          .addEntradaSalida(doc);
+                                    }));
+                          },
                     child: const Text("Entrada")),
                 ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => EntradaSalidaDialog(
-                          good: false,
-                          onAdd: (EntradaSalida doc) {
-                            ref
-                                .read(entradaSalidaListProvider.notifier)
-                                .addEntradaSalida(doc);
+                    onPressed: !_enjornada
+                        ? null
+                        : () {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => EntradaSalidaDialog(
+                                good: false,
+                                onAdd: (EntradaSalida doc) {
+                                  ref
+                                      .read(entradaSalidaListProvider.notifier)
+                                      .addEntradaSalida(doc);
+                                },
+                              ),
+                            );
                           },
-                        ),
-                      );
-                    },
                     child: const Text("Salida")),
               ]),
               TextToTextFieldIniciaBase(
+                formKey: _initialCountFormKey,
                 onSubmitedtext: () {
                   showDialog(
                     context: context,
@@ -264,7 +270,6 @@ class InformacionJornada extends HookConsumerWidget {
                       title: "¿Desea iniciar la jornada?",
                       onAcept: () {
                         if (_enjornada) {
-                          //TODO finalizar jornada
                           ref
                               .read(jornadaStateProvider.notifier)
                               .finalizarJornada((String message) {
@@ -273,7 +278,6 @@ class InformacionJornada extends HookConsumerWidget {
                             showErrorToast(context, message);
                           });
                         } else {
-                          //TODO iniciar jornada
                           ref
                               .read(jornadaStateProvider.notifier)
                               .iniciarJornada(
@@ -448,13 +452,16 @@ class TextToTextFieldIniciaBase extends HookConsumerWidget {
     required bool iniciatejornada,
     required TextEditingController cajainicialController,
     required Function() onSubmitedtext,
+    required GlobalKey<FormState> formKey,
   })  : _iniciatejornada = iniciatejornada,
         _cajainicialController = cajainicialController,
-        _onSubmitedtext = onSubmitedtext;
+        _onSubmitedtext = onSubmitedtext,
+        _formKey = formKey;
 
   final bool _iniciatejornada;
   final TextEditingController _cajainicialController;
   final Function() _onSubmitedtext;
+  final GlobalKey<FormState> _formKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -462,35 +469,39 @@ class TextToTextFieldIniciaBase extends HookConsumerWidget {
         ref.watch(jornadaStateProvider).asData?.value?.cajaInicial;
     return _iniciatejornada
         ? StadisticRow(title: "Caja inicial ", valor: caja ?? 0, good: null)
-        : TextFormField(
-            autofocus: true,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              CurrencyInputFormatter()
-            ],
-            controller: _cajainicialController,
-            decoration: const InputDecoration(
-              hintText: "Caja inicial",
-              labelText: 'Caja base',
-              icon: Icon(Icons.numbers),
-              border: UnderlineInputBorder(),
-              helperText: "Caja base",
+        : Form(
+            key: _formKey,
+            child: TextFormField(
+              autofocus: true,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                CurrencyInputFormatter()
+              ],
+              controller: _cajainicialController,
+              decoration: const InputDecoration(
+                hintText: "Caja inicial",
+                labelText: 'Caja base',
+                icon: Icon(Icons.numbers),
+                border: UnderlineInputBorder(),
+                helperText: "Caja base",
+              ),
+              validator: (value) {
+                if (value == null ||
+                    value.isEmpty ||
+                    correctionPrice(value) == 0) {
+                  return "Agregar un valor";
+                }
+                return null;
+              },
+              keyboardType: TextInputType.number,
+              onFieldSubmitted: (value) {
+                if (_formKey.currentState!.validate()) {
+                  _onSubmitedtext();
+                }
+              },
+              textInputAction: TextInputAction.done,
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty || value == "0") {
-                return "Agregar un valor";
-              }
-              return null;
-            },
-            keyboardType: TextInputType.number,
-            onFieldSubmitted: (value) {
-              if (_cajainicialController.text.isNotEmpty &&
-                  _cajainicialController.text != "0") {
-                _onSubmitedtext();
-              }
-            },
-            textInputAction: TextInputAction.done,
           );
   }
 }
@@ -552,8 +563,7 @@ class ListaVehiculos extends HookConsumerWidget {
             },
           );
         },
-        error: (error, stackTrace) =>
-            Text(error.toString()),
+        error: (error, stackTrace) => Text(error.toString()),
         loading: () => ListView.builder(
               itemCount: 5,
               itemBuilder: (context, index) {
