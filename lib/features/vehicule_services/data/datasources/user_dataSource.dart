@@ -8,35 +8,53 @@ class UserDataSource {
   UserDataSource({required this.firestore});
 
   Future<List<User>> getUsers() async {
-    final List<User> list = [];
+    List<User> list = [];
     try {
-      await firestore.get().then((value) {
-        value.docs.forEach((element) {
-          list.add(User.fromJson(element.data() as Map<String, dynamic>));
+      list = await _getUSersLocal();
+
+      if (list.isEmpty) {
+        debugPrint(' getUSers firestore');
+        await firestore.get().then((value) {
+          value.docs.forEach((element) {
+            list.add(User.fromJson(element.data() as Map<String, dynamic>));
+          });
         });
-      });
-      return list;
+        debugPrint(' getUSers return remote');
+        return list;
+      }
     } on FirebaseException catch (e) {
       debugPrint('error Firebase: ${e.code}');
-      return list;
+    } catch (e) {
+      debugPrint('error: ${e.toString()}');
     }
+    return list;
   }
 
-  Future<User?> getUser(String id ) async {
+  Future<User?> getUser(String id) async {
     if (id.isEmpty) return null;
+    if (id == '1234') return null;
+    User? _user;
     try {
-      final doc = await firestore.where("id", isEqualTo: id).get();
-      return User.fromJson(doc.docs.first.data() as Map<String, dynamic>);
+      _user = await _getUserLocal(id);
+      if (_user == null) {
+        await firestore.doc(id).get().then((value) {
+          _user = User.fromJson(value.data() as Map<String, dynamic>);
+        });
+        return _user;
+      }
+      return _user;
     } on FirebaseException catch (e) {
       debugPrint('error Firebase: ${e.code}');
-      return null;
+    } catch (e) {
+      debugPrint('error: ${e.toString()}');
     }
+    return _user;
   }
 
   Future<User?> createUser(User user) async {
     try {
       final userNew = user.copyWith(id: const Uuid().v4());
-      await firestore.add(userNew.toJson());
+      await firestore.doc(userNew.id).set(userNew.toJson());
       return userNew;
     } on FirebaseException catch (e) {
       debugPrint('error al crear Usuario: ${e}');
@@ -62,5 +80,42 @@ class UserDataSource {
       debugPrint('error al borrar Usuario: ${e}');
       return false;
     }
+  }
+
+  Future<List<User>> _getUSersLocal() async {
+    final List<User> list = [];
+    debugPrint(' getUSersLocal');
+    try {
+      await firestore.get(const GetOptions(source: Source.cache)).then((value) {
+        value.docs.forEach((element) {
+          list.add(User.fromJson(element.data() as Map<String, dynamic>));
+        });
+      });
+    } on FirebaseException catch (e) {
+      debugPrint('error Firebase: ${e.code}');
+    } catch (e) {
+      debugPrint('error: ${e.toString()}');
+    }
+    return list;
+  }
+
+  Future<User?> _getUserLocal(String id) async {
+    User? user;
+    try {
+      await firestore
+          .doc(id)
+          .get(
+            const GetOptions(source: Source.cache),
+          )
+          .then((value) {
+            
+        user = User.fromJson(value.data() as Map<String, dynamic>);
+      });
+    } on FirebaseException catch (e) {
+      debugPrint('error Firebase: ${e.code}');
+    } catch (e) {
+      debugPrint('error: ${e.toString()}');
+    }
+    return user;
   }
 }
