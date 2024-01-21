@@ -3,13 +3,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EntradaSalidaDataSource {
-  final CollectionReference colection;
-  EntradaSalidaDataSource(this.colection);
+  final CollectionReference collection;
+  EntradaSalidaDataSource(this.collection);
 
   Future<List<EntradaSalida>> getEntradaSalidas() async {
-      List<EntradaSalida> list = [];
+    List<EntradaSalida> list = [];
     try {
-      await colection.orderBy("fecha", descending: true).get().then((value) {
+      list = await _getEntrdadasSalidasLocal();
+      if (list.isEmpty) {
+        collection.get().then((value) {
+          value.docs.forEach((element) {
+            list.add(
+                EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
+          });
+        });
+      }
+    } on FirebaseException catch (e) {
+      logger.e('error Firebase', error: e.toString());
+    } catch (e) {
+      logger.e('error Firebase', error: e.toString());
+    }
+    return list;
+  }
+
+  Future<List<EntradaSalida>> _getEntrdadasSalidasLocal() async {
+    List<EntradaSalida> list = [];
+    try {
+      await collection
+          .orderBy("fecha", descending: true)
+          .get(const GetOptions(source: Source.cache))
+          .then((value) {
         value.docs.forEach((element) {
           list.add(
               EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
@@ -17,18 +40,42 @@ class EntradaSalidaDataSource {
       });
       return list;
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
       return list;
+    } catch (e) {
+      logger.e('error Firebase', error: e.toString());
     }
+    return list;
   }
 
-  Future<List<EntradaSalida>> getEntradaSalidasInRange( List<String> ids) async {
-      List<EntradaSalida> list = [];
+  Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async {
+    List<EntradaSalida> list = [];
     try {
-      await colection
+      list = await _getEntradaSalidasInRangeLocal(ids);
+      if (list.isEmpty || list.length < ids.length) {
+        collection.where("id", whereIn: ids).get().then((value) {
+          value.docs.forEach((element) {
+            list.add(
+                EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
+          });
+        });
+      }
+    } on FirebaseException catch (e) {
+      debugPrint('error Firebase: ${e.code}');
+    } catch (e) {
+      debugPrint('error Firebase: ${e.toString()}');
+    }
+    return list;
+  }
+
+  Future<List<EntradaSalida>> _getEntradaSalidasInRangeLocal(
+      List<String> ids) async {
+    List<EntradaSalida> list = [];
+    try {
+      await collection
           .where("id", whereIn: ids)
           .orderBy("fecha", descending: true)
-          .get()
+          .get(const GetOptions(source: Source.cache))
           .then((value) {
         value.docs.forEach((element) {
           list.add(
@@ -38,16 +85,15 @@ class EntradaSalidaDataSource {
       return list;
     } on FirebaseException catch (e) {
       debugPrint('error Firebase: ${e.code}');
-      return list;
     } catch (e) {
       debugPrint('error Firebase: ${e.toString()}');
-      return list;
     }
+    return list;
   }
 
   Future<void> addEntradaSalida(EntradaSalida entradaSalida) async {
     try {
-      await colection.doc(entradaSalida.id).set(entradaSalida.toJson());
+      await collection.doc(entradaSalida.id).set(entradaSalida.toJson());
     } on FirebaseException catch (e) {
       debugPrint('error al intentar agregar: ${e}');
     }
@@ -55,7 +101,7 @@ class EntradaSalidaDataSource {
 
   Future<void> deleteEntradaSalida(EntradaSalida entradaSalida) async {
     try {
-      await colection.doc(entradaSalida.id).delete();
+      await collection.doc(entradaSalida.id).delete();
     } on FirebaseException catch (e) {
       debugPrint('error al intentar eliminar: ${e}');
     }
