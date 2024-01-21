@@ -1,8 +1,13 @@
-
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import  'package:logger/logger.dart';
 
-final formatter = NumberFormat.simpleCurrency(locale: "es_MX", decimalDigits: 0);
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
+
+final formatter =
+    NumberFormat.simpleCurrency(locale: "es_MX", decimalDigits: 0);
 
 class CurrencyInputFormatter extends TextInputFormatter {
   @override
@@ -13,8 +18,8 @@ class CurrencyInputFormatter extends TextInputFormatter {
       return newValue;
     }
     double value = double.parse(newValue.text);
-    
-    String newText = formatter.format(value );
+
+    String newText = formatter.format(value);
     return newValue.copyWith(
         text: newText,
         selection: TextSelection.collapsed(offset: newText.length));
@@ -22,7 +27,7 @@ class CurrencyInputFormatter extends TextInputFormatter {
 }
 
 String formatearIntACantidad(int value) {
-  return formatter.format(value);  
+  return formatter.format(value);
 }
 
 int correctionPrice(String? value) {
