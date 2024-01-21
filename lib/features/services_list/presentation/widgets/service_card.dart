@@ -15,7 +15,6 @@ class CardCarService extends HookConsumerWidget {
     final client = ref.watch(getUserInfoProvider (
      vehicle.propietarioid
     ));
-    debugPrint('client: ${client}');
 
     final ButtonStyle myStileButton = TextButton.styleFrom(
       foregroundColor: Theme.of(context).colorScheme.secondary,

@@ -9,12 +9,12 @@ part 'jornada_model.g.dart';
 class Jornada with _$Jornada {
   factory Jornada({
     required String id,
+    required DateTime? dateInit,
+    required bool enJornada,
+    required int cajaInicial,
     @Default([]) List<String> jornadasListIDs,
     @Default([]) List<String> entradaSalidaIDs,
-    required DateTime? dateInit,
     @Default(null) DateTime? dateEnd,
-    @Default(false) bool enJornada,
-    required int cajaInicial,
     @Default("0 de (0)") String procesos,
     @Default(0) int ingresos,
     @Default(0) int entradas,

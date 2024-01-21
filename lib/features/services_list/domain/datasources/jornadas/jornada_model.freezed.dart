@@ -21,12 +21,12 @@ Jornada _$JornadaFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Jornada {
   String get id => throw _privateConstructorUsedError;
-  List<String> get jornadasListIDs => throw _privateConstructorUsedError;
-  List<String> get entradaSalidaIDs => throw _privateConstructorUsedError;
   DateTime? get dateInit => throw _privateConstructorUsedError;
-  DateTime? get dateEnd => throw _privateConstructorUsedError;
   bool get enJornada => throw _privateConstructorUsedError;
   int get cajaInicial => throw _privateConstructorUsedError;
+  List<String> get jornadasListIDs => throw _privateConstructorUsedError;
+  List<String> get entradaSalidaIDs => throw _privateConstructorUsedError;
+  DateTime? get dateEnd => throw _privateConstructorUsedError;
   String get procesos => throw _privateConstructorUsedError;
   int get ingresos => throw _privateConstructorUsedError;
   int get entradas => throw _privateConstructorUsedError;
@@ -45,12 +45,12 @@ abstract class $JornadaCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      List<String> jornadasListIDs,
-      List<String> entradaSalidaIDs,
       DateTime? dateInit,
-      DateTime? dateEnd,
       bool enJornada,
       int cajaInicial,
+      List<String> jornadasListIDs,
+      List<String> entradaSalidaIDs,
+      DateTime? dateEnd,
       String procesos,
       int ingresos,
       int entradas,
@@ -72,12 +72,12 @@ class _$JornadaCopyWithImpl<$Res, $Val extends Jornada>
   @override
   $Res call({
     Object? id = null,
-    Object? jornadasListIDs = null,
-    Object? entradaSalidaIDs = null,
     Object? dateInit = freezed,
-    Object? dateEnd = freezed,
     Object? enJornada = null,
     Object? cajaInicial = null,
+    Object? jornadasListIDs = null,
+    Object? entradaSalidaIDs = null,
+    Object? dateEnd = freezed,
     Object? procesos = null,
     Object? ingresos = null,
     Object? entradas = null,
@@ -89,21 +89,9 @@ class _$JornadaCopyWithImpl<$Res, $Val extends Jornada>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      jornadasListIDs: null == jornadasListIDs
-          ? _value.jornadasListIDs
-          : jornadasListIDs // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      entradaSalidaIDs: null == entradaSalidaIDs
-          ? _value.entradaSalidaIDs
-          : entradaSalidaIDs // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       dateInit: freezed == dateInit
           ? _value.dateInit
           : dateInit // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      dateEnd: freezed == dateEnd
-          ? _value.dateEnd
-          : dateEnd // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       enJornada: null == enJornada
           ? _value.enJornada
@@ -113,6 +101,18 @@ class _$JornadaCopyWithImpl<$Res, $Val extends Jornada>
           ? _value.cajaInicial
           : cajaInicial // ignore: cast_nullable_to_non_nullable
               as int,
+      jornadasListIDs: null == jornadasListIDs
+          ? _value.jornadasListIDs
+          : jornadasListIDs // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      entradaSalidaIDs: null == entradaSalidaIDs
+          ? _value.entradaSalidaIDs
+          : entradaSalidaIDs // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      dateEnd: freezed == dateEnd
+          ? _value.dateEnd
+          : dateEnd // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       procesos: null == procesos
           ? _value.procesos
           : procesos // ignore: cast_nullable_to_non_nullable
@@ -146,12 +146,12 @@ abstract class _$$JornadaImplCopyWith<$Res> implements $JornadaCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      List<String> jornadasListIDs,
-      List<String> entradaSalidaIDs,
       DateTime? dateInit,
-      DateTime? dateEnd,
       bool enJornada,
       int cajaInicial,
+      List<String> jornadasListIDs,
+      List<String> entradaSalidaIDs,
+      DateTime? dateEnd,
       String procesos,
       int ingresos,
       int entradas,
@@ -171,12 +171,12 @@ class __$$JornadaImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? jornadasListIDs = null,
-    Object? entradaSalidaIDs = null,
     Object? dateInit = freezed,
-    Object? dateEnd = freezed,
     Object? enJornada = null,
     Object? cajaInicial = null,
+    Object? jornadasListIDs = null,
+    Object? entradaSalidaIDs = null,
+    Object? dateEnd = freezed,
     Object? procesos = null,
     Object? ingresos = null,
     Object? entradas = null,
@@ -188,21 +188,9 @@ class __$$JornadaImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      jornadasListIDs: null == jornadasListIDs
-          ? _value._jornadasListIDs
-          : jornadasListIDs // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      entradaSalidaIDs: null == entradaSalidaIDs
-          ? _value._entradaSalidaIDs
-          : entradaSalidaIDs // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       dateInit: freezed == dateInit
           ? _value.dateInit
           : dateInit // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      dateEnd: freezed == dateEnd
-          ? _value.dateEnd
-          : dateEnd // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       enJornada: null == enJornada
           ? _value.enJornada
@@ -212,6 +200,18 @@ class __$$JornadaImplCopyWithImpl<$Res>
           ? _value.cajaInicial
           : cajaInicial // ignore: cast_nullable_to_non_nullable
               as int,
+      jornadasListIDs: null == jornadasListIDs
+          ? _value._jornadasListIDs
+          : jornadasListIDs // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      entradaSalidaIDs: null == entradaSalidaIDs
+          ? _value._entradaSalidaIDs
+          : entradaSalidaIDs // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      dateEnd: freezed == dateEnd
+          ? _value.dateEnd
+          : dateEnd // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       procesos: null == procesos
           ? _value.procesos
           : procesos // ignore: cast_nullable_to_non_nullable
@@ -241,12 +241,12 @@ class __$$JornadaImplCopyWithImpl<$Res>
 class _$JornadaImpl implements _Jornada {
   _$JornadaImpl(
       {required this.id,
+      required this.dateInit,
+      required this.enJornada,
+      required this.cajaInicial,
       final List<String> jornadasListIDs = const [],
       final List<String> entradaSalidaIDs = const [],
-      required this.dateInit,
       this.dateEnd = null,
-      this.enJornada = false,
-      required this.cajaInicial,
       this.procesos = "0 de (0)",
       this.ingresos = 0,
       this.entradas = 0,
@@ -260,6 +260,12 @@ class _$JornadaImpl implements _Jornada {
 
   @override
   final String id;
+  @override
+  final DateTime? dateInit;
+  @override
+  final bool enJornada;
+  @override
+  final int cajaInicial;
   final List<String> _jornadasListIDs;
   @override
   @JsonKey()
@@ -280,15 +286,8 @@ class _$JornadaImpl implements _Jornada {
   }
 
   @override
-  final DateTime? dateInit;
-  @override
   @JsonKey()
   final DateTime? dateEnd;
-  @override
-  @JsonKey()
-  final bool enJornada;
-  @override
-  final int cajaInicial;
   @override
   @JsonKey()
   final String procesos;
@@ -307,7 +306,7 @@ class _$JornadaImpl implements _Jornada {
 
   @override
   String toString() {
-    return 'Jornada(id: $id, jornadasListIDs: $jornadasListIDs, entradaSalidaIDs: $entradaSalidaIDs, dateInit: $dateInit, dateEnd: $dateEnd, enJornada: $enJornada, cajaInicial: $cajaInicial, procesos: $procesos, ingresos: $ingresos, entradas: $entradas, salidas: $salidas, total: $total)';
+    return 'Jornada(id: $id, dateInit: $dateInit, enJornada: $enJornada, cajaInicial: $cajaInicial, jornadasListIDs: $jornadasListIDs, entradaSalidaIDs: $entradaSalidaIDs, dateEnd: $dateEnd, procesos: $procesos, ingresos: $ingresos, entradas: $entradas, salidas: $salidas, total: $total)';
   }
 
   @override
@@ -316,17 +315,17 @@ class _$JornadaImpl implements _Jornada {
         (other.runtimeType == runtimeType &&
             other is _$JornadaImpl &&
             (identical(other.id, id) || other.id == id) &&
-            const DeepCollectionEquality()
-                .equals(other._jornadasListIDs, _jornadasListIDs) &&
-            const DeepCollectionEquality()
-                .equals(other._entradaSalidaIDs, _entradaSalidaIDs) &&
             (identical(other.dateInit, dateInit) ||
                 other.dateInit == dateInit) &&
-            (identical(other.dateEnd, dateEnd) || other.dateEnd == dateEnd) &&
             (identical(other.enJornada, enJornada) ||
                 other.enJornada == enJornada) &&
             (identical(other.cajaInicial, cajaInicial) ||
                 other.cajaInicial == cajaInicial) &&
+            const DeepCollectionEquality()
+                .equals(other._jornadasListIDs, _jornadasListIDs) &&
+            const DeepCollectionEquality()
+                .equals(other._entradaSalidaIDs, _entradaSalidaIDs) &&
+            (identical(other.dateEnd, dateEnd) || other.dateEnd == dateEnd) &&
             (identical(other.procesos, procesos) ||
                 other.procesos == procesos) &&
             (identical(other.ingresos, ingresos) ||
@@ -342,12 +341,12 @@ class _$JornadaImpl implements _Jornada {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      const DeepCollectionEquality().hash(_jornadasListIDs),
-      const DeepCollectionEquality().hash(_entradaSalidaIDs),
       dateInit,
-      dateEnd,
       enJornada,
       cajaInicial,
+      const DeepCollectionEquality().hash(_jornadasListIDs),
+      const DeepCollectionEquality().hash(_entradaSalidaIDs),
+      dateEnd,
       procesos,
       ingresos,
       entradas,
@@ -371,12 +370,12 @@ class _$JornadaImpl implements _Jornada {
 abstract class _Jornada implements Jornada {
   factory _Jornada(
       {required final String id,
+      required final DateTime? dateInit,
+      required final bool enJornada,
+      required final int cajaInicial,
       final List<String> jornadasListIDs,
       final List<String> entradaSalidaIDs,
-      required final DateTime? dateInit,
       final DateTime? dateEnd,
-      final bool enJornada,
-      required final int cajaInicial,
       final String procesos,
       final int ingresos,
       final int entradas,
@@ -388,17 +387,17 @@ abstract class _Jornada implements Jornada {
   @override
   String get id;
   @override
-  List<String> get jornadasListIDs;
-  @override
-  List<String> get entradaSalidaIDs;
-  @override
   DateTime? get dateInit;
-  @override
-  DateTime? get dateEnd;
   @override
   bool get enJornada;
   @override
   int get cajaInicial;
+  @override
+  List<String> get jornadasListIDs;
+  @override
+  List<String> get entradaSalidaIDs;
+  @override
+  DateTime? get dateEnd;
   @override
   String get procesos;
   @override

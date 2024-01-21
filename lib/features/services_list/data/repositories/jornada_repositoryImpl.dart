@@ -22,4 +22,9 @@ class JornadaRepositoryImpl implements JornadaRepository {
   Future<void> editJornada(Jornada jornada) {
     return dataSource.editJornada(jornada);
   }
+  
+  @override
+  Future<Jornada?> getCurrentJornada() {
+    return dataSource.getCurrentJornada();
+  }
 }

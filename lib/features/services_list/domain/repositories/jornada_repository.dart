@@ -5,4 +5,5 @@ abstract class JornadaRepository {
   Future<void> deleteJornada(Jornada jornada);
   Future<List<Jornada>> getJornadas();
   Future<void> editJornada(Jornada jornada);
+  Future<Jornada?> getCurrentJornada();
 }

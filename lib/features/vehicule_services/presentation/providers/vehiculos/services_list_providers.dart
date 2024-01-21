@@ -65,7 +65,7 @@ class ServiceList extends _$ServiceList {
   Future loadServicesToDay(List<String> ids) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      return ref.read(getVehiculesTodayProvider).call(ids);
+      return await ref.read(getVehiculesTodayProvider).call(ids);
     });
   }
 
@@ -88,10 +88,16 @@ class ServiceList extends _$ServiceList {
       await ref.read(deleteVehiculoProvider).call(vehicle);
       if (index != null) {
         list.removeAt(index);
-      await ref.read(jornadaStateProvider.notifier).deleteServicio(vehicle.id);
+        await ref
+            .read(jornadaStateProvider.notifier)
+            .deleteServicio(vehicle.id);
       }
       return list;
     });
+  }
+
+  void cleanList() {
+    state = const AsyncValue.data([]);
   }
 
   Future modifierService(Vehicle vehicle) async {
@@ -123,6 +129,9 @@ class ServiceList extends _$ServiceList {
   }
 
   Future<Map<String, int>> getServicesCount() async {
+    if (state.value == null || state.value!.isEmpty) {
+      return {'terminado': 0, 'cantidad': 0, 'total': 0};
+    }
     final entServices =
         state.value?.where((element) => element.terminado == true) ?? [];
     int total = 0;

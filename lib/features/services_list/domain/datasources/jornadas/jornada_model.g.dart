@@ -9,6 +9,11 @@ part of 'jornada_model.dart';
 _$JornadaImpl _$$JornadaImplFromJson(Map<String, dynamic> json) =>
     _$JornadaImpl(
       id: json['id'] as String,
+      dateInit: json['dateInit'] == null
+          ? null
+          : DateTime.parse(json['dateInit'] as String),
+      enJornada: json['enJornada'] as bool,
+      cajaInicial: json['cajaInicial'] as int,
       jornadasListIDs: (json['jornadasListIDs'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -17,14 +22,9 @@ _$JornadaImpl _$$JornadaImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      dateInit: json['dateInit'] == null
-          ? null
-          : DateTime.parse(json['dateInit'] as String),
       dateEnd: json['dateEnd'] == null
           ? null
           : DateTime.parse(json['dateEnd'] as String),
-      enJornada: json['enJornada'] as bool? ?? false,
-      cajaInicial: json['cajaInicial'] as int,
       procesos: json['procesos'] as String? ?? "0 de (0)",
       ingresos: json['ingresos'] as int? ?? 0,
       entradas: json['entradas'] as int? ?? 0,
@@ -35,12 +35,12 @@ _$JornadaImpl _$$JornadaImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$JornadaImplToJson(_$JornadaImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'jornadasListIDs': instance.jornadasListIDs,
-      'entradaSalidaIDs': instance.entradaSalidaIDs,
       'dateInit': instance.dateInit?.toIso8601String(),
-      'dateEnd': instance.dateEnd?.toIso8601String(),
       'enJornada': instance.enJornada,
       'cajaInicial': instance.cajaInicial,
+      'jornadasListIDs': instance.jornadasListIDs,
+      'entradaSalidaIDs': instance.entradaSalidaIDs,
+      'dateEnd': instance.dateEnd?.toIso8601String(),
       'procesos': instance.procesos,
       'ingresos': instance.ingresos,
       'entradas': instance.entradas,

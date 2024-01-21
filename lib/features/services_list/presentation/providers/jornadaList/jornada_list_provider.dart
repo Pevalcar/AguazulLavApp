@@ -1,6 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'jornada_list_provider.g.dart';
@@ -41,6 +40,12 @@ EditJornada editJornada(EditJornadaRef ref) {
   return EditJornada(repository);
 }
 
+@riverpod
+GetCurrentJornada getCurrentJornada(GetCurrentJornadaRef ref) {
+  final repository = ref.watch(jornadaRepositoryProvider);
+  return GetCurrentJornada(repository);
+}
+
 @Riverpod(keepAlive: true)
 class JornadasList extends _$JornadasList {
   @override
@@ -51,7 +56,6 @@ class JornadasList extends _$JornadasList {
   _fetch() async {
     List<Jornada> list = [];
     list = await ref.read(getJornadasProvider).call();
-
     return list;
   }
 
@@ -105,21 +109,7 @@ class JornadasList extends _$JornadasList {
   }
 
   Future<Jornada?> getCurrentJornada() async {
-    //verificar si ela lista esta basia en el state
-    state = await AsyncValue.guard(() async {
-      return ref.read(getJornadasProvider).call();
-    });
-    if (state.value == null) {
-      return null;
-    }
-
-    Jornada? jornada =
-        state.value?.firstWhere((element) => element.enJornada == true);
-    jornada ??= await ref.read(getJornadasProvider).call().then(
-        (value) => value.firstWhere((element) => element.enJornada == true));
-    if (jornada == null) {
-      return null;
-    }
+    final Jornada? jornada = await ref.read(getCurrentJornadaProvider).call();
     return jornada;
   }
 }
