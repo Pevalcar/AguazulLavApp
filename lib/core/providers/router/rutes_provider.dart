@@ -1,4 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
+import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,27 +10,97 @@ part 'rutes_provider.g.dart';
 GoRouter enrutador(EnrutadorRef ref) {
   final user = ref.watch(firebaseControlProvider);
   return GoRouter(
-      initialLocation: user.asData?.value == null ? '/' : "/menu",
-      routes: [
-        GoRoute(
-          path: "/",
-          builder: (context, state) => const Login(),
-        ),
-        GoRoute(
-            path: "/menu",
-            builder: (context, state) => const MainMenuScreen(),
-            routes: const []),
-        GoRoute(
-          path: "/addService",
-          builder: (context, state) => const AddServiceScreen(),
-        ),
-        GoRoute(
-          path: "/listvehiculos",
-          builder: (context, state) => const ListVehicles(),
-        ),
-        GoRoute(
-          path: "/addServiceType",
-          builder: (context, state) => const AddServiceTypeScreen(),
-        )
-      ]);
+    initialLocation: user.asData?.value == null ? '/login' : "/",
+    routes:$appRoutes,
+    errorBuilder: (c, s) => ErrorRoute(error: s.error!).build(c, s),
+  );
+}
+
+
+@TypedGoRoute<HomeMenuRoute>(path: "/")
+class HomeMenuRoute extends GoRouteData {
+  const HomeMenuRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const MainMenuScreen();
+}
+
+@TypedGoRoute<LoginRoute>(path: '/login')
+class LoginRoute extends GoRouteData {
+  const LoginRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const Login();
+}
+
+@TypedGoRoute<AddServiceRoute>(path: '/addService')
+class AddServiceRoute extends GoRouteData {
+  const AddServiceRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AddServiceScreen();
+}
+
+@TypedGoRoute<ListVehiculosRoute>(path: '/listvehiculos')
+class ListVehiculosRoute extends GoRouteData {
+  const ListVehiculosRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ListVehicles();
+}
+//TODO reacomodar las rutas
+@TypedGoRoute<AddServiceTypeRoute>(path: '/addServiceType')
+class AddServiceTypeRoute extends GoRouteData {
+  const AddServiceTypeRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AddServiceTypeScreen();
+}
+
+@TypedGoRoute<HistoryScreenRoute>(path: '/history', routes: [
+  TypedGoRoute<JornadaInfoRoute>(
+    path: "jornada",
+  )
+])
+@immutable
+class HistoryScreenRoute extends GoRouteData {
+  const HistoryScreenRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const HistoryScreen();
+  }
+}
+
+@immutable
+class JornadaInfoRoute extends GoRouteData {
+  final Jornada? $extra;
+
+  const JornadaInfoRoute({
+    this.$extra
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => JornadaInfoScreen(jornada: $extra);
+}
+
+//TODO Mejorar la pantalla de errores
+@immutable
+class ErrorRoute extends GoRouteData {
+  ErrorRoute({required this.error});
+  final Exception error;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => Scaffold(
+      appBar: AppBar(),
+      body: Center(
+          child: Column(
+        children: [
+          Text(error.toString()),
+          ElevatedButton(
+            onPressed: () {
+              GoRouter.of(context).go("/menu");
+            },
+            child: const Text("Volver"),
+          )
+        ],
+      )));
 }
