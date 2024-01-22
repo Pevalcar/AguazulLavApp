@@ -63,6 +63,9 @@ class ServiceList extends _$ServiceList {
   }
 
   Future loadServicesToDay(List<String> ids) async {
+    if (ids.isEmpty) {
+      state = const AsyncValue.data([]);
+    }
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       return await ref.read(getVehiculesTodayProvider).call(ids);
@@ -83,7 +86,8 @@ class ServiceList extends _$ServiceList {
   Future deleteService(Vehicle vehicle) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      int? index = state.value?.indexWhere((element) => element == vehicle.id);
+      int? index =
+          state.value?.indexWhere((element) => element.id == vehicle.id);
       List<Vehicle> list = state.value ?? [];
       await ref.read(deleteVehiculoProvider).call(vehicle);
       if (index != null) {
@@ -103,7 +107,8 @@ class ServiceList extends _$ServiceList {
   Future modifierService(Vehicle vehicle) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      int? index = state.value?.indexWhere((element) => element == vehicle.id);
+      int? index =
+          state.value?.indexWhere((element) => element.id == vehicle.id) ?? 0;
       List<Vehicle> list = state.value ?? [];
       await ref.read(modifieVehiculeProvider).call(vehicle);
       if (index != null) {
@@ -116,7 +121,8 @@ class ServiceList extends _$ServiceList {
   Future endService(Vehicle vehicle) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      int? index = state.value?.indexWhere((element) => element == vehicle.id);
+      int? index =
+          state.value?.indexWhere((element) => element.id == vehicle.id) ?? 0;
       List<Vehicle> list = state.value ?? [];
       Vehicle vehicle0 =
           vehicle.copyWith(terminado: true, salida: DateTime.now());

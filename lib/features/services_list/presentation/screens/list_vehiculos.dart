@@ -47,14 +47,14 @@ class ListVehicles extends HookConsumerWidget {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // ref.read(firebaseControlProvider.notifier).signOut();
-      //     ref.read(vehiculoStateProvider.notifier).addVehiculoTest(
-      //         () => showToast(context, 'Vehiculo Agregado'), null);
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // ref.read(firebaseControlProvider.notifier).signOut();
+          ref.read(vehiculoStateProvider.notifier).addVehiculoTest(
+              () => showToast(context, 'Vehiculo Agregado'), null);
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
@@ -558,6 +558,7 @@ class ListaVehiculos extends HookConsumerWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               return CardCarService(
+                key:  Key(data[index].id),
                 vehicle: data[index],
               );
             },

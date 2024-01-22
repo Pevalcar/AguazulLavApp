@@ -27,8 +27,9 @@ class CardCarService extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ExpansionTile(
-        childrenPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+        key : UniqueKey(),
         controller: controller,
+        childrenPadding: const EdgeInsets.symmetric(horizontal: 8.0),
         collapsedShape: RoundedRectangleBorder(
             side: BorderSide(
                 width: 1, color: Theme.of(context).colorScheme.outline),
@@ -147,8 +148,8 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
               if (vehicle.terminado == false)
                 TextButton(
                   style: myStileButton,
-                  onPressed: () {
-                    ref.read(serviceListProvider.notifier).endService(vehicle);
+                  onPressed: () async {
+                    await ref.read(serviceListProvider.notifier).endService(vehicle);
                     controller.collapse();
                   },
                   child: const Column(
