@@ -16,12 +16,18 @@ class JornadaState extends _$JornadaState {
     final Jornada? jornada =
         await ref.read(jornadasListProvider.notifier).getCurrentJornada();
     if (jornada != null) {
-      await ref
-          .read(serviceListProvider.notifier)
-          .loadServicesToDay(jornada.jornadasListIDs);
-      await ref
-          .read(entradaSalidaListProvider.notifier)
-          .loadDataToday(jornada.entradaSalidaIDs);
+      if (jornada.entradaSalidaIDs.isNotEmpty) {
+        await ref
+            .read(entradaSalidaListProvider.notifier)
+            .loadDataToday(jornada.entradaSalidaIDs);
+      }
+
+      if (jornada.jornadasListIDs.isNotEmpty) {
+        await ref
+            .read(serviceListProvider.notifier)
+            .loadServicesToDay(jornada.jornadasListIDs);
+      }
+
       state = AsyncValue.data(jornada);
     } else {
       state = AsyncValue.data(Jornada(
@@ -32,9 +38,8 @@ class JornadaState extends _$JornadaState {
       ));
       ref.read(serviceListProvider.notifier).cleanList();
       ref.read(entradaSalidaListProvider.notifier).cleanList();
-
     }
-      await calcularValores();
+    await calcularValores();
     return state.value;
   }
 

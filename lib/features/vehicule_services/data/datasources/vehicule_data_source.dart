@@ -44,9 +44,9 @@ class VehiculoDataSource {
         logger.i("cargando vehivulos de la base de datos local");
       return list;
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
     } catch (e) {
-      debugPrint('error cargar vehiculos por id: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
     }
     return list;
   }
@@ -55,7 +55,9 @@ class VehiculoDataSource {
     try {
       await _firebase.doc(vehicle.id).set(vehicle.toJson());
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
+    } catch (e) {
+      logger.e('error Firebase', error: e.toString());
     }
   }
 
@@ -63,7 +65,9 @@ class VehiculoDataSource {
     try {
       await _firebase.doc(vehicle.id).delete();
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
+    } catch (e) {
+      logger.e('error Firebase', error: e.toString());
     }
   }
 
@@ -71,7 +75,9 @@ class VehiculoDataSource {
     try {
       await _firebase.doc(vehicle.id).update(vehicle.toJson());
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
+    }catch (e) {
+      logger.e('error Firebase', error: e.toString());
     }
   }
 
@@ -88,9 +94,9 @@ class VehiculoDataSource {
       });
       return list;
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
     } catch (e) {
-      debugPrint('error Firebase: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
     }
     return list;
   }
@@ -109,10 +115,10 @@ class VehiculoDataSource {
       });
       return list;
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
       return list;
     } catch (e) {
-      debugPrint('error Firebase: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
       return list;
     }
   }

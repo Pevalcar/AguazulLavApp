@@ -53,7 +53,7 @@ class JornadasList extends _$JornadasList {
     return _fetch();
   }
 
-  _fetch() async {
+  Future<List<Jornada>> _fetch() async {
     List<Jornada> list = [];
     list = await ref.read(getJornadasProvider).call();
     return list;

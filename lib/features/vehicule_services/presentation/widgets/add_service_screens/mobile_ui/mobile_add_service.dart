@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//TODO interfaz de pc, agregar eliminar y modificar servicio, modificar la card de lista para ver mas informacion, agregar cuentas para ver ganancias, agregar caja menor y gastos
+//TODO interfaz de pc, agregar eliminar y modificar servicio, modificar la card de lista para ver mas informacion
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});
 

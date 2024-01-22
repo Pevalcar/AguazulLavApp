@@ -11,7 +11,6 @@ class DartMode extends _$DartMode {
   ThemeMode build() {
     return ThemeMode.system;
   }
-//TODO : toggle the mode save in local storage
   void toggle() {
     _mode = !_mode;
     state = _mode ? ThemeMode.dark : ThemeMode.light ;

@@ -9,7 +9,7 @@ class JornadaDataSource {
   Future<List<Jornada>> getJornadas() async {
     List<Jornada> list = [];
     try {
-      await colection.get().then((value) {
+      await colection.orderBy('dateInit', descending: true).get().then((value) {
         value.docs.forEach((element) {
           list.add(Jornada.fromJson(element.data() as Map<String, dynamic>));
         });

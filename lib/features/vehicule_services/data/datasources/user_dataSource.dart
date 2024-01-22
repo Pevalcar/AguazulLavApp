@@ -23,9 +23,9 @@ class UserDataSource {
         return list;
       }
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
     } catch (e) {
-      debugPrint('error: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
     }
     return list;
   }
@@ -44,9 +44,9 @@ class UserDataSource {
       }
       return _user;
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
     } catch (e) {
-      debugPrint('error: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
     }
     return _user;
   }
@@ -92,9 +92,9 @@ class UserDataSource {
         });
       });
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
     } catch (e) {
-      debugPrint('error: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
     }
     return list;
   }
@@ -112,9 +112,9 @@ class UserDataSource {
         user = User.fromJson(value.data() as Map<String, dynamic>);
       });
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
     } catch (e) {
-      debugPrint('error: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
     }
     return user;
   }

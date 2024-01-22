@@ -9,7 +9,7 @@ class MenuGridConten extends HookConsumerWidget {
   const MenuGridConten({
     super.key,
   });
-
+//TODO Agregar funciones solo administrador 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jornadaState = ref.watch(jornadaStateProvider);
@@ -28,7 +28,7 @@ class MenuGridConten extends HookConsumerWidget {
             icon: Icons.add,
             color: Theme.of(context).colorScheme.secondary,
             //TODO indicador de que la jornada no ha iniciado parpadeo o algo
-            onPressed: () { GoRouter.of(context).push('/addservice'); }),
+            onPressed: () { AddServiceRoute().push(context); }),
         ActionCardMenu(
             title: "Modificar Servicio",
             icon: Icons.edit,
@@ -38,15 +38,17 @@ class MenuGridConten extends HookConsumerWidget {
             title: "Lista de Servicios",
             icon: Icons.list_alt,
             color: Theme.of(context).colorScheme.secondary,
-            onPressed: () { GoRouter.of(context).push('/listvehiculos'); }),
-        ActionCardMenu(
-            title: "Clientes",
-            icon: Icons.person_add_alt,
-            color: Colors.red,
-            onPressed: () {}),
+            onPressed: () { ListVehiculosRoute().push(context); }),
         ActionCardMenu(
             title: "Historial de Servicios",
             icon: Icons.history,
+            color: Theme.of(context).colorScheme.secondary,
+            onPressed: () {
+              HistoryScreenRoute().push(context);
+            }),
+        ActionCardMenu(
+            title: "Clientes",
+            icon: Icons.person_add_alt,
             color: Colors.red,
             onPressed: () {}),
         ActionCardMenu(

@@ -64,6 +64,9 @@ class EntradaSalidaList extends _$EntradaSalidaList {
    state = const AsyncValue.data([]);
  }
   Future<void> loadDataToday(List<String> ids) async {
+    if (ids.isEmpty) {
+      state = const AsyncValue.data([]);
+    }
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<EntradaSalida> list = [];

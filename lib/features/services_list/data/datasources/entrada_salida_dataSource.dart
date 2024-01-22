@@ -61,9 +61,9 @@ class EntradaSalidaDataSource {
         });
       }
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
     } catch (e) {
-      debugPrint('error Firebase: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
     }
     return list;
   }
@@ -84,9 +84,9 @@ class EntradaSalidaDataSource {
       });
       return list;
     } on FirebaseException catch (e) {
-      debugPrint('error Firebase: ${e.code}');
+      logger.e('error Firebase', error: e.toString());
     } catch (e) {
-      debugPrint('error Firebase: ${e.toString()}');
+      logger.e('error Firebase', error: e.toString());
     }
     return list;
   }
@@ -95,7 +95,7 @@ class EntradaSalidaDataSource {
     try {
       await collection.doc(entradaSalida.id).set(entradaSalida.toJson());
     } on FirebaseException catch (e) {
-      debugPrint('error al intentar agregar: ${e}');
+      logger.e('error al intentar agregar: ${e}');
     }
   }
 
@@ -103,7 +103,7 @@ class EntradaSalidaDataSource {
     try {
       await collection.doc(entradaSalida.id).delete();
     } on FirebaseException catch (e) {
-      debugPrint('error al intentar eliminar: ${e}');
+      logger.e('error al intentar eliminar: ${e}');
     }
   }
 }
