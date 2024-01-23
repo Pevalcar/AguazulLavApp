@@ -133,8 +133,14 @@ RouteBase get $historyScreenRoute => GoRouteData.$route(
       factory: $HistoryScreenRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: 'jornada',
-          factory: $JornadaInfoRouteExtension._fromState,
+          path: 'listJornadas',
+          factory: $ListJornadasRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'jornada',
+              factory: $JornadaInfoRouteExtension._fromState,
+            ),
+          ],
         ),
       ],
     );
@@ -157,13 +163,31 @@ extension $HistoryScreenRouteExtension on HistoryScreenRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $ListJornadasRouteExtension on ListJornadasRoute {
+  static ListJornadasRoute _fromState(GoRouterState state) =>
+      const ListJornadasRoute();
+
+  String get location => GoRouteData.$location(
+        '/history/listJornadas',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $JornadaInfoRouteExtension on JornadaInfoRoute {
   static JornadaInfoRoute _fromState(GoRouterState state) => JornadaInfoRoute(
         $extra: state.extra as Jornada?,
       );
 
   String get location => GoRouteData.$location(
-        '/history/jornada',
+        '/history/listJornadas/jornada',
       );
 
   void go(BuildContext context) => context.go(location, extra: $extra);

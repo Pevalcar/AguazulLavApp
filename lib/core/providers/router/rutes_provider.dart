@@ -11,11 +11,10 @@ GoRouter enrutador(EnrutadorRef ref) {
   final user = ref.watch(firebaseControlProvider);
   return GoRouter(
     initialLocation: user.asData?.value == null ? '/login' : "/",
-    routes:$appRoutes,
+    routes: $appRoutes,
     errorBuilder: (c, s) => ErrorRoute(error: s.error!).build(c, s),
   );
 }
-
 
 @TypedGoRoute<HomeMenuRoute>(path: "/")
 class HomeMenuRoute extends GoRouteData {
@@ -47,7 +46,7 @@ class ListVehiculosRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) =>
       const ListVehicles();
 }
-//TODO reacomodar las rutas
+
 @TypedGoRoute<AddServiceTypeRoute>(path: '/addServiceType')
 class AddServiceTypeRoute extends GoRouteData {
   const AddServiceTypeRoute();
@@ -57,9 +56,11 @@ class AddServiceTypeRoute extends GoRouteData {
 }
 
 @TypedGoRoute<HistoryScreenRoute>(path: '/history', routes: [
-  TypedGoRoute<JornadaInfoRoute>(
-    path: "jornada",
-  )
+  TypedGoRoute<ListJornadasRoute>(path: "listJornadas", routes: [
+    TypedGoRoute<JornadaInfoRoute>(
+      path: "jornada",
+    ),
+  ]),
 ])
 @immutable
 class HistoryScreenRoute extends GoRouteData {
@@ -71,15 +72,21 @@ class HistoryScreenRoute extends GoRouteData {
 }
 
 @immutable
+class ListJornadasRoute extends GoRouteData {
+  const ListJornadasRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => ListJornadas();
+}
+
+@immutable
 class JornadaInfoRoute extends GoRouteData {
   final Jornada? $extra;
 
-  const JornadaInfoRoute({
-    this.$extra
-  });
+  const JornadaInfoRoute({this.$extra});
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => JornadaInfoScreen(jornada: $extra);
+  Widget build(BuildContext context, GoRouterState state) =>
+      JornadaInfoScreen(jornada: $extra);
 }
 
 //TODO Mejorar la pantalla de errores
