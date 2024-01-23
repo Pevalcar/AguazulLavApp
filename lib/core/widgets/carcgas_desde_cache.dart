@@ -12,6 +12,8 @@ class CarcgasDesdeCache extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
+      memCacheHeight: 410,
+      memCacheWidth: 310,
       imageUrl: imageUrl.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png?alt=media&token=014c8681-7981-49cc-9f9a-0e9b1894c84c' : imageUrl,
       // imageBuilder: (context, imageProvider) => Container(
       //   decoration: BoxDecoration(
