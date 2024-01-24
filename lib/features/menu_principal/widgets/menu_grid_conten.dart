@@ -40,7 +40,7 @@ class MenuGridConten extends HookConsumerWidget {
             color: Theme.of(context).colorScheme.secondary,
             onPressed: () { ListVehiculosRoute().push(context); }),
         ActionCardMenu(
-            title: "Historial de Servicios",
+            title: "Historial",
             icon: Icons.history,
             color: Theme.of(context).colorScheme.secondary,
             onPressed: () {

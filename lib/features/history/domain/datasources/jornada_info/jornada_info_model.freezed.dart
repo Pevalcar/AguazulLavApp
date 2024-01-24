@@ -24,6 +24,7 @@ mixin _$JornadaInfoModel {
   List<EntradaSalida> get entradaSalidasList =>
       throw _privateConstructorUsedError;
   List<Vehicle> get serviciosList => throw _privateConstructorUsedError;
+  List<List<Vehicle>> get listaOrdenada => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +41,8 @@ abstract class $JornadaInfoModelCopyWith<$Res> {
   $Res call(
       {Jornada jornada,
       List<EntradaSalida> entradaSalidasList,
-      List<Vehicle> serviciosList});
+      List<Vehicle> serviciosList,
+      List<List<Vehicle>> listaOrdenada});
 
   $JornadaCopyWith<$Res> get jornada;
 }
@@ -61,6 +63,7 @@ class _$JornadaInfoModelCopyWithImpl<$Res, $Val extends JornadaInfoModel>
     Object? jornada = null,
     Object? entradaSalidasList = null,
     Object? serviciosList = null,
+    Object? listaOrdenada = null,
   }) {
     return _then(_value.copyWith(
       jornada: null == jornada
@@ -75,6 +78,10 @@ class _$JornadaInfoModelCopyWithImpl<$Res, $Val extends JornadaInfoModel>
           ? _value.serviciosList
           : serviciosList // ignore: cast_nullable_to_non_nullable
               as List<Vehicle>,
+      listaOrdenada: null == listaOrdenada
+          ? _value.listaOrdenada
+          : listaOrdenada // ignore: cast_nullable_to_non_nullable
+              as List<List<Vehicle>>,
     ) as $Val);
   }
 
@@ -98,7 +105,8 @@ abstract class _$$JornadaInfoModelImplCopyWith<$Res>
   $Res call(
       {Jornada jornada,
       List<EntradaSalida> entradaSalidasList,
-      List<Vehicle> serviciosList});
+      List<Vehicle> serviciosList,
+      List<List<Vehicle>> listaOrdenada});
 
   @override
   $JornadaCopyWith<$Res> get jornada;
@@ -118,6 +126,7 @@ class __$$JornadaInfoModelImplCopyWithImpl<$Res>
     Object? jornada = null,
     Object? entradaSalidasList = null,
     Object? serviciosList = null,
+    Object? listaOrdenada = null,
   }) {
     return _then(_$JornadaInfoModelImpl(
       jornada: null == jornada
@@ -132,6 +141,10 @@ class __$$JornadaInfoModelImplCopyWithImpl<$Res>
           ? _value._serviciosList
           : serviciosList // ignore: cast_nullable_to_non_nullable
               as List<Vehicle>,
+      listaOrdenada: null == listaOrdenada
+          ? _value._listaOrdenada
+          : listaOrdenada // ignore: cast_nullable_to_non_nullable
+              as List<List<Vehicle>>,
     ));
   }
 }
@@ -142,9 +155,11 @@ class _$JornadaInfoModelImpl implements _JornadaInfoModel {
   const _$JornadaInfoModelImpl(
       {required this.jornada,
       final List<EntradaSalida> entradaSalidasList = const [],
-      final List<Vehicle> serviciosList = const []})
+      final List<Vehicle> serviciosList = const [],
+      final List<List<Vehicle>> listaOrdenada = const []})
       : _entradaSalidasList = entradaSalidasList,
-        _serviciosList = serviciosList;
+        _serviciosList = serviciosList,
+        _listaOrdenada = listaOrdenada;
 
   factory _$JornadaInfoModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$JornadaInfoModelImplFromJson(json);
@@ -170,9 +185,18 @@ class _$JornadaInfoModelImpl implements _JornadaInfoModel {
     return EqualUnmodifiableListView(_serviciosList);
   }
 
+  final List<List<Vehicle>> _listaOrdenada;
+  @override
+  @JsonKey()
+  List<List<Vehicle>> get listaOrdenada {
+    if (_listaOrdenada is EqualUnmodifiableListView) return _listaOrdenada;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listaOrdenada);
+  }
+
   @override
   String toString() {
-    return 'JornadaInfoModel(jornada: $jornada, entradaSalidasList: $entradaSalidasList, serviciosList: $serviciosList)';
+    return 'JornadaInfoModel(jornada: $jornada, entradaSalidasList: $entradaSalidasList, serviciosList: $serviciosList, listaOrdenada: $listaOrdenada)';
   }
 
   @override
@@ -184,7 +208,9 @@ class _$JornadaInfoModelImpl implements _JornadaInfoModel {
             const DeepCollectionEquality()
                 .equals(other._entradaSalidasList, _entradaSalidasList) &&
             const DeepCollectionEquality()
-                .equals(other._serviciosList, _serviciosList));
+                .equals(other._serviciosList, _serviciosList) &&
+            const DeepCollectionEquality()
+                .equals(other._listaOrdenada, _listaOrdenada));
   }
 
   @JsonKey(ignore: true)
@@ -193,7 +219,8 @@ class _$JornadaInfoModelImpl implements _JornadaInfoModel {
       runtimeType,
       jornada,
       const DeepCollectionEquality().hash(_entradaSalidasList),
-      const DeepCollectionEquality().hash(_serviciosList));
+      const DeepCollectionEquality().hash(_serviciosList),
+      const DeepCollectionEquality().hash(_listaOrdenada));
 
   @JsonKey(ignore: true)
   @override
@@ -214,7 +241,8 @@ abstract class _JornadaInfoModel implements JornadaInfoModel {
   const factory _JornadaInfoModel(
       {required final Jornada jornada,
       final List<EntradaSalida> entradaSalidasList,
-      final List<Vehicle> serviciosList}) = _$JornadaInfoModelImpl;
+      final List<Vehicle> serviciosList,
+      final List<List<Vehicle>> listaOrdenada}) = _$JornadaInfoModelImpl;
 
   factory _JornadaInfoModel.fromJson(Map<String, dynamic> json) =
       _$JornadaInfoModelImpl.fromJson;
@@ -225,6 +253,8 @@ abstract class _JornadaInfoModel implements JornadaInfoModel {
   List<EntradaSalida> get entradaSalidasList;
   @override
   List<Vehicle> get serviciosList;
+  @override
+  List<List<Vehicle>> get listaOrdenada;
   @override
   @JsonKey(ignore: true)
   _$$JornadaInfoModelImplCopyWith<_$JornadaInfoModelImpl> get copyWith =>

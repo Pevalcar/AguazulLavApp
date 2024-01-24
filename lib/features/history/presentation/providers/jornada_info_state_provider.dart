@@ -33,9 +33,38 @@ class JornadaInfo extends _$JornadaInfo {
       jornadaInfo = JornadaInfoModel(
           jornada: jornada,
           entradaSalidasList: entradasalidas,
-          serviciosList: vehicles);
+          serviciosList: vehicles,
+          listaOrdenada:  await ordenarListVehiculos(vehicles),  
+          );
       return jornadaInfo;
     });
+      
     return jornadaInfo;
+  }
+
+  Future<List<List<Vehicle>>> ordenarListVehiculos(List<Vehicle> servicios) async {
+
+      List<List<Vehicle>> list = [];
+      List<String> empleados = [];
+      if (servicios.isEmpty) {
+        return list;
+      }
+      //Sacar empelados de los servicios
+      for (var vehiculo in servicios) {
+        if (!empleados.contains(vehiculo.trabjador)) {
+          empleados.add(vehiculo.trabjador);
+        }
+      } 
+      //separador de servicos por trabajador
+      for (var emp in empleados) {
+        List<Vehicle> listSPE = [];
+        for (var vehiculo in servicios) {
+          if (vehiculo.trabjador == emp) {
+            listSPE.add(vehiculo);
+          }
+        }
+        list.add(listSPE);
+      }
+      return list;
   }
 }

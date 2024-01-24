@@ -39,6 +39,7 @@ class UserDataSource {
       if (_user == null) {
         await firestore.doc(id).get().then((value) {
           _user = User.fromJson(value.data() as Map<String, dynamic>);
+          logger.d(' getUSersLocal');
         });
         return _user;
       }
@@ -101,6 +102,7 @@ class UserDataSource {
 
   Future<User?> _getUserLocal(String id) async {
     User? user;
+    logger.d(' getUSersLocal');
     try {
       await firestore
           .doc(id)

@@ -101,6 +101,9 @@ class ClientList extends _$ClientList {
       return state.asData?.value ?? [];
     });
   }
+  Future<User?> getUSer(String id) async {
+    return state.asData?.value.firstWhere((element) => element.id == id) ?? await ref.read(getUserProvider).call(id);
+  }
 
 }
 
@@ -108,5 +111,6 @@ class ClientList extends _$ClientList {
 Future<User?> GetUserInfo(GetUserInfoRef ref, String userID) async {
   if (userID.isEmpty) return null;
   if (userID == "1234") return null;
-  return await ref.read(getUserProvider).call(userID);
+  User? user = await ref.read(clientListProvider.notifier). getUSer(userID);
+  return user;
 }

@@ -108,7 +108,7 @@ final getUsersProvider = AutoDisposeProvider<GetUsers>.internal(
 );
 
 typedef GetUsersRef = AutoDisposeProviderRef<GetUsers>;
-String _$getUserInfoHash() => r'40ae645d8eef97dc2b8fa9cf49c226f6b1816838';
+String _$getUserInfoHash() => r'0976b1e50ec29e2e6a04858893f0fef354ee13b3';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -257,7 +257,7 @@ class _GetUserInfoProviderElement
   String get userID => (origin as GetUserInfoProvider).userID;
 }
 
-String _$clientListHash() => r'6373a96c3b4f3766843620c750f1f8961591000d';
+String _$clientListHash() => r'32084926122faed1a079fbfcee70ce0483f45e38';
 
 /// See also [ClientList].
 @ProviderFor(ClientList)

@@ -6,7 +6,7 @@ part of 'jornada_info_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$jornadaInfoHash() => r'5ce75b2bb653131f1a69e275cee140c410695c0a';
+String _$jornadaInfoHash() => r'cbfe99791048f51ef7e768bb98a220632d7b584b';
 
 /// Copied from Dart SDK
 class _SystemHash {

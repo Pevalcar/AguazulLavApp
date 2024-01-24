@@ -33,15 +33,19 @@ class VehiculoDataSource {
     try {
       list = await _getVehiculesTodayLocal(ids);
       if (list.isEmpty || list.length < ids.length) {
-        _firebase.where('id', whereIn: ids).get().then((value) {
+        _firebase
+            .where('id', whereIn: ids)
+            .orderBy("entrada", descending: true)
+            .get()
+            .then((value) {
           for (var element in value.docs) {
             list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));
           }
-        logger.i("cargando vehivulos de la base de datos remota");
+          logger.i("cargando vehivulos de la base de datos remota");
         });
         return list;
       }
-        logger.i("cargando vehivulos de la base de datos local");
+      logger.i("cargando vehivulos de la base de datos local");
       return list;
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());
@@ -76,7 +80,7 @@ class VehiculoDataSource {
       await _firebase.doc(vehicle.id).update(vehicle.toJson());
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());
-    }catch (e) {
+    } catch (e) {
       logger.e('error Firebase', error: e.toString());
     }
   }

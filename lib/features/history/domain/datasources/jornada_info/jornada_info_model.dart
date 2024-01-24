@@ -10,6 +10,7 @@ class JornadaInfoModel with _$JornadaInfoModel {
     required Jornada jornada,
     @Default([]) List<EntradaSalida> entradaSalidasList,
     @Default([]) List<Vehicle> serviciosList,
+    @Default([]) List<List<Vehicle>> listaOrdenada,
   }) = _JornadaInfoModel;
 
   factory JornadaInfoModel.fromJson(Map<String, dynamic> json) =>

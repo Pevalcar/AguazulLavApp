@@ -4,16 +4,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
+  bool _editable;
 
-  const CardCarService({
+  CardCarService({
     super.key,
     required this.vehicle,
-  });
+    bool editable = true,
+  }) : _editable = editable;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final client = ref.watch(getUserInfoProvider (
-     vehicle.propietarioid
+     vehicle.propietarioid 
     ));
 
     final ButtonStyle myStileButton = TextButton.styleFrom(
@@ -53,6 +55,8 @@ class CardCarService extends HookConsumerWidget {
                   height: 30,
                   width: 30,
                   color: Theme.of(context).colorScheme.outline,
+                  cacheHeight: 80,
+                  cacheWidth: 80,
                 ),
                 const SizedBox(width: 10),
                 Text(
@@ -64,7 +68,7 @@ class CardCarService extends HookConsumerWidget {
               ],
             ),
             Text(
-                " \$ ${vehicle.typePrice == "" ? "25.000.00" : vehicle.typePrice}")
+                formatearIntACantidad(vehicle.typePrice))
           ],
         ),
         subtitle: Row(
@@ -145,7 +149,7 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                   ],
                 ),
               ),
-              if (vehicle.terminado == false)
+              if (vehicle.terminado == false && _editable)
                 TextButton(
                   style: myStileButton,
                   onPressed: () async {

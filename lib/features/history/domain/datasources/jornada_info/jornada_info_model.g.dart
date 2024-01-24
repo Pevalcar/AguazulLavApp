@@ -18,6 +18,12 @@ _$JornadaInfoModelImpl _$$JornadaInfoModelImplFromJson(
               ?.map((e) => Vehicle.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      listaOrdenada: (json['listaOrdenada'] as List<dynamic>?)
+              ?.map((e) => (e as List<dynamic>)
+                  .map((e) => Vehicle.fromJson(e as Map<String, dynamic>))
+                  .toList())
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$JornadaInfoModelImplToJson(
@@ -26,4 +32,5 @@ Map<String, dynamic> _$$JornadaInfoModelImplToJson(
       'jornada': instance.jornada,
       'entradaSalidasList': instance.entradaSalidasList,
       'serviciosList': instance.serviciosList,
+      'listaOrdenada': instance.listaOrdenada,
     };
