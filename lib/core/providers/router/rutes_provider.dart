@@ -67,7 +67,7 @@ class HistoryScreenRoute extends GoRouteData {
   const HistoryScreenRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const HistoryScreen();
+    return HistoryScreen();
   }
 }
 
