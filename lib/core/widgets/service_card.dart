@@ -134,23 +134,26 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
             buttonHeight: 52.0,
             buttonMinWidth: 90.0,
             children: <Widget>[
-              PinAccees(
-                  correctPass: () {
-                    ref
-                        .read(serviceListProvider.notifier)
-                        .deleteService(vehicle);
-                  },
-                  correctPin: pin.asData?.value ?? 0,
-                  child: Column(children: [
-                    Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.errorContainer,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2.0),
-                    ),
-                    const Text('Borrar'),
-                  ])),
+              Visibility(
+                visible: _editable,
+                child: PinAccees(
+                    correctPass: () {
+                      ref
+                          .read(serviceListProvider.notifier)
+                          .deleteService(vehicle);
+                    },
+                    correctPin: pin.asData?.value ?? 0,
+                    child: Column(children: [
+                      Icon(
+                        Icons.delete,
+                        color: Theme.of(context).colorScheme.errorContainer,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 2.0),
+                      ),
+                      const Text('Borrar'),
+                    ])),
+              ),
               TextButton(
                 style: myStileButton,
                 onPressed: () {},
@@ -164,8 +167,9 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                   ],
                 ),
               ),
-              if (vehicle.terminado == false && _editable)
-                TextButton(
+              Visibility(
+                visible: (vehicle.terminado == false && _editable),
+                child: TextButton(
                   style: myStileButton,
                   onPressed: () async {
                     await ref
@@ -183,6 +187,7 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                     ],
                   ),
                 ),
+              ),
             ],
           )
         ],
