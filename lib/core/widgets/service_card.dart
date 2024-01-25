@@ -1,12 +1,13 @@
+import 'package:aguazullavapp/core/providers/global/pin_pass/pin_pass_provider.dart';
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
-  bool _editable;
+  final bool _editable;
 
-  CardCarService({
+  const CardCarService({
     super.key,
     required this.vehicle,
     bool editable = true,
@@ -14,10 +15,8 @@ class CardCarService extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final client = ref.watch(getUserInfoProvider (
-     vehicle.propietarioid 
-    ));
-
+    final client = ref.watch(getUserInfoProvider(vehicle.propietarioid));
+    final pin = ref.watch(pinPassProvider);
     final ButtonStyle myStileButton = TextButton.styleFrom(
       foregroundColor: Theme.of(context).colorScheme.secondary,
       shape: const RoundedRectangleBorder(
@@ -29,7 +28,7 @@ class CardCarService extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ExpansionTile(
-        key : UniqueKey(),
+        key: UniqueKey(),
         controller: controller,
         childrenPadding: const EdgeInsets.symmetric(horizontal: 8.0),
         collapsedShape: RoundedRectangleBorder(
@@ -67,8 +66,7 @@ class CardCarService extends HookConsumerWidget {
                 ),
               ],
             ),
-            Text(
-                formatearIntACantidad(vehicle.typePrice))
+            Text(formatearIntACantidad(vehicle.typePrice))
           ],
         ),
         subtitle: Row(
@@ -136,6 +134,23 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
             buttonHeight: 52.0,
             buttonMinWidth: 90.0,
             children: <Widget>[
+              PinAccees(
+                  correctPass: () {
+                    ref
+                        .read(serviceListProvider.notifier)
+                        .deleteService(vehicle);
+                  },
+                  correctPin: pin.asData?.value ?? 0,
+                  child: Column(children: [
+                    Icon(
+                      Icons.delete,
+                      color: Theme.of(context).colorScheme.errorContainer,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2.0),
+                    ),
+                    const Text('Borrar'),
+                  ])),
               TextButton(
                 style: myStileButton,
                 onPressed: () {},
@@ -153,7 +168,9 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                 TextButton(
                   style: myStileButton,
                   onPressed: () async {
-                    await ref.read(serviceListProvider.notifier).endService(vehicle);
+                    await ref
+                        .read(serviceListProvider.notifier)
+                        .endService(vehicle);
                     controller.collapse();
                   },
                   child: const Column(
