@@ -10,9 +10,9 @@ class JornadaDataSource {
     List<Jornada> list = [];
     try {
       await colection.orderBy('dateInit', descending: true).get().then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           list.add(Jornada.fromJson(element.data() as Map<String, dynamic>));
-        });
+        }
       });
       logger.i('jornadas cargadas');
       return list;
@@ -26,13 +26,12 @@ class JornadaDataSource {
   }
 
   Future<Jornada?> addJornada(Jornada jornada) async {
-    Jornada? _jornada;
+    Jornada? jornada0;
     try {
       await colection.doc(jornada.id).set(jornada.toJson());
-      
-      return _jornada;
+      return jornada0;
     } on FirebaseException catch (e) {
-      debugPrint('e: ${e}');
+      debugPrint('e: $e');
       return null;
     }
   }
@@ -41,7 +40,9 @@ class JornadaDataSource {
     try {
       await colection.doc(jornada.id).delete();
     } on FirebaseException catch (e) {
-      debugPrint('e: ${e}');
+      debugPrint('e: $e');
+    } catch (e) {
+      logger.e("error al eliminar  la jornada", error: e.toString());
     }
   }
 
@@ -49,7 +50,10 @@ class JornadaDataSource {
     try {
       await colection.doc(jornada.id).update(jornada.toJson());
     } on FirebaseException catch (e) {
-      debugPrint('e: ${e}');
+      logger.e('error al editar la jornada',
+          error: e.code, stackTrace: e.stackTrace);
+    } catch (e) {
+      logger.e('error al editar la jornada', error: e.toString());
     }
   }
 

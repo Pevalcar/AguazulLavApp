@@ -6,7 +6,7 @@ class DeletePhoto {
   final PhotoDataRepository serviceInfoRepository;
   DeletePhoto(this.serviceInfoRepository);
 
-  Future<PhotoState> call( XFile service) async {
+  Future<PhotoState> call( String service) async {
     return serviceInfoRepository.deletePhoto( service);
   }
 }

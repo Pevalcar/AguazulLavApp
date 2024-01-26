@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +18,7 @@ class ListVehicles extends HookConsumerWidget {
       appBar: AppBar(title: const Text('Servicios'), actions: [
         IconButton(
             onPressed: () {
-              ref.read(jornadaStateProvider.notifier).fetch();
+              ref.read(jornadaStateProvider.notifier).reloadJornada();
             },
             icon: const Icon(Icons.refresh)),
         const DarkModeButton()
@@ -53,7 +52,12 @@ class ListVehicles extends HookConsumerWidget {
           ref.read(vehiculoStateProvider.notifier).addVehiculoTest(
               () => showToast(context, 'Vehiculo Agregado'), null);
         },
-        child: const Icon(Icons.add),
+        child: Row(
+          children: const [
+            Icon(Icons.warning_amber),
+            Icon(Icons.add),
+          ],
+        ),
       ),
     );
   }
@@ -167,14 +171,17 @@ class InformacionJornada extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _initialCountFormKey = GlobalKey<FormState>();
-    final _jornada = ref.watch(jornadaStateProvider);
-    final _cajainicialController = useTextEditingController();
-    return _jornada.when(
+    final initialCountFormKey = GlobalKey<FormState>();
+    final jornada = ref.watch(jornadaStateProvider);
+    final cajainicialController = useTextEditingController();
+    return jornada.when(
       loading: () => const Center(child: Text("Cargando...")),
-      error: (error, stackTrace) => Text(error.toString()),
+      error: (error, stackTrace) {
+        logger.e(error.toString(), stackTrace: stackTrace);
+        return Text(error.toString());
+      },
       data: (data) {
-        var _enjornada = data?.enJornada ?? false;
+        var enjornada = data?.enJornada ?? false;
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -195,11 +202,11 @@ class InformacionJornada extends HookConsumerWidget {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialogOKJornada(
-                        title: _enjornada
+                        title: enjornada
                             ? "¿Desea finalizar la jornada?"
                             : "¿Desea iniciar la jornada?",
                         onAcept: () {
-                          if (_enjornada) {
+                          if (enjornada) {
                             ref
                                 .read(jornadaStateProvider.notifier)
                                 .finalizarJornada((String message) {
@@ -208,25 +215,25 @@ class InformacionJornada extends HookConsumerWidget {
                               showErrorToast(context, message);
                             });
                           } else {
-                            if (!_initialCountFormKey.currentState!
+                            if (!initialCountFormKey.currentState!
                                 .validate()) {
                               return;
                             }
                             ref
                                 .read(jornadaStateProvider.notifier)
                                 .iniciarJornada(correctionPrice(
-                                    _cajainicialController.text));
+                                    cajainicialController.text));
                           }
                         },
                       ),
                     );
                   },
                   child: Text(
-                    _enjornada ? "Finalizar Jornada" : "Iniciar Jornada",
+                    enjornada ? "Finalizar Jornada" : "Iniciar Jornada",
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: !_enjornada
+                    onPressed: !enjornada
                         ? null
                         : () {
                             showDialog(
@@ -243,7 +250,7 @@ class InformacionJornada extends HookConsumerWidget {
                           },
                     child: const Text("Entrada")),
                 ElevatedButton(
-                    onPressed: !_enjornada
+                    onPressed: !enjornada
                         ? null
                         : () {
                             showDialog(
@@ -262,14 +269,14 @@ class InformacionJornada extends HookConsumerWidget {
                     child: const Text("Salida")),
               ]),
               TextToTextFieldIniciaBase(
-                formKey: _initialCountFormKey,
+                formKey: initialCountFormKey,
                 onSubmitedtext: () {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialogOKJornada(
                       title: "¿Desea iniciar la jornada?",
                       onAcept: () {
-                        if (_enjornada) {
+                        if (enjornada) {
                           ref
                               .read(jornadaStateProvider.notifier)
                               .finalizarJornada((String message) {
@@ -281,14 +288,14 @@ class InformacionJornada extends HookConsumerWidget {
                           ref
                               .read(jornadaStateProvider.notifier)
                               .iniciarJornada(
-                                  correctionPrice(_cajainicialController.text));
+                                  correctionPrice(cajainicialController.text));
                         }
                       },
                     ),
                   );
                 },
-                iniciatejornada: _enjornada,
-                cajainicialController: _cajainicialController,
+                iniciatejornada: enjornada,
+                cajainicialController: cajainicialController,
               ),
               StadisticRow(
                 title: 'Salida',
@@ -396,7 +403,7 @@ class StadisticRow extends StatelessWidget {
         ),
         Divider(thickness: 1, color: Theme.of(context).colorScheme.outline),
         Text(
-          '${formatearIntACantidad(_valor)}',
+          formatearIntACantidad(_valor),
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
               color: _good == null
                   ? Theme.of(context).colorScheme.outline

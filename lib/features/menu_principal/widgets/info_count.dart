@@ -1,10 +1,7 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class InfoCount extends HookConsumerWidget {
   const InfoCount({

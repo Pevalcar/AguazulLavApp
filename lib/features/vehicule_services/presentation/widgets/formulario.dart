@@ -194,9 +194,9 @@ class ClientSearcher extends HookConsumerWidget {
                 context: context,
                 builder: (_) {
                   return _AddClient(
-                    onAddClient: (User _user) async {
+                    onAddClient: (User user) async {
                       ref.read(clientListProvider.notifier).addUSer(
-                        _user,
+                        user,
                         (us) {
                           showToast(context, "Cliente agregado");
                         },
@@ -217,12 +217,12 @@ class _AddClient extends HookWidget {
 
   void supmited(
       BuildContext context,
-      GlobalKey<FormState> _keyForm,
+      GlobalKey<FormState> keyForm,
       TextEditingController nameController,
       TextEditingController phoneController,
       TextEditingController idController) {
-    _keyForm.currentState!.save();
-    if (_keyForm.currentState!.validate()) {
+    keyForm.currentState!.save();
+    if (keyForm.currentState!.validate()) {
       onAddClient(User(
         name: nameController.text,
         phone: phoneController.text,
@@ -234,12 +234,12 @@ class _AddClient extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _keyForm = GlobalKey<FormState>();
+    final keyForm = GlobalKey<FormState>();
     final nameController = useTextEditingController();
     final phoneController = useTextEditingController();
     final idController = useTextEditingController();
 
-    final spacer = const SizedBox(height: 10);
+    const spacer = SizedBox(height: 10);
     return AlertDialog(
       actions: [
         TextButton(
@@ -251,7 +251,7 @@ class _AddClient extends HookWidget {
             onPressed: () {
               supmited(
                 context,
-                _keyForm,
+                keyForm,
                 nameController,
                 phoneController,
                 idController,
@@ -261,7 +261,7 @@ class _AddClient extends HookWidget {
       scrollable: true,
       title: const Text("Añadir cliente"),
       content: Form(
-        key: _keyForm,
+        key: keyForm,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -312,7 +312,7 @@ class _AddClient extends HookWidget {
               onFieldSubmitted: (value) {
                 supmited(
                   context,
-                  _keyForm,
+                  keyForm,
                   nameController,
                   phoneController,
                   idController,

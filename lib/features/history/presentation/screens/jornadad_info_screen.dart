@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:aguazullavapp/lib.dart';
@@ -26,7 +25,7 @@ class JornadaInfoScreen extends HookConsumerWidget {
                     slivers: [
                       SliverToBoxAdapter(
                           child: _JornadaInfoStats(data: data!.jornada)),
-                      SliverToBoxAdapter(child: const Divider()),
+                      const SliverToBoxAdapter(child: Divider()),
                       TituloSliver(
                         "Informacion de la jornada",
                         toolBarHeight: MediaQuery.of(context).padding.top,
@@ -43,12 +42,12 @@ class JornadaInfoScreen extends HookConsumerWidget {
                     ]),
             error: (error, stackTrace) => Text(error.toString()),
             //
-            loading: () => Center(child:  CircularProgressIndicator())));
+            loading: () => const Center(child:  CircularProgressIndicator())));
   }
 }
 
 class TituloSliver extends StatelessWidget {
-  TituloSliver(
+  const TituloSliver(
     this.title, {
     super.key,
     double toolBarHeight = 0.0,
@@ -60,11 +59,11 @@ class TituloSliver extends StatelessWidget {
         _color = color,
         _toolBarHeight = toolBarHeight;
 
-  bool _pinned;
-  bool _floating;
-  Color? _color;
+  final bool _pinned;
+  final bool _floating;
+  final Color? _color;
   final String title;
-  double _toolBarHeight;
+  final double _toolBarHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,6 @@ class TituloSliver extends StatelessWidget {
 
 class _ListaPorTrabajadores extends StatelessWidget {
   const _ListaPorTrabajadores({
-    super.key,
     required this.data,
   });
   final JornadaInfoModel data;
@@ -107,9 +105,9 @@ class SingleListTrabajador extends StatelessWidget {
     required List<Vehicle> servicios,
   }) : _servicios = servicios;
   final List<Vehicle> _servicios;
-  String calculerTotal(List<Vehicle> _servicios) {
+  String calculerTotal(List<Vehicle> servicios) {
     int total = 0;
-    for (var element in _servicios) {
+    for (var element in servicios) {
       if (element.terminado) total += element.typePrice;
     }
     return formatearIntACantidad(total);
@@ -119,7 +117,7 @@ class SingleListTrabajador extends StatelessWidget {
     for (var element in list) {
       if (element.terminado) terminados++;
     }
-    return 'Recibidos ${terminados} /  ${list.length}';}
+    return 'Recibidos $terminados /  ${list.length}';}
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +179,6 @@ class SingleListTrabajador extends StatelessWidget {
 
 class _JornadaInfoStats extends StatelessWidget {
   const _JornadaInfoStats({
-    super.key,
     required Jornada data,
   }) : _data = data;
 
@@ -197,7 +194,6 @@ class _JornadaInfoStats extends StatelessWidget {
 
 class _informationList extends StatelessWidget {
   const _informationList({
-    super.key,
     required Jornada data,
   }) : _data = data;
 

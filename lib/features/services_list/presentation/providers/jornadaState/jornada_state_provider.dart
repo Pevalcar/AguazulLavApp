@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 part "jornada_state_provider.g.dart";
 
-@Riverpod(keepAlive: true)
+@riverpod
 class JornadaState extends _$JornadaState {
   @override
   FutureOr<Jornada?> build() {
@@ -13,7 +13,7 @@ class JornadaState extends _$JornadaState {
   }
 
   Future<Jornada?> fetch() async {
-    final Jornada? jornada =
+    Jornada? jornada =
         await ref.read(jornadasListProvider.notifier).getCurrentJornada();
     if (jornada != null) {
       if (jornada.entradaSalidaIDs.isNotEmpty) {
@@ -27,20 +27,25 @@ class JornadaState extends _$JornadaState {
             .read(serviceListProvider.notifier)
             .loadServicesToDay(jornada.jornadasListIDs);
       }
-
-      state = AsyncValue.data(jornada);
+      jornada = await calcularValores(jornada!);
     } else {
-      state = AsyncValue.data(Jornada(
+      jornada = Jornada(
         id: "",
         dateInit: DateTime.now(),
         enJornada: false,
         cajaInicial: 0,
-      ));
+      );
       ref.read(serviceListProvider.notifier).cleanList();
       ref.read(entradaSalidaListProvider.notifier).cleanList();
     }
-    await calcularValores();
-    return state.value;
+    return jornada;
+  }
+
+  Future<void> reloadJornada() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return fetch();
+    });
   }
 
   Future<void> editarJornada(Jornada jornada) async {
@@ -59,7 +64,6 @@ class JornadaState extends _$JornadaState {
       await ref.read(jornadasListProvider.notifier).addJornada(jorndadInit);
       return fetch();
     });
-    calcularValores();
   }
 
   void finalizarJornada(
@@ -73,7 +77,7 @@ class JornadaState extends _$JornadaState {
     state = await AsyncValue.guard(() async {
       final Jornada? jorndadInit =
           state.value?.copyWith(dateEnd: DateTime.now(), enJornada: false);
-      editarJornada(jorndadInit!);
+      await editarJornada(jorndadInit!);
       return fetch();
     });
   }
@@ -81,73 +85,92 @@ class JornadaState extends _$JornadaState {
   Future<void> addServicio(String id) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final Jornada? jorndadInit = state.value
+      Jornada? jorndadInit = state.value
           ?.copyWith(jornadasListIDs: [id, ...state.value!.jornadasListIDs]);
-      editarJornada(jorndadInit!);
+      jorndadInit = await calcularValores(jorndadInit!);
+      await editarJornada(jorndadInit!);
 
       return jorndadInit;
     });
-    calcularValores();
   }
 
-  deleteServicio(String id) async {
+  Future<void> addEntradaSalida(String id) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final Jornada? jorndadInit = state.value;
-      jorndadInit!.jornadasListIDs.remove(id);
-      editarJornada(jorndadInit);
-      return jorndadInit;
-    });
-    calcularValores();
-  }
-
-  addEntradaSalida(String id) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final Jornada? jorndadInit = state.value
+      Jornada? jorndadInit = state.value
           ?.copyWith(entradaSalidaIDs: [id, ...state.value!.entradaSalidaIDs]);
-      editarJornada(jorndadInit!);
+      jorndadInit = await calcularValores(jorndadInit!);
+      await editarJornada(jorndadInit);
       return jorndadInit;
     });
-    calcularValores();
+  }
+
+  Future<void> deleteServicio(String id) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      List<String> jorndadInit = state.value?.jornadasListIDs.toList() ?? [];
+      if (jorndadInit.isNotEmpty) {
+        jorndadInit.remove(id);
+        Jornada? newJornada =
+            state.value?.copyWith(jornadasListIDs: jorndadInit);
+        newJornada = await calcularValores(newJornada!);
+        await editarJornada(newJornada);
+        return newJornada;
+      }
+      return state.value;
+    });
   }
 
   deleteEntradaSalida(String id) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final Jornada? jorndadInit = state.value;
-      jorndadInit!.entradaSalidaIDs.remove(id);
-      editarJornada(jorndadInit);
-      return jorndadInit;
+      List<String> jorndadInit = List.from(state.value?.entradaSalidaIDs ?? []);
+
+      if (jorndadInit != null) {
+        jorndadInit.remove(id);
+        Jornada newJornada =
+            state.value!.copyWith(entradaSalidaIDs: jorndadInit);
+        newJornada = await calcularValores(newJornada);
+        await editarJornada(newJornada);
+
+        return newJornada;
+      } else {
+        // Handle the case when jorndadInit is null
+        return state.value; // or another appropriate value
+      }
     });
-    calcularValores();
   }
 
-  Future<void> calcularValores() async {
-    // calcular valores
+  Future<void> reloadCalculos() async {
+    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      Jornada? jorndadInit = state.value;
-      final caja = jorndadInit?.cajaInicial ?? 0;
-      final Map<String, int> infoServiceList =
-          await ref.read(serviceListProvider.notifier).getServicesCount();
-
-      final Map<String, int> infoEntradaSalidaList = await ref
-          .read(entradaSalidaListProvider.notifier)
-          .getEntradaSalidaCount();
-
-      jorndadInit = jorndadInit?.copyWith(
-        ingresos: infoServiceList["total"] ?? 0,
-        procesos:
-            "${infoServiceList["terminado"] ?? 0} de (${infoServiceList["cantidad"] ?? 0})",
-        salidas: infoEntradaSalidaList["salidas"] ?? 0,
-        entradas: infoEntradaSalidaList["entradas"] ?? 0,
-        total: infoServiceList["total"]! +
-            infoEntradaSalidaList["entradas"]! -
-            infoEntradaSalidaList["salidas"]! +
-            caja,
-      );
-
-      return jorndadInit;
+      return await calcularValores(state.value!);
     });
+  }
+
+  Future<Jornada> calcularValores(Jornada jornada) async {
+    // calcular valores
+    Jornada? jorndadInit = jornada;
+    final caja = jorndadInit.cajaInicial;
+    final Map<String, int> infoServiceList =
+        await ref.read(serviceListProvider.notifier).getServicesCount();
+
+    final Map<String, int> infoEntradaSalidaList = await ref
+        .read(entradaSalidaListProvider.notifier)
+        .getEntradaSalidaCount();
+
+    jorndadInit = jorndadInit.copyWith(
+      ingresos: infoServiceList["total"] ?? 0,
+      procesos:
+          "${infoServiceList["terminado"] ?? 0} de (${infoServiceList["cantidad"] ?? 0})",
+      salidas: infoEntradaSalidaList["salidas"] ?? 0,
+      entradas: infoEntradaSalidaList["entradas"] ?? 0,
+      total: infoServiceList["total"]! +
+          infoEntradaSalidaList["entradas"]! -
+          infoEntradaSalidaList["salidas"]! +
+          caja,
+    );
+
+    return jorndadInit;
   }
 }

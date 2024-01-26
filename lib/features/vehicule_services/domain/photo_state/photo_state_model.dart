@@ -7,6 +7,7 @@ part 'photo_state_model.g.dart';
 class PhotoState with _$PhotoState {
   const factory PhotoState({
     required String url,
+    required String photoName,
     @Default(null) String? message,
     @Default(null) String? code,
   }) = _PhotoState;

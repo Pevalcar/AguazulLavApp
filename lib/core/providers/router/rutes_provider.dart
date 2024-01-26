@@ -1,6 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -67,7 +66,7 @@ class HistoryScreenRoute extends GoRouteData {
   const HistoryScreenRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return HistoryScreen();
+    return const HistoryScreen();
   }
 }
 
@@ -75,7 +74,7 @@ class HistoryScreenRoute extends GoRouteData {
 class ListJornadasRoute extends GoRouteData {
   const ListJornadasRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) => ListJornadas();
+  Widget build(BuildContext context, GoRouterState state) => const ListJornadas();
 }
 
 @immutable
@@ -92,7 +91,7 @@ class JornadaInfoRoute extends GoRouteData {
 //TODO Mejorar la pantalla de errores
 @immutable
 class ErrorRoute extends GoRouteData {
-  ErrorRoute({required this.error});
+  const ErrorRoute({required this.error});
   final Exception error;
 
   @override

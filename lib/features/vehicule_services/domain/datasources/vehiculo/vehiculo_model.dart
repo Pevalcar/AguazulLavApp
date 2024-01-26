@@ -19,9 +19,14 @@ class Vehicle with _$Vehicle {
     required String propietarioid,
     required DateTime entrada,
     required String trabjador,
+    @Default("") String photoName,
     @Default(null) DateTime? salida,
     @Default(false) bool terminado,
     @Default(false) bool onCreate,
+    @Default("Efectivo") String tipoPago,
+    @Default("") String transferenciaPhoto,
+    @Default("") String transferenciaPhotouUrl,
+
   }) = _Vehiculo;
 
   factory Vehicle.fromJson(Map<String, dynamic> json) =>

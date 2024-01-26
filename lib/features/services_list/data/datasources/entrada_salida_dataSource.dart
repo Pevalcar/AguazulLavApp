@@ -1,6 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class EntradaSalidaDataSource {
   final CollectionReference collection;
@@ -12,10 +11,10 @@ class EntradaSalidaDataSource {
       list = await _getEntrdadasSalidasLocal();
       if (list.isEmpty) {
         collection.get().then((value) {
-          value.docs.forEach((element) {
+          for (var element in value.docs) {
             list.add(
                 EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
-          });
+          }
         });
       }
     } on FirebaseException catch (e) {
@@ -33,10 +32,10 @@ class EntradaSalidaDataSource {
           .orderBy("fecha", descending: true)
           .get(const GetOptions(source: Source.cache))
           .then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           list.add(
               EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
-        });
+        }
       });
       return list;
     } on FirebaseException catch (e) {
@@ -54,10 +53,10 @@ class EntradaSalidaDataSource {
       list = await _getEntradaSalidasInRangeLocal(ids);
       if (list.isEmpty || list.length < ids.length) {
         collection.where("id", whereIn: ids).get().then((value) {
-          value.docs.forEach((element) {
+          for (var element in value.docs) {
             list.add(
                 EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
-          });
+          }
         });
       }
     } on FirebaseException catch (e) {
@@ -77,10 +76,10 @@ class EntradaSalidaDataSource {
           .orderBy("fecha", descending: true)
           .get(const GetOptions(source: Source.cache))
           .then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           list.add(
               EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
-        });
+        }
       });
       return list;
     } on FirebaseException catch (e) {
@@ -95,7 +94,7 @@ class EntradaSalidaDataSource {
     try {
       await collection.doc(entradaSalida.id).set(entradaSalida.toJson());
     } on FirebaseException catch (e) {
-      logger.e('error al intentar agregar: ${e}');
+      logger.e('error al intentar agregar: $e');
     }
   }
 
@@ -103,7 +102,7 @@ class EntradaSalidaDataSource {
     try {
       await collection.doc(entradaSalida.id).delete();
     } on FirebaseException catch (e) {
-      logger.e('error al intentar eliminar: ${e}');
+      logger.e('error al intentar eliminar: $e');
     }
   }
 }

@@ -54,6 +54,7 @@ class PinAccees extends HookConsumerWidget {
                       key: form,
                       child: TextFormField(
                         controller: passController,
+                        autofocus: true,
                         decoration: const InputDecoration(labelText: 'Pin'),
                         textInputAction: TextInputAction.done,
                         obscuringCharacter: '*',
@@ -64,7 +65,7 @@ class PinAccees extends HookConsumerWidget {
                               int.parse(value) == _pin) {
                             if (correctPass != null) {
                               correctPass!();
-                              
+                              Navigator.of(context).pop();
                             }
                           }
                         },

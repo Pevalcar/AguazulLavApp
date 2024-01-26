@@ -111,12 +111,12 @@ final getCurrentJornadaProvider =
 );
 
 typedef GetCurrentJornadaRef = AutoDisposeProviderRef<GetCurrentJornada>;
-String _$jornadasListHash() => r'6485cb73e0fd4ab7ead8116c21fd3d18159d7140';
+String _$jornadasListHash() => r'885885ff957f90f266d264b1d3e944e1ce057e36';
 
 /// See also [JornadasList].
 @ProviderFor(JornadasList)
 final jornadasListProvider =
-    AsyncNotifierProvider<JornadasList, List<Jornada>>.internal(
+    AutoDisposeAsyncNotifierProvider<JornadasList, List<Jornada>>.internal(
   JornadasList.new,
   name: r'jornadasListProvider',
   debugGetCreateSourceHash:
@@ -125,6 +125,6 @@ final jornadasListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$JornadasList = AsyncNotifier<List<Jornada>>;
+typedef _$JornadasList = AutoDisposeAsyncNotifier<List<Jornada>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

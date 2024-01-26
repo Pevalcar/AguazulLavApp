@@ -114,7 +114,7 @@ final getVehiculesTodayProvider =
 );
 
 typedef GetVehiculesTodayRef = AutoDisposeProviderRef<GetVehiculesToday>;
-String _$serviceListHash() => r'3179eb1bceaa8d406104e87b6902d430918daa57';
+String _$serviceListHash() => r'bf54850c2878df63d8910d318e1fbf4880cb4838';
 
 /// See also [ServiceList].
 @ProviderFor(ServiceList)

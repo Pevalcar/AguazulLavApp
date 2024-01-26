@@ -65,7 +65,7 @@ class SliverTitleDelegate extends SliverPersistentHeaderDelegate {
       color:  color ?? Theme.of(context).colorScheme.primary,
       child: SafeArea(
         child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: FittedBox(
               fit: BoxFit.contain,
               child: child,

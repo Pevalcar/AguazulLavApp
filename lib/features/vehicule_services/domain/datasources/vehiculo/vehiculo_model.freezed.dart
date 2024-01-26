@@ -31,9 +31,13 @@ mixin _$Vehicle {
   String get propietarioid => throw _privateConstructorUsedError;
   DateTime get entrada => throw _privateConstructorUsedError;
   String get trabjador => throw _privateConstructorUsedError;
+  String get photoName => throw _privateConstructorUsedError;
   DateTime? get salida => throw _privateConstructorUsedError;
   bool get terminado => throw _privateConstructorUsedError;
   bool get onCreate => throw _privateConstructorUsedError;
+  String get tipoPago => throw _privateConstructorUsedError;
+  String get transferenciaPhoto => throw _privateConstructorUsedError;
+  String get transferenciaPhotouUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,9 +59,13 @@ abstract class $VehicleCopyWith<$Res> {
       String propietarioid,
       DateTime entrada,
       String trabjador,
+      String photoName,
       DateTime? salida,
       bool terminado,
-      bool onCreate});
+      bool onCreate,
+      String tipoPago,
+      String transferenciaPhoto,
+      String transferenciaPhotouUrl});
 }
 
 /// @nodoc
@@ -82,9 +90,13 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
     Object? propietarioid = null,
     Object? entrada = null,
     Object? trabjador = null,
+    Object? photoName = null,
     Object? salida = freezed,
     Object? terminado = null,
     Object? onCreate = null,
+    Object? tipoPago = null,
+    Object? transferenciaPhoto = null,
+    Object? transferenciaPhotouUrl = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -123,6 +135,10 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
           ? _value.trabjador
           : trabjador // ignore: cast_nullable_to_non_nullable
               as String,
+      photoName: null == photoName
+          ? _value.photoName
+          : photoName // ignore: cast_nullable_to_non_nullable
+              as String,
       salida: freezed == salida
           ? _value.salida
           : salida // ignore: cast_nullable_to_non_nullable
@@ -135,6 +151,18 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
           ? _value.onCreate
           : onCreate // ignore: cast_nullable_to_non_nullable
               as bool,
+      tipoPago: null == tipoPago
+          ? _value.tipoPago
+          : tipoPago // ignore: cast_nullable_to_non_nullable
+              as String,
+      transferenciaPhoto: null == transferenciaPhoto
+          ? _value.transferenciaPhoto
+          : transferenciaPhoto // ignore: cast_nullable_to_non_nullable
+              as String,
+      transferenciaPhotouUrl: null == transferenciaPhotouUrl
+          ? _value.transferenciaPhotouUrl
+          : transferenciaPhotouUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -156,9 +184,13 @@ abstract class _$$VehiculoImplCopyWith<$Res> implements $VehicleCopyWith<$Res> {
       String propietarioid,
       DateTime entrada,
       String trabjador,
+      String photoName,
       DateTime? salida,
       bool terminado,
-      bool onCreate});
+      bool onCreate,
+      String tipoPago,
+      String transferenciaPhoto,
+      String transferenciaPhotouUrl});
 }
 
 /// @nodoc
@@ -181,9 +213,13 @@ class __$$VehiculoImplCopyWithImpl<$Res>
     Object? propietarioid = null,
     Object? entrada = null,
     Object? trabjador = null,
+    Object? photoName = null,
     Object? salida = freezed,
     Object? terminado = null,
     Object? onCreate = null,
+    Object? tipoPago = null,
+    Object? transferenciaPhoto = null,
+    Object? transferenciaPhotouUrl = null,
   }) {
     return _then(_$VehiculoImpl(
       id: null == id
@@ -222,6 +258,10 @@ class __$$VehiculoImplCopyWithImpl<$Res>
           ? _value.trabjador
           : trabjador // ignore: cast_nullable_to_non_nullable
               as String,
+      photoName: null == photoName
+          ? _value.photoName
+          : photoName // ignore: cast_nullable_to_non_nullable
+              as String,
       salida: freezed == salida
           ? _value.salida
           : salida // ignore: cast_nullable_to_non_nullable
@@ -234,6 +274,18 @@ class __$$VehiculoImplCopyWithImpl<$Res>
           ? _value.onCreate
           : onCreate // ignore: cast_nullable_to_non_nullable
               as bool,
+      tipoPago: null == tipoPago
+          ? _value.tipoPago
+          : tipoPago // ignore: cast_nullable_to_non_nullable
+              as String,
+      transferenciaPhoto: null == transferenciaPhoto
+          ? _value.transferenciaPhoto
+          : transferenciaPhoto // ignore: cast_nullable_to_non_nullable
+              as String,
+      transferenciaPhotouUrl: null == transferenciaPhotouUrl
+          ? _value.transferenciaPhotouUrl
+          : transferenciaPhotouUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -251,9 +303,13 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
       required this.propietarioid,
       required this.entrada,
       required this.trabjador,
+      this.photoName = "",
       this.salida = null,
       this.terminado = false,
-      this.onCreate = false});
+      this.onCreate = false,
+      this.tipoPago = "Efectivo",
+      this.transferenciaPhoto = "",
+      this.transferenciaPhotouUrl = ""});
 
   factory _$VehiculoImpl.fromJson(Map<String, dynamic> json) =>
       _$$VehiculoImplFromJson(json);
@@ -281,6 +337,9 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
   final String trabjador;
   @override
   @JsonKey()
+  final String photoName;
+  @override
+  @JsonKey()
   final DateTime? salida;
   @override
   @JsonKey()
@@ -288,10 +347,19 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
   @override
   @JsonKey()
   final bool onCreate;
+  @override
+  @JsonKey()
+  final String tipoPago;
+  @override
+  @JsonKey()
+  final String transferenciaPhoto;
+  @override
+  @JsonKey()
+  final String transferenciaPhotouUrl;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Vehicle(id: $id, photo: $photo, placa: $placa, typeService: $typeService, typePrice: $typePrice, diaJronada: $diaJronada, propietarioid: $propietarioid, entrada: $entrada, trabjador: $trabjador, salida: $salida, terminado: $terminado, onCreate: $onCreate)';
+    return 'Vehicle(id: $id, photo: $photo, placa: $placa, typeService: $typeService, typePrice: $typePrice, diaJronada: $diaJronada, propietarioid: $propietarioid, entrada: $entrada, trabjador: $trabjador, photoName: $photoName, salida: $salida, terminado: $terminado, onCreate: $onCreate, tipoPago: $tipoPago, transferenciaPhoto: $transferenciaPhoto, transferenciaPhotouUrl: $transferenciaPhotouUrl)';
   }
 
   @override
@@ -308,9 +376,14 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
       ..add(DiagnosticsProperty('propietarioid', propietarioid))
       ..add(DiagnosticsProperty('entrada', entrada))
       ..add(DiagnosticsProperty('trabjador', trabjador))
+      ..add(DiagnosticsProperty('photoName', photoName))
       ..add(DiagnosticsProperty('salida', salida))
       ..add(DiagnosticsProperty('terminado', terminado))
-      ..add(DiagnosticsProperty('onCreate', onCreate));
+      ..add(DiagnosticsProperty('onCreate', onCreate))
+      ..add(DiagnosticsProperty('tipoPago', tipoPago))
+      ..add(DiagnosticsProperty('transferenciaPhoto', transferenciaPhoto))
+      ..add(DiagnosticsProperty(
+          'transferenciaPhotouUrl', transferenciaPhotouUrl));
   }
 
   @override
@@ -332,11 +405,19 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
             (identical(other.entrada, entrada) || other.entrada == entrada) &&
             (identical(other.trabjador, trabjador) ||
                 other.trabjador == trabjador) &&
+            (identical(other.photoName, photoName) ||
+                other.photoName == photoName) &&
             (identical(other.salida, salida) || other.salida == salida) &&
             (identical(other.terminado, terminado) ||
                 other.terminado == terminado) &&
             (identical(other.onCreate, onCreate) ||
-                other.onCreate == onCreate));
+                other.onCreate == onCreate) &&
+            (identical(other.tipoPago, tipoPago) ||
+                other.tipoPago == tipoPago) &&
+            (identical(other.transferenciaPhoto, transferenciaPhoto) ||
+                other.transferenciaPhoto == transferenciaPhoto) &&
+            (identical(other.transferenciaPhotouUrl, transferenciaPhotouUrl) ||
+                other.transferenciaPhotouUrl == transferenciaPhotouUrl));
   }
 
   @JsonKey(ignore: true)
@@ -352,9 +433,13 @@ class _$VehiculoImpl with DiagnosticableTreeMixin implements _Vehiculo {
       propietarioid,
       entrada,
       trabjador,
+      photoName,
       salida,
       terminado,
-      onCreate);
+      onCreate,
+      tipoPago,
+      transferenciaPhoto,
+      transferenciaPhotouUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -381,9 +466,13 @@ abstract class _Vehiculo implements Vehicle {
       required final String propietarioid,
       required final DateTime entrada,
       required final String trabjador,
+      final String photoName,
       final DateTime? salida,
       final bool terminado,
-      final bool onCreate}) = _$VehiculoImpl;
+      final bool onCreate,
+      final String tipoPago,
+      final String transferenciaPhoto,
+      final String transferenciaPhotouUrl}) = _$VehiculoImpl;
 
   factory _Vehiculo.fromJson(Map<String, dynamic> json) =
       _$VehiculoImpl.fromJson;
@@ -407,11 +496,19 @@ abstract class _Vehiculo implements Vehicle {
   @override
   String get trabjador;
   @override
+  String get photoName;
+  @override
   DateTime? get salida;
   @override
   bool get terminado;
   @override
   bool get onCreate;
+  @override
+  String get tipoPago;
+  @override
+  String get transferenciaPhoto;
+  @override
+  String get transferenciaPhotouUrl;
   @override
   @JsonKey(ignore: true)
   _$$VehiculoImplCopyWith<_$VehiculoImpl> get copyWith =>

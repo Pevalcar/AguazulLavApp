@@ -108,12 +108,12 @@ final deleteEntradaSalidaProvider =
 );
 
 typedef DeleteEntradaSalidaRef = AutoDisposeProviderRef<DeleteEntradaSalida>;
-String _$entradaSalidaListHash() => r'16613ed2504758d6a1fc0fb9c46397f09f9fc47b';
+String _$entradaSalidaListHash() => r'd859c20cd388dd0eddf936fa803c4f0874b56b42';
 
 /// See also [EntradaSalidaList].
 @ProviderFor(EntradaSalidaList)
-final entradaSalidaListProvider =
-    AsyncNotifierProvider<EntradaSalidaList, List<EntradaSalida>>.internal(
+final entradaSalidaListProvider = AutoDisposeAsyncNotifierProvider<
+    EntradaSalidaList, List<EntradaSalida>>.internal(
   EntradaSalidaList.new,
   name: r'entradaSalidaListProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -123,6 +123,6 @@ final entradaSalidaListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$EntradaSalidaList = AsyncNotifier<List<EntradaSalida>>;
+typedef _$EntradaSalidaList = AutoDisposeAsyncNotifier<List<EntradaSalida>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

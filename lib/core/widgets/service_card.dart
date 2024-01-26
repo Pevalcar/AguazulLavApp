@@ -109,6 +109,7 @@ class CardCarService extends HookConsumerWidget {
           ],
         ),
         children: [
+          Text(vehicle.tipoPago),
           /* TODO ════════ Exception caught by painting library ══════════════════════════════════
 Image null has a display size of 501×921 but a decode size of 1002×1840, which uses an additional 7196KB (assuming a device pixel ratio of 1.75).
 
@@ -172,9 +173,57 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                 child: TextButton(
                   style: myStileButton,
                   onPressed: () async {
-                    await ref
-                        .read(serviceListProvider.notifier)
-                        .endService(vehicle);
+                    List<String> list = ["Efectivo", "Transferencia"];
+                    String pagoType = list.first;
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            actions: [
+                              TextButton(
+                                  child: const Text("Cancelar"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }),
+                              TextButton(
+                                  child: const Text("Aceptar"),
+                                  onPressed: () async {
+                                    await ref
+                                        .read(serviceListProvider.notifier)
+                                        .endService(vehicle.copyWith(
+                                          tipoPago: pagoType,
+                                        ));
+                                    Navigator.of(context).pop();
+                                  })
+                            ],
+                            title: const Text("Información de pago"),
+                            content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  DropdownButton<String>(
+                                    value: pagoType,
+                                    icon: const Icon(Icons.arrow_downward),
+                                    elevation: 16,
+                                    style: const TextStyle(
+                                        color: Colors.deepPurple),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    onChanged: (String? value) {
+                                      pagoType = value!;
+                                    },
+                                    items: list.map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ]));
+                      },
+                    );
                     controller.collapse();
                   },
                   child: const Column(

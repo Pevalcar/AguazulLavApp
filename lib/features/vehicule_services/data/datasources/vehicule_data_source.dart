@@ -1,6 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class VehiculoDataSource {
   final CollectionReference _firebase;
@@ -90,7 +89,7 @@ class VehiculoDataSource {
     try {
       await _firebase
           .orderBy("entrada", descending: true)
-          .get(GetOptions(source: Source.cache))
+          .get(const GetOptions(source: Source.cache))
           .then((value) {
         for (var element in value.docs) {
           list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));
@@ -111,7 +110,7 @@ class VehiculoDataSource {
       await _firebase
           .where('id', whereIn: ids)
           .orderBy("entrada", descending: true)
-          .get(GetOptions(source: Source.cache))
+          .get(const GetOptions(source: Source.cache))
           .then((value) {
         for (var element in value.docs) {
           list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));

@@ -21,6 +21,7 @@ PhotoState _$PhotoStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PhotoState {
   String get url => throw _privateConstructorUsedError;
+  String get photoName => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
 
@@ -36,7 +37,7 @@ abstract class $PhotoStateCopyWith<$Res> {
           PhotoState value, $Res Function(PhotoState) then) =
       _$PhotoStateCopyWithImpl<$Res, PhotoState>;
   @useResult
-  $Res call({String url, String? message, String? code});
+  $Res call({String url, String photoName, String? message, String? code});
 }
 
 /// @nodoc
@@ -53,6 +54,7 @@ class _$PhotoStateCopyWithImpl<$Res, $Val extends PhotoState>
   @override
   $Res call({
     Object? url = null,
+    Object? photoName = null,
     Object? message = freezed,
     Object? code = freezed,
   }) {
@@ -60,6 +62,10 @@ class _$PhotoStateCopyWithImpl<$Res, $Val extends PhotoState>
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      photoName: null == photoName
+          ? _value.photoName
+          : photoName // ignore: cast_nullable_to_non_nullable
               as String,
       message: freezed == message
           ? _value.message
@@ -81,7 +87,7 @@ abstract class _$$PhotoStateImplCopyWith<$Res>
       __$$PhotoStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String url, String? message, String? code});
+  $Res call({String url, String photoName, String? message, String? code});
 }
 
 /// @nodoc
@@ -96,6 +102,7 @@ class __$$PhotoStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? url = null,
+    Object? photoName = null,
     Object? message = freezed,
     Object? code = freezed,
   }) {
@@ -103,6 +110,10 @@ class __$$PhotoStateImplCopyWithImpl<$Res>
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      photoName: null == photoName
+          ? _value.photoName
+          : photoName // ignore: cast_nullable_to_non_nullable
               as String,
       message: freezed == message
           ? _value.message
@@ -120,13 +131,18 @@ class __$$PhotoStateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PhotoStateImpl implements _PhotoState {
   const _$PhotoStateImpl(
-      {required this.url, this.message = null, this.code = null});
+      {required this.url,
+      required this.photoName,
+      this.message = null,
+      this.code = null});
 
   factory _$PhotoStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$PhotoStateImplFromJson(json);
 
   @override
   final String url;
+  @override
+  final String photoName;
   @override
   @JsonKey()
   final String? message;
@@ -136,7 +152,7 @@ class _$PhotoStateImpl implements _PhotoState {
 
   @override
   String toString() {
-    return 'PhotoState(url: $url, message: $message, code: $code)';
+    return 'PhotoState(url: $url, photoName: $photoName, message: $message, code: $code)';
   }
 
   @override
@@ -145,13 +161,15 @@ class _$PhotoStateImpl implements _PhotoState {
         (other.runtimeType == runtimeType &&
             other is _$PhotoStateImpl &&
             (identical(other.url, url) || other.url == url) &&
+            (identical(other.photoName, photoName) ||
+                other.photoName == photoName) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.code, code) || other.code == code));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, url, message, code);
+  int get hashCode => Object.hash(runtimeType, url, photoName, message, code);
 
   @JsonKey(ignore: true)
   @override
@@ -170,6 +188,7 @@ class _$PhotoStateImpl implements _PhotoState {
 abstract class _PhotoState implements PhotoState {
   const factory _PhotoState(
       {required final String url,
+      required final String photoName,
       final String? message,
       final String? code}) = _$PhotoStateImpl;
 
@@ -178,6 +197,8 @@ abstract class _PhotoState implements PhotoState {
 
   @override
   String get url;
+  @override
+  String get photoName;
   @override
   String? get message;
   @override

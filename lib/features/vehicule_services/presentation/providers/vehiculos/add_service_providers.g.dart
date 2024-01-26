@@ -6,7 +6,7 @@ part of 'add_service_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$vehiculoStateHash() => r'd17a640e6d6ef45f69e4f28a6ede54b6af6271c4';
+String _$vehiculoStateHash() => r'b708bb73967f8ea76dce3cad998261427860fc7b';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)

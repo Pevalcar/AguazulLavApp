@@ -45,7 +45,7 @@ DeleteEntradaSalida deleteEntradaSalida(DeleteEntradaSalidaRef ref) {
   return DeleteEntradaSalida(repository);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class EntradaSalidaList extends _$EntradaSalidaList {
   @override
   FutureOr<List<EntradaSalida>> build() {

@@ -7,15 +7,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final typeService = ref.watch(typoDeVehiculoProvider);
 //on back pressed delete photo
     return PopScope(
       canPop: false,
-      onPopInvoked: (_) async {        
-        ref.read(photoVehiculeProvider.notifier).deletePhoto( () => context.pop());
+      onPopInvoked: (_) async {
+        ref.read(photoVehiculeProvider.notifier).deletePhoto(
+            ref.watch(photoVehiculeProvider).asData?.value?.photoName,
+            () => context.pop());
       },
       child: Scaffold(
           appBar: AppBar(
@@ -30,18 +31,30 @@ class MobileAddService extends HookConsumerWidget {
                 typesList: ref.watch(typosDeVeiculosProvider),
                 type: typeService,
               ),
-               ServiceTypeSelecte(type: typeService),
-               
+              ServiceTypeSelecte(type: typeService),
               const TimerDataShow(),
               const SizedBox(height: 16),
             ]),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              GoRouter.of(context).push('/addServiceType');
-            },
-            child: const Icon(Icons.photo_library_rounded),
-          )),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children:[ FloatingActionButton(
+              onPressed: () {
+                      },
+              child: PinAccees(
+                correctPin: ref.watch(pinPassProvider).asData?.value ?? 0,
+                correctPass: () => GoRouter.of(context).push('/addServiceType'),
+                child: const Row(
+                  children: [
+                    
+                    Icon(Icons.add),
+                    Icon(Icons.room_service_sharp),
+                  ],
+                ),
+              ),
+            ),]
+          )
+          ),
     );
   }
 }

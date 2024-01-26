@@ -6,7 +6,7 @@ part of 'client_list_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userDataSourceHash() => r'ea471fc45539ef6c0bdfa6f65af681c95a589fe7';
+String _$userDataSourceHash() => r'79a3403bc08971746047e8eab8b18a8f856aa50e';
 
 /// See also [userDataSource].
 @ProviderFor(userDataSource)
@@ -257,7 +257,7 @@ class _GetUserInfoProviderElement
   String get userID => (origin as GetUserInfoProvider).userID;
 }
 
-String _$clientListHash() => r'32084926122faed1a079fbfcee70ce0483f45e38';
+String _$clientListHash() => r'c6556ec8dccc8e46fc186753be10a35c752c574a';
 
 /// See also [ClientList].
 @ProviderFor(ClientList)

@@ -6,12 +6,12 @@ part of 'jornada_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$jornadaStateHash() => r'ce81e16ee8a53848d557c3a612a167ebf4af9d03';
+String _$jornadaStateHash() => r'521b90f2e779b68b8665a7f24e3c0aabfc000e1d';
 
 /// See also [JornadaState].
 @ProviderFor(JornadaState)
 final jornadaStateProvider =
-    AsyncNotifierProvider<JornadaState, Jornada?>.internal(
+    AutoDisposeAsyncNotifierProvider<JornadaState, Jornada?>.internal(
   JornadaState.new,
   name: r'jornadaStateProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final jornadaStateProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$JornadaState = AsyncNotifier<Jornada?>;
+typedef _$JornadaState = AutoDisposeAsyncNotifier<Jornada?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

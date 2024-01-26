@@ -15,16 +15,16 @@ class ServiceTypeFireStoreDatasource {
       if (list.isEmpty) {
         debugPrint(' getServicesType firestore');
         await _firestore.get().then((value) {
-          value.docs.forEach((element) {
+          for (var element in value.docs) {
             list.add(
                 ServiceType.fromJson(element.data() as Map<String, dynamic>));
-          });
+          }
         });
         return list;
       }
       return list;
     } on FirebaseException catch (e) {
-      debugPrint('e: ${e}');
+      debugPrint('e: $e');
     } catch (e) {
       debugPrint('e: ${e.toString()}');
     }
@@ -60,7 +60,7 @@ class ServiceTypeFireStoreDatasource {
   Future<List<ServiceType>> _getServicesType() async {
     List<ServiceType> list = [];
     try {
-      await _firestore.get(GetOptions(source: Source.cache)).then((value) {
+      await _firestore.get(const GetOptions(source: Source.cache)).then((value) {
         for (var element in value.docs) {
           list.add(
               ServiceType.fromJson(element.data() as Map<String, dynamic>));

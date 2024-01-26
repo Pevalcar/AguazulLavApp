@@ -15,9 +15,9 @@ class UserDataSource {
       if (list.isEmpty) {
         debugPrint(' getUSers firestore');
         await firestore.get().then((value) {
-          value.docs.forEach((element) {
+          for (var element in value.docs) {
             list.add(User.fromJson(element.data() as Map<String, dynamic>));
-          });
+          }
         });
         debugPrint(' getUSers return remote');
         return list;
@@ -33,23 +33,23 @@ class UserDataSource {
   Future<User?> getUser(String id) async {
     if (id.isEmpty) return null;
     if (id == '1234') return null;
-    User? _user;
+    User? user;
     try {
-      _user = await _getUserLocal(id);
-      if (_user == null) {
+      user = await _getUserLocal(id);
+      if (user == null) {
         await firestore.doc(id).get().then((value) {
-          _user = User.fromJson(value.data() as Map<String, dynamic>);
+          user = User.fromJson(value.data() as Map<String, dynamic>);
           logger.d(' getUSersLocal');
         });
-        return _user;
+        return user;
       }
-      return _user;
+      return user;
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());
     } catch (e) {
       logger.e('error Firebase', error: e.toString());
     }
-    return _user;
+    return user;
   }
 
   Future<User?> createUser(User user) async {
@@ -58,7 +58,7 @@ class UserDataSource {
       await firestore.doc(userNew.id).set(userNew.toJson());
       return userNew;
     } on FirebaseException catch (e) {
-      debugPrint('error al crear Usuario: ${e}');
+      debugPrint('error al crear Usuario: $e');
       return null;
     }
   }
@@ -68,7 +68,7 @@ class UserDataSource {
       await firestore.doc(user.id).update(user.toJson());
       return true;
     } on FirebaseException catch (e) {
-      debugPrint('error al actualizar Usuario: ${e}');
+      debugPrint('error al actualizar Usuario: $e');
       return false;
     }
   }
@@ -78,7 +78,7 @@ class UserDataSource {
       await firestore.doc(id).delete();
       return true;
     } on FirebaseException catch (e) {
-      debugPrint('error al borrar Usuario: ${e}');
+      debugPrint('error al borrar Usuario: $e');
       return false;
     }
   }
@@ -88,9 +88,9 @@ class UserDataSource {
     debugPrint(' getUSersLocal');
     try {
       await firestore.get(const GetOptions(source: Source.cache)).then((value) {
-        value.docs.forEach((element) {
+        for (var element in value.docs) {
           list.add(User.fromJson(element.data() as Map<String, dynamic>));
-        });
+        }
       });
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());

@@ -16,18 +16,19 @@ class VehiculoState extends _$VehiculoState {
 
   void addVehiculoTest(
       Function()? onCarroSave, Function(String)? onSaveError) async {
-    final _time = DateTime.now();
+    final time = DateTime.now();
     final Vehicle carro = Vehicle(
       id: const Uuid().v4(),
       photo:
           "https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png?alt=media&token=014c8681-7981-49cc-9f9a-0e9b1894c84c",
       propietarioid: "1234",
+      photoName:  "",
       placa: "ABC123",
-      entrada: _time,
+      entrada: time,
       typeService: "Servicio",
-      typePrice: correctionPrice(ref.watch(serviceTypeSelectProvider)?.price),
+      typePrice: 5000,
       trabjador: "1234",
-      diaJronada: DateTime(_time.year, _time.month, _time.day),
+      diaJronada: DateTime(time.year, time.month, time.day),
     );
 
     state = const AsyncValue.loading();
@@ -42,38 +43,39 @@ class VehiculoState extends _$VehiculoState {
 
   void addVehiculo(
       Function()? onCarroSave, Function(String)? onSaveError) async {
-    final _photo = ref.watch(photoVehiculeProvider).asData?.value?.url;
-    final _propietario = ref.watch(propietarioProvider)?.id;
-    final _typeService = ref.watch(serviceTypeSelectProvider)?.clase ?? "";
-    final _worker = ref.watch(trabajadorNameProvider);
-    final _placa = ref.watch(placaProvider);
-    if (_photo == null) {
+    final PhotoState?  photo = ref.watch(photoVehiculeProvider).asData?.value ;
+    final propietario = ref.watch(propietarioProvider)?.id;
+    final typeService = ref.watch(serviceTypeSelectProvider)?.clase ?? "";
+    final worker = ref.watch(trabajadorNameProvider);
+    final placa = ref.watch(placaProvider);
+    if (photo == null) {
       return onSaveError?.call("Favor de subir una imagen");
     }
-    if (_propietario == null) {
+    if (propietario == null) {
       return onSaveError?.call("Favor de seleccionar un propietario");
     }
-    if (_typeService.isEmpty) {
+    if (typeService.isEmpty) {
       return onSaveError?.call("Favor de selecionar un Servicio");
     }
-    if (_worker.isEmpty) {
+    if (worker.isEmpty) {
       return onSaveError?.call("Favor de selecionar un Trabajador");
     }
-    if (_placa.isEmpty) {
+    if (placa.isEmpty) {
       return onSaveError?.call("Favor de colocar una Placa");
     }
 
-    final _time = DateTime.now();
+    final time = DateTime.now();
     final Vehicle carro = Vehicle(
       id: const Uuid().v4(),
-      photo: _photo,
-      propietarioid: _propietario,
-      placa: _placa,
-      entrada: _time,
-      typeService: _typeService,
+      photo: photo.url,
+      propietarioid: propietario,
+      placa: placa,
+      entrada: time,
+      typeService: typeService,
       typePrice: correctionPrice(ref.watch(serviceTypeSelectProvider)?.price),
-      trabjador: _worker,
-      diaJronada: DateTime(_time.year, _time.month, _time.day),
+      trabjador: worker,
+      diaJronada: DateTime(time.year, time.month, time.day), photoName: photo.photoName
+      ,
     );
 
     state = const AsyncValue.loading();

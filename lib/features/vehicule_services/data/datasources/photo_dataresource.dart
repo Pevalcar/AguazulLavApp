@@ -13,23 +13,25 @@ class PhotoDataResource {
       final upref = _firestore.child("imagenes/${photo.name}");
       await upref.putFile(File(photo.path));
       final urle = await upref.getDownloadURL();
-      return PhotoState(url: urle, message: "La foto se subio con exito");
+      return PhotoState(url: urle, photoName: photo.name, message: "La foto se subio con exito");
     } on FirebaseException catch (e) {
-      return PhotoState(url: "", code: e.code, message: e.message);
+      return PhotoState(url: "" ,photoName: "", code: e.code, message: e.message);
     } catch (e) {
-      return PhotoState(url: "", code: e.toString(), message: e.toString());
+      return PhotoState(url: "",photoName: "", code: e.toString(), message: e.toString());
     }
   }
 
-  Future<PhotoState> deletePhoto(XFile photo) async {
+  Future<PhotoState> deletePhoto(String photo) async {
     try {
-      final upref = _firestore.child("imagenes/${photo.name}");
+      final upref = await _firestore.child("imagenes/${photo}");
       await upref.delete();
-      return const PhotoState(url: "", message: "La foto eliminada");
+      return const PhotoState(url: "",photoName: "", message: "La foto eliminada");
     } on FirebaseException catch (e) {
-      return PhotoState(url: "", code: e.code, message: e.message);
+      logger.e("error Eliminar fotos" ,  stackTrace:  e.stackTrace, error: e.message);
+      return PhotoState(url: "",photoName: "", code: e.code, message: e.message);
     } catch (e) {
-      return PhotoState(url: "", code: e.toString(), message: e.toString());
+      logger.e("error Eliminar fotos" , error: e.toString());
+      return PhotoState(url: "",photoName: "", code: e.toString(), message: e.toString());
     }
   }
 }

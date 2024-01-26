@@ -46,7 +46,7 @@ GetCurrentJornada getCurrentJornada(GetCurrentJornadaRef ref) {
   return GetCurrentJornada(repository);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 class JornadasList extends _$JornadasList {
   @override
   FutureOr<List<Jornada>> build() async {
@@ -62,12 +62,10 @@ class JornadasList extends _$JornadasList {
   Future<void> addJornada(Jornada jornada) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      List<Jornada> list = state.value ?? [];
-      final addedJornada = await ref.read(addJornadaProvider).call(jornada);
-      if (addedJornada != null) {
-        list.insert(0, addedJornada);
-      }
-      
+      List<Jornada> list = state.value?.toList() ?? [];
+      Jornada? addedJornada = await ref.read(addJornadaProvider).call(jornada);
+
+      list = [addedJornada ?? jornada, ...list];
       return list;
     });
   }
@@ -97,7 +95,7 @@ class JornadasList extends _$JornadasList {
   Future<Jornada> editJornada(Jornada jornada) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      List<Jornada> list = state.value ?? [];
+      List<Jornada> list = state.value?.toList() ?? [];
       int index = list.indexWhere(
         (element) => element.id == jornada.id,
       );

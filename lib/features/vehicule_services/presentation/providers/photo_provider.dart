@@ -40,8 +40,8 @@ class PhotoVehicule extends _$PhotoVehicule {
     return null;
   }
 
-  void modifyPhoto(String photo) async {
-    state = AsyncValue.data(PhotoState(url: photo));
+  void modifyPhoto(String url, String photoname) async {
+    state = AsyncValue.data(PhotoState(url: url, photoName: photoname));
   }
 
   void uploadPhoto(XFile photo) async {
@@ -49,24 +49,24 @@ class PhotoVehicule extends _$PhotoVehicule {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final statefinal = await ref.read(addPhotoGrafieProvider).call(photo);
-      debugPrint('statefinal: $statefinal');
       return statefinal;
     });
   }
 
-  void deletePhoto(Function()? callback) async {
-    if (_temp == null) {
-      callback!();
-      return;
+  Future<void> deletePhoto(String? photo, Function()? callback) async {
+    if ( photo == null ||photo == "" ||
+        photo.contains("https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png")) {
+      return callback!();
     }
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final statefinal = await ref.read(deletePhotoGrafieProvider).call(_temp!);
-      debugPrint('statefinal: $statefinal');
+      await ref
+          .read(deletePhotoGrafieProvider)
+          .call(photo ?? _temp?.name ?? "");
       if (callback != null) {
         callback();
       }
-      return statefinal;
+      return null;
     });
   }
 }
