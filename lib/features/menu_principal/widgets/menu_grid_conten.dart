@@ -2,18 +2,17 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
-
 class MenuGridConten extends HookConsumerWidget {
   const MenuGridConten({
     super.key,
   });
-//TODO Agregar funciones solo administrador 
+//TODO Agregar funciones solo administrador
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jornadaState = ref.watch(jornadaStateProvider);
     return GridView(
       padding: const EdgeInsets.all(8),
-      gridDelegate: const   SliverGridDelegateWithMaxCrossAxisExtent(
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 250,
         childAspectRatio: 3 / 2,
         crossAxisSpacing: 8,
@@ -21,12 +20,14 @@ class MenuGridConten extends HookConsumerWidget {
       ),
       children: [
         ActionCardMenu(
-          disabled: jornadaState.asData?.value?.enJornada == false,
+            disabled: jornadaState.asData?.value?.enJornada == false,
             title: "Agregar Servicio",
             icon: Icons.add,
             color: Theme.of(context).colorScheme.secondary,
             //TODO indicador de que la jornada no ha iniciado parpadeo o algo
-            onPressed: () { const AddServiceRoute().push(context); }),
+            onPressed: () {
+              const AddServiceRoute().push(context);
+            }),
         ActionCardMenu(
             title: "Modificar Servicio",
             icon: Icons.edit,
@@ -36,7 +37,9 @@ class MenuGridConten extends HookConsumerWidget {
             title: "Lista de Servicios",
             icon: Icons.list_alt,
             color: Theme.of(context).colorScheme.secondary,
-            onPressed: () { const ListVehiculosRoute().push(context); }),
+            onPressed: () {
+              const ListVehiculosRoute().push(context);
+            }),
         ActionCardMenu(
             title: "Historial",
             icon: Icons.history,
@@ -64,19 +67,16 @@ class MenuGridConten extends HookConsumerWidget {
             icon: Icons.print,
             color: Colors.red,
             onPressed: () {}),
-            
         ActionCardMenu(
             title: "Correo",
             icon: Icons.mail,
             color: Colors.red,
             onPressed: () {}),
-            
         ActionCardMenu(
             title: "Salir",
             icon: Icons.logout,
             color: Colors.red,
             onPressed: () {}),
-            
       ],
     );
   }
