@@ -4,6 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+enum SERVICETYPE {
+  ENJUAGE,
+  GENERAL,
+  LATAS,
+  POLICHADA,
+  OTRO,
+}
+
+
 class AddServiceTypeScreen extends HookConsumerWidget {
   const AddServiceTypeScreen({super.key});
 

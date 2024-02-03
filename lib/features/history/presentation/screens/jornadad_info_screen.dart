@@ -4,6 +4,8 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../shared/widgets/sliver_title_delegate.dart';
+
 //TODO agregar informacino de pago si es efectivo o transferencia con foto
 class JornadaInfoScreen extends HookConsumerWidget {
   final Jornada? jornada;

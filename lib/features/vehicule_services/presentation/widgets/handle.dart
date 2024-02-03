@@ -145,12 +145,12 @@ class PhotoView extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             content: Column(mainAxisSize: MainAxisSize.min, children: [
-              CarcgasDesdeCache(imageUrl: url),
+              CargarImagenDesdeCache(imageUrl: url),
             ]),
           );
         },
       ),
-      child: CarcgasDesdeCache(imageUrl: url),
+      child: CargarImagenDesdeCache(imageUrl: url),
     );
   }
 }

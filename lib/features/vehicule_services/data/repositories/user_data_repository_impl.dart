@@ -1,6 +1,5 @@
-import 'package:aguazullavapp/features/vehicule_services/data/datasources/user_dataSource.dart';
-import 'package:aguazullavapp/features/vehicule_services/domain/datasources/client/user.dart';
-import 'package:aguazullavapp/features/vehicule_services/domain/repositories/user_data_repository.dart';
+
+import 'package:aguazullavapp/lib.dart';
 
 class UserDataRepositoryImpl implements UserDataRepository {
   final UserDataSource dataSource;

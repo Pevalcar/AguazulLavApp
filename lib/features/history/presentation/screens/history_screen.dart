@@ -1,4 +1,4 @@
-import 'package:aguazullavapp/core/widgets/pin_accees.dart';
+import 'package:aguazullavapp/shared/widgets/pin_access.dart';
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

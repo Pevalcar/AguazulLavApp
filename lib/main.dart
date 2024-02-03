@@ -4,9 +4,13 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
 
+void main() => mainCommon(AppEnvironment.PROD);
+
+
+Future mainCommon(AppEnvironment env) async {
+  WidgetsFlutterBinding.ensureInitialized();
+EnvInfo.initialize(env);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

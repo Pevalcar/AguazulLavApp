@@ -1,0 +1,1 @@
+aqui se guardan todos las cciones comunes que usa la app en general no tiene que ver con manejo de datos

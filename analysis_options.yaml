@@ -14,6 +14,7 @@ analyzer:
     - custom_lint
   errors:
     invalid_annotation_target: ignore
+    ambiguous_export: ignore
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
