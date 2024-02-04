@@ -1,6 +1,6 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
-
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});
@@ -14,19 +14,11 @@ class MainMenuScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Panel principal'),
             centerTitle: true,
-            actions: [
-              const DarkModeButton(),
-              const SizedBox(width: 16),
-              InkWell(
-                onTap: () {
-
-                  //TODO agregar cicle avatar
-                },
-                child: const CircleAvatar(
-                  child: Icon(Icons.person),
-                ),
-              ),
-              const SizedBox(width: 16),
+            actions: const [
+              DarkModeButton(),
+              SizedBox(width: 16),
+              AvatarIcon(),
+              SizedBox(width: 16),
             ],
           ),
           body: LayoutBuilder(builder: (context, constraints) {
@@ -36,6 +28,25 @@ class MainMenuScreen extends StatelessWidget {
             return const MainMenuMobile();
           }),
         ),
+      ),
+    );
+  }
+}
+
+class AvatarIcon extends HookConsumerWidget {
+  const AvatarIcon({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return InkWell(
+      onTap: () {
+        ref.read(userStateCurrentProvider.notifier).signOut();
+        //TODO agregar cicle avatar
+      },
+      child: const CircleAvatar(
+        child: Icon(Icons.person),
       ),
     );
   }
@@ -62,7 +73,7 @@ class MainMenuDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Column(
-      mainAxisAlignment:  MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         InfoCount(),
         Expanded(
@@ -72,4 +83,3 @@ class MainMenuDesktop extends StatelessWidget {
     );
   }
 }
-

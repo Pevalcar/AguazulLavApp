@@ -1,14 +1,14 @@
-// import 'package:flutter_project/services/user_cache_service/data/datasource/user_local_datasource.dart';
-// import 'package:flutter_project/services/user_cache_service/data/repositories/user_repository_impl.dart';
-// import 'package:flutter_project/services/user_cache_service/domain/repositories/user_cache_repository.dart';
-// import 'package:flutter_project/shared/data/local/storage_service.dart';
-// import 'package:flutter_project/shared/domain/providers/shared_preferences_storage_service_provider.dart';
+// import 'package:aguazullavapp/lib.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// final userDatasourceProvider = Provider.family<UserDataSource, StorageService>(
-//   (_, networkService) => UserLocalDatasource(networkService),
-// );
+// part 'user_cache_provider.g.dart';
 
+// @riverpod
+// UserDataSource userDatasource(UserDataSourceRef ref) {
+//   final storageService = ref.watch();
+//    return UserLocalDatasource(storageService);
+// }
 // final userLocalRepositoryProvider = Provider<UserRepository>((ref) {
 //   final storageService = ref.watch(storageServiceProvider);
 

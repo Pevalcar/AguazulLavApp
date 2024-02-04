@@ -1,31 +1,31 @@
-// import 'package:flutter_project/services/user_cache_service/data/datasource/user_local_datasource.dart';
-// import 'package:flutter_project/services/user_cache_service/domain/repositories/user_cache_repository.dart';
-// import 'package:flutter_project/shared/domain/models/either.dart';
-// import 'package:flutter_project/shared/domain/models/user/user_model.dart';
-// import 'package:flutter_project/shared/exceptions/http_exception.dart';
 
-// class UserRepositoryImpl extends UserRepository {
-//   UserRepositoryImpl(this.dataSource);
 
-//   final UserDataSource dataSource;
+import 'package:aguazullavapp/lib.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-//   @override
-//   Future<bool> deleteUser() {
-//     return dataSource.deleteUser();
-//   }
+class UserCacheRepositoryImpl extends IUserCacheRepository {
+  UserCacheRepositoryImpl(this.dataSource);
 
-//   @override
-//   Future<Either<AppException, User>> fetchUser() {
-//     return dataSource.fetchUser();
-//   }
+  final UserCaheDataSource dataSource;
 
-//   @override
-//   Future<bool> saveUser({required User user}) {
-//     return dataSource.saveUser(user: user);
-//   }
+  @override
+  Future<bool> deleteUser() {
+    return dataSource.deleteUser( );
+  }
 
-//   @override
-//   Future<bool> hasUser() {
-//     return dataSource.hasUser();
-//   }
-// }
+  @override
+  Future<UserInformationModel?> fetchUser() {
+    return dataSource.fetchUser();
+  }
+
+  @override
+  Future<bool> saveUser({required  UserInformationModel user}) {
+    return dataSource.saveUser(user: user);
+  }
+
+  @override
+  Future<bool> hasUser() {
+    return dataSource.hasUser();
+  }
+  
+}

@@ -106,7 +106,7 @@ class FormLogin extends HookConsumerWidget {
     final mailController = useTextEditingController();
     final screensmode = ref.watch(screensModeProvider);
     ref.listen(
-      firebaseControlProvider,
+      userStateCurrentProvider,
       (previous, next) {
         if (next.asData?.value != null) {
           showToast(context, "Bienvenido");
@@ -190,7 +190,7 @@ class FormLogin extends HookConsumerWidget {
             buttonSize: ButtonSize.large,
             buttonType: ButtonType.googleDark,
             onPressed: () {
-              ref.read(firebaseControlProvider.notifier).signInWithGoogle();
+              ref.read( userStateCurrentProvider.notifier).signInWithGoogle();
             },
           ) : const SizedBox(),
           const SizedBox(height: 32),
@@ -246,20 +246,20 @@ class FormLogin extends HookConsumerWidget {
         case screensMode.login:
           {
             ref
-                .read(firebaseControlProvider.notifier)
+                .read(userStateCurrentProvider.notifier)
                 .login(mail.text, pass.text);
           }
 
         case screensMode.register:
           {
             ref
-                .read(firebaseControlProvider.notifier)
+                .read(userStateCurrentProvider.notifier)
                 .register(mail.text, pass.text);
           }
 
         case screensMode.forgot:
           {
-            ref.read(firebaseControlProvider.notifier).forgot(mail.text);
+            ref.read(userStateCurrentProvider.notifier).forgot(mail.text);
             showToast(context,
                 "Se ha enviado un correo para recuperar tu contraseña");
             ref.read(screensModeProvider.notifier).toggle(screensMode.login);

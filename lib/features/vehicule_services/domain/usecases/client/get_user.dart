@@ -4,7 +4,7 @@ class GetUser {
   final UserDataRepository repository;
   const GetUser({required this.repository});
 
-  Future<User?> call(String userId) async {
+  Future<Client?> call(String userId) async {
     return repository.getUser(userId);
   }
 }

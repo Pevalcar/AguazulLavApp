@@ -23,9 +23,9 @@ AddUser addUser(AddUserRef ref) {
 }
 
 @riverpod
-DeleteUser deleteUser(DeleteUserRef ref) {
+DeleteClient deleteUser(DeleteUserRef ref) {
   final repository = ref.watch(userDataRepositoryIMPLProvider);
-  return DeleteUser(repository: repository);
+  return DeleteClient(repository: repository);
 }
 
 @riverpod
@@ -48,8 +48,8 @@ GetUsers getUsers(GetUsersRef ref) {
 
 @Riverpod(keepAlive: true)
 class ClientList extends _$ClientList {
-  Future<List<User>> _fetch() async {
-    List<User> list = [];
+  Future<List<Client>> _fetch() async {
+    List<Client> list = [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       list = await ref.read(getUsersProvider).call();
@@ -59,15 +59,15 @@ class ClientList extends _$ClientList {
   }
 
   @override
-  Future<List<User>> build() {
+  Future<List<Client>> build() {
     return _fetch();
   }
 
-  void addUSer(User user, Function(User)? onAddClient) async {
+  void addUSer(Client user, Function(Client)? onAddClient) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final userGuard = await ref.read(addUserProvider).call(user);
-      List<User> newList = state.value ?? [];
+      List<Client> newList = state.value ?? [];
       if (userGuard != null) {
         onAddClient == null ? null : onAddClient(userGuard);
         state.value?.add(userGuard);
@@ -76,7 +76,7 @@ class ClientList extends _$ClientList {
     });
   }
 
-  void modifieUSer(User user) async {
+  void modifieUSer(Client user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       bool userModifie = await ref.read(modifieUserProvider).call(user);
@@ -90,7 +90,7 @@ class ClientList extends _$ClientList {
     });
   }
 
-  void deleteUSer(User user) async {
+  void deleteUSer(Client user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       bool userModifie = await ref.read(modifieUserProvider).call(user);
@@ -101,16 +101,16 @@ class ClientList extends _$ClientList {
       return state.asData?.value ?? [];
     });
   }
-  Future<User?> getUSer(String id) async {
+  Future<Client?> getUSer(String id) async {
     return state.asData?.value.firstWhere((element) => element.id == id) ?? await ref.read(getUserProvider).call(id);
   }
 
 }
 
 @riverpod
-Future<User?> GetUserInfo(GetUserInfoRef ref, String userID) async {
+Future<Client?> GetUserInfo(GetUserInfoRef ref, String userID) async {
   if (userID.isEmpty) return null;
   if (userID == "1234") return null;
-  User? user = await ref.read(clientListProvider.notifier). getUSer(userID);
+  Client? user = await ref.read(clientListProvider.notifier). getUSer(userID);
   return user;
 }

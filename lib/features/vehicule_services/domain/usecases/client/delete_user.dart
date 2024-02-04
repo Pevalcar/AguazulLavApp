@@ -1,10 +1,10 @@
 
 import 'package:aguazullavapp/lib.dart';
 
-class DeleteUser {
+class DeleteClient {
    final UserDataRepository repository;
-  const DeleteUser({required this.repository});
-  Future<bool> call(User user){
+  const DeleteClient({required this.repository});
+  Future<bool> call(Client user){
     return repository.deleteUser(user);
   }
 

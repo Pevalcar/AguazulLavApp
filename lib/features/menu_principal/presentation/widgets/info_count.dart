@@ -2,6 +2,7 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class InfoCount extends HookConsumerWidget {
   const InfoCount({
@@ -10,19 +11,18 @@ class InfoCount extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String usuario = EnvInfo.appName;
-    final String hora = TimeOfDay(
-      hour: DateTime.now().hour,
-      minute: DateTime.now().minute,
-    ).toString();
+    final String usuario =
+        ref.watch(userStateCurrentProvider).value?.displayName ?? "";
+    final formater = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final String hora = formater.format(DateTime.now());
     const String stadoServidor = "Espacio libre del servidor";
     final version = ref.watch(infoAppProvider);
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-           _infoText(title: 'Usuario: ', info: usuario),
-          _infoText(title: 'Hora: ', info: hora),
+          _infoText(title: 'Usuario: ', info: usuario),
+          _infoText(title: 'Fecha: ', info: hora),
           const _infoText(title: 'Servidor: ', info: stadoServidor),
           _infoText(title: 'Version: ', info: version.value.toString()),
         ],

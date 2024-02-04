@@ -6,27 +6,27 @@ class UserDataRepositoryImpl implements UserDataRepository {
   UserDataRepositoryImpl({required this.dataSource});
 
   @override
-  Future<List<User>> getUsers() async {
+  Future<List<Client>> getUsers() async {
     return dataSource.getUsers();
   }
 
   @override
-  Future<User?> addUser(User user) async {
+  Future<Client?> addUser(Client user) async {
     return dataSource.createUser(user) ;
   }
 //TODO acer que los repositorios se basen en una interface
   @override
-  Future<bool> deleteUser(User user) async {
+  Future<bool> deleteUser(Client user) async {
     return dataSource.deleteUser(user.id);
   }
 
   @override
-  Future<User?> getUser(String userId) async {
+  Future<Client?> getUser(String userId) async {
     return dataSource.getUser(userId) ;
   }
 
   @override
-  Future<bool> updateUser(User user) async {
+  Future<bool> updateUser(Client user) async {
     return dataSource.updateUser(user);
   }
 }

@@ -1,6 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "services_list_providers.g.dart";

@@ -94,7 +94,7 @@ class ClientSearcher extends HookConsumerWidget {
   const ClientSearcher({
     super.key,
   });
-  static String _displayStringForOption(User option) => option.name;
+  static String _displayStringForOption(Client option) => option.name;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userOptions = ref.watch(clientListProvider);
@@ -118,7 +118,7 @@ class ClientSearcher extends HookConsumerWidget {
                         shrinkWrap: true,
                         itemCount: options.length,
                         itemBuilder: (context, index) {
-                          final User option = options.elementAt(index);
+                          final Client option = options.elementAt(index);
                           return GestureDetector(
                             onTap: () {
                               onSelected(option);
@@ -170,16 +170,16 @@ class ClientSearcher extends HookConsumerWidget {
             displayStringForOption: _displayStringForOption,
             optionsBuilder: (TextEditingValue textEditingValue) {
               if (textEditingValue.text.isEmpty) {
-                return const Iterable<User>.empty();
+                return const Iterable<Client>.empty();
               }
-              return userOptions.asData!.value.where((User option) {
+              return userOptions.asData!.value.where((Client option) {
                 return option
                     .toString()
                     .toLowerCase()
                     .contains(textEditingValue.text.toLowerCase());
               });
             },
-            onSelected: (User selection) {
+            onSelected: (Client selection) {
               ref
                   .read(propietarioProvider.notifier)
                   .modifyPropietario(selection);
@@ -194,7 +194,7 @@ class ClientSearcher extends HookConsumerWidget {
                 context: context,
                 builder: (_) {
                   return _AddClient(
-                    onAddClient: (User user) async {
+                    onAddClient: (Client user) async {
                       ref.read(clientListProvider.notifier).addUSer(
                         user,
                         (us) {
@@ -212,7 +212,7 @@ class ClientSearcher extends HookConsumerWidget {
 }
 
 class _AddClient extends HookWidget {
-  final Function(User) onAddClient;
+  final Function(Client) onAddClient;
   const _AddClient({required this.onAddClient});
 
   void supmited(
@@ -223,7 +223,7 @@ class _AddClient extends HookWidget {
       TextEditingController idController) {
     keyForm.currentState!.save();
     if (keyForm.currentState!.validate()) {
-      onAddClient(User(
+      onAddClient(Client(
         name: nameController.text,
         phone: phoneController.text,
         identification: idController.text,

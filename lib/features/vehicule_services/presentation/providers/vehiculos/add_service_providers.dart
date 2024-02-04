@@ -92,11 +92,11 @@ class VehiculoState extends _$VehiculoState {
 @riverpod
 class Propietario extends _$Propietario {
   @override
-  User? build() {
+  Client? build() {
     return null;
   }
 
-  void modifyPropietario(User propietario) {
+  void modifyPropietario(Client propietario) {
     state = propietario;
   }
 }

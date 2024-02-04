@@ -7,7 +7,7 @@ part 'rutes_provider.g.dart';
 
 @riverpod
 GoRouter enrutador(EnrutadorRef ref) {
-  final user = ref.watch(firebaseControlProvider);
+  final user = ref.watch(userStateCurrentProvider);
   return GoRouter(
     initialLocation: user.asData?.value == null ? '/login' : "/",
     routes: $appRoutes,

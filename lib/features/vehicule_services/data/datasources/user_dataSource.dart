@@ -7,8 +7,8 @@ class UserDataSource {
   final CollectionReference firestore;
   UserDataSource({required this.firestore});
 
-  Future<List<User>> getUsers() async {
-    List<User> list = [];
+  Future<List<Client>> getUsers() async {
+    List<Client> list = [];
     try {
       list = await _getUSersLocal();
 
@@ -16,7 +16,7 @@ class UserDataSource {
         debugPrint(' getUSers firestore');
         await firestore.get().then((value) {
           for (var element in value.docs) {
-            list.add(User.fromJson(element.data() as Map<String, dynamic>));
+            list.add(Client.fromJson(element.data() as Map<String, dynamic>));
           }
         });
         debugPrint(' getUSers return remote');
@@ -30,15 +30,15 @@ class UserDataSource {
     return list;
   }
 
-  Future<User?> getUser(String id) async {
+  Future<Client?> getUser(String id) async {
     if (id.isEmpty) return null;
     if (id == '1234') return null;
-    User? user;
+    Client? user;
     try {
       user = await _getUserLocal(id);
       if (user == null) {
         await firestore.doc(id).get().then((value) {
-          user = User.fromJson(value.data() as Map<String, dynamic>);
+          user = Client.fromJson(value.data() as Map<String, dynamic>);
           logger.d(' getUSersLocal');
         });
         return user;
@@ -52,7 +52,7 @@ class UserDataSource {
     return user;
   }
 
-  Future<User?> createUser(User user) async {
+  Future<Client?> createUser(Client user) async {
     try {
       final userNew = user.copyWith(id: const Uuid().v4());
       await firestore.doc(userNew.id).set(userNew.toJson());
@@ -63,7 +63,7 @@ class UserDataSource {
     }
   }
 
-  Future<bool> updateUser(User user) async {
+  Future<bool> updateUser(Client user) async {
     try {
       await firestore.doc(user.id).update(user.toJson());
       return true;
@@ -83,13 +83,13 @@ class UserDataSource {
     }
   }
 
-  Future<List<User>> _getUSersLocal() async {
-    final List<User> list = [];
+  Future<List<Client>> _getUSersLocal() async {
+    final List<Client> list = [];
     debugPrint(' getUSersLocal');
     try {
       await firestore.get(const GetOptions(source: Source.cache)).then((value) {
         for (var element in value.docs) {
-          list.add(User.fromJson(element.data() as Map<String, dynamic>));
+          list.add(Client.fromJson(element.data() as Map<String, dynamic>));
         }
       });
     } on FirebaseException catch (e) {
@@ -100,8 +100,8 @@ class UserDataSource {
     return list;
   }
 
-  Future<User?> _getUserLocal(String id) async {
-    User? user;
+  Future<Client?> _getUserLocal(String id) async {
+    Client? user;
     logger.d(' getUSersLocal');
     try {
       await firestore
@@ -111,7 +111,7 @@ class UserDataSource {
           )
           .then((value) {
             
-        user = User.fromJson(value.data() as Map<String, dynamic>);
+        user = Client.fromJson(value.data() as Map<String, dynamic>);
       });
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());

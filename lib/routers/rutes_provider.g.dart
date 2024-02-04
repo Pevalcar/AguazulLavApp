@@ -206,7 +206,7 @@ extension $JornadaInfoRouteExtension on JornadaInfoRoute {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$enrutadorHash() => r'6132b51ab84dfa291f9945b70b566a89d33b00e8';
+String _$enrutadorHash() => r'c9f255072970817e259c111410b3067b8400d889';
 
 /// See also [enrutador].
 @ProviderFor(enrutador)

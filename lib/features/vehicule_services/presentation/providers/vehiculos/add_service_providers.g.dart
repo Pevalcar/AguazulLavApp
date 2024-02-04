@@ -22,12 +22,12 @@ final vehiculoStateProvider =
 );
 
 typedef _$VehiculoState = AutoDisposeAsyncNotifier<Vehicle?>;
-String _$propietarioHash() => r'd0df4ff88cf0b40d5e4c5ccf808d8f19999eccd6';
+String _$propietarioHash() => r'553ab8a65804b91adda0a148a66ebd1d2b6f9637';
 
 /// See also [Propietario].
 @ProviderFor(Propietario)
 final propietarioProvider =
-    AutoDisposeNotifierProvider<Propietario, User?>.internal(
+    AutoDisposeNotifierProvider<Propietario, Client?>.internal(
   Propietario.new,
   name: r'propietarioProvider',
   debugGetCreateSourceHash:
@@ -36,7 +36,7 @@ final propietarioProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Propietario = AutoDisposeNotifier<User?>;
+typedef _$Propietario = AutoDisposeNotifier<Client?>;
 String _$placaHash() => r'f84eaaed1b7c8d30a573ac8d1d1d4a7d5e350c25';
 
 /// See also [Placa].

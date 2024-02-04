@@ -52,11 +52,11 @@ final addUserProvider = AutoDisposeProvider<AddUser>.internal(
 );
 
 typedef AddUserRef = AutoDisposeProviderRef<AddUser>;
-String _$deleteUserHash() => r'b9222fe925a7797479cb3e21c2e6cd851df715a8';
+String _$deleteUserHash() => r'9a5637a58a93e8442b44bc3db84ea506852893f4';
 
 /// See also [deleteUser].
 @ProviderFor(deleteUser)
-final deleteUserProvider = AutoDisposeProvider<DeleteUser>.internal(
+final deleteUserProvider = AutoDisposeProvider<DeleteClient>.internal(
   deleteUser,
   name: r'deleteUserProvider',
   debugGetCreateSourceHash:
@@ -65,7 +65,7 @@ final deleteUserProvider = AutoDisposeProvider<DeleteUser>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DeleteUserRef = AutoDisposeProviderRef<DeleteUser>;
+typedef DeleteUserRef = AutoDisposeProviderRef<DeleteClient>;
 String _$modifieUserHash() => r'e1616ce98542ff55534c8fc7fdb247eb0c0d02e9';
 
 /// See also [modifieUser].
@@ -108,7 +108,7 @@ final getUsersProvider = AutoDisposeProvider<GetUsers>.internal(
 );
 
 typedef GetUsersRef = AutoDisposeProviderRef<GetUsers>;
-String _$getUserInfoHash() => r'0976b1e50ec29e2e6a04858893f0fef354ee13b3';
+String _$getUserInfoHash() => r'ed4c08b46ffc22f26b08ee2f896d53279cf88a14';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -136,7 +136,7 @@ class _SystemHash {
 const getUserInfoProvider = GetUserInfoFamily();
 
 /// See also [GetUserInfo].
-class GetUserInfoFamily extends Family<AsyncValue<User?>> {
+class GetUserInfoFamily extends Family<AsyncValue<Client?>> {
   /// See also [GetUserInfo].
   const GetUserInfoFamily();
 
@@ -174,7 +174,7 @@ class GetUserInfoFamily extends Family<AsyncValue<User?>> {
 }
 
 /// See also [GetUserInfo].
-class GetUserInfoProvider extends AutoDisposeFutureProvider<User?> {
+class GetUserInfoProvider extends AutoDisposeFutureProvider<Client?> {
   /// See also [GetUserInfo].
   GetUserInfoProvider(
     String userID,
@@ -209,7 +209,7 @@ class GetUserInfoProvider extends AutoDisposeFutureProvider<User?> {
 
   @override
   Override overrideWith(
-    FutureOr<User?> Function(GetUserInfoRef provider) create,
+    FutureOr<Client?> Function(GetUserInfoRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -226,7 +226,7 @@ class GetUserInfoProvider extends AutoDisposeFutureProvider<User?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<User?> createElement() {
+  AutoDisposeFutureProviderElement<Client?> createElement() {
     return _GetUserInfoProviderElement(this);
   }
 
@@ -244,25 +244,25 @@ class GetUserInfoProvider extends AutoDisposeFutureProvider<User?> {
   }
 }
 
-mixin GetUserInfoRef on AutoDisposeFutureProviderRef<User?> {
+mixin GetUserInfoRef on AutoDisposeFutureProviderRef<Client?> {
   /// The parameter `userID` of this provider.
   String get userID;
 }
 
 class _GetUserInfoProviderElement
-    extends AutoDisposeFutureProviderElement<User?> with GetUserInfoRef {
+    extends AutoDisposeFutureProviderElement<Client?> with GetUserInfoRef {
   _GetUserInfoProviderElement(super.provider);
 
   @override
   String get userID => (origin as GetUserInfoProvider).userID;
 }
 
-String _$clientListHash() => r'c6556ec8dccc8e46fc186753be10a35c752c574a';
+String _$clientListHash() => r'd9d15211e5b370ac8cbd78687c1485c60fdb3ab8';
 
 /// See also [ClientList].
 @ProviderFor(ClientList)
 final clientListProvider =
-    AsyncNotifierProvider<ClientList, List<User>>.internal(
+    AsyncNotifierProvider<ClientList, List<Client>>.internal(
   ClientList.new,
   name: r'clientListProvider',
   debugGetCreateSourceHash:
@@ -271,6 +271,6 @@ final clientListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ClientList = AsyncNotifier<List<User>>;
+typedef _$ClientList = AsyncNotifier<List<Client>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
