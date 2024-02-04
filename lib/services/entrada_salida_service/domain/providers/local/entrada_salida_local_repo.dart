@@ -19,29 +19,36 @@ EntradaSalidaLocalRepositoryImpl entradaSalidaLocalRepository(
   return EntradaSalidaLocalRepositoryImpl(local);
 }
 @riverpod
-GetEntradasSalidasLocal getEntradaSalida(GetEntradaSalidaRef ref) {
+GetEntradasSalidasLocal getEntradaSalidaLocal(GetEntradaSalidaLocalRef ref) {
   final EntradaSalidaLocalRepositoryImpl repository =
       ref.watch(entradaSalidaLocalRepositoryProvider);
   return GetEntradasSalidasLocal(repository);
 }
 
 @riverpod
-AddEntradaSalidaLocal addEntradaSalida(AddEntradaSalidaRef ref) {
+AddEntradaSalidaLocal addEntradaSalidaLocal(AddEntradaSalidaLocalRef ref) {
   final EntradaSalidaLocalRepositoryImpl repository =
       ref.watch(entradaSalidaLocalRepositoryProvider);
   return AddEntradaSalidaLocal(repository);
 }
 
 @riverpod
-DeleteEntradaSalidaLocal deleteEntradaSalida(DeleteEntradaSalidaRef ref) {
+DeleteEntradaSalidaLocal deleteEntradaSalidaLocal(DeleteEntradaSalidaLocalRef ref) {
   final EntradaSalidaLocalRepositoryImpl repository =
       ref.watch(entradaSalidaLocalRepositoryProvider);
   return DeleteEntradaSalidaLocal(repository);
 }
 
 @riverpod 
-ClearEntradaSalidaLocal clearEntradaSalida(ClearEntradaSalidaRef ref) {
+ClearEntradaSalidaLocal clearEntradaSalidaLocal(ClearEntradaSalidaLocalRef ref) {
   final EntradaSalidaLocalRepositoryImpl repository = 
       ref.watch(entradaSalidaLocalRepositoryProvider);
   return ClearEntradaSalidaLocal(repository);
+}
+
+@riverpod
+SetListEntradaSalidaLocal setListEntradaSalidaLocal(SetListEntradaSalidaLocalRef ref) {
+  final EntradaSalidaLocalRepositoryImpl repository = 
+      ref.watch(entradaSalidaLocalRepositoryProvider);
+  return SetListEntradaSalidaLocal(repository);
 }

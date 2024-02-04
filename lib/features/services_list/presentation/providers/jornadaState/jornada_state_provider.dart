@@ -94,11 +94,11 @@ class JornadaState extends _$JornadaState {
     });
   }
 
-  Future<void> addEntradaSalida(String id) async {
+  Future<void> addEntradaSalida(EntradaSalida entradaSalida) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       Jornada? jorndadInit = state.value
-          ?.copyWith(entradaSalidaIDs: [id, ...state.value!.entradaSalidaIDs]);
+          ?.copyWith(entradaSalidaIDs: [entradaSalida.id, ...state.value!.entradaSalidaIDs]);
       jorndadInit = await calcularValores(jorndadInit!);
       await editarJornada(jorndadInit);
       return jorndadInit;

@@ -42,72 +42,95 @@ final entradaSalidaLocalRepositoryProvider =
 
 typedef EntradaSalidaLocalRepositoryRef
     = AutoDisposeProviderRef<EntradaSalidaLocalRepositoryImpl>;
-String _$getEntradaSalidaHash() => r'c56a88b2a01a847fde339d7d7413302777293b71';
+String _$getEntradaSalidaLocalHash() =>
+    r'ab3b80e59b93c4b7a88cd6553c15311c86f88c66';
 
-/// See also [getEntradaSalida].
-@ProviderFor(getEntradaSalida)
-final getEntradaSalidaProvider =
+/// See also [getEntradaSalidaLocal].
+@ProviderFor(getEntradaSalidaLocal)
+final getEntradaSalidaLocalProvider =
     AutoDisposeProvider<GetEntradasSalidasLocal>.internal(
-  getEntradaSalida,
-  name: r'getEntradaSalidaProvider',
+  getEntradaSalidaLocal,
+  name: r'getEntradaSalidaLocalProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$getEntradaSalidaHash,
+      : _$getEntradaSalidaLocalHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef GetEntradaSalidaRef = AutoDisposeProviderRef<GetEntradasSalidasLocal>;
-String _$addEntradaSalidaHash() => r'33ba484bb8a239864662f4ad5efdd4c0b7ab8d60';
+typedef GetEntradaSalidaLocalRef
+    = AutoDisposeProviderRef<GetEntradasSalidasLocal>;
+String _$addEntradaSalidaLocalHash() =>
+    r'cef2f9658b73bdd3c1f9e7c71c4451808dc400d4';
 
-/// See also [addEntradaSalida].
-@ProviderFor(addEntradaSalida)
-final addEntradaSalidaProvider =
+/// See also [addEntradaSalidaLocal].
+@ProviderFor(addEntradaSalidaLocal)
+final addEntradaSalidaLocalProvider =
     AutoDisposeProvider<AddEntradaSalidaLocal>.internal(
-  addEntradaSalida,
-  name: r'addEntradaSalidaProvider',
+  addEntradaSalidaLocal,
+  name: r'addEntradaSalidaLocalProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$addEntradaSalidaHash,
+      : _$addEntradaSalidaLocalHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AddEntradaSalidaRef = AutoDisposeProviderRef<AddEntradaSalidaLocal>;
-String _$deleteEntradaSalidaHash() =>
-    r'30bbd05a08ed77371b65a4474d8d669b508a5af9';
+typedef AddEntradaSalidaLocalRef
+    = AutoDisposeProviderRef<AddEntradaSalidaLocal>;
+String _$deleteEntradaSalidaLocalHash() =>
+    r'82092956abc96ec598a48e397c1672efa65046fc';
 
-/// See also [deleteEntradaSalida].
-@ProviderFor(deleteEntradaSalida)
-final deleteEntradaSalidaProvider =
+/// See also [deleteEntradaSalidaLocal].
+@ProviderFor(deleteEntradaSalidaLocal)
+final deleteEntradaSalidaLocalProvider =
     AutoDisposeProvider<DeleteEntradaSalidaLocal>.internal(
-  deleteEntradaSalida,
-  name: r'deleteEntradaSalidaProvider',
+  deleteEntradaSalidaLocal,
+  name: r'deleteEntradaSalidaLocalProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$deleteEntradaSalidaHash,
+      : _$deleteEntradaSalidaLocalHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef DeleteEntradaSalidaRef
+typedef DeleteEntradaSalidaLocalRef
     = AutoDisposeProviderRef<DeleteEntradaSalidaLocal>;
-String _$clearEntradaSalidaHash() =>
-    r'8df94a359ffaf84fd5f26dd01278f50b1466bc98';
+String _$clearEntradaSalidaLocalHash() =>
+    r'08eaae4e0616ad4e0caf3970f0322159dba488ce';
 
-/// See also [clearEntradaSalida].
-@ProviderFor(clearEntradaSalida)
-final clearEntradaSalidaProvider =
+/// See also [clearEntradaSalidaLocal].
+@ProviderFor(clearEntradaSalidaLocal)
+final clearEntradaSalidaLocalProvider =
     AutoDisposeProvider<ClearEntradaSalidaLocal>.internal(
-  clearEntradaSalida,
-  name: r'clearEntradaSalidaProvider',
+  clearEntradaSalidaLocal,
+  name: r'clearEntradaSalidaLocalProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$clearEntradaSalidaHash,
+      : _$clearEntradaSalidaLocalHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef ClearEntradaSalidaRef = AutoDisposeProviderRef<ClearEntradaSalidaLocal>;
+typedef ClearEntradaSalidaLocalRef
+    = AutoDisposeProviderRef<ClearEntradaSalidaLocal>;
+String _$setListEntradaSalidaLocalHash() =>
+    r'9441fcc6bc48651a684e27f9a2989666912042ee';
+
+/// See also [setListEntradaSalidaLocal].
+@ProviderFor(setListEntradaSalidaLocal)
+final setListEntradaSalidaLocalProvider =
+    AutoDisposeProvider<SetListEntradaSalidaLocal>.internal(
+  setListEntradaSalidaLocal,
+  name: r'setListEntradaSalidaLocalProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$setListEntradaSalidaLocalHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SetListEntradaSalidaLocalRef
+    = AutoDisposeProviderRef<SetListEntradaSalidaLocal>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
