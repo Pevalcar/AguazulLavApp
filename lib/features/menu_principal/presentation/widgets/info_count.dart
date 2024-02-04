@@ -21,21 +21,21 @@ class InfoCount extends HookConsumerWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          _infoText(title: 'Usuario: ', info: usuario),
-          _infoText(title: 'Fecha: ', info: hora),
-          const _infoText(title: 'Servidor: ', info: stadoServidor),
-          _infoText(title: 'Version: ', info: version.value.toString()),
+          _InfoText(title: 'Usuario: ', info: usuario),
+          _InfoText(title: 'Fecha: ', info: hora),
+          const _InfoText(title: 'Servidor: ', info: stadoServidor),
+          _InfoText(title: 'Version: ', info: version.value.toString()),
         ],
       ),
     );
   }
 }
 
-class _infoText extends StatelessWidget {
+class _InfoText extends StatelessWidget {
   final String title;
   final String info;
 
-  const _infoText({
+  const _InfoText({
     required this.info,
     required this.title,
   });

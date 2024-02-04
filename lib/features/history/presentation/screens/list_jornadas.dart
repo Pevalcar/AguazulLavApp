@@ -2,7 +2,6 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../widgets/jornada_card.dart';
 
 class ListJornadas extends HookConsumerWidget {
   const ListJornadas({

@@ -161,7 +161,7 @@ class FormLogin extends HookConsumerWidget {
                     const SizedBox(height: 16),
                     screensmode == screensMode.forgot
                         ? const SizedBox()
-                        : passField(controllerPass: passController, submited: (_
+                        : PassField(controllerPass: passController, submited: (_
                         ) => _login(context, mailController, passController, keyForm, ref, screensmode)),
                   ]),
             ),
@@ -269,12 +269,12 @@ class FormLogin extends HookConsumerWidget {
   }
 }
 
-class passField extends HookConsumerWidget {
-  final controllerPass;
+class PassField extends HookConsumerWidget {
+  final TextEditingController controllerPass;
 
   final Function submited;
 
-  const passField( {
+  const PassField( {
     super.key,
     required this.controllerPass,
     required this.submited,

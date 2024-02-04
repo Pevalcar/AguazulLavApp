@@ -4,7 +4,6 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../shared/widgets/sliver_title_delegate.dart';
 
 //TODO agregar informacino de pago si es efectivo o transferencia con foto
 class JornadaInfoScreen extends HookConsumerWidget {
@@ -95,8 +94,8 @@ class _ListaPorTrabajadores extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList.builder(
         itemCount: data.listaOrdenada.length,
-        itemBuilder: (context, Index) {
-          return SingleListTrabajador(servicios: data.listaOrdenada[Index]);
+        itemBuilder: (context, index) {
+          return SingleListTrabajador(servicios: data.listaOrdenada[index]);
         });
   }
 }
@@ -133,7 +132,7 @@ class SingleListTrabajador extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(_servicios[0].trabjador ?? '',
+            Text(_servicios[0].trabjador,
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -189,13 +188,13 @@ class _JornadaInfoStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: _informationList(data: _data),
+      child: _InformationList(data: _data),
     );
   }
 }
 
-class _informationList extends StatelessWidget {
-  const _informationList({
+class _InformationList extends StatelessWidget {
+  const _InformationList({
     required Jornada data,
   }) : _data = data;
 

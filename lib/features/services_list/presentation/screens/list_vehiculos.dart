@@ -52,8 +52,8 @@ class ListVehicles extends HookConsumerWidget {
           ref.read(vehiculoStateProvider.notifier).addVehiculoTest(
               () => showToast(context, 'Vehiculo Agregado'), null);
         },
-        child: Row(
-          children: const [
+        child: const Row(
+          children: [
             Icon(Icons.warning_amber),
             Icon(Icons.add),
           ],

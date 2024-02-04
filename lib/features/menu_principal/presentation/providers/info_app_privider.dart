@@ -4,6 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'info_app_privider.g.dart';
 
 @riverpod
-FutureOr<String> InfoApp(InfoAppRef ref) {
+FutureOr<String> infoApp(InfoAppRef ref) {
   return PackageInfo.fromPlatform().then((value) => value.version);
 }

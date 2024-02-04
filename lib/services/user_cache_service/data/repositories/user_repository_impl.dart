@@ -1,7 +1,6 @@
 
 
 import 'package:aguazullavapp/lib.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class UserCacheRepositoryImpl extends IUserCacheRepository {
   UserCacheRepositoryImpl(this.dataSource);

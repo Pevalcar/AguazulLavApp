@@ -43,6 +43,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
     } catch (e) {
       logger.e('Error al registrar usuario', error: e);
     }
+    return null;
   }
 
   @override
@@ -56,6 +57,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
     } catch (e) {
       logger.e('Error al iniciar sesion', error: e);
     }
+    return null;
   }
 
   @override
@@ -71,6 +73,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
     } catch (e) {
       logger.e('Error al iniciar sesion', error: e);
     }
+    return null;
   }
 
   @override
@@ -91,6 +94,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
     } catch (e) {
       logger.e('Error al iniciar sesion', error: e);
     }
+    return null;
   }
 
   Map<String, dynamic> credentialToJson(User credential,String password) {

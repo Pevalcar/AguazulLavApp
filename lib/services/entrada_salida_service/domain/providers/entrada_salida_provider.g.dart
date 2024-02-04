@@ -6,7 +6,7 @@ part of 'entrada_salida_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$entradaSalidaListHash() => r'8582f8176e0dc18406b1c8cae60ec5ccf21266ea';
+String _$entradaSalidaListHash() => r'36aa4028f7a7202b31c83f8f62a705590e2a9a2e';
 
 /// See also [EntradaSalidaList].
 @ProviderFor(EntradaSalidaList)

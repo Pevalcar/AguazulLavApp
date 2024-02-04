@@ -23,7 +23,7 @@ class PhotoDataResource {
 
   Future<PhotoState> deletePhoto(String photo) async {
     try {
-      final upref = await _firestore.child("imagenes/${photo}");
+      final upref = _firestore.child("imagenes/$photo");
       await upref.delete();
       return const PhotoState(url: "",photoName: "", message: "La foto eliminada");
     } on FirebaseException catch (e) {

@@ -71,7 +71,7 @@ final deletePhotoGrafieProvider = AutoDisposeProvider<DeletePhoto>.internal(
 );
 
 typedef DeletePhotoGrafieRef = AutoDisposeProviderRef<DeletePhoto>;
-String _$photoVehiculeHash() => r'08f4de1619f7f49681686bffe6988559deb076ed';
+String _$photoVehiculeHash() => r'0a95fef6e145c4cd86028b097b8ece58601a882d';
 
 /// See also [PhotoVehicule].
 @ProviderFor(PhotoVehicule)

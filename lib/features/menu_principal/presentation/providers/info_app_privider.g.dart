@@ -6,12 +6,12 @@ part of 'info_app_privider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$infoAppHash() => r'2157bc41460dfd99a3a05980f75a46786b47a114';
+String _$infoAppHash() => r'cda43a3d3dfecca76780cccfcffc26613a2edb52';
 
-/// See also [InfoApp].
-@ProviderFor(InfoApp)
+/// See also [infoApp].
+@ProviderFor(infoApp)
 final infoAppProvider = AutoDisposeFutureProvider<String>.internal(
-  InfoApp,
+  infoApp,
   name: r'infoAppProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$infoAppHash,

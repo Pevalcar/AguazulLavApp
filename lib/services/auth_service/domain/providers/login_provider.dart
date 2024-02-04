@@ -1,7 +1,6 @@
 
 
 import 'package:aguazullavapp/lib.dart';
-import 'package:aguazullavapp/shared/domain/providers/fireAuth/fire_auth_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_provider.g.dart';

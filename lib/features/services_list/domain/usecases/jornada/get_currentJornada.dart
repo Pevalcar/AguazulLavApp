@@ -1,5 +1,5 @@
-
- import 'package:aguazullavapp/lib.dart';
+// ignore: file_names
+import 'package:aguazullavapp/lib.dart';
 
 class GetCurrentJornada {
   final JornadaRepository repository;

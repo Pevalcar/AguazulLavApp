@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:aguazullavapp/lib.dart';
 
 class JornadaRepositoryImpl implements JornadaRepository {

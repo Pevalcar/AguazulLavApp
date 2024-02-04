@@ -27,7 +27,7 @@ class JornadaState extends _$JornadaState {
             .read(serviceListProvider.notifier)
             .loadServicesToDay(jornada.jornadasListIDs);
       }
-      jornada = await calcularValores(jornada!);
+      jornada = await calcularValores(jornada);
     } else {
       jornada = Jornada(
         id: "",
@@ -66,7 +66,7 @@ class JornadaState extends _$JornadaState {
     });
   }
 
-  void finalizarJornada(
+  Future<void> finalizarJornada(
       Function(String)? finishedJornada, Function(String)? error) async {
     final coneccion = await (Connectivity().checkConnectivity());
     if (coneccion == ConnectivityResult.none) {
@@ -89,14 +89,13 @@ class JornadaState extends _$JornadaState {
           ?.copyWith(jornadasListIDs: [id, ...state.value!.jornadasListIDs]);
 
       jorndadInit = await calcularValores(jorndadInit!);
-      await editarJornada(jorndadInit!);
+      await editarJornada(jorndadInit);
 
       return jorndadInit;
     });
   }
 
   Future<void> addEntradaSalida(EntradaSalida entradaSalida) async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       Jornada? jorndadInit = state.value?.copyWith(entradaSalidaIDs: [
         entradaSalida.id,
@@ -128,11 +127,10 @@ class JornadaState extends _$JornadaState {
   }
 
   deleteEntradaSalida(EntradaSalida entradaSalida, int index) async {
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<String> jorndadInit = List.from(state.value?.entradaSalidaIDs ?? []);
 
-      if (jorndadInit != null) {
+      if (jorndadInit.isNotEmpty) {
         jorndadInit.remove(entradaSalida.id);
         Jornada newJornada =
             state.value!.copyWith(entradaSalidaIDs: jorndadInit);

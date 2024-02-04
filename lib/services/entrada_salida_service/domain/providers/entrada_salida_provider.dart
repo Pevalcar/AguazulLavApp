@@ -63,12 +63,12 @@ class EntradaSalidaList extends _$EntradaSalidaList {
         state.value?.where((element) => element.entrada == false) ?? [];
     int totalEntrdas = 0;
     int totalSalidas = 0;
-    entradas.forEach((element) {
+    for (var element in entradas) {
       totalEntrdas += element.valor;
-    });
-    salidas.forEach((element) {
+    }
+    for (var element in salidas) {
       totalSalidas += element.valor;
-    });
+    }
     return {
       'entradas': totalEntrdas,
       'salidas': totalSalidas,

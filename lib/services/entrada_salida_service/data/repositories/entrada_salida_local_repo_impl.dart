@@ -14,7 +14,7 @@ class  EntradaSalidaLocalRepositoryImpl implements EntradaSalidaRepository {
   @override
   Future<List<EntradaSalida>> getEntradaSalida() async {
     final List<EntradaSalidaModel> entradaSalidaModels =
-        await dataSourceLocal.getEntradaSalidas();
+        dataSourceLocal.getEntradaSalidas();
     List<EntradaSalida> entradaSalidas =
         entradaSalidaModels.map((e) => e.toEntity()).toList();
     return entradaSalidas;

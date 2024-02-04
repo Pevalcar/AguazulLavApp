@@ -8,7 +8,6 @@ class HistoryScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<double> _progressValue = useState(0.0);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Historial'),
@@ -20,7 +19,7 @@ class HistoryScreen extends HookWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  ListJornadasRoute().push(context);
+                  const ListJornadasRoute().push(context);
                 },
                 child: const Text('Lista de jornadas')),
           ],

@@ -1,8 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:aguazullavapp/services/firestore_service/data/datasource/pinpass_datasource/pinpass_datasource.dart';
-import 'package:aguazullavapp/services/firestore_service/data/repository/pinpass_repo/pinpass_repository.dart';
-import 'package:aguazullavapp/services/firestore_service/domain/usecases/pinpass/pinpas_get.dart';
-import 'package:aguazullavapp/services/firestore_service/domain/usecases/pinpass/pinpas_update.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'pinpas_provider.g.dart';
 

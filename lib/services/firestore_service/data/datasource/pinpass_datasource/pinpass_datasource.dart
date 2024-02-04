@@ -19,6 +19,7 @@ class PinPasDataSource implements IFirestoreDatasourceService<int> {
     } catch (e) {
       logger.e("error get pin", error: e);
     }
+    return null;
   }
 
   @override
