@@ -16,18 +16,15 @@ class EntradaSalidaList extends _$EntradaSalidaList {
   }
 
   Future<void> loadDataToday(List<String> ids) async {
-    if (ids.isEmpty) {
-      state = const AsyncValue.data([]);
-    }
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      List<EntradaSalida> list = [];
-      list = await ref.read(getEntradaSalidaLocalProvider).call();
-      if (list.isNotEmpty || list.length < ids.length) {
+      List<EntradaSalida> list =  await ref.read(getEntradaSalidaLocalProvider).call();
+      if (list.isEmpty || list.length < ids.length) {
         list = await ref.read(getEntradaSalidaTodayProvider).call(ids);
         await ref.read(setListEntradaSalidaLocalProvider).call(list);
       }
-      return loadData();
+      
+      return list;
     });
   }
 
@@ -35,33 +32,24 @@ class EntradaSalidaList extends _$EntradaSalidaList {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(clearEntradaSalidaLocalProvider).call();
-      return loadData();
+      return await loadData();
     });
   }
 
-  void addEntradaSalida(EntradaSalida entradaSalida) async {
+  Future<void> addEntradaSalida(EntradaSalida entradaSalida) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(addEntradaSalidaProvider).call(entradaSalida);
-      //TODO Cambiar
-      await ref
-          .read(jornadaStateProvider.notifier)
-          .addEntradaSalida(entradaSalida);
       await ref.read(addEntradaSalidaLocalProvider).call(entradaSalida);
-      return loadData();
+      return await loadData();
     });
   }
-
-  void deleteEntradaSalida(EntradaSalida entradaSalida, int index) async {
+  Future<void> deleteEntradaSalida(EntradaSalida entradaSalida, int index) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.read(deleteEntradaSalidaProvider).call(entradaSalida, index);
-      //TODO Cambiar
-      await ref
-          .read(jornadaStateProvider.notifier)
-          .deleteEntradaSalida(entradaSalida.id);
       await ref.read(deleteEntradaSalidaLocalProvider).call(entradaSalida, index);
-      return loadData();
+      return await loadData();
     });
   }
 

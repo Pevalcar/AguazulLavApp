@@ -20,7 +20,7 @@ class EntradaSalidaRemoteRepositoryImpl implements EntradaSalidaRepository {
 
   @override
   Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async {
-    return dataSource.getEntradaSalidasInRange(ids);
+    return await dataSource.getEntradaSalidasInRange(ids);
   }
   
   @override

@@ -11,7 +11,7 @@ class EntradaSalidaRemoteDataSource  implements IEntradaSalidaDataSource {
   Future<List<EntradaSalida>> getEntradaSalidas() async {
     List<EntradaSalida> list = [];
     try {
-        collection.get().then((value) {
+        await collection.get().then((value) {
           for (var element in value.docs) {
             list.add(
                 EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
@@ -30,12 +30,14 @@ class EntradaSalidaRemoteDataSource  implements IEntradaSalidaDataSource {
   Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async {
     List<EntradaSalida> list = [];
     try {
-        collection.where("id", whereIn: ids).get().then((value) {
+        await collection.where("id", whereIn: ids).get().then((value) {
           for (var element in value.docs) {
             list.add(
                 EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
           }
         });
+        logger.i("lista de entradaSalidas: desde remoto ${list.length}");
+        return list;
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());
     } catch (e) {

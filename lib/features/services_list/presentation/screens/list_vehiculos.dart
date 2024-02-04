@@ -82,6 +82,11 @@ class EntradasSalidasList extends HookConsumerWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               return EntradaSalidaCard(
+                onPressedDelete: () {
+                  ref
+                      .read(jornadaStateProvider.notifier)
+                      .deleteEntradaSalida(data[index], index);
+                },
                 information: data[index],
               );
             },
@@ -90,11 +95,13 @@ class EntradasSalidasList extends HookConsumerWidget {
         loading: () => ListView.builder(
               itemCount: 5,
               itemBuilder: (context, index) {
-                return EntradaSalidaCard(
-                    information: EntradaSalida(
-                  concepto: 'Cargando',
-                  valor: 0,
-                ));
+                return Skeletonizer(
+                  child: EntradaSalidaCard(
+                      information: EntradaSalida(
+                    concepto: 'Cargando',
+                    valor: 0,
+                  )),
+                );
               },
             ),
         error: (error, stackTrace) => Text(error.toString()));
@@ -102,14 +109,14 @@ class EntradasSalidasList extends HookConsumerWidget {
 }
 
 //TODO Admin PErmises para dar permisos
-class EntradaSalidaCard extends StatelessWidget {
+class EntradaSalidaCard extends HookConsumerWidget {
   final EntradaSalida _informacion;
-  const EntradaSalidaCard({
-    super.key,
-    required EntradaSalida information,
-  }) : _informacion = information;
+  final Function()? onPressedDelete;
+  const EntradaSalidaCard(
+      {super.key, required EntradaSalida information, this.onPressedDelete})
+      : _informacion = information;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formateadorFecha = DateFormat('dd/MM/yyyy');
     final dateDay = formateadorFecha.format(DateTime(
         _informacion.fecha?.year ?? 0,
@@ -151,12 +158,15 @@ class EntradaSalidaCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       )),
             ]),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.delete,
-                    color: _informacion.entrada
-                        ? (Colors.green[600] ?? Colors.green)
-                        : Colors.red[600] ?? Colors.red)),
+            Visibility(
+              visible: onPressedDelete != null,
+              child: IconButton(
+                  onPressed: onPressedDelete,
+                  icon: Icon(Icons.delete,
+                      color: _informacion.entrada
+                          ? (Colors.green[600] ?? Colors.green)
+                          : Colors.red[600] ?? Colors.red)),
+            ),
           ]),
         ),
       ),
@@ -215,8 +225,7 @@ class InformacionJornada extends HookConsumerWidget {
                               showErrorToast(context, message);
                             });
                           } else {
-                            if (!initialCountFormKey.currentState!
-                                .validate()) {
+                            if (!initialCountFormKey.currentState!.validate()) {
                               return;
                             }
                             ref
@@ -243,8 +252,7 @@ class InformacionJornada extends HookConsumerWidget {
                                     good: true,
                                     onAdd: (EntradaSalida doc) {
                                       ref
-                                          .read(entradaSalidaListProvider
-                                              .notifier)
+                                          .read(jornadaStateProvider.notifier)
                                           .addEntradaSalida(doc);
                                     }));
                           },
@@ -260,7 +268,7 @@ class InformacionJornada extends HookConsumerWidget {
                                 good: false,
                                 onAdd: (EntradaSalida doc) {
                                   ref
-                                      .read(entradaSalidaListProvider.notifier)
+                                      .read(jornadaStateProvider.notifier)
                                       .addEntradaSalida(doc);
                                 },
                               ),
@@ -565,7 +573,7 @@ class ListaVehiculos extends HookConsumerWidget {
             itemCount: data.length,
             itemBuilder: (context, index) {
               return CardCarService(
-                key:  Key(data[index].id),
+                key: Key(data[index].id),
                 vehicle: data[index],
               );
             },

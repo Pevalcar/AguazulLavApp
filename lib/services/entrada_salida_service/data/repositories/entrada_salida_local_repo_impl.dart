@@ -36,7 +36,7 @@ class  EntradaSalidaLocalRepositoryImpl implements EntradaSalidaRepository {
     List<EntradaSalidaModel> entradaSalidaModels =
         entradaSalidas.map((e) => EntradaSalidaModel.fromEntity(e)).toList();
     await dataSourceLocal.clear();
-    return dataSourceLocal.addEntradaSalidas(entradaSalidaModels);
+    return await dataSourceLocal.addEntradaSalidas(entradaSalidaModels);
   }
   
   @override

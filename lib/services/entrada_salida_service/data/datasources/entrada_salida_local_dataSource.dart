@@ -4,8 +4,10 @@ import 'package:hive/hive.dart';
 class EntradaSalidaLocalDataSource {
   final Box<EntradaSalidaModel> collection;
   EntradaSalidaLocalDataSource(this.collection);
-  Future<List<EntradaSalidaModel>> getEntradaSalidas() async {
-    return collection.values.toList();
+
+  List<EntradaSalidaModel> getEntradaSalidas() {
+    List<EntradaSalidaModel> list = collection.values.toList();
+    return list;
   }
 
   Future<List<EntradaSalidaModel>> getEntradaSalidasInRange(
@@ -30,8 +32,9 @@ class EntradaSalidaLocalDataSource {
   Future<void> clear() async {
     await collection.clear();
   }
-
+/// adds a list of entradaSalidas
   Future<void> addEntradaSalidas(List<EntradaSalidaModel> list) async {
     await collection.addAll(list);
+    logger.i('agregando lista desde la red');
   }
 }
