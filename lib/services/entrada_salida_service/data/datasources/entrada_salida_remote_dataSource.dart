@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
-class EntradaSalidaDataSource  implements IEntradaSalidaDataSource {
+class EntradaSalidaRemoteDataSource  implements IEntradaSalidaDataSource {
   final CollectionReference collection;
-  EntradaSalidaDataSource(this.collection);
+  EntradaSalidaRemoteDataSource(this.collection);
 
   @override
   Future<List<EntradaSalida>> getEntradaSalidas() async {

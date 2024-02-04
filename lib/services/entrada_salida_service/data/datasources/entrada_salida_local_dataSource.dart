@@ -1,19 +1,16 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:hive/hive.dart';
 
-class EntradaSalidaLocalDataSource extends IEntradaSalidaDataSource {
-  final Box<EntradaSalida> collection;
+class EntradaSalidaLocalDataSource {
+  final Box<EntradaSalidaModel> collection;
   EntradaSalidaLocalDataSource(this.collection);
-
-  @override
-  Future<List<EntradaSalida>> getEntradaSalidas() async {
+  Future<List<EntradaSalidaModel>> getEntradaSalidas() async {
     return collection.values.toList();
   }
 
-  @override
-  Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async {
-    List<EntradaSalida> list0 = collection.values.toList();
-    List<EntradaSalida> list = [];
+  Future<List<EntradaSalidaModel>> getEntradaSalidasInRange(List<String> ids) async {
+    List<EntradaSalidaModel> list0 = collection.values.toList();
+    List<EntradaSalidaModel> list = [];
 
     for (var id in ids) {
       list = list0.where((element) => element.id == id).toList();
@@ -21,17 +18,18 @@ class EntradaSalidaLocalDataSource extends IEntradaSalidaDataSource {
     return list;
   }
 
-  @override
-  Future<void> addEntradaSalida(EntradaSalida entradaSalida) async {
+  Future<void> addEntradaSalida(EntradaSalidaModel entradaSalida) async {
     collection.add(entradaSalida);
   }
-
-  @override
-  Future<void> deleteEntradaSalida(EntradaSalida entradaSalida) async {
-    collection.delete(entradaSalida.id);
+  
+  Future<void> deleteEntradaSalida(int index) async {
+    collection.deleteAt(index);
   }
 
   Future<void> clear() async {
     collection.clear();
+  }
+  Future<void> addEntradaSalidas(List<EntradaSalidaModel> list) async {
+    collection.addAll(list);
   }
 }
