@@ -8,7 +8,8 @@ class EntradaSalidaLocalDataSource {
     return collection.values.toList();
   }
 
-  Future<List<EntradaSalidaModel>> getEntradaSalidasInRange(List<String> ids) async {
+  Future<List<EntradaSalidaModel>> getEntradaSalidasInRange(
+      List<String> ids) async {
     List<EntradaSalidaModel> list0 = collection.values.toList();
     List<EntradaSalidaModel> list = [];
 
@@ -19,17 +20,18 @@ class EntradaSalidaLocalDataSource {
   }
 
   Future<void> addEntradaSalida(EntradaSalidaModel entradaSalida) async {
-    collection.add(entradaSalida);
+   await collection.add(entradaSalida);
   }
-  
+
   Future<void> deleteEntradaSalida(int index) async {
-    collection.deleteAt(index);
+   await collection.deleteAt(index);
   }
 
   Future<void> clear() async {
-    collection.clear();
+    await collection.clear();
   }
+
   Future<void> addEntradaSalidas(List<EntradaSalidaModel> list) async {
-    collection.addAll(list);
+    await collection.addAll(list);
   }
 }

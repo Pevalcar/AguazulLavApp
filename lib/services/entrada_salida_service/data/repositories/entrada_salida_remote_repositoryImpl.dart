@@ -1,8 +1,8 @@
 import 'package:aguazullavapp/lib.dart';
 
-class EntradaSalidaRepositoryImpl implements EntradaSalidaRepository {
-  final EntradaSalidaDataSource dataSource;
-  EntradaSalidaRepositoryImpl(this.dataSource);
+class EntradaSalidaRemoteRepositoryImpl implements EntradaSalidaRepository {
+  final EntradaSalidaRemoteDataSource dataSource;
+  EntradaSalidaRemoteRepositoryImpl(this.dataSource);
   @override
   Future<void> addEntradaSalida(EntradaSalida entradaSalida) async {
     dataSource.addEntradaSalida(entradaSalida);
@@ -14,7 +14,7 @@ class EntradaSalidaRepositoryImpl implements EntradaSalidaRepository {
   }
 
   @override
-  Future<void> deleteEntradaSalida(EntradaSalida entradaSalida) async {
+  Future<void> deleteEntradaSalida(EntradaSalida entradaSalida , int index) async {
     dataSource.deleteEntradaSalida(entradaSalida);
   }
 
@@ -22,4 +22,10 @@ class EntradaSalidaRepositoryImpl implements EntradaSalidaRepository {
   Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async {
     return dataSource.getEntradaSalidasInRange(ids);
   }
+  
+  @override
+  Future<void> clearLocal() => throw UnimplementedError();
+  
+  @override
+  Future<void> updateEntradaSalidas(List<EntradaSalida> entradaSalidas) => throw UnimplementedError();
 }

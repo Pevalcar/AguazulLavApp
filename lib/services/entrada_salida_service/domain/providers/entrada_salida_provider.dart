@@ -1,49 +1,8 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'entrada_salida_provider.g.dart';
 
-//entrdada y saldia usecase Riverpods
-
-@riverpod
-EntradaSalidaDataSource entradaSalidaDataSource(
-    EntradaSalidaDataSourceRef ref) {
-  final localDataSource =
-      FirebaseFirestore.instance.collection(COLECTION_ENTRADSALIDA_NAME);
-  return EntradaSalidaDataSource(localDataSource);
-}
-
-@riverpod
-EntradaSalidaRepositoryImpl entradaSalidaRepository(
-    EntradaSalidaRepositoryRef ref) {
-  final localDataSource = ref.watch(entradaSalidaDataSourceProvider);
-  return EntradaSalidaRepositoryImpl(localDataSource);
-}
-
-@riverpod
-GetEntradaSalidaToday getEntradaSalidaToday(GetEntradaSalidaTodayRef ref) {
-  final repository = ref.watch(entradaSalidaRepositoryProvider);
-  return GetEntradaSalidaToday(repository);
-}
-
-@riverpod
-GetEntradasSalidas getEntradaSalida(GetEntradaSalidaRef ref) {
-  final repository = ref.watch(entradaSalidaRepositoryProvider);
-  return GetEntradasSalidas(repository);
-}
-
-@riverpod
-AddEntradaSalida addEntradaSalida(AddEntradaSalidaRef ref) {
-  final repository = ref.watch(entradaSalidaRepositoryProvider);
-  return AddEntradaSalida(repository);
-}
-
-@riverpod
-DeleteEntradaSalida deleteEntradaSalida(DeleteEntradaSalidaRef ref) {
-  final repository = ref.watch(entradaSalidaRepositoryProvider);
-  return DeleteEntradaSalida(repository);
-}
 
 @riverpod
 class EntradaSalidaList extends _$EntradaSalidaList {
@@ -51,7 +10,10 @@ class EntradaSalidaList extends _$EntradaSalidaList {
   FutureOr<List<EntradaSalida>> build() {
     return [];
   }
+  
 
+
+//poco usado
   Future loadData() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -60,9 +22,12 @@ class EntradaSalidaList extends _$EntradaSalidaList {
       return list;
     });
   }
- void cleanList() async {
-   state = const AsyncValue.data([]);
- }
+
+  void cleanList() async {
+    await ref.read(clearEntradaSalidaProvider).call();
+    state = const AsyncValue.data([]);
+  }
+
   Future<void> loadDataToday(List<String> ids) async {
     if (ids.isEmpty) {
       state = const AsyncValue.data([]);
@@ -88,11 +53,11 @@ class EntradaSalidaList extends _$EntradaSalidaList {
     });
   }
 
-  void deleteEntradaSalida(EntradaSalida entradaSalida) async {
+  void deleteEntradaSalida(EntradaSalida entradaSalida, int index) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<EntradaSalida> list = state.value ?? [];
-      await ref.read(deleteEntradaSalidaProvider).call(entradaSalida);
+      await ref.read(deleteEntradaSalidaProvider).call(entradaSalida, index);
       list.remove(entradaSalida);
       await ref
           .read(jornadaStateProvider.notifier)
@@ -102,8 +67,8 @@ class EntradaSalidaList extends _$EntradaSalidaList {
   }
 
   Future<Map<String, int>> getEntradaSalidaCount() async {
-     if (state.value == null || state.value!.isEmpty) {
-      return { 'entradas': 0, 'salidas': 0 };
+    if (state.value == null || state.value!.isEmpty) {
+      return {'entradas': 0, 'salidas': 0};
     }
     final entradas =
         state.value?.where((element) => element.entrada == true) ?? [];

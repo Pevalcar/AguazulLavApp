@@ -1,8 +1,8 @@
 import 'package:aguazullavapp/lib.dart';
 
-class GetEntradasSalidas {
+class GetEntradasSalidasRemote {
   final EntradaSalidaRepository serviceInfoRepository;
-  GetEntradasSalidas(this.serviceInfoRepository);
+  GetEntradasSalidasRemote(this.serviceInfoRepository);
   Future<List<EntradaSalida>> call() {
     return serviceInfoRepository.getEntradaSalida();
   }

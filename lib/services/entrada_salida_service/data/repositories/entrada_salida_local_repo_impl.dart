@@ -1,25 +1,44 @@
 import 'package:aguazullavapp/lib.dart';
 
 class  EntradaSalidaLocalRepositoryImpl implements EntradaSalidaRepository {
-  final EntradaSalidaDataSource dataSource;
-  EntradaSalidaLocalRepositoryImpl(this.dataSource);
+  final EntradaSalidaLocalDataSource dataSourceLocal;
+  EntradaSalidaLocalRepositoryImpl(this.dataSourceLocal);
   @override
   Future<void> addEntradaSalida(EntradaSalida entradaSalida) async {
-    dataSource.addEntradaSalida(entradaSalida);
+    final EntradaSalidaModel entradaSalidaModel = EntradaSalidaModel.fromEntity(
+      entradaSalida,
+    );
+    return dataSourceLocal.addEntradaSalida(entradaSalidaModel);
   }
 
   @override
   Future<List<EntradaSalida>> getEntradaSalida() async {
-    return dataSource.getEntradaSalidas();
+    final List<EntradaSalidaModel> entradaSalidaModels =
+        await dataSourceLocal.getEntradaSalidas();
+    List<EntradaSalida> entradaSalidas =
+        entradaSalidaModels.map((e) => e.toEntity()).toList();
+    return entradaSalidas;
   }
 
   @override
-  Future<void> deleteEntradaSalida(EntradaSalida entradaSalida) async {
-    dataSource.deleteEntradaSalida(entradaSalida);
+  Future<void> deleteEntradaSalida(
+      EntradaSalida entradaSalida, int index) async {
+   return dataSourceLocal.deleteEntradaSalida(index);
   }
 
   @override
-  Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async {
-    return dataSource.getEntradaSalidasInRange(ids);
+  Future<void> clearLocal() async {
+    return dataSourceLocal.clear();
   }
+
+  @override
+  Future<void> updateEntradaSalidas(List<EntradaSalida> entradaSalidas) async {
+    List<EntradaSalidaModel> entradaSalidaModels =
+        entradaSalidas.map((e) => EntradaSalidaModel.fromEntity(e)).toList();
+    await dataSourceLocal.clear();
+    return dataSourceLocal.addEntradaSalidas(entradaSalidaModels);
+  }
+  
+  @override
+  Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async => throw UnimplementedError();
 }
