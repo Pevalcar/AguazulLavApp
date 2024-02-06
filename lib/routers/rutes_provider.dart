@@ -74,7 +74,8 @@ class HistoryScreenRoute extends GoRouteData {
 class ListJornadasRoute extends GoRouteData {
   const ListJornadasRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) => const ListJornadas();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ListJornadas();
 }
 
 @immutable
@@ -86,6 +87,16 @@ class JornadaInfoRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       JornadaInfoScreen(jornada: $extra);
+}
+
+@TypedGoRoute<AdminClientScreen>(path: '/adminClient', routes: [])
+@immutable
+class AdminClientScreen extends GoRouteData {
+  const AdminClientScreen();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const AdminClientScreenPage();
+  
 }
 
 //TODO Mejorar la pantalla de errores

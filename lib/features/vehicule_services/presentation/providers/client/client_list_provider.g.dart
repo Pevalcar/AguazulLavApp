@@ -257,7 +257,7 @@ class _GetUserInfoProviderElement
   String get userID => (origin as GetUserInfoProvider).userID;
 }
 
-String _$clientListHash() => r'd9d15211e5b370ac8cbd78687c1485c60fdb3ab8';
+String _$clientListHash() => r'faf20a4566bb89adca149f0347221eb8a2f5b0b9';
 
 /// See also [ClientList].
 @ProviderFor(ClientList)

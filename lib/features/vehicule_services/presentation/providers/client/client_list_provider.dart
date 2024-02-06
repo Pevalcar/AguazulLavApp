@@ -46,9 +46,10 @@ GetUsers getUsers(GetUsersRef ref) {
   return GetUsers(repository: repository);
 }
 
+//TODO conectar con la base de datos en el dispositivo recargable apartir de un botor de loading
 @Riverpod(keepAlive: true)
 class ClientList extends _$ClientList {
-  Future<List<Client>> _fetch() async {
+  Future<List<Client>> fetch() async {
     List<Client> list = [];
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -60,57 +61,58 @@ class ClientList extends _$ClientList {
 
   @override
   Future<List<Client>> build() {
-    return _fetch();
+    return fetch();
   }
 
-  void addUSer(Client user, Function(Client)? onAddClient) async {
+  void addClient(Client user, Function(Client)? onAddClient) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final userGuard = await ref.read(addUserProvider).call(user);
-      List<Client> newList = state.value ?? [];
+      List<Client> newList = List.from(state.value ?? []);
       if (userGuard != null) {
         onAddClient == null ? null : onAddClient(userGuard);
-        state.value?.add(userGuard);
+        newList.add(userGuard);
       }
       return newList;
     });
   }
 
-  void modifieUSer(Client user) async {
+  void modifieUSer(Client user, Function()? onEditComplete) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      bool userModifie = await ref.read(modifieUserProvider).call(user);
-      //TODO reformatear par evitar errores con el list.from
-      if (userModifie) {
-        state.asData?.value.removeWhere((element) => element.id == user.id);
-        state.asData?.value.add(user);
-        return state.asData?.value ?? [];
+      bool userModified = await ref.read(modifieUserProvider).call(user);
+      List<Client> newList = List.from(state.value ?? []);
+      if (userModified) {
+        newList.removeWhere((element) => element.id == user.id);
+        newList.add(user);
+        onEditComplete == null ? null : onEditComplete();
       }
-      return state.asData?.value ?? [];
+      return newList;
     });
   }
 
   void deleteUSer(Client user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      bool userModifie = await ref.read(modifieUserProvider).call(user);
-      if (userModifie) {
-        state.asData?.value.removeWhere((element) => element.id == user.id);
-        return state.asData?.value ?? [];
+      bool userModified = await ref.read(modifieUserProvider).call(user);
+      List<Client> newList = List.from(state.value ?? []);
+      if (userModified) {
+        newList.removeWhere((element) => element.id == user.id);
       }
-      return state.asData?.value ?? [];
+      return newList;
     });
   }
-  Future<Client?> getUSer(String id) async {
-    return state.asData?.value.firstWhere((element) => element.id == id) ?? await ref.read(getUserProvider).call(id);
-  }
 
+  Future<Client?> getUSer(String id) async {
+    return state.asData?.value.firstWhere((element) => element.id == id) ??
+        await ref.read(getUserProvider).call(id);
+  }
 }
 
 @riverpod
 Future<Client?> GetUserInfo(GetUserInfoRef ref, String userID) async {
   if (userID.isEmpty) return null;
   if (userID == "1234") return null;
-  Client? user = await ref.read(clientListProvider.notifier). getUSer(userID);
+  Client? user = await ref.read(clientListProvider.notifier).getUSer(userID);
   return user;
 }

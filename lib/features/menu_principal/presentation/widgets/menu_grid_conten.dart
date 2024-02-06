@@ -23,7 +23,7 @@ class MenuGridConten extends HookConsumerWidget {
             disabled: jornadaState.asData?.value?.enJornada == false,
             title: "Agregar Servicio",
             icon: Icons.add,
-            color: Theme.of(context).colorScheme.primaryContainer,
+            color: Theme.of(context).colorScheme.primary,
             //TODO indicador de que la jornada no ha iniciado parpadeo o algo
             onPressed: () {
               const AddServiceRoute().push(context);
@@ -36,22 +36,24 @@ class MenuGridConten extends HookConsumerWidget {
         ActionCardMenu(
             title: "Lista de Servicios",
             icon: Icons.list_alt,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.primary,
             onPressed: () {
               const ListVehiculosRoute().push(context);
             }),
         ActionCardMenu(
             title: "Historial",
             icon: Icons.history,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.primary,
             onPressed: () {
               const HistoryScreenRoute().push(context);
             }),
         ActionCardMenu(
             title: "Clientes",
             icon: Icons.person_add_alt,
-            color: Colors.red,
-            onPressed: () {}),
+            color: Theme.of(context).colorScheme.primary,
+            onPressed: () {
+              const AdminClientScreen().push(context);
+            }),
         ActionCardMenu(
             title: "Administrar Cuentas",
             icon: Icons.people_outlined,

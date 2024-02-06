@@ -195,7 +195,7 @@ class ClientSearcher extends HookConsumerWidget {
                 builder: (_) {
                   return _AddClient(
                     onAddClient: (Client user) async {
-                      ref.read(clientListProvider.notifier).addUSer(
+                      ref.read(clientListProvider.notifier).addClient(
                         user,
                         (us) {
                           showToast(context, "Cliente agregado");

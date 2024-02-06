@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:aguazullavapp/lib.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -11,7 +12,11 @@ void main() => mainCommon(AppEnvironment.PROD);
 
 Future mainCommon(AppEnvironment env) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initHive();
+  if (kIsWeb) {
+    await initHivWeb();
+  } else {
+    await initHive();
+  }
   EnvInfo.initialize(env);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -28,7 +33,12 @@ Future mainCommon(AppEnvironment env) async {
 }
 
 Future initHive() async {
-  await Hive.initFlutter( (await getApplicationDocumentsDirectory()).path);
- Hive.registerAdapter(EntradaSalidaModelAdapter());
+  await Hive.initFlutter((await getApplicationDocumentsDirectory()).path);
+  Hive.registerAdapter(EntradaSalidaModelAdapter());
+  await Hive.openBox<EntradaSalidaModel>(COLECTION_ENTRADSALIDA_NAME);
+}
+
+Future initHivWeb() async {
+  Hive.registerAdapter(EntradaSalidaModelAdapter());
   await Hive.openBox<EntradaSalidaModel>(COLECTION_ENTRADSALIDA_NAME);
 }

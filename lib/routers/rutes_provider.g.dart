@@ -13,6 +13,7 @@ List<RouteBase> get $appRoutes => [
       $listVehiculosRoute,
       $addServiceTypeRoute,
       $historyScreenRoute,
+      $adminClientScreen,
     ];
 
 RouteBase get $homeMenuRoute => GoRouteData.$route(
@@ -200,6 +201,29 @@ extension $JornadaInfoRouteExtension on JornadaInfoRoute {
 
   void replace(BuildContext context) =>
       context.replace(location, extra: $extra);
+}
+
+RouteBase get $adminClientScreen => GoRouteData.$route(
+      path: '/adminClient',
+      factory: $AdminClientScreenExtension._fromState,
+    );
+
+extension $AdminClientScreenExtension on AdminClientScreen {
+  static AdminClientScreen _fromState(GoRouterState state) =>
+      const AdminClientScreen();
+
+  String get location => GoRouteData.$location(
+        '/adminClient',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }
 
 // **************************************************************************
