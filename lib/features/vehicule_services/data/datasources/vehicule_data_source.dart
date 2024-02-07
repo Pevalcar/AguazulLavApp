@@ -5,7 +5,7 @@ class VehiculoDataSource {
   final CollectionReference _firebase;
   VehiculoDataSource(this._firebase);
 
-//TODO optimizar la bsuqeda de vehiculos por valores
+//TODO optimizar la bsuqeda de vehiculos por valores y agregando a la base d e datos locales
   Future<List<Vehicle>> getVehicles() async {
     List<Vehicle> list = [];
     try {

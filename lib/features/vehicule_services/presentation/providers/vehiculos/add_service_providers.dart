@@ -115,14 +115,14 @@ class Placa extends _$Placa {
 
 @riverpod
 class TypoDeVehiculo extends _$TypoDeVehiculo {
-  _fetchTypo() {
+  fetchTypo() {
     final typo = ref.watch(typosDeVeiculosProvider);
     return typo.first;
   }
 
   @override
   String build() {
-    return _fetchTypo();
+    return fetchTypo();
   }
 
   void modifyTypo(String tipo) {

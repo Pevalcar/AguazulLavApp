@@ -127,7 +127,8 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
               );
             },
             child: SizedBox(
-                height: 150, child: CargarImagenDesdeCache(imageUrl: vehicle.photo)),
+                height: 150,
+                child: CargarImagenDesdeCache(imageUrl: vehicle.photo)),
           ),
           ButtonBar(
             alignment: MainAxisAlignment.spaceAround,
@@ -136,23 +137,29 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
             children: <Widget>[
               Visibility(
                 visible: _editable,
-                child: PinAccess(
-                    correctPass: () {
-                      ref
-                          .read(serviceListProvider.notifier)
-                          .deleteService(vehicle);
-                    },
-                    correctPin: pin.asData?.value ?? 0,
-                    child: Column(children: [
-                      Icon(
-                        Icons.delete,
-                        color: Theme.of(context).colorScheme.errorContainer,
-                      ),
-                      const Padding(
+                child: TextButton(
+                  style: myStileButton,
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => PinAccesDialog(
+                          correctPass: () {
+                            ref
+                                .read(serviceListProvider.notifier)
+                                .deleteService(vehicle);
+                          }),
+                    );
+                  },
+                  child: const Column(
+                    children: <Widget>[
+                      Icon(Icons.delete),
+                      Padding(
                         padding: EdgeInsets.symmetric(vertical: 2.0),
                       ),
-                      const Text('Borrar'),
-                    ])),
+                      Text('Borrar'),
+                    ],
+                  ),
+                ),
               ),
               TextButton(
                 style: myStileButton,

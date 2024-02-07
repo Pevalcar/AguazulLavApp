@@ -12,6 +12,7 @@ class AdminClientScreenPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.refresh)),
           IconButton(onPressed: () {}, icon: const Icon(Icons.help)),
           const DarkModeButton()
         ],
@@ -261,12 +262,14 @@ class MobileContenido extends HookConsumerWidget {
     final _clients = ref.watch(clientListProvider);
     return _clients.when(
       data: (data) {
-        return SafeArea(
-          child: RefreshIndicator(
-              onRefresh: () {
-                ref.read(clientListProvider.notifier).fetch();
-                return Future.delayed(const Duration(seconds: 1));},
-              child: ListaClientes(clientes: data)),
+        return RefreshIndicator(
+          onRefresh: () {
+            ref.read(clientListProvider.notifier).fetch();
+            return Future.delayed(const Duration(seconds: 1));
+          },
+          child: SafeArea(
+            child: ListaClientes(clientes: data),
+          ),
         );
       },
       error: (error, stack) => Text(error.toString()),
@@ -383,18 +386,20 @@ class ClientCard extends HookConsumerWidget {
                     child: const Icon(Icons.edit),
                   ),
                   const SizedBox(width: 10),
-                  PinAccess(
-                    correctPin: ref.watch(pinPassProvider).asData?.value ?? 0,
-                    correctPass: () {
-                      ref
-                          .read(clientListProvider.notifier)
-                          .deleteUSer(_cliente);
-                    },
-                    child: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
-                  ),
+                  IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) => PinAccesDialog(
+                                  correctPass: () => ref
+                                      .read(clientListProvider.notifier)
+                                      .deleteUSer(_cliente),
+                                ));
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ))
                 ],
               ),
             )

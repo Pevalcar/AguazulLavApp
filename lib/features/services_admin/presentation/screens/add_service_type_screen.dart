@@ -12,23 +12,157 @@ enum SERVICETYPE {
   OTRO,
 }
 
+extension ServiceTypeExtension on SERVICETYPE {
+  String get name => toString().replaceAll("SERVICETYPE.", "");
+}
 
 class AddServiceTypeScreen extends HookConsumerWidget {
   const AddServiceTypeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      body: const CustomScrollView(slivers: [
+        SliverTypeVeicle(),
+        SliverToBoxAdapter(
+          child: Divider(height: 20),
+        ),
+        Expanded(
+          child: ListServicesTypes(),
+        )
+      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context, builder: (context) => const AddTypeForm());
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class ListServicesTypes extends HookConsumerWidget {
+  const ListServicesTypes({
+    super.key,
+  });
+
+  List<ServiceType> _sortList(List<ServiceType>? list, String querry) {
+    List<ServiceType> listFilter = [];
+    listFilter = list
+            ?.where((element) => element.typeVehiculo
+                .toLowerCase()
+                .contains(querry.toLowerCase()))
+            .toList() ??
+        [];
+    return listFilter;
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vehiculeType = ref.watch(typoDeVehiculoProvider);
+    var filteredList = useState<List<ServiceType>>([]);
+    final listServices = ref.watch(serviceTypeListProvider);
+
+    return listServices.when(
+      error: (error, stackTrace) =>
+          SliverToBoxAdapter(child: Text(error.toString())),
+      loading: () => SliverToBoxAdapter(
+          child: const Center(child: CircularProgressIndicator())),
+      data: (data) {
+        filteredList.value = _sortList(data, vehiculeType);
+        return SliverList.builder(
+          itemCount: filteredList.value.length,
+          itemBuilder: (context, index) => ExpansionTile(
+              title: Text(filteredList.value[index].clase),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(filteredList.value[index].description),
+                  ),
+                  Text(filteredList.value[index]
+                      .price), //TODO el precio se esta guardando en String y niint posibles problemas
+                ],
+              ),
+              leading: IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                          title: const Text("Eliminar Servicio"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Cancelar"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                ref
+                                    .read(serviceTypeListProvider.notifier)
+                                    .deleteServiceType(
+                                        filteredList.value[index]);
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Eliminar"),
+                            )
+                          ]),
+                    );
+                  },
+                  icon: Icon(Icons.delete)),
+              children: [
+                Text("Informacion",
+                    style: Theme.of(context).textTheme.titleLarge),
+                Text(filteredList.value[index].clase),
+                Text(filteredList.value[index].description),
+                Text(filteredList.value[index].price),
+              ]),
+        );
+      },
+    );
+  }
+}
+
+class SliverTypeVeicle extends HookConsumerWidget {
+  const SliverTypeVeicle({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SliverAppBar(
+      actions: const [DarkModeButton()],
+      floating: true,
+      title: DropDownTypeVehicle(
+        title: "Servicios",
+        typesList: ref.watch(typosDeVeiculosProvider),
+        type: ref.watch(typoDeVehiculoProvider),
+      ),
+    );
+  }
+}
+
+class AddTypeForm extends HookConsumerWidget {
+  const AddTypeForm({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final typeSelect = ref.watch(typoDeVehiculoProvider);
 
-     
-
-    final keyForm = GlobalKey<FormState>();
     final filters = useState<SERVICETYPE?>(null);
+    final keyForm = GlobalKey<FormState>();
     final typeController = useTextEditingController();
     final descriptionController = useTextEditingController();
     final priceController = useTextEditingController();
 
     const spacer = SizedBox(height: 16);
+
+    ref.listen(typoDeVehiculoProvider, (previous, next) {
+      if (next != previous) {
+        filters.value = null;
+      }
+    });
 
 //TODO manejo de la opcion otros
     void submit() async {
@@ -36,28 +170,37 @@ class AddServiceTypeScreen extends HookConsumerWidget {
         keyForm.currentState!.save();
         final service = ServiceType(
           typeVehiculo: typeSelect,
-          clase: typeSelect == "OTRO."
-              ? typeController.text
-              : filters.value.toString().replaceAll("SERVICETYPE.", ""),
+          clase:
+              typeSelect == "OTRO." ? typeController.text : filters.value!.name,
           description: descriptionController.text,
           price: priceController.text,
         );
-          showToast(context, "Agregando Servicio");
+        showToast(context, "Agregando Servicio");
         ref.read(serviceTypeListProvider.notifier).addServiceType(service, () {
           showToast(context, "Agregado");
-        } , (error) {
+        }, (error) {
           showErrorToast(context, error);
         });
+        Navigator.pop(context);
       }
-      Navigator.pop(context);
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Tipo de Servicio"),
-        actions: const [DarkModeButton()],
-      ),
-      body: Padding(
+    return AlertDialog(
+      scrollable: true,
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text("Cancelar"),
+        ),
+        TextButton(
+          onPressed: submit,
+          child: const Text("Guardar"),
+        )
+      ],
+      title: const Text("Tipo de Servicio"),
+      content: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: keyForm,
@@ -95,7 +238,7 @@ class AddServiceTypeScreen extends HookConsumerWidget {
                         Text("Descripción",
                             style: Theme.of(context).textTheme.titleLarge),
                         spacer,
-                        _descriptionTetField(
+                        DescriptionTetField(
                           descriptionController: descriptionController,
                         ),
                         spacer,
@@ -103,9 +246,6 @@ class AddServiceTypeScreen extends HookConsumerWidget {
                             style: Theme.of(context).textTheme.titleLarge),
                         spacer,
                         _priceTextField(priceController: priceController),
-                        AceptForm(
-                          submit: submit,
-                        )
                       ],
                 spacer,
                 filters.value == null
@@ -121,7 +261,7 @@ class AddServiceTypeScreen extends HookConsumerWidget {
                         Text("Descripción",
                             style: Theme.of(context).textTheme.titleLarge),
                         spacer,
-                        _descriptionTetField(
+                        DescriptionTetField(
                             descriptionController: descriptionController),
                         spacer,
                         const Text("Precio"),
@@ -130,51 +270,12 @@ class AddServiceTypeScreen extends HookConsumerWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        AceptForm(
-                          submit: submit,
-                        )
                       ],
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class AceptForm extends StatelessWidget {
-  final VoidCallback submit;
-  const AceptForm({
-    super.key,
-    required this.submit,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: const Text(
-                "¿Estas seguro de agregar este servicio?",
-              ),
-              actions: [
-                TextButton(
-                  child: const Text("Cancelar"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                TextButton(
-                  onPressed: submit,
-                  child: const Text("Guardar"),
-                )
-              ],
-            );
-          }),
-      child: const Text("Guardar"),
     );
   }
 }
@@ -210,8 +311,8 @@ class _priceTextField extends StatelessWidget {
   }
 }
 
-class _descriptionTetField extends StatelessWidget {
-  const _descriptionTetField({
+class DescriptionTetField extends StatelessWidget {
+  const DescriptionTetField({
     required this.descriptionController,
   });
 
@@ -262,5 +363,3 @@ class ServiciosWrap extends HookWidget {
     );
   }
 }
-
-

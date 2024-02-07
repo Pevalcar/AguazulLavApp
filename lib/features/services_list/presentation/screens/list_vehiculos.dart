@@ -161,7 +161,13 @@ class EntradaSalidaCard extends HookConsumerWidget {
             Visibility(
               visible: onPressedDelete != null,
               child: IconButton(
-                  onPressed: onPressedDelete,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => PinAccesDialog(
+                            correctPass: () => onPressedDelete!(),
+                          ));
+                  },
                   icon: Icon(Icons.delete,
                       color: _informacion.entrada
                           ? (Colors.green[600] ?? Colors.green)
@@ -585,10 +591,10 @@ class ListaVehiculos extends HookConsumerWidget {
               itemBuilder: (context, index) {
                 return const Skeletonizer(
                   child: Card(
-                      child: SizedBox(
-                    height: 150,
-                    width: double.infinity,
-                  )),
+                      child: ListTile(
+                    title: Text("Cargando..."),
+                    subtitle: Text("Cargando..."),
+                      )),
                 );
               },
             ));

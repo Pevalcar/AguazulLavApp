@@ -32,7 +32,14 @@ class MenuGridConten extends HookConsumerWidget {
             title: "Modificar Servicio",
             icon: Icons.edit,
             color: Colors.yellowAccent,
-            onPressed: () {}),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => PinAccesDialog(
+                        correctPass: () =>
+                            const AddServiceTypeRoute().push(context),
+                      ));
+            }),
         ActionCardMenu(
             title: "Lista de Servicios",
             icon: Icons.list_alt,

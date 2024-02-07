@@ -41,17 +41,13 @@ class MobileAddService extends HookConsumerWidget {
             children:[ FloatingActionButton(
               onPressed: () {
                       },
-              child: PinAccess(
-                correctPin: ref.watch(pinPassProvider).asData?.value ?? 0,
-                correctPass: () => GoRouter.of(context).push('/addServiceType'),
-                child: const Row(
+              child: Row(
                   children: [
                     
                     Icon(Icons.add),
                     Icon(Icons.room_service_sharp),
                   ],
                 ),
-              ),
             ),]
           )
           ),

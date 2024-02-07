@@ -5,7 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class DropDownTypeVehicle extends ConsumerWidget {
   final List<String> typesList;
   final String type;
-  const DropDownTypeVehicle({required this.typesList, required this.type, super.key});
+  final String _title;
+  const DropDownTypeVehicle(
+      {required this.typesList, required this.type,
+        String title = "Tipo de vehiculo:",
+       super.key,}) : _title = title;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,7 +18,7 @@ class DropDownTypeVehicle extends ConsumerWidget {
       children: [
         Flexible(
           child: Text(
-            "Tipo de vehiculo:",
+            _title,
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
