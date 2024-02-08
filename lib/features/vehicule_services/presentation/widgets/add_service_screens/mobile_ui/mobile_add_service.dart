@@ -41,7 +41,18 @@ class MobileAddService extends HookConsumerWidget {
           floatingActionButton:
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                final vehiculo = ref.watch(vehiculoStateProvider);
+                ref.read(vehiculoStateProvider.notifier).addVehiculo(
+                          () {
+                            showToast(context, "Agreagado con Exito");
+                            context.pop();
+                          },
+                          (errorMesage) {
+                            showToast(context, errorMesage);
+                          },
+                        );
+              },
               child: Row(
                 children: [
                   Icon(Icons.add),
