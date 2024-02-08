@@ -2,6 +2,10 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
 
 name: Dart
 
@@ -25,7 +29,7 @@ jobs:
       - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
 
       - name: Install dependencies
-        run: flutter pub get
+        run: dart pub get
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
@@ -35,8 +39,12 @@ jobs:
       - name: Analyze project source
         run: dart analyze
 
-      - name: Dart fix
-        run: dart fix --apply
+      # Your project will need to have tests in test/ and a dependency on
+      # package:test for this step to succeed. Note that Flutter projects will
+      # want to change this to 'flutter test'.
+      
+      # - name: Dart fix
+      #   run: dart fix --apply
       
 
       # Your project will need to have tests in test/ and a dependency on
