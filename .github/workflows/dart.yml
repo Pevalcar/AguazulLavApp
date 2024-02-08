@@ -48,6 +48,8 @@ jobs:
       # - name: Verify formatting
       #   run: dart format --output=none --set-exit-if-changed .
 
+      - name: Dart fix
+        run: dart fix --apply
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Analyze project source
         run: dart analyze
@@ -56,8 +58,6 @@ jobs:
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       
-      # - name: Dart fix
-      #   run: dart fix --apply
       
 
       # Your project will need to have tests in test/ and a dependency on
