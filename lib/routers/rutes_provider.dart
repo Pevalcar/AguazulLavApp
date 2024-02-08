@@ -99,6 +99,13 @@ class AdminClientScreen extends GoRouteData {
   
 }
 
+@TypedGoRoute<UpgraderRoute>(path: "/upgrader")
+class UpgraderRoute extends GoRouteData {
+  const UpgraderRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const UpdaterScreenPage();
+}
+
 //TODO Mejorar la pantalla de errores
 @immutable
 class ErrorRoute extends GoRouteData {

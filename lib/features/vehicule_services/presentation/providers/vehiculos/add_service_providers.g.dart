@@ -51,7 +51,7 @@ final placaProvider = AutoDisposeNotifierProvider<Placa, String>.internal(
 );
 
 typedef _$Placa = AutoDisposeNotifier<String>;
-String _$typoDeVehiculoHash() => r'8b5802deb4581c8eaa64304af6ef894cc43723b6';
+String _$typoDeVehiculoHash() => r'528139da41971c1155ab3e6a62ed28bfcd16cd32';
 
 /// See also [TypoDeVehiculo].
 @ProviderFor(TypoDeVehiculo)

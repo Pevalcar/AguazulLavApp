@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:aguazullavapp/lib.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -17,6 +16,7 @@ Future mainCommon(AppEnvironment env) async {
   } else {
     await initHive();
   }
+
   EnvInfo.initialize(env);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -35,10 +35,10 @@ Future mainCommon(AppEnvironment env) async {
 Future initHive() async {
   await Hive.initFlutter((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(EntradaSalidaModelAdapter());
-  await Hive.openBox<EntradaSalidaModel>(COLECTION_ENTRADSALIDA_NAME);
+  await Hive.openBox<EntradaSalidaModel>(COLLECTION_ENTRADSALIDA_NAME);
 }
 
 Future initHivWeb() async {
   Hive.registerAdapter(EntradaSalidaModelAdapter());
-  await Hive.openBox<EntradaSalidaModel>(COLECTION_ENTRADSALIDA_NAME);
+  await Hive.openBox<EntradaSalidaModel>(COLLECTION_ENTRADSALIDA_NAME);
 }

@@ -6,7 +6,7 @@ part 'pinpas_provider.g.dart';
 //datasource
 @riverpod
 PinPasDataSource pinpassDataSource(PinpassDataSourceRef ref) {
-  final firebase = ref.watch(firestoreServiceProvider).collection(COLECTION_CONTROLLERS_NAME);
+  final firebase = ref.watch(firestoreServiceProvider).collection(COLLECTION_CONTROLLERS_NAME);
   return PinPasDataSource(firebase);
 }
 

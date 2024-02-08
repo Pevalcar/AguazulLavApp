@@ -6,7 +6,7 @@ part of 'pinpas_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pinpassDataSourceHash() => r'aa925cc765423ae0babc516cf990ebf50051ec93';
+String _$pinpassDataSourceHash() => r'22893802db7d9ac52a595beb68f8fde75cf6cd24';
 
 /// See also [pinpassDataSource].
 @ProviderFor(pinpassDataSource)

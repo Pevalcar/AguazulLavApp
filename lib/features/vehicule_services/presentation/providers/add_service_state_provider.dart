@@ -62,7 +62,7 @@ class ServiceTypeList extends _$ServiceTypeList {
   Future<List<ServiceType>?> loadData() async {
     return await ref.read(getServiceTypeProvider).call();
   }
-
+//Agregar soporte adatabase local
   void addServiceType(ServiceType service, Function() onAddDone,Function(String) onCatchError) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {

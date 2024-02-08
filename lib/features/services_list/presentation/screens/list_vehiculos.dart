@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:uuid/uuid.dart';
 
 //TODO posibilidad de ver el informe desde esta pantalla
@@ -46,19 +47,18 @@ class ListVehicles extends HookConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // ref.read(firebaseControlProvider.notifier).signOut();
-          ref.read(vehiculoStateProvider.notifier).addVehiculoTest(
-              () => showToast(context, 'Vehiculo Agregado'), null);
-        },
-        child: const Row(
-          children: [
-            Icon(Icons.warning_amber),
-            Icon(Icons.add),
-          ],
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     ref.read(vehiculoStateProvider.notifier).addVehiculoTest(
+      //         () => showToast(context, 'Vehiculo Agregado'), null);
+      //   },
+      //   child: const Row(
+      //     children: [
+      //       Icon(Icons.warning_amber),
+      //       Icon(Icons.add),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
@@ -165,8 +165,8 @@ class EntradaSalidaCard extends HookConsumerWidget {
                     showDialog(
                         context: context,
                         builder: (context) => PinAccesDialog(
-                            correctPass: () => onPressedDelete!(),
-                          ));
+                              correctPass: () => onPressedDelete!(),
+                            ));
                   },
                   icon: Icon(Icons.delete,
                       color: _informacion.entrada
@@ -594,7 +594,7 @@ class ListaVehiculos extends HookConsumerWidget {
                       child: ListTile(
                     title: Text("Cargando..."),
                     subtitle: Text("Cargando..."),
-                      )),
+                  )),
                 );
               },
             ));

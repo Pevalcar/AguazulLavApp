@@ -8,7 +8,7 @@ part 'entrada_salida_local_repo.g.dart';
 EntradaSalidaLocalDataSource entradaSalidaLocalDataSource(
     EntradaSalidaLocalDataSourceRef ref) {
   final Box<EntradaSalidaModel> localDataSource =
-      Hive.box(COLECTION_ENTRADSALIDA_NAME);
+      Hive.box(COLLECTION_ENTRADSALIDA_NAME);
   return EntradaSalidaLocalDataSource(localDataSource);
 }
 

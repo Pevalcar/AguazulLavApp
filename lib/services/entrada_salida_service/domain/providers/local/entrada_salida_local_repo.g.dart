@@ -7,7 +7,7 @@ part of 'entrada_salida_local_repo.dart';
 // **************************************************************************
 
 String _$entradaSalidaLocalDataSourceHash() =>
-    r'64b7ac85549fa4c9b6bb484d9bf0234b1ae574ad';
+    r'348f875973cbd46767127e7d8e10c6ba6ea9a68a';
 
 /// See also [entradaSalidaLocalDataSource].
 @ProviderFor(entradaSalidaLocalDataSource)

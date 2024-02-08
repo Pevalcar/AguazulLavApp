@@ -14,6 +14,7 @@ List<RouteBase> get $appRoutes => [
       $addServiceTypeRoute,
       $historyScreenRoute,
       $adminClientScreen,
+      $upgraderRoute,
     ];
 
 RouteBase get $homeMenuRoute => GoRouteData.$route(
@@ -214,6 +215,28 @@ extension $AdminClientScreenExtension on AdminClientScreen {
 
   String get location => GoRouteData.$location(
         '/adminClient',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $upgraderRoute => GoRouteData.$route(
+      path: '/upgrader',
+      factory: $UpgraderRouteExtension._fromState,
+    );
+
+extension $UpgraderRouteExtension on UpgraderRoute {
+  static UpgraderRoute _fromState(GoRouterState state) => const UpgraderRoute();
+
+  String get location => GoRouteData.$location(
+        '/upgrader',
       );
 
   void go(BuildContext context) => context.go(location);

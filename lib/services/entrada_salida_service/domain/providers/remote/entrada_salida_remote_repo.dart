@@ -8,7 +8,7 @@ part 'entrada_salida_remote_repo.g.dart';
 EntradaSalidaRemoteDataSource entradaSalidaDataSource(
     EntradaSalidaDataSourceRef ref) {
   final localDataSource =
-      FirebaseFirestore.instance.collection(COLECTION_ENTRADSALIDA_NAME);
+      FirebaseFirestore.instance.collection(COLLECTION_ENTRADSALIDA_NAME);
   return EntradaSalidaRemoteDataSource(localDataSource);
 }
 

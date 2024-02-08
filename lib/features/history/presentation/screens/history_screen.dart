@@ -27,43 +27,5 @@ class HistoryScreen extends HookWidget {
       ),
     );
   }
-  // _networkInstallApk(context, _progressValue.value);
-
-//   _networkInstallApk(context, double _progressValue) async {
-//     if (_progressValue != 0 && _progressValue < 1) {
-//       showToast(context, "Wait a moment, downloading");
-//       return;
-//     }
-//     final appcast = Appcast();
-//     final items = await appcast.parseAppcastItemsFromUri(
-//         'https://cast.appcastify.com/geomemsoluciones/aguazullavapp.xml');
-//     final bestItem = appcast.bestItem();
-//     logger.i(bestItem?.fileURL);
-//     //Divice android is?
-//     if (!Platform.isAndroid) showToast(context, "Device not supported ");
-//     String divicesuport;
-//     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-//     final androidInfo = await deviceInfo.androidInfo;
-//     divicesuport = androidInfo.supportedAbis.first;
-
-//     var appDocDir = await getTemporaryDirectory();
-//     String savePath = appDocDir.path + "/AguazulLavApp.apk";
-//     String fileUrl =
-//         bestItem?.fileURL ?? 'https://cast.appcastify.com/geomemsoluciones/aguazullavapp.apk';
-//     await Dio().download(fileUrl, savePath, onReceiveProgress: (count, total) {
-//       final value = count / total;
-//       if (_progressValue != value) {
-//         if (_progressValue < 1.0) {
-//           _progressValue = count / total;
-//         } else {
-//           _progressValue = 0.0;
-//         }
-//         print((_progressValue * 100).toStringAsFixed(0) + "%");
-//       }
-//     });
-
-//     final res = await InstallPlugin.install(savePath);
-//     showToast(context,
-//         "install apk ${res['isSuccess'] == true ? 'success' : 'fail:${res['errorMessage'] ?? ''}'}");
-  // }
+  
 }

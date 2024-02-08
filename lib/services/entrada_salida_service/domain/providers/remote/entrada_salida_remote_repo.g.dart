@@ -7,7 +7,7 @@ part of 'entrada_salida_remote_repo.dart';
 // **************************************************************************
 
 String _$entradaSalidaDataSourceHash() =>
-    r'db84f24ac200aa25ca4aca8dcc195024d46efa71';
+    r'98a45ffc194c3820f12de3d063af8c7ffd199701';
 
 /// See also [entradaSalidaDataSource].
 @ProviderFor(entradaSalidaDataSource)
