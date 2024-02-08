@@ -24,12 +24,11 @@ class AddServiceTypeScreen extends HookConsumerWidget {
     return Scaffold(
       body: const CustomScrollView(slivers: [
         SliverTypeVeicle(),
+        DropSelecte(),
         SliverToBoxAdapter(
           child: Divider(height: 20),
         ),
-        Expanded(
-          child: ListServicesTypes(),
-        )
+        ListServicesTypes()
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -37,6 +36,23 @@ class AddServiceTypeScreen extends HookConsumerWidget {
               context: context, builder: (context) => const AddTypeForm());
         },
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class DropSelecte extends HookConsumerWidget {
+  const DropSelecte({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SliverToBoxAdapter(
+      child: DropDownTypeVehicle(
+        title: "Vehiculo:",
+        typesList: ref.watch(typosDeVeiculosProvider),
+        type: ref.watch(typoDeVehiculoProvider),
       ),
     );
   }
@@ -67,8 +83,8 @@ class ListServicesTypes extends HookConsumerWidget {
     return listServices.when(
       error: (error, stackTrace) =>
           SliverToBoxAdapter(child: Text(error.toString())),
-      loading: () => SliverToBoxAdapter(
-          child: const Center(child: CircularProgressIndicator())),
+      loading: () => const SliverToBoxAdapter(
+          child: Center(child: CircularProgressIndicator())),
       data: (data) {
         filteredList.value = _sortList(data, vehiculeType);
         return SliverList.builder(
@@ -111,7 +127,7 @@ class ListServicesTypes extends HookConsumerWidget {
                           ]),
                     );
                   },
-                  icon: Icon(Icons.delete)),
+                  icon: const Icon(Icons.delete)),
               children: [
                 Text("Informacion",
                     style: Theme.of(context).textTheme.titleLarge),
@@ -134,11 +150,7 @@ class SliverTypeVeicle extends HookConsumerWidget {
     return SliverAppBar(
       actions: const [DarkModeButton()],
       floating: true,
-      title: DropDownTypeVehicle(
-        title: "Servicios",
-        typesList: ref.watch(typosDeVeiculosProvider),
-        type: ref.watch(typoDeVehiculoProvider),
-      ),
+      title: Text("Tipos de Servicios"),
     );
   }
 }

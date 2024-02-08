@@ -23,7 +23,6 @@ class DropDownTypeVehicle extends ConsumerWidget {
           ),
         ),
         Flexible(
-          flex: 2,
           child: DropdownButton(
               borderRadius: const BorderRadius.all(Radius.circular(8.0)),
               dropdownColor: Theme.of(context).secondaryHeaderColor,
