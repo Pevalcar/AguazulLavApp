@@ -18,22 +18,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-        node-version: [10]
-        dart-version: [stable, dev]
-        # for now, code-version will mirror dart-version to reduce number of bots
-        # code-version: [stable] #, insiders]
-        bot: [flutter_debug, flutter_debug_chrome, flutter_test_debug, dart_web_debug, flutter_repo, dart_debug, dart, flutter, misc]
-        include:
-          - dart-version: stable
-            flutter-version: stable
-            code-version: stable
-          - dart-version: dev
-            flutter-version: dev
-            code-version: insiders
+    
 
     steps:
       - uses: actions/checkout@v3
@@ -45,17 +30,16 @@ jobs:
       - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
 
 
-      - name: Setup Dart ${{ matrix.dart-version }}
+      - name: Setup Dart 
         uses: DanTup/gh-actions/setup-dart@master
         with:
-          channel: ${{ matrix.dart-version }}
+          channel: stable
 
-      - name: Setup Flutter ${{ matrix.flutter-version }}
+      - name: Setup Flutter 
         id: flutter
-        if: "!startsWith(matrix.bot, 'dart')"
         uses: DanTup/gh-actions/setup-flutter@master
         with:
-          channel: ${{ matrix.flutter-version }}
+          channel: stable
 
       - name: Install dependencies
         run: dart pub get
