@@ -24,7 +24,7 @@ class Handled extends HookConsumerWidget {
         id.value = next.asData!.value?.id ?? "";
         ref
             .read(photoVehiculeProvider.notifier)
-            .modifyPhoto(next.asData!.value!.photo);
+            .modifyPhoto(next.asData!.value!.photo,next.asData!.value!.photoName,);
       }
     });
     ref.listen(photoVehiculeProvider, (previous, next) {
@@ -73,7 +73,7 @@ class Handled extends HookConsumerWidget {
                 CloseButton(
                   onPressed: () => ref
                       .read(photoVehiculeProvider.notifier)
-                      .deletePhoto(null),
+                      .deletePhoto(photo.asData?.value?.url,null),
                 )
               ])
             : Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -145,12 +145,12 @@ class PhotoView extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             content: Column(mainAxisSize: MainAxisSize.min, children: [
-              CarcgasDesdeCache(imageUrl: url),
+              CargarImagenDesdeCache(imageUrl: url),
             ]),
           );
         },
       ),
-      child: CarcgasDesdeCache(imageUrl: url),
+      child: CargarImagenDesdeCache(imageUrl: url),
     );
   }
 }

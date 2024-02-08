@@ -1,5 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class ServiceTypeFireStoreDatasource {
@@ -10,17 +11,24 @@ class ServiceTypeFireStoreDatasource {
     List<ServiceType> list = [];
 
     try {
-      await _firestore.get().then((value) {
-        for (var element in value.docs) {
-          list.add(
-              ServiceType.fromJson(element.data() as Map<String, dynamic>));
-        }
-      });
+      list = await _getServicesType();
+      if (list.isEmpty) {
+        debugPrint(' getServicesType firestore');
+        await _firestore.get().then((value) {
+          for (var element in value.docs) {
+            list.add(
+                ServiceType.fromJson(element.data() as Map<String, dynamic>));
+          }
+        });
+        return list;
+      }
       return list;
     } on FirebaseException catch (e) {
-      print(e.toString());
-      return list;
+      debugPrint('e: $e');
+    } catch (e) {
+      debugPrint('e: ${e.toString()}');
     }
+    return list;
   }
 
   void addServiceType(ServiceType service) async {
@@ -47,5 +55,23 @@ class ServiceTypeFireStoreDatasource {
     } on FirebaseException catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<List<ServiceType>> _getServicesType() async {
+    List<ServiceType> list = [];
+    try {
+      await _firestore.get(const GetOptions(source: Source.cache)).then((value) {
+        for (var element in value.docs) {
+          list.add(
+              ServiceType.fromJson(element.data() as Map<String, dynamic>));
+        }
+      });
+      return list;
+    } on FirebaseException catch (e) {
+      debugPrint('e: ${e.toString()}');
+    } catch (e) {
+      debugPrint('e: ${e.toString()}');
+    }
+    return list;
   }
 }

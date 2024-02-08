@@ -120,7 +120,7 @@ final typosDeVeiculosProvider = AutoDisposeProvider<List<String>>.internal(
 );
 
 typedef TyposDeVeiculosRef = AutoDisposeProviderRef<List<String>>;
-String _$serviceTypeListHash() => r'259bda6eb6ec926afbda13f728e995c87a77f682';
+String _$serviceTypeListHash() => r'3207bd82f71ccbd8c97fb6f5731083db2af157ef';
 
 /// See also [ServiceTypeList].
 @ProviderFor(ServiceTypeList)

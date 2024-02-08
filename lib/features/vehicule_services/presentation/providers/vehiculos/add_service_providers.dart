@@ -1,27 +1,8 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part "add_service_providers.g.dart";
-
-@riverpod
-AddVehiculo addVehiculo(AddVehiculoRef ref) {
-  final repository = ref.watch(vehiculoRepositoryProvider);
-  return AddVehiculo(repository);
-}
-
-@riverpod
-DeleteVehiculo deleteVehiculo(DeleteVehiculoRef ref) {
-  final repository = ref.watch(vehiculoRepositoryProvider);
-  return DeleteVehiculo(repository);
-}
-
-@riverpod
-ModifiVehiculo modifieVehicule(ModifieVehiculeRef ref) {
-  final repository = ref.watch(vehiculoRepositoryProvider);
-  return ModifiVehiculo(repository);
-}
 
 @riverpod
 class VehiculoState extends _$VehiculoState {
@@ -33,43 +14,26 @@ class VehiculoState extends _$VehiculoState {
     state = AsyncValue.data(vehicle);
   }
 
-  void addVehiculo(
+  void addVehiculoTest(
       Function()? onCarroSave, Function(String)? onSaveError) async {
-    final _photo = ref.watch(photoVehiculeProvider).asData?.value?.url;
-    final _propietario = ref.watch(propietarioProvider)?.id;
-    final _typeService = ref.watch(serviceTypeSelectProvider)?.clase ?? "";
-    final _worker = ref.watch(trabajadorNameProvider);
-    final _placa = ref.watch(placaProvider);
-    if (_photo == null) {
-      return onSaveError?.call("Favor de subir una imagen");
-    }
-    if (_propietario == null) {
-      return onSaveError?.call("Favor de seleccionar un propietario");
-    }
-    if (_typeService.isEmpty) {
-      return onSaveError?.call("Favor de selecionar un Servicio");
-    }
-    if (_worker.isEmpty) {
-      return onSaveError?.call("Favor de selecionar un Trabajador");
-    }
-    if (_placa.isEmpty) {
-      return onSaveError?.call("Favor de colocar una Placa");
-    }
-
+    final time = DateTime.now();
     final Vehicle carro = Vehicle(
       id: const Uuid().v4(),
-      photo: _photo,
-      propietarioid: _propietario,
-      placa: _placa,
-      entrada: DateTime.now(),
-      typeService: _typeService,
-      typePrice: correctionPrice(ref.watch(serviceTypeSelectProvider)?.price),
-      trabjador: _worker,
+      photo:
+          "https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png?alt=media&token=014c8681-7981-49cc-9f9a-0e9b1894c84c",
+      propietarioid: "1234",
+      photoName:  "",
+      placa: "ABC123",
+      entrada: time,
+      typeService: "Servicio",
+      typePrice: 5000,
+      trabjador: "1234",
+      diaJronada: DateTime(time.year, time.month, time.day),
     );
 
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref.read(addVehiculoProvider).call(carro);
+      await ref.read(serviceListProvider.notifier).addService(carro);
       if (onCarroSave != null) {
         onCarroSave();
       }
@@ -77,18 +41,62 @@ class VehiculoState extends _$VehiculoState {
     });
   }
 
-  void deleteVehiculo(Function()? callback) {}
-  void modifierVehiculo(Function()? callback) {}
+  void addVehiculo(
+      Function()? onCarroSave, Function(String)? onSaveError) async {
+    final PhotoState?  photo = ref.watch(photoVehiculeProvider).asData?.value ;
+    final propietario = ref.watch(propietarioProvider)?.id;
+    final typeService = ref.watch(serviceTypeSelectProvider)?.clase ?? "";
+    final worker = ref.watch(trabajadorNameProvider);
+    final placa = ref.watch(placaProvider);
+    if (photo == null) {
+      return onSaveError?.call("Favor de subir una imagen");
+    }
+    if (propietario == null) {
+      return onSaveError?.call("Favor de seleccionar un propietario");
+    }
+    if (typeService.isEmpty) {
+      return onSaveError?.call("Favor de selecionar un Servicio");
+    }
+    if (worker.isEmpty) {
+      return onSaveError?.call("Favor de selecionar un Trabajador");
+    }
+    if (placa.isEmpty) {
+      return onSaveError?.call("Favor de colocar una Placa");
+    }
+
+    final time = DateTime.now();
+    final Vehicle carro = Vehicle(
+      id: const Uuid().v4(),
+      photo: photo.url,
+      propietarioid: propietario,
+      placa: placa,
+      entrada: time,
+      typeService: typeService,
+      typePrice: correctionPrice(ref.watch(serviceTypeSelectProvider)?.price),
+      trabjador: worker,
+      diaJronada: DateTime(time.year, time.month, time.day), photoName: photo.photoName
+      ,
+    );
+
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(serviceListProvider.notifier).addService(carro);
+      if (onCarroSave != null) {
+        onCarroSave();
+      }
+      return carro;
+    });
+  }
 }
 
 @riverpod
 class Propietario extends _$Propietario {
   @override
-  User? build() {
+  Client? build() {
     return null;
   }
 
-  void modifyPropietario(User propietario) {
+  void modifyPropietario(Client propietario) {
     state = propietario;
   }
 }
@@ -107,14 +115,14 @@ class Placa extends _$Placa {
 
 @riverpod
 class TypoDeVehiculo extends _$TypoDeVehiculo {
-  _fetchTypo() {
+  fetchTypo() {
     final typo = ref.watch(typosDeVeiculosProvider);
     return typo.first;
   }
 
   @override
   String build() {
-    return _fetchTypo();
+    return fetchTypo();
   }
 
   void modifyTypo(String tipo) {
@@ -144,15 +152,4 @@ class TrabajadorName extends _$TrabajadorName {
   void modifyTrabajadorName(String name) {
     state = name;
   }
-}
-
-int correctionPrice(String? value) {
-  if (value == null) {
-    return 0;
-  }
-  return int.parse(value
-      .replaceAll('.00', '')
-      .replaceAll(',', '')
-      .replaceAll('\$', '')
-      .trim());
 }

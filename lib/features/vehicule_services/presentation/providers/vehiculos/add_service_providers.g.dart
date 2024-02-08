@@ -6,51 +6,7 @@ part of 'add_service_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$addVehiculoHash() => r'd6093ff582d246b0c54a10472f35d34320d948f9';
-
-/// See also [addVehiculo].
-@ProviderFor(addVehiculo)
-final addVehiculoProvider = AutoDisposeProvider<AddVehiculo>.internal(
-  addVehiculo,
-  name: r'addVehiculoProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$addVehiculoHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AddVehiculoRef = AutoDisposeProviderRef<AddVehiculo>;
-String _$deleteVehiculoHash() => r'6f6d1bebd362c2e7f93030d3a412f478c06cf935';
-
-/// See also [deleteVehiculo].
-@ProviderFor(deleteVehiculo)
-final deleteVehiculoProvider = AutoDisposeProvider<DeleteVehiculo>.internal(
-  deleteVehiculo,
-  name: r'deleteVehiculoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$deleteVehiculoHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef DeleteVehiculoRef = AutoDisposeProviderRef<DeleteVehiculo>;
-String _$modifieVehiculeHash() => r'67391a47c91ca36e7124d24d9c5c331c03dc7d89';
-
-/// See also [modifieVehicule].
-@ProviderFor(modifieVehicule)
-final modifieVehiculeProvider = AutoDisposeProvider<ModifiVehiculo>.internal(
-  modifieVehicule,
-  name: r'modifieVehiculeProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$modifieVehiculeHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef ModifieVehiculeRef = AutoDisposeProviderRef<ModifiVehiculo>;
-String _$vehiculoStateHash() => r'399d55566a777cc684de9aa869f627cd584e4478';
+String _$vehiculoStateHash() => r'b708bb73967f8ea76dce3cad998261427860fc7b';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)
@@ -66,12 +22,12 @@ final vehiculoStateProvider =
 );
 
 typedef _$VehiculoState = AutoDisposeAsyncNotifier<Vehicle?>;
-String _$propietarioHash() => r'd0df4ff88cf0b40d5e4c5ccf808d8f19999eccd6';
+String _$propietarioHash() => r'553ab8a65804b91adda0a148a66ebd1d2b6f9637';
 
 /// See also [Propietario].
 @ProviderFor(Propietario)
 final propietarioProvider =
-    AutoDisposeNotifierProvider<Propietario, User?>.internal(
+    AutoDisposeNotifierProvider<Propietario, Client?>.internal(
   Propietario.new,
   name: r'propietarioProvider',
   debugGetCreateSourceHash:
@@ -80,7 +36,7 @@ final propietarioProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Propietario = AutoDisposeNotifier<User?>;
+typedef _$Propietario = AutoDisposeNotifier<Client?>;
 String _$placaHash() => r'f84eaaed1b7c8d30a573ac8d1d1d4a7d5e350c25';
 
 /// See also [Placa].
@@ -95,7 +51,7 @@ final placaProvider = AutoDisposeNotifierProvider<Placa, String>.internal(
 );
 
 typedef _$Placa = AutoDisposeNotifier<String>;
-String _$typoDeVehiculoHash() => r'8b5802deb4581c8eaa64304af6ef894cc43723b6';
+String _$typoDeVehiculoHash() => r'528139da41971c1155ab3e6a62ed28bfcd16cd32';
 
 /// See also [TypoDeVehiculo].
 @ProviderFor(TypoDeVehiculo)

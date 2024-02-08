@@ -2,20 +2,23 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:upgrader/upgrader.dart';
 
-//TODO interfaz de pc, agregar eliminar y modificar servicio, modificar la card de lista para ver mas informacion, agregar cuentas para ver ganancias, agregar caja menor y gastos
+//TODO interfaz de pc, agregar eliminar y modificar servicio, modificar la card de lista para ver mas informacion
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final typeService = ref.watch(typoDeVehiculoProvider);
+    
 //on back pressed delete photo
     return PopScope(
       canPop: false,
-      onPopInvoked: (_) async {        
-        ref.read(photoVehiculeProvider.notifier).deletePhoto( () => context.pop());
+      onPopInvoked: (_) async {
+        ref.read(photoVehiculeProvider.notifier).deletePhoto(
+            ref.watch(photoVehiculeProvider).asData?.value?.photoName,
+            () => context.pop());
       },
       child: Scaffold(
           appBar: AppBar(
@@ -30,34 +33,23 @@ class MobileAddService extends HookConsumerWidget {
                 typesList: ref.watch(typosDeVeiculosProvider),
                 type: typeService,
               ),
-              typeService == "OTRO."
-                  ? const OtroOptions()
-                  : ServiceTypeSelecte(type: typeService),
+              ServiceTypeSelecte(type: typeService),
               const TimerDataShow(),
               const SizedBox(height: 16),
             ]),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              GoRouter.of(context).push('/addServiceType');
-            },
-            child: const Icon(Icons.photo_library_rounded),
-          )),
-    );
-  }
-}
-
-class OtroOptions extends StatelessWidget {
-  const OtroOptions({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final keyForm = GlobalKey<FormState>();
-    return Form(
-      key: keyForm,
-      child: const Text("Servicio"),
+          floatingActionButton:
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            FloatingActionButton(
+              onPressed: () {},
+              child: Row(
+                children: [
+                  Icon(Icons.add),
+                  Icon(Icons.room_service_sharp),
+                ],
+              ),
+            ),
+          ])),
     );
   }
 }

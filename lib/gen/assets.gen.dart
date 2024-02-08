@@ -12,6 +12,10 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/empty_list.png
+  AssetGenImage get emptyList =>
+      const AssetGenImage('assets/images/empty_list.png');
+
   /// File path: assets/images/placa.png
   AssetGenImage get placa => const AssetGenImage('assets/images/placa.png');
 
@@ -20,7 +24,7 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/placeolder.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values => [placa, placeolder];
+  List<AssetGenImage> get values => [emptyList, placa, placeolder];
 }
 
 class Assets {

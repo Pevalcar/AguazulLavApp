@@ -2,8 +2,12 @@
     "cmake.configureOnOpen": false,
     "svg.preview.background": "transparent",
     "cSpell.words": [
+        "aguazullavapp",
+        "ENTRADSALIDA",
+        "laspartesque",
         "Skeletonizer",
         "Uuid"
     ],
-    "IDX.aI.enableInlineCompletion": true
+    "IDX.aI.enableInlineCompletion": true,
+    "mayank1513.trello-kanban.Workspace.filePath": ".tkb"
 }
