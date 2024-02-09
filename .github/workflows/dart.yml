@@ -6,35 +6,74 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-on: 
-  push: 
+on:
+  push:
     branches:
       - master
+name: Analyze - Test - Build
+jobs:
 
-    tags : 
-      - "v*"
-jobs: 
-  build-and-test: 
+  analyze:
+    name: analyze
     runs-on: ubuntu-latest
+    container: ghcr.io/niklaslehnfeld/flutter-essentials-docker:master
     steps:
-    - uses: actions/checkout@v4 
-    # we need java to build android apks
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '12.x'
-    # this flutter action does the heavy lifting for us
-    - uses: subosito/flutter-action@v1
-      with:
-        channel: 'stable'  
-    # get packages as you used to in your computer
-    - run: flutter pub get
-    # Now build apk
-    - run: flutter build apk --split-per-abi
-    # now relase the just created build
-    - name: Create a Release APK
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/app/outputs/apk/release/*.apk"
-        token: ${{ secrets.MY_REPO_SECRET }}
-        commit: master
-        tag: v0.5.${{ github.run_number }}
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/flutter-analyze
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    container: ghcr.io/niklaslehnfeld/flutter-essentials-docker:master
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/flutter-test
+
+  android-release-build:
+    name: android-release-build
+    runs-on: ubuntu-latest
+    needs: [test, analyze]
+    container: ghcr.io/niklaslehnfeld/flutter-essentials-docker:master
+    steps:
+      - uses: actions/checkout@v2
+      - uses: NiklasLehnfeld/flutter-android-build-action@v1
+        id: android-build
+        with:
+          release: true
+          keystore: ${{ secrets.KEYSTORE }}
+          keystore-pwd: "${{ secrets.NETZPOLITIK_KEYSTORE_PWD }}"
+          key-pwd: "${{ secrets.NETZPOLITIK_KEY_PWD }}"
+      - name: Archive APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-apk
+          path: ${{ steps.android-build.outputs.apk-path }}
+      - name: Archive AAB
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-aab
+          path: ${{ steps.android-build.outputs.aab-path }}
+
+  create-github-release:
+    name: create-github-release
+    runs-on: ubuntu-latest
+    needs: [android-release-build]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: release-apk
+      - uses: actions/download-artifact@v2
+        with:
+          name: release-aab
+      - id: version
+        uses: NiklasLehnfeld/flutter-version-number-action@v1
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+          automatic_release_tag: ${{ steps.version.outputs.version-number }}
+          title: ${{ steps.version.outputs.version-number }}
+          files: |
+            *.apk
+            *.aab

@@ -54,7 +54,14 @@ android {
         versionName flutterVersionName
         multiDexEnabled true
     }
-
+    signingConfigs {
+        release {
+            keyAlias 'pevalcar'
+            keyPassword System.env.KEYSTORE_PWD ?: '151994'
+            storeFile file('../keystore.jks')
+            storePassword System.env.KEYSTORE_PWD ?: '151994'
+        }
+    }
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
