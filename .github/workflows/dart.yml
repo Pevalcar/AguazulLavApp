@@ -35,5 +35,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: "build/app/outputs/apk/release/*.apk"
+        token: ${{ secrets.GITHUB_TOKEN }}
         commit: master
         tag: v0.5.${{ github.run_number }}
