@@ -11,7 +11,7 @@ name: Build Flutter APK's and App bundle
 # Controls when the workflow will run
 on: 
   push:
-    # branches: ["main"]
+    branches: ["main"]
     tags:
     - '*' 
 
