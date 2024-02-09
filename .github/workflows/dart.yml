@@ -6,52 +6,30 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-name: Build Flutter APK's and App bundle
-
-# Controls when the workflow will run
 on: 
-  push:
-    branches: ["master"]
-    tags:
-    - v* 
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  push: 
+    tags : 
+      - v*
+jobs: 
+  build-and-test: 
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v4
-
-      # Set up Flutter.
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-      - run: flutter doctor -v
-
-      # Checkout the repository code and get packages.
-      - name: Checkout flutter_app code
-        uses: actions/checkout@v4
-      - run: flutter pub get
-
-      - name: Build APK
-        run: flutter build apk --split-per-abi --release
-
-      - name: Build APP BUNDLE
-        run: flutter build appbundle
-
-      - name: Create Release
-        uses: ncipollo/release-action@v1.10.0
-        with:
-          artifacts: "build/app/outputs/apk/release/*.apk, build/app/outputs/bundle/release/*.aab"
-
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.0
-        with:
-          name: release-apk
-          path: build/app/outputs/apk/
+    - uses: actions/checkout@v1 
+    # we need java to build android apks
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    # this flutter action does the heavy lifting for us
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable'  
+    # get packages as you used to in your computer
+    - run: flutter pub get
+    # Now build apk
+    - run: flutter build apk --split-per-abi
+    # now relase the just created build
+    - name: Create a Release APK
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/app/outputs/apk/release/*.apk"
+        token: ${{ secrets.MY_REPO_SECRET }}
