@@ -10,9 +10,9 @@ on:
   push: 
     branches:
       - master
-      
+
     tags : 
-      - v*
+      - "v*"
 jobs: 
   build-and-test: 
     runs-on: ubuntu-latest
@@ -35,4 +35,3 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: "build/app/outputs/apk/release/*.apk"
-        token: ${{ secrets.MY_REPO_SECRET }}
