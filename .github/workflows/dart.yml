@@ -10,13 +10,14 @@ on:
   push: 
     branches:
       - master
+      
     tags : 
       - v*
 jobs: 
   build-and-test: 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1 
+    - uses: actions/checkout@v4 
     # we need java to build android apks
     - uses: actions/setup-java@v1
       with:
