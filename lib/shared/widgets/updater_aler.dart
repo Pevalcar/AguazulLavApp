@@ -81,7 +81,7 @@ Future checUpdate() async {
       url = version["url"];
     }
     if (checkUpdate(currentVersion, version)) {
-      logger.i("new version available ${version["latest"]}");
+      logger.i("new version available ${url}");
     }
   }
 }

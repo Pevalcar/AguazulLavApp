@@ -21,7 +21,7 @@ Future mainCommon(AppEnvironment env) async {
     } else {
       await initHive();
     }
-//  await checUpdate();
+ await checUpdate();
     EnvInfo.initialize(env);
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

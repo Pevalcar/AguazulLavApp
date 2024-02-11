@@ -5,9 +5,9 @@ import json
 # Abre el archivo YAML en modo lectura
 with open("pubspec.yaml", "r") as file:
   # Lee el contenido del archivo y lo convierte en un diccionario Python
-  data = yaml.load(file, Loader=yaml.FullLoader)
+  data = yaml.load(file, Loader = yaml.FullLoader)
 
-version = data.get( "version")
+version = data.get("version")
 
 # Imprime el diccionario
 
@@ -37,4 +37,5 @@ with open("versions.json", "w") as file:
   # Cierra el archivo
   file.close()
 
-  print("version json creado ")
+print("version json creado ")
+

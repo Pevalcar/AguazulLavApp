@@ -1,40 +1,26 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-on: 
-  push: 
+on:
+  push:
     branches:
-      - master
-
-    tags : 
-      - "v*"
-jobs: 
-  build-and-test: 
+    - master
+    tags:
+    - v*
+jobs:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4 
-    # we need java to build android apks
+    - uses: actions/checkout@v4
     - uses: actions/setup-java@v1
       with:
-        java-version: '12.x'
-    # this flutter action does the heavy lifting for us
+        java-version: 12.x
     - uses: subosito/flutter-action@v1
       with:
-        channel: 'stable'  
-    # get packages as you used to in your computer
+        channel: stable
     - run: flutter pub get
-    # Now build apk
     - run: flutter build apk --split-per-abi
-    # now relase the just created build
     - name: Create a Release APK
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/app/outputs/apk/release/*.apk"
-        token: ${{ secrets.MY_REPO_SECRET }}
+        artifacts: build/app/outputs/apk/release/*.apk
         commit: master
-        tag: v0.5.${{ github.run_number }}
+        token: ${{ secrets.MY_REPO_SECRET }}
+        tag: v0.5.3
