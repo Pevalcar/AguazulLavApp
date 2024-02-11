@@ -11,10 +11,11 @@ _$UserInformationModelImpl _$$UserInformationModelImplFromJson(
     _$UserInformationModelImpl(
       uid: json['uid'] as String,
       email: json['email'] as String,
-      displayName: json['displayName'] as String,
-      photoURL: json['photoURL'] as String,
-      emailVerified: json['emailVerified'] as bool,
       password: json['password'] as String,
+      displayName: json['displayName'] as String?,
+      photoURL: json['photoURL'] as String?,
+      emailVerified: json['emailVerified'] as bool?,
+      error: json['error'] as String?,
     );
 
 Map<String, dynamic> _$$UserInformationModelImplToJson(
@@ -22,8 +23,9 @@ Map<String, dynamic> _$$UserInformationModelImplToJson(
     <String, dynamic>{
       'uid': instance.uid,
       'email': instance.email,
+      'password': instance.password,
       'displayName': instance.displayName,
       'photoURL': instance.photoURL,
       'emailVerified': instance.emailVerified,
-      'password': instance.password,
+      'error': instance.error,
     };

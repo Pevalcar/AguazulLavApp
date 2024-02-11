@@ -1,5 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 abstract class IFirebaseAuthDataSource {
   Future<UserInformationModel?> login(
@@ -36,7 +37,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
     try {
       final credenciales = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
-      final userJson = credentialToJson(credenciales.user!, password);
+      final userJson = await credentialToJson(credenciales.user!, password);
       return UserInformationModel.fromJson(userJson);
     } on FirebaseAuthException catch (e) {
       logger.e('Error al registrar usuario', error: e);
@@ -47,10 +48,11 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
   }
 
   @override
-  Future<UserInformationModel?> signInWithCredentialGoogle( OAuthCredential credential) async {
+  Future<UserInformationModel?> signInWithCredentialGoogle(
+      OAuthCredential credential) async {
     try {
       final credenciales = await _firebaseAuth.signInWithCredential(credential);
-      final userJson = credentialToJson(credenciales.user!,"google");
+      final userJson = await credentialToJson(credenciales.user!, "google");
       return UserInformationModel.fromJson(userJson);
     } on FirebaseAuthException catch (e) {
       logger.e('Error al iniciar sesion', error: e);
@@ -63,17 +65,20 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
   @override
   Future<UserInformationModel?> login(
       {required String email, required String password}) async {
+    UserInformationModel? user;
     try {
-      final credenciales = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      final userJson = credentialToJson(credenciales.user!, password);
-      return UserInformationModel.fromJson(userJson);
+      UserCredential credenciales = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      final Map<String, dynamic> userJson =
+          await credentialToJson(credenciales.user, password);
+      user = UserInformationModel.fromJson(userJson);
+      return user;
     } on FirebaseAuthException catch (e) {
       logger.e('Error al iniciar sesion', error: e);
+      rethrow;
     } catch (e) {
-      logger.e('Error al iniciar sesion', error: e);
+      logger.e('Error al iniciar sesion catch', error: e);
     }
-    return null;
   }
 
   @override
@@ -86,7 +91,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
     try {
       final user = _firebaseAuth.currentUser;
       if (user != null) {
-        final userJson = credentialToJson(user, "google");
+        final userJson = await credentialToJson(user, "google");
         return UserInformationModel.fromJson(userJson);
       }
     } on FirebaseAuthException catch (e) {
@@ -97,14 +102,22 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
     return null;
   }
 
-  Map<String, dynamic> credentialToJson(User credential,String password) {
-    return {
+  Future<Map<String, dynamic>> credentialToJson(
+      User? credential, String password) async {
+    if (credential == null) {
+      await FirebaseCrashlytics.instance.recordError(
+          "Error al iniciar sesion credenciale null ${credential}", null);
+      return {};
+    }
+
+    final json = {
       'uid': credential.uid,
       'email': credential.email,
       'displayName': credential.displayName,
       'photoURL': credential.photoURL,
       'emailVerified': credential.emailVerified,
-      "password":  password
+      "password": password
     };
+    return json;
   }
 }

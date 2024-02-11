@@ -6,30 +6,30 @@ class FirebaseAuthRepository implements IFirebaseAuthRepository {
   FirebaseAuthRepository(this.dataSource);
   @override
   Future<bool> forgot(String email) async {
-    return dataSource.forgot(email);
+    return await dataSource.forgot(email);
   }
 
   @override
   Future<UserInformationModel?> login(
       {required String email, required String password}) async {
-    return dataSource.login(email: email, password: password);
+    return await dataSource.login(email: email, password: password);
   }
 
   @override
   Future<UserInformationModel?> register(
       {required String email, required String password}) async {
-    return dataSource.register(email: email, password: password);
+    return await dataSource.register(email: email, password: password);
   }
 
   @override
   Future<UserInformationModel?> signInWithCredentialGoogle(
       OAuthCredential credential) async {
-    return dataSource.signInWithCredentialGoogle(credential);
+    return await dataSource.signInWithCredentialGoogle(credential);
   }
   
   @override
   Future<void> logOut() {
-    return dataSource.logOut();
+    return  dataSource.logOut();
   }
   
   @override

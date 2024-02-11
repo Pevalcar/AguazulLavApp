@@ -22,10 +22,11 @@ UserInformationModel _$UserInformationModelFromJson(Map<String, dynamic> json) {
 mixin _$UserInformationModel {
   String get uid => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get displayName => throw _privateConstructorUsedError;
-  String get photoURL => throw _privateConstructorUsedError;
-  bool get emailVerified => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
+  String? get displayName => throw _privateConstructorUsedError;
+  String? get photoURL => throw _privateConstructorUsedError;
+  bool? get emailVerified => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,10 +43,11 @@ abstract class $UserInformationModelCopyWith<$Res> {
   $Res call(
       {String uid,
       String email,
-      String displayName,
-      String photoURL,
-      bool emailVerified,
-      String password});
+      String password,
+      String? displayName,
+      String? photoURL,
+      bool? emailVerified,
+      String? error});
 }
 
 /// @nodoc
@@ -64,10 +66,11 @@ class _$UserInformationModelCopyWithImpl<$Res,
   $Res call({
     Object? uid = null,
     Object? email = null,
-    Object? displayName = null,
-    Object? photoURL = null,
-    Object? emailVerified = null,
     Object? password = null,
+    Object? displayName = freezed,
+    Object? photoURL = freezed,
+    Object? emailVerified = freezed,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -78,22 +81,26 @@ class _$UserInformationModelCopyWithImpl<$Res,
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      displayName: null == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
-      photoURL: null == photoURL
-          ? _value.photoURL
-          : photoURL // ignore: cast_nullable_to_non_nullable
-              as String,
-      emailVerified: null == emailVerified
-          ? _value.emailVerified
-          : emailVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      displayName: freezed == displayName
+          ? _value.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photoURL: freezed == photoURL
+          ? _value.photoURL
+          : photoURL // ignore: cast_nullable_to_non_nullable
+              as String?,
+      emailVerified: freezed == emailVerified
+          ? _value.emailVerified
+          : emailVerified // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -109,10 +116,11 @@ abstract class _$$UserInformationModelImplCopyWith<$Res>
   $Res call(
       {String uid,
       String email,
-      String displayName,
-      String photoURL,
-      bool emailVerified,
-      String password});
+      String password,
+      String? displayName,
+      String? photoURL,
+      bool? emailVerified,
+      String? error});
 }
 
 /// @nodoc
@@ -128,10 +136,11 @@ class __$$UserInformationModelImplCopyWithImpl<$Res>
   $Res call({
     Object? uid = null,
     Object? email = null,
-    Object? displayName = null,
-    Object? photoURL = null,
-    Object? emailVerified = null,
     Object? password = null,
+    Object? displayName = freezed,
+    Object? photoURL = freezed,
+    Object? emailVerified = freezed,
+    Object? error = freezed,
   }) {
     return _then(_$UserInformationModelImpl(
       uid: null == uid
@@ -142,22 +151,26 @@ class __$$UserInformationModelImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      displayName: null == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
-      photoURL: null == photoURL
-          ? _value.photoURL
-          : photoURL // ignore: cast_nullable_to_non_nullable
-              as String,
-      emailVerified: null == emailVerified
-          ? _value.emailVerified
-          : emailVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      displayName: freezed == displayName
+          ? _value.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photoURL: freezed == photoURL
+          ? _value.photoURL
+          : photoURL // ignore: cast_nullable_to_non_nullable
+              as String?,
+      emailVerified: freezed == emailVerified
+          ? _value.emailVerified
+          : emailVerified // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -168,10 +181,11 @@ class _$UserInformationModelImpl implements _UserInformationModel {
   const _$UserInformationModelImpl(
       {required this.uid,
       required this.email,
-      required this.displayName,
-      required this.photoURL,
-      required this.emailVerified,
-      required this.password});
+      required this.password,
+      this.displayName,
+      this.photoURL,
+      this.emailVerified,
+      this.error});
 
   factory _$UserInformationModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserInformationModelImplFromJson(json);
@@ -181,17 +195,19 @@ class _$UserInformationModelImpl implements _UserInformationModel {
   @override
   final String email;
   @override
-  final String displayName;
-  @override
-  final String photoURL;
-  @override
-  final bool emailVerified;
-  @override
   final String password;
+  @override
+  final String? displayName;
+  @override
+  final String? photoURL;
+  @override
+  final bool? emailVerified;
+  @override
+  final String? error;
 
   @override
   String toString() {
-    return 'UserInformationModel(uid: $uid, email: $email, displayName: $displayName, photoURL: $photoURL, emailVerified: $emailVerified, password: $password)';
+    return 'UserInformationModel(uid: $uid, email: $email, password: $password, displayName: $displayName, photoURL: $photoURL, emailVerified: $emailVerified, error: $error)';
   }
 
   @override
@@ -201,20 +217,21 @@ class _$UserInformationModelImpl implements _UserInformationModel {
             other is _$UserInformationModelImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
             (identical(other.displayName, displayName) ||
                 other.displayName == displayName) &&
             (identical(other.photoURL, photoURL) ||
                 other.photoURL == photoURL) &&
             (identical(other.emailVerified, emailVerified) ||
                 other.emailVerified == emailVerified) &&
-            (identical(other.password, password) ||
-                other.password == password));
+            (identical(other.error, error) || other.error == error));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, uid, email, displayName, photoURL, emailVerified, password);
+  int get hashCode => Object.hash(runtimeType, uid, email, password,
+      displayName, photoURL, emailVerified, error);
 
   @JsonKey(ignore: true)
   @override
@@ -236,10 +253,11 @@ abstract class _UserInformationModel implements UserInformationModel {
   const factory _UserInformationModel(
       {required final String uid,
       required final String email,
-      required final String displayName,
-      required final String photoURL,
-      required final bool emailVerified,
-      required final String password}) = _$UserInformationModelImpl;
+      required final String password,
+      final String? displayName,
+      final String? photoURL,
+      final bool? emailVerified,
+      final String? error}) = _$UserInformationModelImpl;
 
   factory _UserInformationModel.fromJson(Map<String, dynamic> json) =
       _$UserInformationModelImpl.fromJson;
@@ -249,13 +267,15 @@ abstract class _UserInformationModel implements UserInformationModel {
   @override
   String get email;
   @override
-  String get displayName;
-  @override
-  String get photoURL;
-  @override
-  bool get emailVerified;
-  @override
   String get password;
+  @override
+  String? get displayName;
+  @override
+  String? get photoURL;
+  @override
+  bool? get emailVerified;
+  @override
+  String? get error;
   @override
   @JsonKey(ignore: true)
   _$$UserInformationModelImplCopyWith<_$UserInformationModelImpl>

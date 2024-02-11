@@ -1,5 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform, kIsWeb;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, TargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -67,6 +68,7 @@ class TitleHandles extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screensmode = ref.watch(screensModeProvider);
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -96,7 +98,8 @@ class TitleHandles extends HookConsumerWidget {
 }
 
 class FormLogin extends HookConsumerWidget {
-  const FormLogin({super.key,
+  const FormLogin({
+    super.key,
   });
 
   @override
@@ -111,8 +114,8 @@ class FormLogin extends HookConsumerWidget {
         if (next.asData?.value != null) {
           showToast(context, "Bienvenido");
           context.go("/principal");
-        }
-        if (next.asError?.error != null) {
+        } else if (next.asError?.error != null) {
+          logger.e(next.asError!.error);
           showErrorToast(context, next.asError!.error.toString());
         }
       },
@@ -161,8 +164,10 @@ class FormLogin extends HookConsumerWidget {
                     const SizedBox(height: 16),
                     screensmode == screensMode.forgot
                         ? const SizedBox()
-                        : PassField(controllerPass: passController, submited: (_
-                        ) => _login(context, mailController, passController, keyForm, ref, screensmode)),
+                        : PassField(
+                            controllerPass: passController,
+                            submited: (_) => _login(context, mailController,
+                                passController, keyForm, ref, screensmode)),
                   ]),
             ),
           ),
@@ -180,19 +185,24 @@ class FormLogin extends HookConsumerWidget {
             },
           ),
           const SizedBox(height: 16),
-          defaultTargetPlatform != TargetPlatform.windows || kIsWeb ?  Text(
-            "O ",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ) : const SizedBox(),
+          defaultTargetPlatform != TargetPlatform.windows || kIsWeb
+              ? Text(
+                  "O ",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                )
+              : const SizedBox(),
           const SizedBox(height: 16),
-          
-          defaultTargetPlatform != TargetPlatform.windows || kIsWeb ?  SignInButton.mini(
-            buttonSize: ButtonSize.large,
-            buttonType: ButtonType.googleDark,
-            onPressed: () {
-              ref.read( userStateCurrentProvider.notifier).signInWithGoogle();
-            },
-          ) : const SizedBox(),
+          defaultTargetPlatform != TargetPlatform.windows || kIsWeb
+              ? SignInButton.mini(
+                  buttonSize: ButtonSize.large,
+                  buttonType: ButtonType.googleDark,
+                  onPressed: () {
+                    ref
+                        .read(userStateCurrentProvider.notifier)
+                        .signInWithGoogle();
+                  },
+                )
+              : const SizedBox(),
           const SizedBox(height: 32),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             TextButton(
@@ -229,10 +239,6 @@ class FormLogin extends HookConsumerWidget {
       ),
     );
   }
-
-  
-
-  
 
   void _login(
       BuildContext context,
@@ -274,7 +280,7 @@ class PassField extends HookConsumerWidget {
 
   final Function submited;
 
-  const PassField( {
+  const PassField({
     super.key,
     required this.controllerPass,
     required this.submited,
@@ -284,7 +290,7 @@ class PassField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final showPAss = ref.watch(showPassProvider);
     return TextFormField(
-      onFieldSubmitted: (value) => submited(value),
+        onFieldSubmitted: (value) => submited(value),
         controller: controllerPass,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {

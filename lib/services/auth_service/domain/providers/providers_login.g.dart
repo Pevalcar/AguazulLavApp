@@ -92,12 +92,12 @@ final fetchFireUserProvider = AutoDisposeProvider<FetchFireUser>.internal(
 );
 
 typedef FetchFireUserRef = AutoDisposeProviderRef<FetchFireUser>;
-String _$userStateCurrentHash() => r'0ebc9e283e9ece5be83dce9e7a86993e8fc37e72';
+String _$userStateCurrentHash() => r'8a76ad3c8ed8a6f0f159b8e5d5b973d3e6482643';
 
 /// See also [UserStateCurrent].
 @ProviderFor(UserStateCurrent)
-final userStateCurrentProvider = AutoDisposeAsyncNotifierProvider<
-    UserStateCurrent, UserInformationModel?>.internal(
+final userStateCurrentProvider =
+    AsyncNotifierProvider<UserStateCurrent, UserInformationModel?>.internal(
   UserStateCurrent.new,
   name: r'userStateCurrentProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -107,7 +107,7 @@ final userStateCurrentProvider = AutoDisposeAsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$UserStateCurrent = AutoDisposeAsyncNotifier<UserInformationModel?>;
+typedef _$UserStateCurrent = AsyncNotifier<UserInformationModel?>;
 String _$showPassHash() => r'f682d99163540e41bafa54f9bfb0723a91f3aece';
 
 /// See also [ShowPass].

@@ -57,24 +57,23 @@ FetchFireUser fetchFireUser(FetchFireUserRef ref) {
 //   return  SaveUserData(userCacheRepo);
 // }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class UserStateCurrent extends _$UserStateCurrent {
+  UserStateCurrent();
   @override
-  FutureOr<UserInformationModel?> build() {
+  Future<UserInformationModel?> build() {
     return _fetch();
   }
 
-  Future<UserInformationModel?> _fetch(){
-    return ref.watch(fetchFireUserProvider).call();
+  Future<UserInformationModel?> _fetch() {
+    return ref.read(fetchFireUserProvider).call();
   }
-
 
   void login(String email, String password) async {
     state = const AsyncValue.loading();
-
     state = await AsyncValue.guard(() async {
-      return await ref.read(loginUserProvider).call(email, password);
-
+      final result = await ref.read(loginUserProvider).call(email, password);
+      return result;
     });
   }
 

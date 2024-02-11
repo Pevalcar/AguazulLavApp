@@ -1,9 +1,9 @@
 import 'package:aguazullavapp/lib.dart';
 
 class LoginUser {
-  final IFirebaseAuthRepository firebaseAuthRepository;
+  final FirebaseAuthRepository firebaseAuthRepository;
   LoginUser(this.firebaseAuthRepository);
-  Future<UserInformationModel?> call(String email, String password) {
-    return firebaseAuthRepository.login(email: email, password: password);
+  Future<UserInformationModel?> call(String email, String password) async {
+    return await firebaseAuthRepository.login(email: email, password: password);
   }
 }
