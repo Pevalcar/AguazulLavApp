@@ -25,6 +25,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
       return true;
     } on FirebaseAuthException catch (e) {
       logger.e('Error al registrar usuario', error: e);
+      rethrow;
     } catch (e) {
       logger.e('Error al registrar usuario', error: e);
     }
@@ -41,6 +42,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
       return UserInformationModel.fromJson(userJson);
     } on FirebaseAuthException catch (e) {
       logger.e('Error al registrar usuario', error: e);
+      rethrow;
     } catch (e) {
       logger.e('Error al registrar usuario', error: e);
     }
@@ -56,6 +58,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
       return UserInformationModel.fromJson(userJson);
     } on FirebaseAuthException catch (e) {
       logger.e('Error al iniciar sesion', error: e);
+      rethrow;
     } catch (e) {
       logger.e('Error al iniciar sesion', error: e);
     }
@@ -96,6 +99,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
       }
     } on FirebaseAuthException catch (e) {
       logger.e('Error al iniciar sesion', error: e);
+      rethrow;
     } catch (e) {
       logger.e('Error al iniciar sesion', error: e);
     }
