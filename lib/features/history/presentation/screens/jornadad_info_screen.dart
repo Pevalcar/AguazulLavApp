@@ -4,7 +4,6 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 //TODO agregar informacino de pago si es efectivo o transferencia con foto
 class JornadaInfoScreen extends HookConsumerWidget {
   final Jornada? jornada;
@@ -22,28 +21,58 @@ class JornadaInfoScreen extends HookConsumerWidget {
         ),
         body: jornadas.when(
             data: (data) => CustomScrollView(
-                    physics: const BouncingScrollPhysics(decelerationRate:ScrollDecelerationRate.normal ),
+                    physics: const BouncingScrollPhysics(
+                        decelerationRate: ScrollDecelerationRate.normal),
                     slivers: [
                       SliverToBoxAdapter(
                           child: _JornadaInfoStats(data: data!.jornada)),
                       const SliverToBoxAdapter(child: Divider()),
-                      TituloSliver(
-                        "Informacion de la jornada",
-                        toolBarHeight: MediaQuery.of(context).padding.top,
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  "Informacion de la jornada".toUpperCase(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
+                      // TituloSliver(
+                      //   "Informacion de la jornada".toUpperCase(),
+                      //   toolBarHeight: MediaQuery.of(context).padding.top,
+                      // ),
                       _ListaPorTrabajadores(data: data),
                       SliverToBoxAdapter(
-                        child: Text('Entradas y salidas'  , style: Theme.of(context).textTheme.titleLarge,),
+                        child: Text(
+                          'Entradas y salidas',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith( fontWeight: FontWeight.bold),
+                        ),
                       ),
                       SliverList.builder(
                           itemCount: data.entradaSalidasList.length,
-                        itemBuilder: (context, index) {
-                          return EntradaSalidaCard(information: data.entradaSalidasList[index]);
-                      })
+                          itemBuilder: (context, index) {
+                            return EntradaSalidaCard(
+                                information: data.entradaSalidasList[index]);
+                          })
                     ]),
             error: (error, stackTrace) => Text(error.toString()),
             //
-            loading: () => const Center(child:  CircularProgressIndicator())));
+            loading: () => const Center(child: CircularProgressIndicator())));
   }
 }
 
@@ -78,7 +107,7 @@ class TituloSliver extends StatelessWidget {
         color: _color ?? Theme.of(context).colorScheme.secondary,
         child: Text(
           title,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 5),
         ),
       ),
     );
@@ -113,12 +142,14 @@ class SingleListTrabajador extends StatelessWidget {
     }
     return formatearIntACantidad(total);
   }
+
   String serviciosConteo(list) {
     int terminados = 0;
     for (var element in list) {
       if (element.terminado) terminados++;
     }
-    return 'Recibidos $terminados /  ${list.length}';}
+    return 'Recibidos $terminados /  ${list.length}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,8 +168,13 @@ class SingleListTrabajador extends StatelessWidget {
                     .textTheme
                     .titleLarge!
                     .copyWith(fontWeight: FontWeight.bold)),
-            ..._servicios.map((e) => CardCarService(vehicle: e,editable: false,)),
-            Text(serviciosConteo(_servicios),),
+            ..._servicios.map((e) => CardCarService(
+                  vehicle: e,
+                  editable: false,
+                )),
+            Text(
+              serviciosConteo(_servicios),
+            ),
             const SizedBox(height: 10),
             const Divider(),
             Text(
@@ -149,7 +185,6 @@ class SingleListTrabajador extends StatelessWidget {
       ),
     );
   }
-
 }
 
 // class ServicioTrabajadroCard extends StatelessWidget {
@@ -208,7 +243,7 @@ class _InformationList extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Theme.of(context).colorScheme.secondary.withOpacity(.5),
+          color: Theme.of(context).colorScheme.primaryContainer,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

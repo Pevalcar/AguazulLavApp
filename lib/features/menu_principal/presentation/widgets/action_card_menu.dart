@@ -12,7 +12,8 @@ class ActionCardMenu extends StatelessWidget {
       required this.icon,
       required this.color,
       required this.onPressed,
-      bool disabled = false}) : _disabled = disabled;
+      bool disabled = false})
+      : _disabled = disabled;
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +21,22 @@ class ActionCardMenu extends StatelessWidget {
       height: 30.0,
       width: 100.0,
       child: Card(
-        
-        color:  _disabled ? Colors.grey : color,
-        child: InkWell(
-          
-          onTap:  _disabled ? null : onPressed,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-              ),
-              Text(title)
-              
-            ]
-          )
-        )
-      ),
+          elevation: 4,
+          color: _disabled ? Colors.grey : color,
+          child: InkWell(
+              onTap: _disabled ? null : onPressed,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                    ),
+                    Text(title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(fontWeight: FontWeight.bold))
+                  ]))),
     );
   }
 }
