@@ -5,7 +5,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:upgrader/upgrader.dart';
 import 'package:uuid/uuid.dart';
 
 //TODO posibilidad de ver el informe desde esta pantalla

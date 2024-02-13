@@ -5,3 +5,4 @@ export 'pin_access.dart';
 export 'service_card.dart';
 export 'sliver_title_delegate.dart';
 export 'toast.dart';
+export 'updater_aler.dart';

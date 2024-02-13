@@ -2,8 +2,6 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:upgrader/upgrader.dart';
-
 //TODO interfaz de pc, agregar eliminar y modificar servicio, modificar la card de lista para ver mas informacion
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});

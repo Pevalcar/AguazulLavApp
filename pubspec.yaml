@@ -42,7 +42,6 @@ dependencies:
   shared_preferences: ^2.2.2
   sign_button: ^2.0.6
   skeletonizer: ^1.0.1
-  upgrader: ^9.0.0
   uuid: ^4.2.2
 
 dev_dependencies:

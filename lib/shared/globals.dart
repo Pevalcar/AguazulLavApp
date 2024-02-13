@@ -10,5 +10,5 @@ const String APP_THEME_STORAGE_KEY = 'AppTheme';
 const String COLLECTION_CONTROLLERS_NAME = 'Controllers';
 const String COLLECTION_ENTRADSALIDA_NAME = 'EntradaSalida';
 
-const APPCASTURL =
-        'https://cast.appcastify.com/geomemsoluciones/aguazullavapp.xml';
+const URLVERSIONS =
+        'https://raw.githubusercontent.com/Pevalcar/AguazulLavApp/develop/versions.json';

@@ -1,7 +1,8 @@
 import 'package:aguazullavapp/lib.dart';
+import 'package:aguazullavapp/shared/widgets/updater_aler.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:upgrader/upgrader.dart';
 
 class MenuGridConten extends HookConsumerWidget {
   const MenuGridConten({
@@ -12,11 +13,10 @@ class MenuGridConten extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jornadaState = ref.watch(jornadaStateProvider);
-    final upgrader = ref.watch(upgraderProvider);
 
-    final disableColorbtn = const Color.fromARGB(255, 106, 136, 233)!;
-    return upgrader.asData?.value != null
-        ? UpgradeAlert(
+    const disableColorbtn = Color.fromARGB(255, 106, 136, 233);
+    final versionGaranted = useState(true);
+    return  UpdaterAlert(
             onUpdate: () {
               const UpgraderRoute().push(context);
               return true;
@@ -25,7 +25,6 @@ class MenuGridConten extends HookConsumerWidget {
               showToast(context, "Se actualizara despues");
               return false;
             },
-            upgrader: upgrader.asData?.value,
             child: GridView(
               padding: const EdgeInsets.all(8),
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -39,7 +38,7 @@ class MenuGridConten extends HookConsumerWidget {
                     disabled: jornadaState.asData?.value?.enJornada == false,
                     title: "Agregar Servicio",
                     icon: Icons.add,
-                    color: const Color.fromARGB(255, 49, 210, 216)!,
+                    color: const Color.fromARGB(255, 49, 210, 216),
                     //TODO indicador de que la jornada no ha iniciado parpadeo o algo
                     onPressed: () {
                       const AddServiceRoute().push(context);
@@ -48,7 +47,7 @@ class MenuGridConten extends HookConsumerWidget {
                     title: "Modificar Servicio",
                     icon: Icons.edit,
                     //color #8C1DAB
-                    color: const Color.fromARGB(255, 217, 140, 248)!,
+                    color: const Color.fromARGB(255, 217, 140, 248),
                     onPressed: () {
                       showDialog(
                           context: context,
@@ -105,7 +104,7 @@ class MenuGridConten extends HookConsumerWidget {
                     onPressed: () {}),
               ],
             ),
-          )
-        : const SizedBox();
+          );
   }
+  
 }
