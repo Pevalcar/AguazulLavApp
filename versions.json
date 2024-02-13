@@ -1,18 +1,18 @@
 {
     "android": {
-        "latest": "0.5.1",
+        "latest": "0.5.3",
         "url": {
-            "arm64-v8a": "https://github.com/Pevalcar/AguazulLavApp/releases/download/v0.5.1/app-arm64-v8a-release.apk",
-            "x86_64": "https://github.com/Pevalcar/AguazulLavApp/releases/download/v0.5.1/app-x86_64-release.apk",
-            "armeabi-v7a": "https://github.com/Pevalcar/AguazulLavApp/releases/download/v0.5.1/app-armeabi-v7a-release.apk"
+            "arm64-v8a": "https://github.com/Pevalcar/AguazulLavApp/releases/download/v0.5.3/app-arm64-v8a-release.apk",
+            "x86_64": "https://github.com/Pevalcar/AguazulLavApp/releases/download/v0.5.3/app-x86_64-release.apk",
+            "armeabi-v7a": "https://github.com/Pevalcar/AguazulLavApp/releases/download/v0.5.3/app-armeabi-v7a-release.apk"
         }
     },
     "ios": {
-        "latest": "0.5.1",
+        "latest": "0.5.3",
         "url": ""
     },
     "windows": {
-        "latest": "0.5.1",
+        "latest": "0.5.3",
         "url": ""
     }
 }
