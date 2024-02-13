@@ -11,4 +11,4 @@ const String COLLECTION_CONTROLLERS_NAME = 'Controllers';
 const String COLLECTION_ENTRADSALIDA_NAME = 'EntradaSalida';
 
 const URLVERSIONS =
-        'https://raw.githubusercontent.com/Pevalcar/AguazulLavApp/develop/versions.json';
+        'https://raw.githubusercontent.com/Pevalcar/AguazulLavApp/master/versions.json';
