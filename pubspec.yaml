@@ -1,7 +1,7 @@
 name: aguazullavapp
 description: Proyecto para lavadero de carros, control de pagos, etc.
 publish_to: 'none'
-version: 0.5.3
+version: 0.8.0
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   dependency_validator: ^3.2.3
   dio: ^5.4.0
+  esc_pos_utils_plus: ^2.0.3
   file_selector: ^1.0.1
   firebase_auth: ^4.15.3
   firebase_core: ^2.24.2
@@ -38,6 +39,7 @@ dependencies:
   logger: ^2.0.2+1
   package_info_plus: ^5.0.1
   path_provider: ^2.1.2
+  print_bluetooth_thermal: ^1.0.9
   riverpod_annotation: ^2.3.4
   shared_preferences: ^2.2.2
   sign_button: ^2.0.6

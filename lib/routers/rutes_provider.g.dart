@@ -15,6 +15,7 @@ List<RouteBase> get $appRoutes => [
       $historyScreenRoute,
       $adminClientScreen,
       $upgraderRoute,
+      $configPrintScreenRoute,
     ];
 
 RouteBase get $homeMenuRoute => GoRouteData.$route(
@@ -237,6 +238,29 @@ extension $UpgraderRouteExtension on UpgraderRoute {
 
   String get location => GoRouteData.$location(
         '/upgrader',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $configPrintScreenRoute => GoRouteData.$route(
+      path: '/configPrint',
+      factory: $ConfigPrintScreenRouteExtension._fromState,
+    );
+
+extension $ConfigPrintScreenRouteExtension on ConfigPrintScreenRoute {
+  static ConfigPrintScreenRoute _fromState(GoRouterState state) =>
+      const ConfigPrintScreenRoute();
+
+  String get location => GoRouteData.$location(
+        '/configPrint',
       );
 
   void go(BuildContext context) => context.go(location);

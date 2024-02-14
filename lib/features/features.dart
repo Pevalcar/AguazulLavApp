@@ -1,3 +1,4 @@
+export 'ConfigPrint/ConfigPrint.dart';
 export 'UpdaterScreen/UpdaterScreen.dart';
 export 'client_screen/client_screen.dart';
 export 'history/history.dart';

@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-//hacer un plugin
 class UpdaterAlert extends HookConsumerWidget {
   final Widget? child;
   final Function() onUpdate;
@@ -25,12 +24,15 @@ class UpdaterAlert extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    showUpdateAlert(context);
-    return child ?? const SizedBox();
+    return FutureBuilder<Object>(
+        future: checUpdate(),
+        builder: (context, snapshot) {
+          showUpdateAlert(context, check: snapshot.data != null);
+          return child ?? const SizedBox();
+        });
   }
 
-  showUpdateAlert(BuildContext context) async {
-    bool check = await checUpdate();
+  showUpdateAlert(BuildContext context, {required bool check}) async {
     if (check) {
       showDialog(
         context: context,
@@ -43,7 +45,9 @@ class UpdaterAlert extends HookConsumerWidget {
           actions: [
             TextButton(
               child: const Text("Cancelar"),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             TextButton(
               child: const Text("Actualizar"),
