@@ -65,7 +65,7 @@ class UpdaterScreenPage extends HookConsumerWidget {
                     ),
                   ),
                   Visibility(
-                    visible: progressValue.value == 0.0,
+                    visible: progressValue.value == 0.0 && url != null,
                     child: ElevatedButton(
                         onPressed: () => _networkInstallApk(
                               context,
@@ -74,7 +74,7 @@ class UpdaterScreenPage extends HookConsumerWidget {
                                   "",
                             ),
                         child: Text(
-                          ('Instalar Actualizacion'.toUpperCase()),
+                          ( 'Instalar Actualizacion'.toUpperCase()),
                         )),
                   ),
                   Visibility(

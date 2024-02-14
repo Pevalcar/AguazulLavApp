@@ -105,6 +105,12 @@ class UpgraderRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>  UpdaterScreenPage();
 }
+@TypedGoRoute<ConfigPrintScreenRoute>(path: "/configPrint")
+class ConfigPrintScreenRoute extends GoRouteData {
+  const ConfigPrintScreenRoute( );
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const ConfigPrintScreenPage();
+}
 
 //TODO Mejorar la pantalla de errores
 @immutable

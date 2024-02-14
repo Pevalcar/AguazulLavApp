@@ -92,7 +92,7 @@ final fetchFireUserProvider = AutoDisposeProvider<FetchFireUser>.internal(
 );
 
 typedef FetchFireUserRef = AutoDisposeProviderRef<FetchFireUser>;
-String _$userStateCurrentHash() => r'8a76ad3c8ed8a6f0f159b8e5d5b973d3e6482643';
+String _$userStateCurrentHash() => r'b103836d79ea82a644757c7b62c8f0ae46958ddf';
 
 /// See also [UserStateCurrent].
 @ProviderFor(UserStateCurrent)
