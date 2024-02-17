@@ -52,15 +52,14 @@ class JornadaInfoScreen extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      // TituloSliver(
-                      //   "Informacion de la jornada".toUpperCase(),
-                      //   toolBarHeight: MediaQuery.of(context).padding.top,
-                      // ),
                       _ListaPorTrabajadores(data: data),
                       SliverToBoxAdapter(
-                        child: Text(
-                          'Entradas y salidas',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith( fontWeight: FontWeight.bold),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            'Entradas y salidas:',
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith( fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                       SliverList.builder(

@@ -1,7 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:aguazullavapp/shared/widgets/updater_aler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MenuGridConten extends HookConsumerWidget {
@@ -70,7 +68,7 @@ class MenuGridConten extends HookConsumerWidget {
         ActionCardMenu(
             title: "Configurar Imprimir",
             icon: Icons.print,
-            color: const Color.fromARGB(255, 104, 212, 245),
+            color: const Color.fromARGB(255, 157, 179, 252),
             onPressed: () {
               const ConfigPrintScreenRoute().push(context);
             }),
@@ -82,7 +80,7 @@ class MenuGridConten extends HookConsumerWidget {
         ActionCardMenu(
             title: "Configuracion",
             icon: Icons.settings,
-            color: disableColorbtn,
+            color: const Color.fromARGB(255, 157, 179, 252),
             onPressed: () {}),
         ActionCardMenu(
             title: "Correo",

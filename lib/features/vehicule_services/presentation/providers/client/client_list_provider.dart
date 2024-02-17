@@ -94,10 +94,11 @@ class ClientList extends _$ClientList {
   void deleteUSer(Client user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      bool userModified = await ref.read(modifieUserProvider).call(user);
+      bool userModified = await ref.read(deleteUserProvider).call(user);
       List<Client> newList = List.from(state.value ?? []);
       if (userModified) {
         newList.removeWhere((element) => element.id == user.id);
+
       }
       return newList;
     });

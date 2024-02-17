@@ -391,7 +391,7 @@ class ClientCard extends HookConsumerWidget {
                         showDialog(
                             context: context,
                             builder: (_) => PinAccesDialog(
-                                  correctPass: () => ref
+                                  correctPass: () =>  ref
                                       .read(clientListProvider.notifier)
                                       .deleteUSer(_cliente),
                                 ));
