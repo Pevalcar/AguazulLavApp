@@ -70,7 +70,7 @@ class UpdaterScreenPage extends HookConsumerWidget {
                         onPressed: () => _networkInstallApk(
                               context,
                               progressValue,
-                              "https://github.com/Pevalcar/AguazulLavApp/releases/download/v0.5.32/app-arm64-v8a-release.apk" ??
+                              url ??
                                   "",
                             ),
                         child: Text(
@@ -121,11 +121,13 @@ class UpdaterScreenPage extends HookConsumerWidget {
     final res = await InstallPlugin.install(savePath);
     if (res['isSuccess'] == true) {
       showToast(context, "install apk success");
+
       progressValue.value = 0.0;
     } else {
       showErrorToast(context, "install apk fail:${res['errorMessage'] ?? ''}");
       progressValue.value = 0.0;
     }
+    logger.i(res);
   }
 
   Future<String?> checUpdate() async {
@@ -154,7 +156,7 @@ class UpdaterScreenPage extends HookConsumerWidget {
               "no soportado ${androidInfo.supportedAbis[0]}",
               StackTrace.current);
         }
-        url = version["url"][androidInfo.supportedAbis[0]];
+        url = version["url"]["stable"];
       } else if (Platform.isIOS) {
         //TODO soporte descarga
         version = data["ios"];

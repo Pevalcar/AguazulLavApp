@@ -18,7 +18,8 @@ jsonm = {
         "url":{
             "arm64-v8a":  f"https://github.com/Pevalcar/AguazulLavApp/releases/download/v{version}/app-arm64-v8a-release.apk",
             "x86_64": f"https://github.com/Pevalcar/AguazulLavApp/releases/download/v{version}/app-x86_64-release.apk",
-            "armeabi-v7a": f"https://github.com/Pevalcar/AguazulLavApp/releases/download/v{version}/app-armeabi-v7a-release.apk"
+            "armeabi-v7a": f"https://github.com/Pevalcar/AguazulLavApp/releases/download/v{version}/app-armeabi-v7a-release.apk",
+            "stable" : f"https://github.com/Pevalcar/AguazulLavApp/releases/download/v{version}/app-release.apk"
         }
     },
     "ios": {
