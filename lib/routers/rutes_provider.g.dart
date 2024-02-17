@@ -16,6 +16,7 @@ List<RouteBase> get $appRoutes => [
       $adminClientScreen,
       $upgraderRoute,
       $configPrintScreenRoute,
+      $configScreenRoute,
     ];
 
 RouteBase get $homeMenuRoute => GoRouteData.$route(
@@ -261,6 +262,53 @@ extension $ConfigPrintScreenRouteExtension on ConfigPrintScreenRoute {
 
   String get location => GoRouteData.$location(
         '/configPrint',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $configScreenRoute => GoRouteData.$route(
+      path: '/config',
+      factory: $ConfigScreenRouteExtension._fromState,
+      routes: [
+        GoRouteData.$route(
+          path: 'configPinPass',
+          factory: $ConfigPinPassRouteExtension._fromState,
+        ),
+      ],
+    );
+
+extension $ConfigScreenRouteExtension on ConfigScreenRoute {
+  static ConfigScreenRoute _fromState(GoRouterState state) =>
+      const ConfigScreenRoute();
+
+  String get location => GoRouteData.$location(
+        '/config',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ConfigPinPassRouteExtension on ConfigPinPassRoute {
+  static ConfigPinPassRoute _fromState(GoRouterState state) =>
+      const ConfigPinPassRoute();
+
+  String get location => GoRouteData.$location(
+        '/config/configPinPass',
       );
 
   void go(BuildContext context) => context.go(location);

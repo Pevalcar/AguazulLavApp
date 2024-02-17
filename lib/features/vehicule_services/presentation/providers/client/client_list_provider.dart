@@ -91,10 +91,18 @@ class ClientList extends _$ClientList {
     });
   }
 
+  Future<void> updateBonus(String id) async {
+    Client? user = await ref.read(getUserProvider).call(id);
+    if (user != null) {
+       user = user.copyWith(bonus: user.bonus + 1);
+      modifieUSer(user, null);
+    }
+  }
+
   void deleteUSer(Client user) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      bool userModified = await ref.read(modifieUserProvider).call(user);
+      bool userModified = await ref.read(deleteUserProvider).call(user);
       List<Client> newList = List.from(state.value ?? []);
       if (userModified) {
         newList.removeWhere((element) => element.id == user.id);

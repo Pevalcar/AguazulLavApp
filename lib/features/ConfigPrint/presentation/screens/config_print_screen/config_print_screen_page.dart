@@ -18,7 +18,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
   String _msj = '';
   bool connected = false;
   List<BluetoothInfo> items = [];
-  List<String> _options = [
+  final List<String> _options = [
     "permission bluetooth granted",
     "bluetooth enabled",
     "connection status",

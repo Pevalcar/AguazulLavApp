@@ -1,6 +1,7 @@
 export 'ConfigPrint/ConfigPrint.dart';
 export 'UpdaterScreen/UpdaterScreen.dart';
 export 'client_screen/client_screen.dart';
+export 'configuration/configuration.dart';
 export 'history/history.dart';
 export 'login/login.dart';
 export 'menu_principal/menu_principal.dart';

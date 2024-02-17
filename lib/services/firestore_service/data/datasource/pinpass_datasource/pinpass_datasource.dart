@@ -13,9 +13,10 @@ class PinPasDataSource implements IFirestoreDatasourceService<int> {
     try {
       DocumentSnapshot<dynamic> documentSnapshot =
           await firestoreColection.doc(PINNAME).get();
-      return documentSnapshot.data()![id] as int;
+      return documentSnapshot.data()![PINNAME] as int;
     } on FirebaseException catch (e) {
       logger.e("error get pin", error: e);
+      rethrow ;
     } catch (e) {
       logger.e("error get pin", error: e);
     }

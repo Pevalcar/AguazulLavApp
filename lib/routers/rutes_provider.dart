@@ -111,6 +111,22 @@ class ConfigPrintScreenRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) => const ConfigPrintScreenPage();
 }
+@TypedGoRoute<ConfigScreenRoute>(path: "/config", routes: [
+  TypedGoRoute<ConfigPinPassRoute>(path: "configPinPass"),
+])
+class ConfigScreenRoute extends GoRouteData {
+  const ConfigScreenRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const ConfigurationPage();
+} 
+@immutable
+class ConfigPinPassRoute extends GoRouteData {
+  const ConfigPinPassRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const PinPassConfigPage();
+}
+
+
 
 //TODO Mejorar la pantalla de errores
 @immutable
