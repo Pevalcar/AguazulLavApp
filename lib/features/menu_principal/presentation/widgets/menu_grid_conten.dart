@@ -28,50 +28,38 @@ class MenuGridConten extends HookConsumerWidget {
             icon: Icons.add,
             color: const Color.fromARGB(255, 49, 210, 216),
             //TODO indicador de que la jornada no ha iniciado parpadeo o algo
-            onPressed: () {
-              const AddServiceRoute().push(context);
-            }),
+            onPressed: () => const AddServiceRoute().push(context)),
         ActionCardMenu(
             title: "Modificar Servicio",
             icon: Icons.edit,
             //color #8C1DAB
             color: const Color.fromARGB(255, 217, 140, 248),
-            onPressed: () {
-              showDialog(
+            onPressed: () => showDialog(
                   context: context,
                   builder: (_) => PinAccesDialog(
                         correctPass: () =>
                             const AddServiceTypeRoute().push(context),
-                      ));
-            }),
+                      ))),
         ActionCardMenu(
             title: "Lista de Servicios",
             icon: Icons.list_alt,
             color: Theme.of(context).colorScheme.primaryContainer,
-            onPressed: () {
-              const ListVehiculosRoute().push(context);
-            }),
+            onPressed: () => const ListVehiculosRoute().push(context)),
         ActionCardMenu(
             title: "Historial",
             icon: Icons.history,
             color: const Color.fromARGB(255, 76, 194, 230),
-            onPressed: () {
-              const HistoryScreenRoute().push(context);
-            }),
+            onPressed: () => const HistoryScreenRoute().push(context)),
         ActionCardMenu(
             title: "Clientes",
             icon: Icons.person_add_alt,
             color: const Color.fromARGB(255, 104, 212, 245),
-            onPressed: () {
-              const AdminClientScreen().push(context);
-            }),
+            onPressed: () => const AdminClientScreen().push(context)),
         ActionCardMenu(
             title: "Configurar Imprimir",
             icon: Icons.print,
             color: const Color.fromARGB(255, 157, 179, 252),
-            onPressed: () {
-              const ConfigPrintScreenRoute().push(context);
-            }),
+            onPressed: () => const ConfigPrintScreenRoute().push(context)),
         ActionCardMenu(
             title: "Administrar Cuentas",
             icon: Icons.people_outlined,
@@ -81,7 +69,9 @@ class MenuGridConten extends HookConsumerWidget {
             title: "Configuracion",
             icon: Icons.settings,
             color: const Color.fromARGB(255, 157, 179, 252),
-            onPressed: () {}),
+            onPressed: () {
+              const ConfigScreenRoute().push(context);
+            }),
         ActionCardMenu(
             title: "Correo",
             icon: Icons.mail,
