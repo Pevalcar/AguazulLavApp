@@ -126,6 +126,7 @@ class ServiceList extends _$ServiceList {
       Vehicle vehicle0 =
           vehicle.copyWith(terminado: true, salida: DateTime.now());
       await ref.read(modifieVehiculeProvider).call(vehicle0);
+      await ref.read(clientListProvider.notifier).updateBonus(vehicle.propietarioid);
       list[index] = vehicle0;
       list = list.toSet().toList();
       ref.read(jornadaStateProvider.notifier).reloadCalculos();
