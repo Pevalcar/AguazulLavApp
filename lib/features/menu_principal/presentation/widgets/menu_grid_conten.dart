@@ -94,7 +94,9 @@ class MenuGridConten extends HookConsumerWidget {
             title: "Configuracion",
             icon: Icons.settings,
             color: disableColorbtn,
-            onPressed: () {}),
+            onPressed: () {
+              const ConfigScreenRoute().push(context);
+            }),
         ActionCardMenu(
             title: "Correo",
             icon: Icons.mail,
