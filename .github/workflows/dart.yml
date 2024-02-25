@@ -18,7 +18,10 @@ jobs:
         architecture: x64
         
     - run: flutter pub get
+    - name: Build APK 
     - run: flutter build apk
+    - name: Build ipa ver
+    - run: flutter build ipa --release --no-codesign
     # - run: |
     #       flutter build ipa
     #       cd build/ios/iphoneos
