@@ -18,7 +18,10 @@ jobs:
         architecture: x64
         
     - run: flutter pub get
+    - name: Build APK 
     - run: flutter build apk
+    - name: Build ipa ver
+    - run: flutter build ipa --release --no-codesign
     # - run: |
     #       flutter build ipa
     #       cd build/ios/iphoneos
@@ -31,6 +34,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: "build/app/outputs/apk/release/*"
-        tag: v0.8.3
+        tag: v0.8.4
         token: ${{ secrets.MY_REPO_SECRET }}
         commit: master
