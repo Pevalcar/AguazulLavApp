@@ -28,14 +28,32 @@ class AddServiceTypeScreen extends HookConsumerWidget {
         actions: const [DarkModeButton()],
       ),
       body: SafeArea(
-        child: GripPuto(),
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) =>
+              constraints.maxWidth > 600
+                  ? GripPuto()
+                  : const CustomScrollView(
+                      slivers: [
+                        SliverTypeVeicle(),
+                        DropSelecte(),
+                        SliverToBoxAdapter(
+                          child: Divider(height: 20),
+                        ),
+                        ListServicesTypes()
+                      ],
+                    ),
+        ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.save)),
+          FloatingActionButton(
+              key: UniqueKey(),
+              onPressed: () {},
+              child: const Icon(Icons.save)),
           const SizedBox(height: 10),
           FloatingActionButton(
+            key: UniqueKey(),
             onPressed: () {
               showDialog(
                   context: context, builder: (context) => const AddTypeForm());
@@ -56,7 +74,7 @@ class GripPuto extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vehiculeType = ref.watch(typoDeVehiculoProvider);
+    ref.watch(typoDeVehiculoProvider);
     final listServices = ref.watch(serviceTypeListProvider);
 
     return listServices.when(
@@ -208,10 +226,12 @@ class DropSelecte extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DropDownTypeVehicle(
-      title: "Vehiculo:",
-      typesList: ref.watch(typosDeVeiculosProvider),
-      type: ref.watch(typoDeVehiculoProvider),
+    return SliverToBoxAdapter(
+      child: DropDownTypeVehicle(
+        title: "Vehiculo:",
+        typesList: ref.watch(typosDeVeiculosProvider),
+        type: ref.watch(typoDeVehiculoProvider),
+      ),
     );
   }
 }
@@ -463,6 +483,20 @@ class _priceTextField extends StatelessWidget {
         hintText: "Precio",
         helperText: "Precio del Servicio",
       ),
+    );
+  }
+}
+
+class SliverTypeVeicle extends HookConsumerWidget {
+  const SliverTypeVeicle({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return const SliverAppBar(
+      actions: [DarkModeButton()],
+      floating: true,
+      title: Text("Tipos de Servicios"),
     );
   }
 }
