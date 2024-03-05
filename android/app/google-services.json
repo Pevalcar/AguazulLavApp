@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "203264626600",
+    "firebase_url": "https://aguazullavapp-default-rtdb.firebaseio.com",
     "project_id": "aguazullavapp",
     "storage_bucket": "aguazullavapp.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "203264626600-1aljfthfc69bavhtbniu4tmhvchp8mvv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.pevalcar.aguazullavapp",
+            "certificate_hash": "114d004dd58f171edde45d4e0c4007891ab915bd"
+          }
+        },
+        {
+          "client_id": "203264626600-3tfendsuc3ob7aa0hq2qa5cf8pgfgi94.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.pevalcar.aguazullavapp",
+            "certificate_hash": "6a143179b4f12b5d48e8b5e97e4bdf31001275cb"
+          }
+        },
         {
           "client_id": "203264626600-pmokrgsbo3oq4f45g1dk8fhlrfpcu5ph.apps.googleusercontent.com",
           "client_type": 1,

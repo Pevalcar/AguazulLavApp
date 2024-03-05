@@ -46,6 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '203264626600',
     projectId: 'aguazullavapp',
     authDomain: 'aguazullavapp.firebaseapp.com',
+    databaseURL: 'https://aguazullavapp-default-rtdb.firebaseio.com',
     storageBucket: 'aguazullavapp.appspot.com',
     measurementId: 'G-56XTP31LFS',
   );
@@ -55,6 +56,7 @@ class DefaultFirebaseOptions {
     appId: '1:203264626600:android:0ef93faebf971139a7979d',
     messagingSenderId: '203264626600',
     projectId: 'aguazullavapp',
+    databaseURL: 'https://aguazullavapp-default-rtdb.firebaseio.com',
     storageBucket: 'aguazullavapp.appspot.com',
   );
 
@@ -63,9 +65,10 @@ class DefaultFirebaseOptions {
     appId: '1:203264626600:ios:341e78585cacabc5a7979d',
     messagingSenderId: '203264626600',
     projectId: 'aguazullavapp',
+    databaseURL: 'https://aguazullavapp-default-rtdb.firebaseio.com',
     storageBucket: 'aguazullavapp.appspot.com',
     androidClientId:
-        '203264626600-pmokrgsbo3oq4f45g1dk8fhlrfpcu5ph.apps.googleusercontent.com',
+        '203264626600-1aljfthfc69bavhtbniu4tmhvchp8mvv.apps.googleusercontent.com',
     iosClientId:
         '203264626600-2liudnl39s89nlirnsedes5c7nrc1qmn.apps.googleusercontent.com',
     iosBundleId: 'io.pevalcar.aguazullavapp',
@@ -76,9 +79,10 @@ class DefaultFirebaseOptions {
     appId: '1:203264626600:ios:7d69550b5ceef5c9a7979d',
     messagingSenderId: '203264626600',
     projectId: 'aguazullavapp',
+    databaseURL: 'https://aguazullavapp-default-rtdb.firebaseio.com',
     storageBucket: 'aguazullavapp.appspot.com',
     androidClientId:
-        '203264626600-pmokrgsbo3oq4f45g1dk8fhlrfpcu5ph.apps.googleusercontent.com',
+        '203264626600-1aljfthfc69bavhtbniu4tmhvchp8mvv.apps.googleusercontent.com',
     iosClientId:
         '203264626600-1fpnl9vqlf44m6v86gdj25ev2o18ghsi.apps.googleusercontent.com',
     iosBundleId: 'io.pevalcar.aguazullavapp.RunnerTests',

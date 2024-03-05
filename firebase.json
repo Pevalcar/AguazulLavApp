@@ -1,0 +1,12 @@
+{
+  "database": {
+    "rules": "RulesFrbase"
+  },
+  "firestore": {
+    "rules": "FireStoreRules",
+    "indexes": "FireStoreIndex"
+  },
+  "storage": {
+    "rules": "StoreRulles"
+  }
+}
