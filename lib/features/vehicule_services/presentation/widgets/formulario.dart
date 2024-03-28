@@ -1,11 +1,15 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Formulario extends HookWidget {
+  final bool isDesktop;
+
   const Formulario({
     super.key,
+    this.isDesktop = false,
   });
 
   @override
@@ -16,7 +20,8 @@ class Formulario extends HookWidget {
       child: Form(
         key: keyFrom,
         child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClientSearcher(),
             PlacaTextField(),
@@ -36,29 +41,34 @@ class PlacaTextField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final placa = ref.watch(placaProvider);
-    return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      initialValue: placa,
-      onChanged: (value) {
-        ref.read(placaProvider.notifier).modifyPlaca(value);
-      },
-      decoration: const InputDecoration(
-        labelText: "Placa",
-        icon: Icon(Icons.numbers_rounded),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: 300,
       ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Campo requerido';
-        } else if (!value.contains(RegExp(r'[0-9]'))) {
-          if (!value.contains(RegExp(r'[A-Z]'))) {
-            return 'Placa invalida';
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        initialValue: placa,
+        onChanged: (value) {
+          ref.read(placaProvider.notifier).modifyPlaca(value);
+        },
+        decoration: const InputDecoration(
+          labelText: "Placa",
+          icon: Icon(Icons.numbers_rounded),
+        ),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Campo requerido';
+          } else if (!value.contains(RegExp(r'[0-9]'))) {
+            if (!value.contains(RegExp(r'[A-Z]'))) {
+              return 'Placa invalida';
+            }
+          } else if (value.length < 6) {
+            return 'Placa invalida ';
+            //value debe contener minimo una letra y minimo un numero
           }
-        } else if (value.length < 6) {
-          return 'Placa invalida ';
-          //value debe contener minimo una letra y minimo un numero
-        }
-        return null;
-      },
+          return null;
+        },
+      ),
     );
   }
 }
@@ -71,21 +81,26 @@ class TrabajadorNameField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final worker = ref.watch(trabajadorNameProvider);
-    return TextFormField(
-      initialValue: worker,
-      onChanged: (value) {
-        ref.read(trabajadorNameProvider.notifier).modifyTrabajadorName(value);
-      },
-      decoration: const InputDecoration(
-        labelText: "Trabajador",
-        icon: Icon(Icons.emoji_people_rounded),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: 300.0,
       ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Campo requerido';
-        }
-        return null;
-      },
+      child: TextFormField(
+        initialValue: worker,
+        onChanged: (value) {
+          ref.read(trabajadorNameProvider.notifier).modifyTrabajadorName(value);
+        },
+        decoration: const InputDecoration(
+          labelText: "Trabajador",
+          icon: Icon(Icons.emoji_people_rounded),
+        ),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Campo requerido';
+          }
+          return null;
+        },
+      ),
     );
   }
 }
@@ -100,6 +115,7 @@ class ClientSearcher extends HookConsumerWidget {
     final userOptions = ref.watch(clientListProvider);
     final client = ref.watch(propietarioProvider);
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
           child: Autocomplete(
@@ -151,20 +167,23 @@ class ClientSearcher extends HookConsumerWidget {
             },
             fieldViewBuilder:
                 (context, textEditingController, focusNode, onEditingComplete) {
-              return TextField(
-                autofocus: true,
-                controller: textEditingController,
-                focusNode: focusNode,
-                decoration: const InputDecoration(
-                  icon: Icon(
-                    Icons.person_search_outlined,
+              return ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 300),
+                child: TextField(
+                  autofocus: true,
+                  controller: textEditingController,
+                  focusNode: focusNode,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.person_search_outlined,
+                    ),
+                    labelText: 'Buscar Cliente',
+                    hintText: 'Buscar Cliente',
                   ),
-                  labelText: 'Search for a client',
-                  hintText: 'Search for a client',
+                  onSubmitted: (String value) {
+                    onEditingComplete();
+                  },
                 ),
-                onSubmitted: (String value) {
-                  onEditingComplete();
-                },
               );
             },
             displayStringForOption: _displayStringForOption,

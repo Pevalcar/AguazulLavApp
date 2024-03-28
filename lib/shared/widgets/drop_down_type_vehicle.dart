@@ -6,10 +6,12 @@ class DropDownTypeVehicle extends ConsumerWidget {
   final List<String> typesList;
   final String type;
   final String _title;
-  const DropDownTypeVehicle(
-      {required this.typesList, required this.type,
-        String title = "Tipo de vehiculo:",
-       super.key,}) : _title = title;
+  const DropDownTypeVehicle({
+    required this.typesList,
+    required this.type,
+    String title = "Tipo de vehiculo:",
+    super.key,
+  }) : _title = title;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

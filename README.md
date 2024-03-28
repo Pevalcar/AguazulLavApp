@@ -1,5 +1,6 @@
 # aguazullavapp
 [![.github/workflows/dart.yml](https://github.com/Pevalcar/AguazulLavApp/actions/workflows/dart.yml/badge.svg?branch=master)](https://github.com/Pevalcar/AguazulLavApp/actions/workflows/dart.yml)
+[![Codemagic build status](https://api.codemagic.io/apps/65da91702eed2292a4f6685a/65da91702eed2292a4f66859/status_badge.svg)](https://codemagic.io/apps/65da91702eed2292a4f6685a/65da91702eed2292a4f66859/latest_build)
 
 
 Proyecto para lavadero de carros ceunta sy enrada y salida control

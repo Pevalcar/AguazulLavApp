@@ -22,9 +22,10 @@ class Handled extends HookConsumerWidget {
     ref.listen(vehiculoStateProvider, (previous, next) {
       if (isEdit) {
         id.value = next.asData!.value?.id ?? "";
-        ref
-            .read(photoVehiculeProvider.notifier)
-            .modifyPhoto(next.asData!.value!.photo,next.asData!.value!.photoName,);
+        ref.read(photoVehiculeProvider.notifier).modifyPhoto(
+              next.asData!.value!.photo,
+              next.asData!.value!.photoName,
+            );
       }
     });
     ref.listen(photoVehiculeProvider, (previous, next) {
@@ -37,6 +38,9 @@ class Handled extends HookConsumerWidget {
     });
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
           height: 250,
@@ -73,7 +77,7 @@ class Handled extends HookConsumerWidget {
                 CloseButton(
                   onPressed: () => ref
                       .read(photoVehiculeProvider.notifier)
-                      .deletePhoto(photo.asData?.value?.url,null),
+                      .deletePhoto(photo.asData?.value?.url, null),
                 )
               ])
             : Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [

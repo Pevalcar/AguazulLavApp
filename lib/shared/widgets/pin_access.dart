@@ -52,6 +52,7 @@ class PinAccesDialog extends HookConsumerWidget {
                   decoration: const InputDecoration(labelText: 'Pin'),
                   textInputAction: TextInputAction.done,
                   obscuringCharacter: '*',
+                  obscureText: true,
                   keyboardType: TextInputType.number,
                   onFieldSubmitted: (String value) {
                     form.currentState!.save();

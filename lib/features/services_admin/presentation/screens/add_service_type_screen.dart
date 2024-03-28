@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 
 enum SERVICETYPE {
   ENJUAGE,
@@ -22,14 +23,25 @@ class AddServiceTypeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: const CustomScrollView(slivers: [
-        SliverTypeVeicle(),
-        DropSelecte(),
-        SliverToBoxAdapter(
-          child: Divider(height: 20),
-        ),
-        ListServicesTypes()
-      ]),
+      appBar: AppBar(
+        title: const Text("Tipos de Servicios"),
+        actions: const [DarkModeButton()],
+      ),
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) =>
+            constraints.maxWidth > 600
+                ? const GripPuto()
+                : const CustomScrollView(
+                    slivers: [
+                      // SliverTypeVeicle(),
+                      DropSelecte(),
+                      SliverToBoxAdapter(
+                        child: Divider(height: 20),
+                      ),
+                      ListServicesTypes()
+                    ],
+                  ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
@@ -38,6 +50,194 @@ class AddServiceTypeScreen extends HookConsumerWidget {
         child: const Icon(Icons.add),
       ),
     );
+  }
+}
+
+class GripPuto extends HookConsumerWidget {
+  const GripPuto({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    PlutoGridStateManager? stateManager;
+    final listServices = ref.watch(serviceTypeListProvider);
+
+    return listServices.when(
+      error: (error, stackTrace) => Text(error.toString()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      data: (data) {
+        List<PlutoColumn> columns = [
+          /// Text Column definition
+          PlutoColumn(
+            readOnly: true,
+            title: 'ID',
+            field: 'id',
+            type: PlutoColumnType.text(),
+            width: 80,
+            minWidth: 80,
+          ),
+
+          /// Number Column definition
+          PlutoColumn(
+            title: 'Vehiculo',
+            field: 'typeVehiculo',
+            type: PlutoColumnType.select(ref.watch(typosDeVeiculosProvider)),
+          ),
+
+          /// Select Column definition
+          // PlutoColumn(
+          //   title: 'Clase',
+          //   field: 'clase',
+          //   type: PlutoColumnType.select(['item1', 'item2', 'item3']),
+          // ),
+          PlutoColumn(
+            title: 'Clase',
+            field: 'clase',
+            type: PlutoColumnType.select([
+              'ENJUAGE',
+              'GENERAL',
+              'LATAS',
+              'POLICHADA',
+              'OTRO',
+            ]),
+          ),
+          PlutoColumn(
+            title: 'Descripción',
+            field: 'description',
+            type: PlutoColumnType.text(),
+          ),
+          PlutoColumn(
+            title: 'Precio',
+            field: 'price',
+            type: PlutoColumnType.currency(
+              locale: 'es_CO',
+              symbol: '\$',
+              format: '\u00A4 #,###.##',
+            ),
+          ),
+          PlutoColumn(
+            title: 'DeleteRow',
+            field: 'delete',
+            type: PlutoColumnType.text(),
+            enableColumnDrag: false,
+            renderer: (rendererContext) => Row(children: [
+              IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Eliminar Registro'),
+                      content: const Text('¿Desea eliminar el registro?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancelar'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            final service = data?[rendererContext.row.sortIdx];
+                            ref
+                                .read(serviceTypeListProvider.notifier)
+                                .deleteServiceType(service!);
+                            stateManager?.removeRows([rendererContext.row]);
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Eliminar'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.delete,
+                ),
+                iconSize: 18,
+                color: Colors.red,
+                padding: const EdgeInsets.all(0),
+              ),
+              Expanded(
+                child: Text(
+                  rendererContext.row.cells[rendererContext.column.field]!.value
+                      .toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+          )
+
+          /// Datetime Column definition
+          // PlutoColumn(
+          //   title: 'date column',
+          //   field: 'description',
+          //   type: PlutoColumnType.date(),
+          // ),
+
+          /// Time Column definition
+          // PlutoColumn(
+          //   title: 'time column',
+          //   field: 'price',
+          //   type: PlutoColumnType.time(),
+          // ),
+        ];
+
+        List<PlutoRow> rows = data
+                ?.map((e) => PlutoRow(cells: {
+                      'id': PlutoCell(value: e.servicioId),
+                      'typeVehiculo': PlutoCell(value: e.typeVehiculo),
+                      'clase': PlutoCell(value: e.clase),
+                      'description': PlutoCell(value: e.description),
+                      'price': PlutoCell(value: correctionPrice(e.price)),
+                      'delete': PlutoCell(value: "delete"),
+                    }))
+                .toList() ??
+            [];
+        return Container(
+          padding: const EdgeInsets.all(15),
+          child: PlutoGrid(
+              columns: columns,
+              rows: rows,
+              onChanged: (PlutoGridOnChangedEvent event) {
+                final newDataa = newData(event, data);
+                if (newDataa == null) return;
+                ref
+                    .read(serviceTypeListProvider.notifier)
+                    .modifieServiceType(newDataa);
+              },
+              onLoaded: (PlutoGridOnLoadedEvent event) {
+                stateManager = event.stateManager;
+                stateManager?.setSelectingMode(PlutoGridSelectingMode.cell);
+                stateManager?.setShowColumnFilter(true);
+              }),
+        );
+      },
+    );
+  }
+
+  ServiceType? newData(PlutoGridOnChangedEvent event, List<ServiceType>? data) {
+    final id = event.row.cells['id']!.value;
+    final service = data?.firstWhere((element) => element.servicioId == id);
+
+    return service?.copyWith(
+      typeVehiculo: event.row.cells['typeVehiculo']!.value,
+      clase: event.row.cells['clase']!.value,
+      description: event.row.cells['description']!.value,
+      price: event.row.cells['price']!.value.toInt().toString(),
+    );
+  }
+
+  List<ServiceType> _sortList(List<ServiceType>? list, String querry) {
+    List<ServiceType> listFilter = [];
+    listFilter = list
+            ?.where((element) => element.typeVehiculo
+                .toLowerCase()
+                .contains(querry.toLowerCase()))
+            .toList() ??
+        [];
+    return listFilter;
   }
 }
 
@@ -141,20 +341,6 @@ class ListServicesTypes extends HookConsumerWidget {
   }
 }
 
-class SliverTypeVeicle extends HookConsumerWidget {
-  const SliverTypeVeicle({
-    super.key,
-  });
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SliverAppBar(
-      actions: const [DarkModeButton()],
-      floating: true,
-      title: Text("Tipos de Servicios"),
-    );
-  }
-}
-
 class AddTypeForm extends HookConsumerWidget {
   const AddTypeForm({super.key});
 
@@ -221,11 +407,22 @@ class AddTypeForm extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 const Text("Tipo de Vehiculo"),
-                spacer,
-                DropDownTypeVehicle(
-                  typesList: ref.watch(typosDeVeiculosProvider),
-                  type: typeSelect,
-                ),
+                DropdownButton(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    dropdownColor: Theme.of(context).secondaryHeaderColor,
+                    value: typeSelect,
+                    items: ref
+                        .watch(typosDeVeiculosProvider)
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      ref
+                          .read(typoDeVehiculoProvider.notifier)
+                          .modifyTypo(value ?? "");
+                    }),
                 spacer,
                 Text("Servicio", style: Theme.of(context).textTheme.titleLarge),
                 spacer,
@@ -319,6 +516,20 @@ class _priceTextField extends StatelessWidget {
         hintText: "Precio",
         helperText: "Precio del Servicio",
       ),
+    );
+  }
+}
+
+class SliverTypeVeicle extends HookConsumerWidget {
+  const SliverTypeVeicle({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return const SliverAppBar(
+      actions: [DarkModeButton()],
+      floating: true,
+      title: Text("Tipos de Servicios"),
     );
   }
 }

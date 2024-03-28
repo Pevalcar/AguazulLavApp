@@ -22,7 +22,7 @@ class VehiculoState extends _$VehiculoState {
       photo:
           "https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png?alt=media&token=014c8681-7981-49cc-9f9a-0e9b1894c84c",
       propietarioid: "1234",
-      photoName:  "",
+      photoName: "",
       placa: "ABC123",
       entrada: time,
       typeService: "Servicio",
@@ -43,25 +43,25 @@ class VehiculoState extends _$VehiculoState {
 
   void addVehiculo(
       Function()? onCarroSave, Function(String)? onSaveError) async {
-    final PhotoState?  photo = ref.watch(photoVehiculeProvider).asData?.value ;
+    final PhotoState? photo = ref.watch(photoVehiculeProvider).asData?.value;
     final propietario = ref.watch(propietarioProvider)?.id;
     final typeService = ref.watch(serviceTypeSelectProvider)?.clase ?? "";
     final worker = ref.watch(trabajadorNameProvider);
     final placa = ref.watch(placaProvider);
     if (photo == null) {
-      return onSaveError?.call("Favor de subir una imagen");
+      return onSaveError?.call("Porfavor subir una imagen");
     }
     if (propietario == null) {
-      return onSaveError?.call("Favor de seleccionar un propietario");
+      return onSaveError?.call("Porfavor seleccionar un propietario");
     }
     if (typeService.isEmpty) {
-      return onSaveError?.call("Favor de selecionar un Servicio");
+      return onSaveError?.call("Porfavor selecionar un Servicio");
     }
     if (worker.isEmpty) {
-      return onSaveError?.call("Favor de selecionar un Trabajador");
+      return onSaveError?.call("Porfavor selecionar un Trabajador");
     }
     if (placa.isEmpty) {
-      return onSaveError?.call("Favor de colocar una Placa");
+      return onSaveError?.call("Porfavor colocar una Placa");
     }
 
     final time = DateTime.now();
@@ -74,8 +74,8 @@ class VehiculoState extends _$VehiculoState {
       typeService: typeService,
       typePrice: correctionPrice(ref.watch(serviceTypeSelectProvider)?.price),
       trabjador: worker,
-      diaJronada: DateTime(time.year, time.month, time.day), photoName: photo.photoName
-      ,
+      diaJronada: DateTime(time.year, time.month, time.day),
+      photoName: photo.photoName,
     );
 
     state = const AsyncValue.loading();

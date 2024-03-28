@@ -23,17 +23,17 @@ class MainMenuScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Panel principal'),
             centerTitle: true,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    const UpgraderRoute().push(context);
-                  },
-                  //TODO agregar bagde de actualizaciones
-                  icon: Icon(Icons.update)) ,
-              const DarkModeButton(),
-              const SizedBox(width: 16),
-              const AvatarIcon(),
-              const SizedBox(width: 16),
+            actions: const [
+              // IconButton(
+              //     onPressed: () {
+              //       const UpgraderRoute().push(context);
+              //     },
+              //     //TODO agregar bagde de actualizaciones
+              //     icon: Icon(Icons.update)) ,
+              DarkModeButton(),
+              SizedBox(width: 16),
+              AvatarIcon(),
+              SizedBox(width: 16),
             ],
           ),
           body: LayoutBuilder(builder: (context, constraints) {
