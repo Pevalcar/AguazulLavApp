@@ -407,11 +407,22 @@ class AddTypeForm extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 const Text("Tipo de Vehiculo"),
-                spacer,
-                DropDownTypeVehicle(
-                  typesList: ref.watch(typosDeVeiculosProvider),
-                  type: typeSelect,
-                ),
+                DropdownButton(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    dropdownColor: Theme.of(context).secondaryHeaderColor,
+                    value: typeSelect,
+                    items: ref
+                        .watch(typosDeVeiculosProvider)
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      ref
+                          .read(typoDeVehiculoProvider.notifier)
+                          .modifyTypo(value ?? "");
+                    }),
                 spacer,
                 Text("Servicio", style: Theme.of(context).textTheme.titleLarge),
                 spacer,
