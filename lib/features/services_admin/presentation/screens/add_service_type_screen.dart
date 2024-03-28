@@ -138,9 +138,32 @@ class GripPuto extends HookConsumerWidget {
             renderer: (rendererContext) => Row(children: [
               IconButton(
                 onPressed: () {
-                  logger.i(data?[rendererContext.row.sortIdx]);
-                  //TODO agregar delete y demas funcionalidades
-                  stateManager.removeRows([rendererContext.row]);
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Eliminar Registro'),
+                      content: const Text('¿Desea eliminar el registro?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancelar'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            final service = data?[rendererContext.row.sortIdx];
+                            ref
+                                .read(serviceTypeListProvider.notifier)
+                                .deleteServiceType(service!);
+                            stateManager.removeRows([rendererContext.row]);
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Eliminar'),
+                        ),
+                      ],
+                    ),
+                  );
                 },
                 icon: const Icon(
                   Icons.delete,
@@ -193,7 +216,7 @@ class GripPuto extends HookConsumerWidget {
                 columns: columns,
                 rows: rows,
                 onChanged: (PlutoGridOnChangedEvent event) {
-                  logger.e(data?[event.rowIdx]);
+                  newData(event, data);
                 },
                 onLoaded: (PlutoGridOnLoadedEvent event) {
                   stateManager = event.stateManager;
@@ -205,6 +228,11 @@ class GripPuto extends HookConsumerWidget {
         );
       },
     );
+  }
+
+  newData(PlutoGridOnChangedEvent event, List<ServiceType>? data) async {
+    final service = data?[event.rowIdx];
+    logger.e(service);
   }
 
   List<ServiceType> _sortList(List<ServiceType>? list, String querry) {

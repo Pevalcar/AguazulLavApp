@@ -2,7 +2,6 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 //TODO REVISAR Diseño
 class TimerDataShow extends ConsumerWidget {
   const TimerDataShow({super.key});
@@ -10,7 +9,6 @@ class TimerDataShow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final initTime = ref.watch(vehiculoStateProvider).asData!.value?.entrada;
-    final endTime = ref.watch(vehiculoStateProvider) .asData!.value?.salida;
     return SafeArea(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -19,7 +17,6 @@ class TimerDataShow extends ConsumerWidget {
             text: "Entrada: ",
             time: initTime ?? DateTime.now(),
           ),
-          _TextDateTime(text: "Salida: ", time: endTime),
         ],
       ),
     );
@@ -39,7 +36,6 @@ class _TextDateTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Text.rich(
-        
         TextSpan(
           text: text,
           style: TextStyle(

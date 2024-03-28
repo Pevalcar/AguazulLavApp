@@ -2,6 +2,7 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 //TODO interfaz de pc, agregar eliminar y modificar servicio, modificar la card de lista para ver mas informacion
 class MobileAddService extends HookConsumerWidget {
   const MobileAddService({super.key});
@@ -9,7 +10,7 @@ class MobileAddService extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final typeService = ref.watch(typoDeVehiculoProvider);
-    
+
 //on back pressed delete photo
     return PopScope(
       canPop: false,
@@ -21,7 +22,7 @@ class MobileAddService extends HookConsumerWidget {
       child: Scaffold(
           appBar: AppBar(
             title: const Text('Información del vehiculo'),
-            actions: const [AppBarAddService(mobile: false)],
+            actions: [DarkModeButton()],
           ),
           body: SingleChildScrollView(
             child: Column(children: [
@@ -42,14 +43,14 @@ class MobileAddService extends HookConsumerWidget {
               onPressed: () {
                 final vehiculo = ref.watch(vehiculoStateProvider);
                 ref.read(vehiculoStateProvider.notifier).addVehiculo(
-                          () {
-                            showToast(context, "Agreagado con Exito");
-                            context.pop();
-                          },
-                          (errorMesage) {
-                            showToast(context, errorMesage);
-                          },
-                        );
+                  () {
+                    showToast(context, "Agreagado con Exito");
+                    context.pop();
+                  },
+                  (errorMesage) {
+                    showToast(context, errorMesage);
+                  },
+                );
               },
               child: Row(
                 children: [
