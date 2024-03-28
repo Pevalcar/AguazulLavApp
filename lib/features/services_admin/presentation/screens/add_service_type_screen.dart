@@ -27,54 +27,40 @@ class AddServiceTypeScreen extends HookConsumerWidget {
         title: const Text("Tipos de Servicios"),
         actions: const [DarkModeButton()],
       ),
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) =>
-              constraints.maxWidth > 600
-                  ? GripPuto()
-                  : const CustomScrollView(
-                      slivers: [
-                        SliverTypeVeicle(),
-                        DropSelecte(),
-                        SliverToBoxAdapter(
-                          child: Divider(height: 20),
-                        ),
-                        ListServicesTypes()
-                      ],
-                    ),
-        ),
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) =>
+            constraints.maxWidth > 600
+                ? const GripPuto()
+                : const CustomScrollView(
+                    slivers: [
+                      // SliverTypeVeicle(),
+                      DropSelecte(),
+                      SliverToBoxAdapter(
+                        child: Divider(height: 20),
+                      ),
+                      ListServicesTypes()
+                    ],
+                  ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-              key: UniqueKey(),
-              onPressed: () {},
-              child: const Icon(Icons.save)),
-          const SizedBox(height: 10),
-          FloatingActionButton(
-            key: UniqueKey(),
-            onPressed: () {
-              showDialog(
-                  context: context, builder: (context) => const AddTypeForm());
-            },
-            child: const Icon(Icons.add),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context, builder: (context) => const AddTypeForm());
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
 
 class GripPuto extends HookConsumerWidget {
-  late final PlutoGridStateManager stateManager;
-  GripPuto({
+  const GripPuto({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(typoDeVehiculoProvider);
+    PlutoGridStateManager? stateManager;
     final listServices = ref.watch(serviceTypeListProvider);
 
     return listServices.when(
@@ -156,7 +142,7 @@ class GripPuto extends HookConsumerWidget {
                             ref
                                 .read(serviceTypeListProvider.notifier)
                                 .deleteServiceType(service!);
-                            stateManager.removeRows([rendererContext.row]);
+                            stateManager?.removeRows([rendererContext.row]);
                             Navigator.pop(context);
                           },
                           child: const Text('Eliminar'),
@@ -209,30 +195,38 @@ class GripPuto extends HookConsumerWidget {
                     }))
                 .toList() ??
             [];
-        return Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(30),
-            child: PlutoGrid(
-                columns: columns,
-                rows: rows,
-                onChanged: (PlutoGridOnChangedEvent event) {
-                  newData(event, data);
-                },
-                onLoaded: (PlutoGridOnLoadedEvent event) {
-                  stateManager = event.stateManager;
-                  stateManager.setSelectingMode(PlutoGridSelectingMode.cell);
-                  stateManager.setShowColumnFilter(true);
-                  print(event);
-                }),
-          ),
+        return Container(
+          padding: const EdgeInsets.all(15),
+          child: PlutoGrid(
+              columns: columns,
+              rows: rows,
+              onChanged: (PlutoGridOnChangedEvent event) {
+                final newDataa = newData(event, data);
+                if (newDataa == null) return;
+                ref
+                    .read(serviceTypeListProvider.notifier)
+                    .modifieServiceType(newDataa);
+              },
+              onLoaded: (PlutoGridOnLoadedEvent event) {
+                stateManager = event.stateManager;
+                stateManager?.setSelectingMode(PlutoGridSelectingMode.cell);
+                stateManager?.setShowColumnFilter(true);
+              }),
         );
       },
     );
   }
 
-  newData(PlutoGridOnChangedEvent event, List<ServiceType>? data) async {
-    final service = data?[event.rowIdx];
-    logger.e(service);
+  ServiceType? newData(PlutoGridOnChangedEvent event, List<ServiceType>? data) {
+    final id = event.row.cells['id']!.value;
+    final service = data?.firstWhere((element) => element.servicioId == id);
+
+    return service?.copyWith(
+      typeVehiculo: event.row.cells['typeVehiculo']!.value,
+      clase: event.row.cells['clase']!.value,
+      description: event.row.cells['description']!.value,
+      price: event.row.cells['price']!.value.toInt().toString(),
+    );
   }
 
   List<ServiceType> _sortList(List<ServiceType>? list, String querry) {
