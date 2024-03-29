@@ -18,7 +18,7 @@ jobs:
         architecture: x64
         
     - run: flutter pub get
-    - run: flutter build apk
+    - run: flutter build apk --release
     # - run: |
     #       flutter build ipa
     #       cd build/ios/iphoneos
@@ -30,7 +30,7 @@ jobs:
     - name: Push to Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/app/outputs/apk/release/*"
+        artifacts: "build/app/outputs/apk/release/*.apk"
         tag: v1.0.0
-        token: ${{ secrets.MY_REPO_SECRET }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         commit: master
