@@ -16,7 +16,7 @@ dependencies:
   esc_pos_utils_plus: ^2.0.3
   file_selector: ^1.0.1
   firebase_auth: ^4.15.3
-  firebase_core: ^2.24.2
+  firebase_core: ^2.27.0
   firebase_crashlytics: ^3.4.13
   firebase_database: ^10.3.8
   firebase_storage: ^11.5.6
