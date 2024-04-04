@@ -8,20 +8,20 @@ class MenuGridConten extends HookConsumerWidget {
     super.key,
   });
 //TODO Agregar funciones solo administrador
-    Future<void> requestPermission() async {
-  final permission = Permission.bluetooth;
+  Future<void> requestPermission() async {
+    final permission = Permission.bluetooth;
 
-  if (await permission.isDenied) {
-    await permission.request();
+    if (await permission.isDenied) {
+      await permission.request();
+    }
   }
-}
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jornadaState = ref.watch(jornadaStateProvider);
 
-    const disableColorbtn = Color.fromARGB(255, 106, 136, 233);
-    
+    const disableColorbtn = Color(0xFFD8E4EB);
+
     requestPermission();
 
     return GridView(
@@ -37,7 +37,7 @@ class MenuGridConten extends HookConsumerWidget {
             disabled: jornadaState.asData?.value?.enJornada == false,
             title: "Agregar Servicio",
             icon: Icons.add,
-            color: const Color.fromARGB(255, 49, 210, 216),
+            color: Theme.of(context).colorScheme.error,
             //TODO indicador de que la jornada no ha iniciado parpadeo o algo
             onPressed: () {
               const AddServiceRoute().push(context);
@@ -46,7 +46,7 @@ class MenuGridConten extends HookConsumerWidget {
             title: "Modificar Servicio",
             icon: Icons.edit,
             //color #8C1DAB
-            color: const Color.fromARGB(255, 217, 140, 248),
+            color: Color(0xFF006d97),
             onPressed: () {
               showDialog(
                   context: context,
@@ -58,14 +58,15 @@ class MenuGridConten extends HookConsumerWidget {
         ActionCardMenu(
             title: "Lista de Servicios",
             icon: Icons.list_alt,
-            color: Theme.of(context).colorScheme.primaryContainer,
+            color: const Color.fromARGB(
+                255, 49, 210, 216), //Color.fromARGB(255, 222, 8, 19),
             onPressed: () {
               const ListVehiculosRoute().push(context);
             }),
         ActionCardMenu(
             title: "Historial",
             icon: Icons.history,
-            color: const Color.fromARGB(255, 76, 194, 230),
+            color: Color.fromRGBO(76, 194, 230, 1),
             onPressed: () {
               const HistoryScreenRoute().push(context);
             }),
