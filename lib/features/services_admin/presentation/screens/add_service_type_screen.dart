@@ -27,9 +27,9 @@ class AddServiceTypeScreen extends HookConsumerWidget {
         title: const Text("Tipos de Servicios"),
         actions: const [DarkModeButton()],
       ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) =>
-            constraints.maxWidth > 600
+      body: OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) =>
+            orientation == Orientation.portrait
                 ? const GripPuto()
                 : const CustomScrollView(
                     slivers: [
