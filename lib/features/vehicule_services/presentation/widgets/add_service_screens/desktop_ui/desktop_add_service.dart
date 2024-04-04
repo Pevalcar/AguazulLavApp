@@ -22,7 +22,7 @@ class DesktopAddService extends HookConsumerWidget {
       child: Scaffold(
           appBar: AppBar(
             title: const Text('Información del vehiculo'),
-            actions: [DarkModeButton()],
+            actions: const [DarkModeButton()],
           ),
           body: SingleChildScrollView(
             // ignore: prefer_const_constructors
@@ -32,11 +32,13 @@ class DesktopAddService extends HookConsumerWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Expanded(
-                    child: const Handled(),
+                  const Flexible(
+                    child: Handled(),
                   ),
-                  Expanded(
+                  Flexible(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         DropDownTypeVehicle(
                           typesList: ref.watch(typosDeVeiculosProvider),
@@ -133,44 +135,42 @@ class _ServiceTypeCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-        shadowColor: value ? Colors.blue : null,
-        color: value ? Colors.blue : null,
-        elevation: 4,
-        child: Expanded(
-          child: CheckboxListTile(
-            activeColor: Theme.of(context).colorScheme.primary,
-            controlAffinity: ListTileControlAffinity.leading,
-            title: RichText(
-                textAlign: TextAlign.center,
-                softWrap: false,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                        text: "${typeCardService.typeVehiculo} ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                        children: [
-                          TextSpan(
-                            text: typeCardService.price,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground
-                                        .withOpacity(0.5)),
-                          ),
-                        ]),
-                  ],
-                )),
-            value: value,
-            onChanged: (value) => ref
-                .read(serviceTypeSelectProvider.notifier)
-                .modifyServiceType(typeCardService),
-          ),
+        shadowColor: value ? Colors.blue[200] : null,
+        color: value ? Theme.of(context).colorScheme.secondaryContainer : null,
+        elevation: 4.0,
+        child: CheckboxListTile(
+          activeColor: Theme.of(context).colorScheme.primary,
+          controlAffinity: ListTileControlAffinity.leading,
+          title: RichText(
+              textAlign: TextAlign.center,
+              softWrap: false,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: "${typeCardService.typeVehiculo} ",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                      children: [
+                        TextSpan(
+                          text: typeCardService.price,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.5)),
+                        ),
+                      ]),
+                ],
+              )),
+          value: value,
+          onChanged: (value) => ref
+              .read(serviceTypeSelectProvider.notifier)
+              .modifyServiceType(typeCardService),
         ));
   }
 }
