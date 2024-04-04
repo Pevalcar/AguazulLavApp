@@ -44,6 +44,7 @@ class Handled extends HookConsumerWidget {
       children: [
         SizedBox(
           height: 250,
+          width: 300,
           child: Hero(
             tag: id,
             child: photo.when(
