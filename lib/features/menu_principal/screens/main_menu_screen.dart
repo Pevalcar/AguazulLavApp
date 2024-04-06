@@ -10,12 +10,42 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({super.key});
+  Future<void> requestPermission(BuildContext context) async {
+    const permission = Permission.bluetoothAdvertise;
+
+    if (await permission.isDenied) {
+      await permission.request();
+    } else if (await permission.isPermanentlyDenied) {
+      await showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (_) => AlertDialog(
+                  title: const Text('Permisos Denegados'),
+                  content: const Column(
+                    children: [
+                      Text(
+                          'Para poder usar esta app es necesario aceptar los permisos'),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        openAppSettings();
+                      },
+                      child: const Text('Abrir ajustes'),
+                    ),
+                  ]));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    requestPermission(context);
+
     return PopScope(
       canPop: false,
       child: SafeArea(
