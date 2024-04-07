@@ -386,22 +386,8 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     //bytes += generator.setGlobalFont(PosFontType.fontA);
     bytes += generator.reset();
 
-    final ByteData data = await rootBundle.load('assets/mylogo.jpg');
-    final Uint8List bytesImg = data.buffer.asUint8List();
-    img.Image? image = img.decodeImage(bytesImg);
-
-    if (Platform.isIOS) {
-      // Resizes the image to half its original size and reduces the quality to 80%
-      final resizedImage = img.copyResize(image!,
-          width: image.width ~/ 1.3,
-          height: image.height ~/ 1.3,
-          interpolation: img.Interpolation.nearest);
-      final bytesimg = Uint8List.fromList(img.encodeJpg(resizedImage));
-      //image = img.decodeImage(bytesimg);
-    }
-
     //Using `ESC *`
-    bytes += generator.image(image!);
+    // bytes += generator.image(image!);|
 
     bytes += generator.text(
         'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
