@@ -8,14 +8,14 @@ class TimerDataShow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final initTime = ref.watch(vehiculoStateProvider).asData!.value?.entrada;
+    final initTime = ref.watch(vehiculoStateProvider);
     return SafeArea(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _TextDateTime(
             text: "Entrada: ",
-            time: initTime ?? DateTime.now(),
+            time: initTime.asData?.value?.entrada ?? DateTime.now(),
           ),
         ],
       ),
