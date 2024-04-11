@@ -180,8 +180,8 @@ class ClientSearcher extends HookConsumerWidget {
                     labelText: 'Buscar Cliente',
                     hintText: 'Buscar Cliente',
                   ),
-                  onSubmitted: (String value) {
-                    onEditingComplete();
+                  onChanged: (String value) {
+                    ref.read(propietarioProvider.notifier).inputNullUSer(value);
                   },
                 ),
               );
