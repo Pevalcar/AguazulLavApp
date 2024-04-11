@@ -1,6 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class UserDataSource {
@@ -10,17 +9,17 @@ class UserDataSource {
   Future<List<Client>> getUsers() async {
     List<Client> list = [];
     try {
-      list = [] ;
+      list = [];
 
       if (list.isEmpty) {
-        debugPrint('getUSers firestore');
+        logger.i('getUSers firestore');
         //ordenardos alfabeticamente
         await firestore.orderBy('name', descending: false).get().then((value) {
           for (var element in value.docs) {
             list.add(Client.fromJson(element.data() as Map<String, dynamic>));
           }
         });
-        debugPrint(' getUSers return remote');
+        logger.i(' getUSers return remote');
         return list;
       }
     } on FirebaseException catch (e) {
@@ -34,14 +33,13 @@ class UserDataSource {
 
   Future<Client?> getUser(String id) async {
     if (id.isEmpty) return null;
-    if (id == '1234') return null;
     Client? user;
     try {
       user = await _getUserLocal(id);
       if (user == null) {
         await firestore.doc(id).get().then((value) {
           user = Client.fromJson(value.data() as Map<String, dynamic>);
-          logger.d(' getUSersLocal');
+          logger.i('getUSersLocal');
         });
         return user;
       }
@@ -56,7 +54,8 @@ class UserDataSource {
 
   Future<Client?> createUser(Client user) async {
     try {
-      final userNew = user.copyWith(id: const Uuid().v4(), name: user.name.toUpperCase());
+      final userNew =
+          user.copyWith(id: const Uuid().v4(), name: user.name.toUpperCase());
       await firestore.doc(userNew.id).set(userNew.toJson());
       return userNew;
     } on FirebaseException catch (e) {
@@ -68,9 +67,10 @@ class UserDataSource {
   }
 
   Future<bool> updateUser(Client user) async {
-
     try {
-      await firestore.doc(user.id).update(user.copyWith(name: user.name.toUpperCase()).toJson());
+      await firestore
+          .doc(user.id)
+          .update(user.copyWith(name: user.name.toUpperCase()).toJson());
       return true;
     } on FirebaseException catch (e) {
       logger.e('error al actualizar Usuario: $e');
@@ -78,8 +78,7 @@ class UserDataSource {
     } catch (e) {
       logger.e('error al actualizar Usuario: $e');
       return false;
-    } 
-
+    }
   }
 
   Future<bool> deleteUser(String id) async {
@@ -95,11 +94,14 @@ class UserDataSource {
     }
   }
 
-  Future<List<Client>> _getUSersLocal() async {
+  Future<List<Client>> _getUsersLocal() async {
     final List<Client> list = [];
-    debugPrint(' getUSersLocal');
+    logger.i(' getUSersLocal');
     try {
-      await firestore.orderBy('name', descending: false).get(const GetOptions(source: Source.cache)).then((value) {
+      await firestore
+          .orderBy('name', descending: false)
+          .get(const GetOptions(source: Source.cache))
+          .then((value) {
         for (var element in value.docs) {
           list.add(Client.fromJson(element.data() as Map<String, dynamic>));
         }
@@ -115,7 +117,7 @@ class UserDataSource {
 
   Future<Client?> _getUserLocal(String id) async {
     Client? user;
-    logger.d(' getUSersLocal');
+    logger.i(' getUSersLocal $id');
     try {
       await firestore
           .doc(id)
