@@ -43,6 +43,14 @@ class MenuGridConten extends HookConsumerWidget {
               const AddServiceRoute().push(context);
             }),
         ActionCardMenu(
+            title: "Lista de Servicios",
+            icon: Icons.list_alt,
+            color: const Color.fromARGB(
+                255, 49, 210, 216), //Color.fromARGB(255, 222, 8, 19),
+            onPressed: () {
+              const ListVehiculosRoute().push(context);
+            }),
+        ActionCardMenu(
             title: "Modificar Servicio",
             icon: Icons.edit,
             //color #8C1DAB
@@ -54,14 +62,6 @@ class MenuGridConten extends HookConsumerWidget {
                         correctPass: () =>
                             const AddServiceTypeRoute().push(context),
                       ));
-            }),
-        ActionCardMenu(
-            title: "Lista de Servicios",
-            icon: Icons.list_alt,
-            color: const Color.fromARGB(
-                255, 49, 210, 216), //Color.fromARGB(255, 222, 8, 19),
-            onPressed: () {
-              const ListVehiculosRoute().push(context);
             }),
         ActionCardMenu(
             title: "Historial",
