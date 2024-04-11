@@ -10,8 +10,8 @@ class VehiculoRepositoryImpl implements VehiculoRepository {
   }
 
   @override
-  Future<void> deleteVehicle(Vehicle vehicle) async {
-    _dataSource.deleteVehicle(vehicle);
+  Future<void> deleteVehicle(String id) async {
+    _dataSource.deleteVehicle(id);
   }
 
   @override
@@ -23,7 +23,7 @@ class VehiculoRepositoryImpl implements VehiculoRepository {
   Future<void> modifieVehicle(Vehicle vehicle) async {
     _dataSource.modifieVehicle(vehicle);
   }
-  
+
   @override
   Future<List<Vehicle>> getVehiculesToday(List<String> ids) async {
     return _dataSource.getVehiculesToday(ids);

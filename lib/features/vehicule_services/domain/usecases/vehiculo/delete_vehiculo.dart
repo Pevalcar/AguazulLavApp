@@ -4,7 +4,7 @@ class DeleteVehiculo {
   final VehiculoRepository serviceInfoRepository;
   DeleteVehiculo(this.serviceInfoRepository);
 
-  Future<void> call(Vehicle vehiculo) async {
-    return serviceInfoRepository.deleteVehicle(vehiculo);
+  Future<void> call(String id) async {
+    return serviceInfoRepository.deleteVehicle(id);
   }
 }

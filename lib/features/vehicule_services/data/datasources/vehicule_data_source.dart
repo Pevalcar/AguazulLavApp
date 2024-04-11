@@ -74,9 +74,9 @@ class VehiculoDataSource {
     }
   }
 
-  void deleteVehicle(Vehicle vehicle) async {
+  void deleteVehicle(String id) async {
     try {
-      await _firebase.doc(vehicle.id).delete();
+      await _firebase.doc(id).delete();
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());
     } catch (e) {
