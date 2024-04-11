@@ -1,5 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CardCarService extends HookConsumerWidget {
@@ -15,7 +16,6 @@ class CardCarService extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final client = ref.watch(getUserInfoProvider(vehicle.propietarioid));
-    final pin = ref.watch(pinPassProvider);
     final ButtonStyle myStileButton = TextButton.styleFrom(
       foregroundColor: Theme.of(context).colorScheme.secondary,
       shape: const RoundedRectangleBorder(
@@ -142,12 +142,11 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) => PinAccesDialog(
-                          correctPass: () {
-                            ref
-                                .read(serviceListProvider.notifier)
-                                .deleteService(vehicle);
-                          }),
+                      builder: (context) => PinAccesDialog(correctPass: () {
+                        ref
+                            .read(serviceListProvider.notifier)
+                            .deleteService(vehicle);
+                      }),
                     );
                   },
                   child: const Column(
@@ -179,55 +178,12 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                 child: TextButton(
                   style: myStileButton,
                   onPressed: () async {
-                    List<String> list = ["Efectivo", "Transferencia"];
-                    String pagoType = list.first;
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
-                            actions: [
-                              TextButton(
-                                  child: const Text("Cancelar"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  }),
-                              TextButton(
-                                  child: const Text("Aceptar"),
-                                  onPressed: () async {
-                                    await ref
-                                        .read(serviceListProvider.notifier)
-                                        .endService(vehicle.copyWith(
-                                          tipoPago: pagoType,
-                                        ));
-                                    Navigator.of(context).pop();
-                                  })
-                            ],
-                            title: const Text("Información de pago"),
-                            content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  DropdownButton<String>(
-                                    value: pagoType,
-                                    icon: const Icon(Icons.arrow_downward),
-                                    elevation: 16,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Colors.deepPurpleAccent,
-                                    ),
-                                    onChanged: (String? value) {
-                                      pagoType = value!;
-                                    },
-                                    items: list.map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ]));
+                        return AlerPago(
+                          vehicle: vehicle,
+                        );
                       },
                     );
                     controller.collapse();
@@ -248,6 +204,61 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
         ],
       ),
     );
+  }
+}
+
+class AlerPago extends HookConsumerWidget {
+  const AlerPago({
+    super.key,
+    required this.vehicle,
+  });
+
+  final Vehicle vehicle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<String> list = ["Efectivo", "Transferencia"];
+    ValueNotifier<String> pagoType = useState(list.first);
+    return AlertDialog(
+        actions: [
+          TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+          TextButton(
+              child: const Text("Aceptar"),
+              onPressed: () async {
+                await ref
+                    .read(serviceListProvider.notifier)
+                    .endService(vehicle.copyWith(
+                      tipoPago: pagoType.value,
+                    ));
+                Navigator.of(context).pop();
+              })
+        ],
+        title: const Text("Información de pago"),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          DropdownButton<String>(
+            value: pagoType.value,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String? value) {
+              pagoType.value = value!;
+            },
+            items: list.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ]));
   }
 }
 
