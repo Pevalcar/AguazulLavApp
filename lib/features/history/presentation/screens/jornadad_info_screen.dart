@@ -6,20 +6,39 @@ import 'package:intl/intl.dart';
 
 //TODO agregar informacino de pago si es efectivo o transferencia con foto
 class JornadaInfoScreen extends HookConsumerWidget {
-  final Jornada? jornada;
-  const JornadaInfoScreen({super.key, required this.jornada});
+  final Jornada? jornadaId;
+  const JornadaInfoScreen({super.key, required this.jornadaId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final jornadas = ref.watch(jornadaInfoProvider(jornada));
+    final jornada = ref.watch(jornadaInfoProvider(jornadaId));
     final dateFormat = DateFormat('dd/MM/yyyy');
-    final time = dateFormat.format(jornada?.dateInit ?? DateTime.now());
+    final time = dateFormat.format(jornadaId?.dateInit ?? DateTime.now());
     return Scaffold(
         appBar: AppBar(
           title: Text('Jornada $time'),
-          actions: const [DarkModeButton()],
+          actions: [
+            const DarkModeButton(),
+            IconButton(
+              onPressed: () async {
+                await showDialog(
+                    context: context,
+                    builder: (context) => PinAccesDialog(
+                          correctPass: () async {
+                            //TODO: implementar para borrar jornada
+                            await ref
+                                .read(jornadasListProvider.notifier)
+                                .deleteJornada(jornada.asData!.value!.jornada);
+                          },
+                        ));
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.delete),
+              color: Colors.red,
+            )
+          ],
         ),
-        body: jornadas.when(
+        body: jornada.when(
             data: (data) => CustomScrollView(
                     physics: const BouncingScrollPhysics(
                         decelerationRate: ScrollDecelerationRate.normal),
@@ -35,7 +54,9 @@ class JornadaInfoScreen extends HookConsumerWidget {
                                 horizontal: 16.0, vertical: 8.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: Theme.of(context).colorScheme.primaryContainer,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -58,7 +79,10 @@ class JornadaInfoScreen extends HookConsumerWidget {
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
                             'Entradas y salidas:',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith( fontWeight: FontWeight.bold),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),

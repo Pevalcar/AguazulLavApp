@@ -70,10 +70,12 @@ class JornadasList extends _$JornadasList {
     });
   }
 
-  void deleteJornada(Jornada jornada) async {
+  Future<void> deleteJornada(Jornada? jornada) async {
+    if (jornada == null) return;
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<Jornada> list = state.value ?? [];
+
       await ref.read(deleteJornadaProvider).call(jornada);
       list.remove(jornada);
       return list;
