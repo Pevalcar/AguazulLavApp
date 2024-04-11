@@ -86,7 +86,7 @@ class JornadaInfoRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      JornadaInfoScreen(jornada: $extra);
+      JornadaInfoScreen(jornadaId: $extra);
 }
 
 @TypedGoRoute<AdminClientScreen>(path: '/adminClient', routes: [])
@@ -95,38 +95,43 @@ class AdminClientScreen extends GoRouteData {
   const AdminClientScreen();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const AdminClientScreenPage();
-  
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AdminClientScreenPage();
 }
 
 @TypedGoRoute<UpgraderRoute>(path: "/upgrader")
 class UpgraderRoute extends GoRouteData {
   const UpgraderRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) =>  UpdaterScreenPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      UpdaterScreenPage();
 }
+
 @TypedGoRoute<ConfigPrintScreenRoute>(path: "/configPrint")
 class ConfigPrintScreenRoute extends GoRouteData {
-  const ConfigPrintScreenRoute( );
+  const ConfigPrintScreenRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) => const ConfigPrintScreenPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ConfigPrintScreenPage();
 }
+
 @TypedGoRoute<ConfigScreenRoute>(path: "/config", routes: [
   TypedGoRoute<ConfigPinPassRoute>(path: "configPinPass"),
 ])
 class ConfigScreenRoute extends GoRouteData {
   const ConfigScreenRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) => const ConfigurationPage();
-} 
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ConfigurationPage();
+}
+
 @immutable
 class ConfigPinPassRoute extends GoRouteData {
   const ConfigPinPassRoute();
   @override
-  Widget build(BuildContext context, GoRouterState state) => const PinPassConfigPage();
+  Widget build(BuildContext context, GoRouterState state) =>
+      const PinPassConfigPage();
 }
-
-
 
 //TODO Mejorar la pantalla de errores
 @immutable
