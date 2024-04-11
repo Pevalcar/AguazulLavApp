@@ -94,7 +94,13 @@ class MenuGridConten extends HookConsumerWidget {
             icon: Icons.settings,
             color: disableColorbtn,
             onPressed: () {
-              const ConfigScreenRoute().push(context);
+              showDialog(
+                  context: context,
+                  builder: (_) => PinAccesDialog(
+                        correctPass: () =>
+                            const ConfigScreenRoute().push(context),
+                      ));
+              ;
             }),
         ActionCardMenu(
             title: "Correo",
