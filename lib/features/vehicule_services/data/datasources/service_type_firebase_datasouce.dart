@@ -1,6 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class ServiceTypeFireStoreDatasource {
@@ -11,9 +10,10 @@ class ServiceTypeFireStoreDatasource {
     List<ServiceType> list = [];
 
     try {
+      final count = await _firestore.count().get();
       list = await _getServicesType();
-      if (list.isEmpty) {
-        debugPrint(' getServicesType firestore');
+      if (list.isEmpty && count.count != list.length) {
+        logger.i(' getServicesType firestore');
         await _firestore.get().then((value) {
           for (var element in value.docs) {
             list.add(
@@ -24,9 +24,9 @@ class ServiceTypeFireStoreDatasource {
       }
       return list;
     } on FirebaseException catch (e) {
-      debugPrint('e: $e');
+      logger.i('error GetServiceType: $e');
     } catch (e) {
-      debugPrint('e: ${e.toString()}');
+      logger.i('error GetServiceType: ${e.toString()}');
     }
     return list;
   }
@@ -37,7 +37,9 @@ class ServiceTypeFireStoreDatasource {
     try {
       await _firestore.doc(serviceType.servicioId).set(serviceType.toJson());
     } on FirebaseException catch (e) {
-      print(e.toString());
+      logger.i('error GetServiceType: $e');
+    } catch (e) {
+      logger.i('error GetServiceType: ${e.toString()}');
     }
   }
 
@@ -45,7 +47,9 @@ class ServiceTypeFireStoreDatasource {
     try {
       await _firestore.doc(service.servicioId).delete();
     } on FirebaseException catch (e) {
-      print(e.toString());
+      logger.i('error GetServiceType: $e');
+    } catch (e) {
+      logger.i('error GetServiceType: ${e.toString()}');
     }
   }
 
@@ -53,14 +57,18 @@ class ServiceTypeFireStoreDatasource {
     try {
       await _firestore.doc(service.servicioId).update(service.toJson());
     } on FirebaseException catch (e) {
-      print(e.toString());
+      logger.i('error GetServiceType: $e');
+    } catch (e) {
+      logger.i('error GetServiceType: ${e.toString()}');
     }
   }
 
   Future<List<ServiceType>> _getServicesType() async {
     List<ServiceType> list = [];
     try {
-      await _firestore.get(const GetOptions(source: Source.cache)).then((value) {
+      await _firestore
+          .get(const GetOptions(source: Source.cache))
+          .then((value) {
         for (var element in value.docs) {
           list.add(
               ServiceType.fromJson(element.data() as Map<String, dynamic>));
@@ -68,9 +76,9 @@ class ServiceTypeFireStoreDatasource {
       });
       return list;
     } on FirebaseException catch (e) {
-      debugPrint('e: ${e.toString()}');
+      logger.i('e: ${e.toString()}');
     } catch (e) {
-      debugPrint('e: ${e.toString()}');
+      logger.i('e: ${e.toString()}');
     }
     return list;
   }
