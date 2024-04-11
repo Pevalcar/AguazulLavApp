@@ -9,9 +9,9 @@ class UserDataSource {
   Future<List<Client>> getUsers() async {
     List<Client> list = [];
     try {
-      list = [];
-
-      if (list.isEmpty) {
+      list = await _getUsersLocal();
+      final count = await firestore.count().get();
+      if (list.isEmpty && count.count != list.length) {
         logger.i('getUSers firestore');
         //ordenardos alfabeticamente
         await firestore.orderBy('name', descending: false).get().then((value) {
@@ -64,6 +64,8 @@ class UserDataSource {
     } catch (e) {
       logger.e('error al crear Usuario: $e');
     }
+
+    return null;
   }
 
   Future<bool> updateUser(Client user) async {
