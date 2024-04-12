@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 //TODO implementar PC soport
-class AdminClientScreenPage extends StatelessWidget {
+class AdminClientScreenPage extends HookConsumerWidget {
   const AdminClientScreenPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.refresh)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.help)),
+          IconButton(
+              onPressed: () => ref.refresh(clientListProvider.future),
+              icon: Icon(Icons.refresh)),
           const DarkModeButton()
         ],
         title: const Text('Clientes'),
@@ -263,10 +264,7 @@ class MobileContenido extends HookConsumerWidget {
     return _clients.when(
       data: (data) {
         return RefreshIndicator(
-          onRefresh: () {
-            ref.read(clientListProvider.notifier).fetch();
-            return Future.delayed(const Duration(seconds: 1));
-          },
+          onRefresh: () => ref.refresh(clientListProvider.future),
           child: SafeArea(
             child: ListaClientes(clientes: data),
           ),
@@ -391,7 +389,7 @@ class ClientCard extends HookConsumerWidget {
                         showDialog(
                             context: context,
                             builder: (_) => PinAccesDialog(
-                                  correctPass: () =>  ref
+                                  correctPass: () => ref
                                       .read(clientListProvider.notifier)
                                       .deleteUSer(_cliente),
                                 ));
