@@ -32,8 +32,8 @@ class VehiculoDataSource {
     List<String> ides = ids;
     List<String> idesLocal = [];
 
+    list = await _getVehiculesTodayLocal(ids);
     if (ids.length > 28) {
-      list = await _getVehiculesTodayLocal(ids);
       if (list.isNotEmpty && list.length == ids.length) {
         logger.i("cargando vehivulos de la base de datos local");
         return list;
@@ -59,6 +59,27 @@ class VehiculoDataSource {
         } catch (e) {
           logger.e('error Firebase', error: e.toString());
         }
+      }
+    } else {
+      if (list.isNotEmpty && list.length == ids.length) {
+        logger.i("cargando vehivulos de la base de datos local");
+        return list;
+      }
+      try {
+        await _firebase
+            .where('id', whereIn: ids)
+            .orderBy("entrada", descending: true)
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));
+          }
+          logger.i("cargando vehivulos de la base de datos remota");
+        });
+      } on FirebaseException catch (e) {
+        logger.e('error Firebase', error: e.toString());
+      } catch (e) {
+        logger.e('error Firebase', error: e.toString());
       }
     }
     return list;
