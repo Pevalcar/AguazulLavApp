@@ -163,12 +163,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Teléfono"),
                       hintText: "Teléfono del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un teléfono';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -177,12 +171,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Correo"),
                       hintText: "Correo del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un correo';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -191,12 +179,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Dirección"),
                       hintText: "Dirección del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un dirección';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -205,12 +187,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Ciudad"),
                       hintText: "Ciudad del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un ciudad';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -219,12 +195,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Departamento"),
                       hintText: "Departamento del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un departamento';
-                      }
-                      return null;
-                    },
                   ),
                 ],
               ),
