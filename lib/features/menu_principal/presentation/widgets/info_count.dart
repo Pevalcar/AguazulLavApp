@@ -17,10 +17,15 @@ class InfoCount extends HookConsumerWidget {
     final String hora = formater.format(DateTime.now());
     const String stadoServidor = "Espacio libre del servidor";
     final version = ref.watch(infoAppProvider);
+
+    final connect = ref.watch(conectedBluetueProvider);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
+          _InfoText(
+              title: 'Impresora Conectada: ',
+              info: connect ? 'Si 🟢' : 'No 🔴'),
           _InfoText(title: 'Usuario: ', info: usuario),
           _InfoText(title: 'Fecha: ', info: hora),
           const _InfoText(title: 'Servidor: ', info: stadoServidor),

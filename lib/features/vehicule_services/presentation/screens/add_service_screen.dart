@@ -6,8 +6,8 @@ class AddServiceScreen extends HookConsumerWidget {
   const AddServiceScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < 600) {
+    return OrientationBuilder(builder: (context, orientation) {
+      if (orientation == Orientation.portrait) {
         return const MobileAddService();
       }
       return const DesktopAddService();

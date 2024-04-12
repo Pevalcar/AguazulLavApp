@@ -44,7 +44,7 @@ class VehiculoState extends _$VehiculoState {
   void addVehiculo(
       Function()? onCarroSave, Function(String)? onSaveError) async {
     final PhotoState? photo = ref.watch(photoVehiculeProvider).asData?.value;
-    final propietario = ref.watch(propietarioProvider)?.id;
+    final propietario = ref.watch(propietarioProvider)?.id ?? "nn";
     final typeService = ref.watch(serviceTypeSelectProvider)?.clase ?? "";
     final worker = ref.watch(trabajadorNameProvider);
     final placa = ref.watch(placaProvider);
@@ -98,6 +98,15 @@ class Propietario extends _$Propietario {
 
   void modifyPropietario(Client propietario) {
     state = propietario;
+  }
+
+  void inputNullUSer(String id) {
+    state = Client(
+      id: id,
+      name: "",
+      identification: '',
+      phone: '',
+    );
   }
 }
 

@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 //TODO implementar PC soport
-class AdminClientScreenPage extends StatelessWidget {
+class AdminClientScreenPage extends HookConsumerWidget {
   const AdminClientScreenPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.refresh)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.help)),
+          IconButton(
+              onPressed: () => ref.refresh(clientListProvider.future),
+              icon: Icon(Icons.refresh)),
           const DarkModeButton()
         ],
         title: const Text('Clientes'),
@@ -162,12 +163,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Teléfono"),
                       hintText: "Teléfono del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un teléfono';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -176,12 +171,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Correo"),
                       hintText: "Correo del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un correo';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -190,12 +179,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Dirección"),
                       hintText: "Dirección del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un dirección';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -204,12 +187,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Ciudad"),
                       hintText: "Ciudad del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un ciudad';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -218,12 +195,6 @@ class DialogClientInfo extends StatelessWidget {
                       label: Text("Departamento"),
                       hintText: "Departamento del cliente",
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa un departamento';
-                      }
-                      return null;
-                    },
                   ),
                 ],
               ),
@@ -263,10 +234,7 @@ class MobileContenido extends HookConsumerWidget {
     return _clients.when(
       data: (data) {
         return RefreshIndicator(
-          onRefresh: () {
-            ref.read(clientListProvider.notifier).fetch();
-            return Future.delayed(const Duration(seconds: 1));
-          },
+          onRefresh: () => ref.refresh(clientListProvider.future),
           child: SafeArea(
             child: ListaClientes(clientes: data),
           ),
@@ -391,7 +359,7 @@ class ClientCard extends HookConsumerWidget {
                         showDialog(
                             context: context,
                             builder: (_) => PinAccesDialog(
-                                  correctPass: () =>  ref
+                                  correctPass: () => ref
                                       .read(clientListProvider.notifier)
                                       .deleteUSer(_cliente),
                                 ));

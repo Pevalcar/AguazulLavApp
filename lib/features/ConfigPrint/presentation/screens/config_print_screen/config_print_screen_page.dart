@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:aguazullavapp/lib.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
+import 'package:flutter/services.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image/image.dart' as img;
+import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 
 class ConfigPrintScreenPage extends StatefulWidget {
   const ConfigPrintScreenPage({super.key});
@@ -19,19 +22,19 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
   bool connected = false;
   List<BluetoothInfo> items = [];
   final List<String> _options = [
-    "permission bluetooth granted",
-    "bluetooth enabled",
-    "connection status",
-    "update info"
+    "Permiso Bluetooth admitido",
+    "bluetooth activado",
+    "estado de conexión",
+    "Actualizar información"
   ];
 
   String _selectSize = "2";
-  final _txtText = TextEditingController(text: "Hello developer");
+  final _txtText = TextEditingController(text: "Hola Como estas");
   bool _progress = false;
   String _msjprogress = "";
 
-  String optionprinttype = "58 mm";
   List<String> options = ["58 mm", "80 mm"];
+  String optionprinttype = "80 mm";
 
   @override
   void initState() {
@@ -43,8 +46,9 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plugin example app'),
+        title: const Text('Configurar Impresora'),
         actions: [
+          UpdaterConected(contectedo: connected),
           PopupMenuButton(
             elevation: 3.2,
             //initialValue: _options[1],
@@ -54,25 +58,26 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
             tooltip: 'Menu',
             onSelected: (Object select) async {
               String sel = select as String;
-              if (sel == "permission bluetooth granted") {
+              if (sel == "Permiso Bluetooth admitido") {
                 bool status =
                     await PrintBluetoothThermal.isPermissionBluetoothGranted;
                 setState(() {
-                  _info = "permission bluetooth granted: $status";
+                  _info = "Permiso Bluetooth admitido: $status";
                 });
                 //open setting permision if not granted permision
-              } else if (sel == "bluetooth enabled") {
+              } else if (sel == "bluetooth activado") {
                 bool state = await PrintBluetoothThermal.bluetoothEnabled;
                 setState(() {
-                  _info = "Bluetooth enabled: $state";
+                  _info = "bluetooth activado: $state";
                 });
-              } else if (sel == "update info") {
+              } else if (sel == "Actualizar información") {
                 initPlatformState();
-              } else if (sel == "connection status") {
+              } else if (sel == "estado de conexión") {
                 final bool result =
                     await PrintBluetoothThermal.connectionStatus;
                 setState(() {
-                  _info = "connection status: $result";
+                  connected = result;
+                  _info = "estado de conexión: $result";
                 });
               }
             },
@@ -135,17 +140,36 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                           ),
                         ),
                         const SizedBox(width: 5),
-                        Text(_progress ? _msjprogress : "Search"),
+                        Text(_progress ? _msjprogress : "Buscar"),
                       ],
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: connected ? this.disconnect : null,
-                    child: const Text("Disconnect"),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      if (connected) {
+                        return ElevatedButton(
+                          onPressed: () async {
+                            await this.disconnect();
+                            if (connected) {
+                              return;
+                            }
+                            ref
+                                .read(conectedBluetueProvider.notifier)
+                                .setContected(false);
+                          },
+                          child: const Text("Desconectar"),
+                        );
+                      } else {
+                        return ElevatedButton(
+                          onPressed: null,
+                          child: const Text("Desconectar"),
+                        );
+                      }
+                    },
                   ),
                   ElevatedButton(
                     onPressed: connected ? this.printTest : null,
-                    child: const Text("Test"),
+                    child: const Text("Prueba"),
                   ),
                 ],
               ),
@@ -158,13 +182,25 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                   child: ListView.builder(
                     itemCount: items.length > 0 ? items.length : 0,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () {
-                          String mac = items[index].macAdress;
-                          this.connect(mac);
+                      return Consumer(
+                        builder: (context, ref, child) {
+                          return ListTile(
+                            leading: const Icon(Icons.print),
+                            onTap: () async {
+                              String mac = items[index].macAdress;
+                              await this.connect(mac);
+                              if (!connected) {
+                                return;
+                              }
+                              ref
+                                  .read(conectedBluetueProvider.notifier)
+                                  .setContected(true);
+                            },
+                            title: Text('Nombre: ${items[index].name}'),
+                            subtitle:
+                                Text("macAddress: ${items[index].macAdress}"),
+                          );
                         },
-                        title: Text('Name: ${items[index].name}'),
-                        subtitle: Text("macAddress: ${items[index].macAdress}"),
                       );
                     },
                   )),
@@ -177,7 +213,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                 ),
                 child: Column(children: [
                   const Text(
-                      "Text size without the library without external packets, print images still it should not use a library"),
+                      "Tamaño de texto sin biblioteca ni paquetes externos, imprimir imágenes pero sin usar una biblioteca."),
                   const SizedBox(height: 10),
                   Row(
                     children: [
@@ -186,7 +222,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                           controller: _txtText,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "Text",
+                            labelText: "Texto",
                           ),
                         ),
                       ),
@@ -211,7 +247,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                   ),
                   ElevatedButton(
                     onPressed: connected ? this.printWithoutPackage : null,
-                    child: const Text("Print"),
+                    child: const Text("Imprimir"),
                   ),
                 ]),
               ),
@@ -229,10 +265,10 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await PrintBluetoothThermal.platformVersion;
-      print("patformversion: $platformVersion");
+      print("Version de plataforma: $platformVersion");
       porcentbatery = await PrintBluetoothThermal.batteryLevel;
     } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      platformVersion = 'Fallo al obtener la plataforma.';
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -240,23 +276,27 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    final bool result = await PrintBluetoothThermal.bluetoothEnabled;
+    bool result = await PrintBluetoothThermal.bluetoothEnabled;
     print("bluetooth enabled: $result");
     if (result) {
-      _msj = "Bluetooth enabled, please search and connect";
+      _msj = "Bluetooth activated, Busca y Conecta";
     } else {
-      _msj = "Bluetooth not enabled";
+      _msj = "Bluetooth no activado";
     }
 
+    result = await PrintBluetoothThermal.connectionStatus;
     setState(() {
-      _info = platformVersion + " ($porcentbatery% battery)";
+      connected = result;
+      _info = "Estado conexión: ${result ? "Conectado" : "Desconectado"}  \n" +
+          platformVersion +
+          " ($porcentbatery% bateria)";
     });
   }
 
   Future<void> getBluetoots() async {
     setState(() {
       _progress = true;
-      _msjprogress = "Wait";
+      _msjprogress = "Buscando dispositivos...";
       items = [];
     });
     final List<BluetoothInfo> listResult =
@@ -275,7 +315,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
       _msj =
           "There are no bluetoohs linked, go to settings and link the printer";
     } else {
-      _msj = "Touch an item in the list to connect";
+      _msj = "Toque un elemento en la lista para conectar.";
     }
 
     setState(() {
@@ -286,7 +326,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
   Future<void> connect(String mac) async {
     setState(() {
       _progress = true;
-      _msjprogress = "Connecting...";
+      _msjprogress = "Conectando...";
       connected = false;
     });
     final bool result =
@@ -346,22 +386,8 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     //bytes += generator.setGlobalFont(PosFontType.fontA);
     bytes += generator.reset();
 
-    final ByteData data = await rootBundle.load('assets/mylogo.jpg');
-    final Uint8List bytesImg = data.buffer.asUint8List();
-    img.Image? image = img.decodeImage(bytesImg);
-
-    if (Platform.isIOS) {
-      // Resizes the image to half its original size and reduces the quality to 80%
-      final resizedImage = img.copyResize(image!,
-          width: image.width ~/ 1.3,
-          height: image.height ~/ 1.3,
-          interpolation: img.Interpolation.nearest);
-      final bytesimg = Uint8List.fromList(img.encodeJpg(resizedImage));
-      //image = img.decodeImage(bytesimg);
-    }
-
     //Using `ESC *`
-    bytes += generator.image(image!);
+    // bytes += generator.image(image!);|
 
     bytes += generator.text(
         'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
@@ -451,5 +477,20 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
       });
       print("no conectado");
     }
+  }
+}
+
+class UpdaterConected extends StatelessWidget {
+  const UpdaterConected({
+    super.key,
+    this.contectedo = false,
+  });
+
+  final bool contectedo;
+  @override
+  Widget build(BuildContext context) {
+    final color = contectedo ? Colors.green : Colors.red;
+    final icon = contectedo ? Icons.check : Icons.close;
+    return Icon(icon, color: color);
   }
 }

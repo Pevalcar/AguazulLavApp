@@ -24,6 +24,8 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
             ElevatedButton(
                 onPressed: () => const ConfigPinPassRoute().push(context),
                 child: const Text('Configurar Pin')),
+            const SizedBox(height: 25),
+            const Text('Configuracion de Comiciones'),
           ],
         ),
       ),

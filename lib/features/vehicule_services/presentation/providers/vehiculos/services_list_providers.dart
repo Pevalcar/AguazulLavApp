@@ -91,7 +91,7 @@ class ServiceList extends _$ServiceList {
     state = await AsyncValue.guard(() async {
       List<Vehicle> list = state.value ?? [];
       await ref.read(deletePhotoGrafieProvider).call(vehicle.photoName);
-      await ref.read(deleteVehiculoProvider).call(vehicle);
+      await ref.read(deleteVehiculoProvider).call(vehicle.id);
       await ref.read(jornadaStateProvider.notifier).deleteServicio(vehicle.id);
       logger.w("Eliminando servicio ${vehicle.id}");
       logger.w("seze ${list.length} ");
@@ -126,7 +126,9 @@ class ServiceList extends _$ServiceList {
       Vehicle vehicle0 =
           vehicle.copyWith(terminado: true, salida: DateTime.now());
       await ref.read(modifieVehiculeProvider).call(vehicle0);
-      await ref.read(clientListProvider.notifier).updateBonus(vehicle.propietarioid);
+      await ref
+          .read(clientListProvider.notifier)
+          .updateBonus(vehicle.propietarioid);
       list[index] = vehicle0;
       list = list.toSet().toList();
       ref.read(jornadaStateProvider.notifier).reloadCalculos();

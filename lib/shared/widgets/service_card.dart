@@ -1,6 +1,10 @@
 import 'package:aguazullavapp/lib.dart';
+import 'package:aguazullavapp/services/helpers.dart';
+import 'package:aguazullavapp/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
@@ -15,7 +19,6 @@ class CardCarService extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final client = ref.watch(getUserInfoProvider(vehicle.propietarioid));
-    final pin = ref.watch(pinPassProvider);
     final ButtonStyle myStileButton = TextButton.styleFrom(
       foregroundColor: Theme.of(context).colorScheme.secondary,
       shape: const RoundedRectangleBorder(
@@ -72,43 +75,31 @@ class CardCarService extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-                child: Column(children: [
-              //tipo de servico lavado enjeage etc
-              Text.rich(
-                TextSpan(
-                  text: "Servicio: ",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                  children: [
-                    TextSpan(
-                        style: Theme.of(context).textTheme.bodySmall,
-                        text: vehicle.typeService)
-                  ],
-                ),
-              ),
-              //Propietario
-              Text.rich(TextSpan(
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                  text: "Propietario: ",
-                  children: [
-                    TextSpan(
-                      style: Theme.of(context).textTheme.bodySmall,
-                      text: client.asData?.value?.name ?? "No definido",
-                    )
-                  ])),
-            ])),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  //tipo de servico lavado enjeage etc
+                  TextRich(
+                    title: "Propietario: ",
+                    text: client.asData?.value?.name ?? "No definido",
+                  ),
+                  //Propietario
+                  TextRich(title: "Servicio: ", text: vehicle.typeService),
+                  TextRich(
+                    title: "Trabajador: ",
+                    text: vehicle.trabjador,
+                  ),
+                ])),
             vehicle.terminado
                 ? const TerminadoBadge()
                 : const SinTerminarBadge(),
           ],
         ),
         children: [
-          Text(vehicle.tipoPago),
+          vehicle.terminado
+              ? Text("Tipo de pago: ${vehicle.tipoPago}")
+              : const Text("Tipo de pago: "),
+          Text("Trabjador: ${vehicle.trabjador}"),
           /* TODO ════════ Exception caught by painting library ══════════════════════════════════
 Image null has a display size of 501×921 but a decode size of 1002×1840, which uses an additional 7196KB (assuming a device pixel ratio of 1.75).
 
@@ -142,12 +133,11 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                   onPressed: () {
                     showDialog(
                       context: context,
-                      builder: (context) => PinAccesDialog(
-                          correctPass: () {
-                            ref
-                                .read(serviceListProvider.notifier)
-                                .deleteService(vehicle);
-                          }),
+                      builder: (context) => PinAccesDialog(correctPass: () {
+                        ref
+                            .read(serviceListProvider.notifier)
+                            .deleteService(vehicle);
+                      }),
                     );
                   },
                   child: const Column(
@@ -163,7 +153,14 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
               ),
               TextButton(
                 style: myStileButton,
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return _InfoCard(vehicle: vehicle, client: client);
+                    },
+                  );
+                },
                 child: const Column(
                   children: <Widget>[
                     Icon(Icons.document_scanner_outlined),
@@ -179,55 +176,12 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                 child: TextButton(
                   style: myStileButton,
                   onPressed: () async {
-                    List<String> list = ["Efectivo", "Transferencia"];
-                    String pagoType = list.first;
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
-                            actions: [
-                              TextButton(
-                                  child: const Text("Cancelar"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  }),
-                              TextButton(
-                                  child: const Text("Aceptar"),
-                                  onPressed: () async {
-                                    await ref
-                                        .read(serviceListProvider.notifier)
-                                        .endService(vehicle.copyWith(
-                                          tipoPago: pagoType,
-                                        ));
-                                    Navigator.of(context).pop();
-                                  })
-                            ],
-                            title: const Text("Información de pago"),
-                            content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  DropdownButton<String>(
-                                    value: pagoType,
-                                    icon: const Icon(Icons.arrow_downward),
-                                    elevation: 16,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Colors.deepPurpleAccent,
-                                    ),
-                                    onChanged: (String? value) {
-                                      pagoType = value!;
-                                    },
-                                    items: list.map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ]));
+                        return AlerPago(
+                          vehicle: vehicle,
+                        );
                       },
                     );
                     controller.collapse();
@@ -248,6 +202,158 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
         ],
       ),
     );
+  }
+}
+
+class TextRich extends StatelessWidget {
+  const TextRich({
+    super.key,
+    required this.text,
+    required this.title,
+  });
+
+  final String text;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+        overflow: TextOverflow.ellipsis,
+        TextSpan(
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(fontWeight: FontWeight.bold),
+            text: title,
+            children: [
+              TextSpan(
+                style: Theme.of(context).textTheme.bodySmall,
+                text: text,
+              )
+            ]));
+  }
+}
+
+class _InfoCard extends StatelessWidget {
+  const _InfoCard({
+    super.key,
+    required this.vehicle,
+    required this.client,
+  });
+
+  final Vehicle vehicle;
+  final AsyncValue<Client?> client;
+
+  @override
+  Widget build(BuildContext context) {
+    final formater = DateFormat('dd/MM/yyyy-hh:mm');
+
+    return Dialog.fullscreen(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const BackButton(),
+              const SizedBox(height: 30),
+              Center(child: CargarImagenDesdeCache(imageUrl: vehicle.photo)),
+              const SizedBox(height: 30),
+              Center(
+                child: const Text(
+                  "Información",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 30),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextRich(title: "Placa: ", text: vehicle.placa),
+                  TextRich(
+                      title: "Tipo de servicio: ", text: vehicle.typeService),
+                  TextRich(title: "Trabajador: ", text: vehicle.trabjador),
+                  TextRich(
+                      title: "Estado: ",
+                      text: vehicle.terminado ? "Terminado" : "Pendiente"),
+                  TextRich(title: "Tipo de pago: ", text: vehicle.tipoPago),
+                  TextRich(
+                      title: "Precio: ",
+                      text: formatearIntACantidad(vehicle.typePrice)),
+                  TextRich(
+                      title: "Cliente: ",
+                      text: client.asData?.value?.name ?? "No definido"),
+                  TextRich(
+                      title: "Fecha Entrada: ",
+                      text: formater.format(vehicle.entrada)),
+                  TextRich(
+                      title: "Fecha Salida: ",
+                      text: vehicle.salida != null
+                          ? formater.format(vehicle.salida ?? DateTime.now())
+                          : "no finalizo"),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AlerPago extends HookConsumerWidget {
+  const AlerPago({
+    super.key,
+    required this.vehicle,
+  });
+
+  final Vehicle vehicle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<String> list = ["Efectivo", "Transferencia"];
+    ValueNotifier<String> pagoType = useState(list.first);
+    return AlertDialog(
+        actions: [
+          TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+          TextButton(
+              child: const Text("Aceptar"),
+              onPressed: () async {
+                await ref
+                    .read(serviceListProvider.notifier)
+                    .endService(vehicle.copyWith(
+                      tipoPago: pagoType.value,
+                    ));
+                Navigator.of(context).pop();
+              })
+        ],
+        title: const Text("Información de pago"),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          DropdownButton<String>(
+            value: pagoType.value,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String? value) {
+              pagoType.value = value!;
+            },
+            items: list.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ]));
   }
 }
 

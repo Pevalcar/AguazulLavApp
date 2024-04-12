@@ -94,7 +94,7 @@ class ClientList extends _$ClientList {
   Future<void> updateBonus(String id) async {
     Client? user = await ref.read(getUserProvider).call(id);
     if (user != null) {
-       user = user.copyWith(bonus: user.bonus + 1);
+      user = user.copyWith(bonus: user.bonus + 1);
       modifieUSer(user, null);
     }
   }
@@ -111,7 +111,7 @@ class ClientList extends _$ClientList {
     });
   }
 
-  Future<Client?> getUSer(String id) async {
+  Future<Client?> getUser(String id) async {
     return state.asData?.value.firstWhere((element) => element.id == id) ??
         await ref.read(getUserProvider).call(id);
   }
@@ -120,7 +120,16 @@ class ClientList extends _$ClientList {
 @riverpod
 Future<Client?> GetUserInfo(GetUserInfoRef ref, String userID) async {
   if (userID.isEmpty) return null;
-  if (userID == "1234") return null;
-  Client? user = await ref.read(clientListProvider.notifier).getUSer(userID);
+
+  if (userID.length < 15) {
+    return Client(
+        name: userID,
+        id: userID,
+        bonus: 0,
+        identification: userID,
+        phone: userID);
+  }
+  Client? user = await ref.read(clientListProvider.notifier).getUser(userID);
+
   return user;
 }

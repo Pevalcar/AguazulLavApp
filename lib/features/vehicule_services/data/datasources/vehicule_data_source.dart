@@ -29,10 +29,44 @@ class VehiculoDataSource {
 
   Future<List<Vehicle>> getVehiculesToday(List<String> ids) async {
     List<Vehicle> list = [];
-    try {
-      list = await _getVehiculesTodayLocal(ids);
-      if (list.isEmpty || list.length < ids.length) {
-        _firebase
+    List<String> ides = ids;
+    List<String> idesLocal = [];
+
+    list = await _getVehiculesTodayLocal(ids);
+    if (ids.length > 28) {
+      if (list.isNotEmpty && list.length == ids.length) {
+        logger.i("cargando vehivulos de la base de datos local");
+        return list;
+      }
+      while (ides.isNotEmpty) {
+        idesLocal = [];
+        idesLocal = ides.take(30).toList();
+        ides = ides.skip(30).toList();
+        try {
+          await _firebase
+              .where('id', whereIn: idesLocal)
+              .orderBy("entrada", descending: true)
+              .get()
+              .then((value) {
+            for (var element in value.docs) {
+              list.add(
+                  Vehicle.fromJson(element.data() as Map<String, dynamic>));
+            }
+            logger.i("cargando vehivulos de la base de datos remota");
+          });
+        } on FirebaseException catch (e) {
+          logger.e('error Firebase', error: e.toString());
+        } catch (e) {
+          logger.e('error Firebase', error: e.toString());
+        }
+      }
+    } else {
+      if (list.isNotEmpty && list.length == ids.length) {
+        logger.i("cargando vehivulos de la base de datos local");
+        return list;
+      }
+      try {
+        await _firebase
             .where('id', whereIn: ids)
             .orderBy("entrada", descending: true)
             .get()
@@ -42,14 +76,11 @@ class VehiculoDataSource {
           }
           logger.i("cargando vehivulos de la base de datos remota");
         });
-        return list;
+      } on FirebaseException catch (e) {
+        logger.e('error Firebase', error: e.toString());
+      } catch (e) {
+        logger.e('error Firebase', error: e.toString());
       }
-      logger.i("cargando vehivulos de la base de datos local");
-      return list;
-    } on FirebaseException catch (e) {
-      logger.e('error Firebase', error: e.toString());
-    } catch (e) {
-      logger.e('error Firebase', error: e.toString());
     }
     return list;
   }
@@ -64,9 +95,9 @@ class VehiculoDataSource {
     }
   }
 
-  void deleteVehicle(Vehicle vehicle) async {
+  void deleteVehicle(String id) async {
     try {
-      await _firebase.doc(vehicle.id).delete();
+      await _firebase.doc(id).delete();
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());
     } catch (e) {
@@ -106,23 +137,34 @@ class VehiculoDataSource {
 
   Future<List<Vehicle>> _getVehiculesTodayLocal(List<String> ids) async {
     List<Vehicle> list = [];
-    try {
-      await _firebase
-          .where('id', whereIn: ids)
-          .orderBy("entrada", descending: true)
-          .get(const GetOptions(source: Source.cache))
-          .then((value) {
-        for (var element in value.docs) {
-          list.add(Vehicle.fromJson(element.data() as Map<String, dynamic>));
+    List<String> ides = ids;
+    List<String> idesLocal = [];
+
+    if (ids.length > 28) {
+      while (ides.isNotEmpty) {
+        idesLocal = [];
+        idesLocal = ides.take(30).toList();
+        ides = ides.skip(30).toList();
+        try {
+          if (list.isEmpty || list.length < ids.length) {
+            await _firebase
+                .where('id', whereIn: idesLocal)
+                .orderBy("entrada", descending: true)
+                .get(const GetOptions(source: Source.cache))
+                .then((value) {
+              for (var element in value.docs) {
+                list.add(
+                    Vehicle.fromJson(element.data() as Map<String, dynamic>));
+              }
+            });
+          }
+        } on FirebaseException catch (e) {
+          logger.e('error Firebase', error: e.toString());
+        } catch (e) {
+          logger.e('error Firebase', error: e.toString());
         }
-      });
-      return list;
-    } on FirebaseException catch (e) {
-      logger.e('error Firebase', error: e.toString());
-      return list;
-    } catch (e) {
-      logger.e('error Firebase', error: e.toString());
-      return list;
+      }
     }
+    return list;
   }
 }
