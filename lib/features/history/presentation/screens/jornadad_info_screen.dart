@@ -38,64 +38,68 @@ class JornadaInfoScreen extends HookConsumerWidget {
             )
           ],
         ),
-        body: jornada.when(
-            data: (data) => CustomScrollView(
-                    physics: const BouncingScrollPhysics(
-                        decelerationRate: ScrollDecelerationRate.normal),
-                    slivers: [
-                      SliverToBoxAdapter(
-                          child: _JornadaInfoStats(data: data!.jornada)),
-                      const SliverToBoxAdapter(child: Divider()),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 8.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Text(
-                                  "Informacion de la jornada".toUpperCase(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge
-                                      ?.copyWith(fontWeight: FontWeight.bold),
+        body: RefreshIndicator(
+          onRefresh: () async =>
+              await ref.refresh(jornadaInfoProvider(jornadaId).future),
+          child: jornada.when(
+              data: (data) => CustomScrollView(
+                      physics: const BouncingScrollPhysics(
+                          decelerationRate: ScrollDecelerationRate.normal),
+                      slivers: [
+                        SliverToBoxAdapter(
+                            child: _JornadaInfoStats(data: data!.jornada)),
+                        const SliverToBoxAdapter(child: Divider()),
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Text(
+                                    "Informacion de la jornada".toUpperCase(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      _ListaPorTrabajadores(data: data),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            'Entradas y salidas:',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                        _ListaPorTrabajadores(data: data),
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              'Entradas y salidas:',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
-                      ),
-                      SliverList.builder(
-                          itemCount: data.entradaSalidasList.length,
-                          itemBuilder: (context, index) {
-                            return EntradaSalidaCard(
-                                information: data.entradaSalidasList[index]);
-                          })
-                    ]),
-            error: (error, stackTrace) => Text(error.toString()),
-            //
-            loading: () => const Center(child: CircularProgressIndicator())));
+                        SliverList.builder(
+                            itemCount: data.entradaSalidasList.length,
+                            itemBuilder: (context, index) {
+                              return EntradaSalidaCard(
+                                  information: data.entradaSalidasList[index]);
+                            })
+                      ]),
+              error: (error, stackTrace) => Text(error.toString()),
+              //
+              loading: () => const Center(child: CircularProgressIndicator())),
+        ));
   }
 }
 
