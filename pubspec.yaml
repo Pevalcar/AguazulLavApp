@@ -1,7 +1,7 @@
 name: aguazullavapp
 description: Proyecto para lavadero de carros, control de pagos, etc.
 publish_to: 'none'
-version: 1.1.0
+version: 1.1.1
 
 environment:
   sdk: '>=3.0.6 <4.0.0'

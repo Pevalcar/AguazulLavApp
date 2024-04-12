@@ -25,7 +25,17 @@ class AddServiceTypeScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tipos de Servicios"),
-        actions: const [DarkModeButton()],
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(serviceTypeListProvider.notifier).loadData();
+            },
+            icon: const Icon(
+              Icons.refresh,
+            ),
+          ),
+          const DarkModeButton()
+        ],
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) =>

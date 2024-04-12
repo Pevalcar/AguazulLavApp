@@ -60,10 +60,17 @@ class ServiceTypeList extends _$ServiceTypeList {
   }
 
   Future<List<ServiceType>?> loadData() async {
-    return await ref.read(getServiceTypeProvider).call();
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return await ref.read(getServiceTypeProvider).call();
+    });
+
+    return state.value;
   }
+
 //Agregar soporte adatabase local
-  void addServiceType(ServiceType service, Function() onAddDone,Function(String) onCatchError) async {
+  void addServiceType(ServiceType service, Function() onAddDone,
+      Function(String) onCatchError) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       await ref.watch(addServiceTypeProvider).call(service);
@@ -91,7 +98,6 @@ class ServiceTypeList extends _$ServiceTypeList {
       return loadData();
     });
   }
-  
 }
 
 //TODO fetch de datos sobre base de typos

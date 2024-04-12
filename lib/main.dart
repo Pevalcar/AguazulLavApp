@@ -26,15 +26,9 @@ Future mainCommon(AppEnvironment env) async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    if (kDebugMode) {
-      try {
-        FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-        await _configureFirebaseAuth();
-      } catch (e) {
-        // ignore: avoid_print
-        print(e);
-      }
-    }
+    // if (kDebugMode) {
+    //   _configureFirebaseAuth();
+    // }
 
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -62,8 +56,11 @@ Future initHivWeb() async {
 }
 
 Future<void> _configureFirebaseAuth() async {
-  String configHost = const String.fromEnvironment("192.168.1.4");
-  var defaulHost = Platform.isAndroid ? '10.0.2.2' : 'localhost';
-  String host = configHost.isEmpty ? configHost : defaulHost;
-  await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+  try {
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+    await FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
+  } catch (e) {
+    // ignore: avoid_print
+    print(e);
+  }
 }
