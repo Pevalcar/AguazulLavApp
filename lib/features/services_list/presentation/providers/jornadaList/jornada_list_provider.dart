@@ -75,6 +75,14 @@ class JornadasList extends _$JornadasList {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<Jornada> list = state.value ?? [];
+      final _jornada = ref.watch(jornadaInfoProvider(jornada)).asData!.value;
+      if (_jornada == null) return list;
+      if (_jornada.serviciosList.isNotEmpty) {
+        await deleteVehiculos(_jornada.serviciosList);
+      }
+      if (jornada.entradaSalidaIDs.isNotEmpty) {
+        await deleteEntradaSalida(_jornada.entradaSalidasList);
+      }
 
       await ref.read(deleteJornadaProvider).call(jornada);
       list.remove(jornada);
@@ -88,6 +96,8 @@ class JornadasList extends _$JornadasList {
     if (jornada != null) {
       return jornada;
     }
+
+    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       return ref.read(getJornadasProvider).call();
     });
@@ -109,6 +119,21 @@ class JornadasList extends _$JornadasList {
       return list;
     });
     return jornada;
+  }
+
+  Future<void> deleteVehiculos(List<Vehicle> vehiculos) async {
+    for (Vehicle element in vehiculos) {
+      await ref.read(serviceListProvider.notifier).deleteService(element);
+    }
+  }
+
+  Future<void> deleteEntradaSalida(List<EntradaSalida> entadSalida) async {
+    for (EntradaSalida element in entadSalida) {
+      int index = entadSalida.indexWhere((e) => e.id == element.id);
+      await ref
+          .read(entradaSalidaListProvider.notifier)
+          .deleteEntradaSalida(element, index);
+    }
   }
 
   Future<Jornada?> getCurrentJornada() async {

@@ -10,8 +10,8 @@ _$PhotoStateImpl _$$PhotoStateImplFromJson(Map<String, dynamic> json) =>
     _$PhotoStateImpl(
       url: json['url'] as String,
       photoName: json['photoName'] as String,
-      message: json['message'] as String? ?? null,
-      code: json['code'] as String? ?? null,
+      message: json['message'] as String?,
+      code: json['code'] as String?,
     );
 
 Map<String, dynamic> _$$PhotoStateImplToJson(_$PhotoStateImpl instance) =>

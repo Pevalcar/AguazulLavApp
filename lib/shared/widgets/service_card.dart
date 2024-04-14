@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import 'print_button.dart';
 
 class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
@@ -114,7 +113,7 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                 child: CargarImagenDesdeCache(imageUrl: vehicle.photo)),
           ),
           ButtonBar(
-            alignment: MainAxisAlignment.center,
+            alignment: MainAxisAlignment.spaceBetween,
             buttonHeight: 52.0,
             buttonMinWidth: 90.0,
             children: <Widget>[
@@ -149,7 +148,7 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
               ),
               MyActionButton(
                 editable: _editable,
-                terminado: vehicle.terminado,
+                terminado: !vehicle.terminado,
                 icon: Icons.task,
                 text: 'Terminar',
                 onPressed: () {
@@ -162,7 +161,6 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                     },
                   );
                   controller.collapse();
-                  ;
                 },
               ),
             ],
@@ -370,7 +368,7 @@ class AlerPago extends HookConsumerWidget {
 
 class TerminadoBadge extends StatelessWidget {
   const TerminadoBadge(
-    bool this.terminado, {
+    this.terminado, {
     super.key,
   });
   final bool terminado;
@@ -382,21 +380,6 @@ class TerminadoBadge extends StatelessWidget {
     return RoundedBadge(
       icon: Icon(Icons.check, color: color),
       title: terminado ? "Terminado" : "Pendiente",
-    );
-  }
-}
-
-class SinTerminarBadge extends StatelessWidget {
-  const SinTerminarBadge({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return RoundedBadge(
-      icon: Icon(Icons.cancel,
-          color: Theme.of(context).colorScheme.errorContainer),
-      title: "Terminado",
     );
   }
 }

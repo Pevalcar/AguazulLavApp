@@ -1,3 +1,4 @@
+import 'package:aguazullavapp/lib.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -11,6 +12,7 @@ class CargarImagenDesdeCache extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.i(imageUrl);
     return CachedNetworkImage(
       memCacheHeight: 410,
       memCacheWidth: 310,

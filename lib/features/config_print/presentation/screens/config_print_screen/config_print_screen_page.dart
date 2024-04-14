@@ -151,7 +151,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                                 strokeWidth: 1, backgroundColor: Colors.white),
                           ),
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         Text(
                           _progress ? _msjprogress : "Buscar",
                           overflow: TextOverflow.ellipsis,

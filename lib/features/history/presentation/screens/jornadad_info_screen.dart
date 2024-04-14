@@ -45,7 +45,7 @@ class JornadaInfoScreen extends HookConsumerWidget {
           onRefresh: () async =>
               await ref.refresh(jornadaInfoProvider(jornadaId).future),
           child: jornada.when(
-              data: (data) => CustomScrollView(
+              data: (JornadaInfoModel? data) => CustomScrollView(
                       physics: const BouncingScrollPhysics(
                           decelerationRate: ScrollDecelerationRate.normal),
                       slivers: [
@@ -190,7 +190,7 @@ class SingleListTrabajador extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int comicione = calculerTotal(_servicios);
-    final double comicion_calcule = comicione * comicion / 100;
+    final double comicionCalcule = comicione * comicion / 100;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -221,7 +221,7 @@ class SingleListTrabajador extends StatelessWidget {
             ),
             const Divider(),
             Text(
-              'Ganancia  ${formatearIntACantidad(comicion_calcule.toInt())}',
+              'Ganancia  ${formatearIntACantidad(comicionCalcule.toInt())}',
             ),
           ],
         ),

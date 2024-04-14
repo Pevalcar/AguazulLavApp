@@ -84,11 +84,11 @@ class MenuGridConten extends HookConsumerWidget {
             onPressed: () {
               const ConfigPrintScreenRoute().push(context);
             }),
-        ActionCardMenu(
-            title: "Administrar Cuentas",
-            icon: Icons.people_outlined,
-            color: disableColorbtn,
-            onPressed: () {}),
+        // ActionCardMenu(
+        //     title: "Administrar Cuentas",
+        //     icon: Icons.people_outlined,
+        //     color: disableColorbtn,
+        //     onPressed: () {}),
         ActionCardMenu(
             title: "Configuracion",
             icon: Icons.settings,
@@ -96,16 +96,16 @@ class MenuGridConten extends HookConsumerWidget {
             onPressed: () {
               const ConfigScreenRoute().push(context);
             }),
-        ActionCardMenu(
-            title: "Correo",
-            icon: Icons.mail,
-            color: disableColorbtn,
-            onPressed: () {}),
-        ActionCardMenu(
-            title: "Salir",
-            icon: Icons.logout,
-            color: disableColorbtn,
-            onPressed: () {}),
+        // ActionCardMenu(
+        //     title: "Correo",
+        //     icon: Icons.mail,
+        //     color: disableColorbtn,
+        //     onPressed: () {}),
+        // ActionCardMenu(
+        //     title: "Salir",
+        //     icon: Icons.logout,
+        //     color: disableColorbtn,
+        //     onPressed: () {}),
       ],
     );
   }
