@@ -86,11 +86,15 @@ class ServiceList extends _$ServiceList {
     });
   }
 
-  Future deleteService(Vehicle vehicle) async {
+  Future deleteService(
+    Vehicle vehicle,
+  ) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<Vehicle> list = state.value ?? [];
-      await ref.read(deletePhotoGrafieProvider).call(vehicle.photoName);
+      await ref
+          .read(deletePhotoGrafieProvider)
+          .call(vehicle.photoName, vehicle.entrada);
       await ref.read(deleteVehiculoProvider).call(vehicle.id);
       await ref.read(jornadaStateProvider.notifier).deleteServicio(vehicle.id);
       logger.w("Eliminando servicio ${vehicle.id}");

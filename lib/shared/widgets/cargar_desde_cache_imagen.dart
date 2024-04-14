@@ -12,7 +12,6 @@ class CargarImagenDesdeCache extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.i(imageUrl);
     return CachedNetworkImage(
       memCacheHeight: 410,
       memCacheWidth: 310,

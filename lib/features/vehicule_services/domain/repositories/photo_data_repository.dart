@@ -3,5 +3,5 @@ import 'package:image_picker/image_picker.dart';
 
 abstract class PhotoDataRepository {
   Future<PhotoState> addPhoto(XFile photo);
-  Future<PhotoState> deletePhoto(String service);
+  Future<PhotoState> deletePhoto(String service, DateTime time);
 }

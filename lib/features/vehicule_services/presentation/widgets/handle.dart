@@ -78,7 +78,8 @@ class Handled extends HookConsumerWidget {
                 CloseButton(
                   onPressed: () => ref
                       .read(photoVehiculeProvider.notifier)
-                      .deletePhoto(photo.asData?.value?.url, null),
+                      .deletePhoto(
+                          photo.asData!.value?.photoName, DateTime.now(), null),
                 )
               ])
             : Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [

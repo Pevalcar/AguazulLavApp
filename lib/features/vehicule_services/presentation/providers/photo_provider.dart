@@ -52,7 +52,8 @@ class PhotoVehicule extends _$PhotoVehicule {
     });
   }
 
-  Future<void> deletePhoto(String? photo, Function()? callback) async {
+  Future<void> deletePhoto(
+      String? photo, DateTime time, Function()? callback) async {
     if (photo == null ||
         photo == "" ||
         photo.contains(
@@ -61,7 +62,7 @@ class PhotoVehicule extends _$PhotoVehicule {
     }
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref.read(deletePhotoGrafieProvider).call(photo);
+      await ref.read(deletePhotoGrafieProvider).call(photo, time);
       if (callback != null) {
         callback();
       }

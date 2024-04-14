@@ -17,6 +17,7 @@ class DesktopAddService extends HookConsumerWidget {
       onPopInvoked: (_) async {
         ref.read(photoVehiculeProvider.notifier).deletePhoto(
             ref.watch(photoVehiculeProvider).asData?.value?.photoName,
+            DateTime.now(),
             () => context.pop());
       },
       child: Scaffold(

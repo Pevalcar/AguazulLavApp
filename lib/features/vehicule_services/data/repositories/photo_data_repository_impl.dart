@@ -11,7 +11,7 @@ class PhotoDataRepositoryImpl implements PhotoDataRepository {
   }
 
   @override
-  Future<PhotoState> deletePhoto(String service) async {
-   return _localDataSource.deletePhoto(service);
+  Future<PhotoState> deletePhoto(String service, DateTime time) async {
+    return _localDataSource.deletePhoto(service, time);
   }
 }
