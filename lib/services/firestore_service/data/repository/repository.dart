@@ -1,1 +1,1 @@
-export 'pinpass_repo/pinpass_repo.dart';
+export 'pinpass_repository.dart';
