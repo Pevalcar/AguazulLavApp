@@ -1,5 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ConfigurationPage extends StatefulWidget {
@@ -59,6 +60,11 @@ class ComicionTextFiel extends HookConsumerWidget {
 
     return TextField(
       controller: controller,
+      onSubmitted: (value) {
+        ref.read(comicionProvider.notifier).setComicion(int.parse(value));
+      },
+      keyboardType: TextInputType.number,
+      maxLength: 2,
       decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Configuracion de Comiciones',

@@ -28,7 +28,9 @@ class ConfigsDataSource implements IFirestoreDatasourceService<int> {
   @override
   Future<bool> update(int? data, String id) async {
     try {
-      await firestoreColection.doc(PINNAME).set({id: data});
+      await firestoreColection
+          .doc(PINNAME)
+          .set({id: data}, SetOptions(merge: true));
       return true;
     } on FirebaseException catch (e) {
       logger.e("error Uptadate  pin", error: e);

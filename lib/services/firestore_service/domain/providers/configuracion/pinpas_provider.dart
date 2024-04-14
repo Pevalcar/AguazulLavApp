@@ -55,16 +55,16 @@ class PinPass extends _$PinPass {
 class Comicion extends _$Comicion {
   @override
   Future<int?> build() async {
-    return _featchPin();
+    return _featchComicion();
   }
 
   static const String title = 'comicion';
 
-  Future<int?> _featchPin() async {
+  Future<int?> _featchComicion() async {
     return await ref.read(pinpassGetProvider).call(title);
   }
 
-  void setPin(int value) async {
+  void setComicion(int value) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await ref.read(pinpassUpdateProvider).call(value, title);

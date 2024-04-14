@@ -82,7 +82,7 @@ final pinPassProvider =
 );
 
 typedef _$PinPass = AutoDisposeAsyncNotifier<int?>;
-String _$comicionHash() => r'1d326d6ad6e17b6cc6c7d41bb799d50cdc7877d7';
+String _$comicionHash() => r'd75c72ee5dba1365820b6f7741e270f0c10fa244';
 
 /// See also [Comicion].
 @ProviderFor(Comicion)
