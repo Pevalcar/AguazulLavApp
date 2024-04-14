@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:aguazullavapp/lib.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,15 +53,15 @@ class PhotoVehicule extends _$PhotoVehicule {
   }
 
   Future<void> deletePhoto(String? photo, Function()? callback) async {
-    if ( photo == null ||photo == "" ||
-        photo.contains("https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png")) {
+    if (photo == null ||
+        photo == "" ||
+        photo.contains(
+            "https://firebasestorage.googleapis.com/v0/b/aguazullavapp.appspot.com/o/prueba.png")) {
       return callback!();
     }
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await ref
-          .read(deletePhotoGrafieProvider)
-          .call(photo);
+      await ref.read(deletePhotoGrafieProvider).call(photo);
       if (callback != null) {
         callback();
       }

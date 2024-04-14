@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:aguazullavapp/lib.dart';
 import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image/image.dart' as img;
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 
 class ConfigPrintScreenPage extends StatefulWidget {
@@ -53,7 +51,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
             elevation: 3.2,
             //initialValue: _options[1],
             onCanceled: () {
-              print('You have not chossed anything');
+              logger.i('You have not chossed anything');
             },
             tooltip: 'Menu',
             onSelected: (Object select) async {
@@ -103,7 +101,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
               Text(_msj),
               Row(
                 children: [
-                  const Text("Type print"),
+                  const Text("Type logger.i"),
                   const SizedBox(width: 10),
                   DropdownButton<String>(
                     value: optionprinttype,
@@ -126,7 +124,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      this.getBluetoots();
+                      getBluetoots();
                     },
                     child: Row(
                       children: [
@@ -149,7 +147,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                       if (connected) {
                         return ElevatedButton(
                           onPressed: () async {
-                            await this.disconnect();
+                            await disconnect();
                             if (connected) {
                               return;
                             }
@@ -160,15 +158,15 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                           child: const Text("Desconectar"),
                         );
                       } else {
-                        return ElevatedButton(
+                        return const ElevatedButton(
                           onPressed: null,
-                          child: const Text("Desconectar"),
+                          child: Text("Desconectar"),
                         );
                       }
                     },
                   ),
                   ElevatedButton(
-                    onPressed: connected ? this.printTest : null,
+                    onPressed: connected ? printTest : null,
                     child: const Text("Prueba"),
                   ),
                 ],
@@ -180,7 +178,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                     color: Colors.grey.withOpacity(0.3),
                   ),
                   child: ListView.builder(
-                    itemCount: items.length > 0 ? items.length : 0,
+                    itemCount: items.isNotEmpty ? items.length : 0,
                     itemBuilder: (context, index) {
                       return Consumer(
                         builder: (context, ref, child) {
@@ -188,7 +186,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                             leading: const Icon(Icons.print),
                             onTap: () async {
                               String mac = items[index].macAdress;
-                              await this.connect(mac);
+                              await connect(mac);
                               if (!connected) {
                                 return;
                               }
@@ -234,7 +232,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                             .map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: new Text(value),
+                            child: Text(value),
                           );
                         }).toList(),
                         onChanged: (String? select) {
@@ -246,7 +244,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: connected ? this.printWithoutPackage : null,
+                    onPressed: connected ? printWithoutPackage : null,
                     child: const Text("Imprimir"),
                   ),
                 ]),
@@ -265,7 +263,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await PrintBluetoothThermal.platformVersion;
-      print("Version de plataforma: $platformVersion");
+      logger.i("Version de plataforma: $platformVersion");
       porcentbatery = await PrintBluetoothThermal.batteryLevel;
     } on PlatformException {
       platformVersion = 'Fallo al obtener la plataforma.';
@@ -277,7 +275,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     if (!mounted) return;
 
     bool result = await PrintBluetoothThermal.bluetoothEnabled;
-    print("bluetooth enabled: $result");
+    logger.i("bluetooth enabled: $result");
     if (result) {
       _msj = "Bluetooth activated, Busca y Conecta";
     } else {
@@ -287,9 +285,8 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     result = await PrintBluetoothThermal.connectionStatus;
     setState(() {
       connected = result;
-      _info = "Estado conexión: ${result ? "Conectado" : "Desconectado"}  \n" +
-          platformVersion +
-          " ($porcentbatery% bateria)";
+      _info =
+          "Estado conexión: ${result ? "Conectado" : "Desconectado"}  \n$platformVersion ($porcentbatery% bateria)";
     });
   }
 
@@ -311,7 +308,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
       _progress = false;
     });
 
-    if (listResult.length == 0) {
+    if (listResult.isEmpty) {
       _msj =
           "There are no bluetoohs linked, go to settings and link the printer";
     } else {
@@ -331,7 +328,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     });
     final bool result =
         await PrintBluetoothThermal.connect(macPrinterAddress: mac);
-    print("state conected $result");
+    logger.i("state conected $result");
     if (result) connected = true;
     setState(() {
       _progress = false;
@@ -343,16 +340,16 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     setState(() {
       connected = false;
     });
-    print("status disconnect $status");
+    logger.i("status disconnect $status");
   }
 
   Future<void> printTest() async {
     bool conexionStatus = await PrintBluetoothThermal.connectionStatus;
-    //print("connection status: $conexionStatus");
+    //logger.i("connection status: $conexionStatus");
     if (conexionStatus) {
       List<int> ticket = await testTicket();
       final result = await PrintBluetoothThermal.writeBytes(ticket);
-      print("print test result:  $result");
+      logger.i("logger.i test result:  $result");
     } else {
       //no conectado, reconecte
     }
@@ -368,12 +365,12 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
       await PrintBluetoothThermal.writeString(
           printText: PrintTextSize(size: 1, text: text));
       await PrintBluetoothThermal.writeString(
-          printText: PrintTextSize(size: 2, text: text + " size 2"));
+          printText: PrintTextSize(size: 2, text: "$text size 2"));
       await PrintBluetoothThermal.writeString(
-          printText: PrintTextSize(size: 3, text: text + " size 3"));
+          printText: PrintTextSize(size: 3, text: "$text size 3"));
     } else {
       //desconectado
-      print("desconectado bluetooth $conexionStatus");
+      logger.i("desconectado bluetooth $conexionStatus");
     }
   }
 
@@ -463,10 +460,10 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     //impresion sin paquete solo de PrintBluetoothTermal
     bool connectionStatus = await PrintBluetoothThermal.connectionStatus;
     if (connectionStatus) {
-      String text = _txtText.text.toString() + "\n";
+      String text = "${_txtText.text}\n";
       bool result = await PrintBluetoothThermal.writeString(
           printText: PrintTextSize(size: int.parse(_selectSize), text: text));
-      print("status print result: $result");
+      logger.i("status logger.i result: $result");
       setState(() {
         _msj = "printed status: $result";
       });
@@ -475,7 +472,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
       setState(() {
         _msj = "no connected device";
       });
-      print("no conectado");
+      logger.i("no conectado");
     }
   }
 }

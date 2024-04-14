@@ -6,6 +6,7 @@ class PinPasDataSource implements IFirestoreDatasourceService<int> {
 
   PinPasDataSource(this.firestoreColection);
 
+  // ignore: non_constant_identifier_names
   String PINNAME = "pin";
 
   @override
@@ -16,7 +17,7 @@ class PinPasDataSource implements IFirestoreDatasourceService<int> {
       return documentSnapshot.data()![PINNAME] as int;
     } on FirebaseException catch (e) {
       logger.e("error get pin", error: e);
-      rethrow ;
+      rethrow;
     } catch (e) {
       logger.e("error get pin", error: e);
     }

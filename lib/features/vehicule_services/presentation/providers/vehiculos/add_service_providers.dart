@@ -49,19 +49,20 @@ class VehiculoState extends _$VehiculoState {
     final worker = ref.watch(trabajadorNameProvider);
     final placa = ref.watch(placaProvider);
     if (photo == null) {
-      return onSaveError?.call("Porfavor subir una imagen");
-    }
-    if (propietario == null) {
-      return onSaveError?.call("Porfavor seleccionar un propietario");
+      onSaveError?.call("Porfavor subir una imagen");
+      return;
     }
     if (typeService.isEmpty) {
-      return onSaveError?.call("Porfavor selecionar un Servicio");
+      onSaveError?.call("Porfavor selecionar un Servicio");
+      return;
     }
     if (worker.isEmpty) {
-      return onSaveError?.call("Porfavor selecionar un Trabajador");
+      onSaveError?.call("Porfavor selecionar un Trabajador");
+      return;
     }
     if (placa.isEmpty) {
-      return onSaveError?.call("Porfavor colocar una Placa");
+      onSaveError?.call("Porfavor colocar una Placa");
+      return;
     }
 
     final time = DateTime.now();

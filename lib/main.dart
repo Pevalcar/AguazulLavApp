@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:aguazullavapp/lib.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main() => mainCommon(AppEnvironment.PROD);
+void main() => mainCommon(AppEnvironment.prod);
 
 Future mainCommon(AppEnvironment env) async {
   runZonedGuarded<Future<void>>(() async {
@@ -53,14 +50,4 @@ Future initHive() async {
 Future initHivWeb() async {
   Hive.registerAdapter(EntradaSalidaModelAdapter());
   await Hive.openBox<EntradaSalidaModel>(COLLECTION_ENTRADSALIDA_NAME);
-}
-
-Future<void> _configureFirebaseAuth() async {
-  try {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-    await FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
-  } catch (e) {
-    // ignore: avoid_print
-    print(e);
-  }
 }

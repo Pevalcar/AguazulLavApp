@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:aguazullavapp/lib.dart';
 
 class EntradaSalidaRemoteRepositoryImpl implements EntradaSalidaRepository {
@@ -14,7 +16,8 @@ class EntradaSalidaRemoteRepositoryImpl implements EntradaSalidaRepository {
   }
 
   @override
-  Future<void> deleteEntradaSalida(EntradaSalida entradaSalida , int index) async {
+  Future<void> deleteEntradaSalida(
+      EntradaSalida entradaSalida, int index) async {
     dataSource.deleteEntradaSalida(entradaSalida);
   }
 
@@ -22,10 +25,11 @@ class EntradaSalidaRemoteRepositoryImpl implements EntradaSalidaRepository {
   Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async {
     return await dataSource.getEntradaSalidasInRange(ids);
   }
-  
+
   @override
   Future<void> clearLocal() => throw UnimplementedError();
-  
+
   @override
-  Future<void> updateEntradaSalidas(List<EntradaSalida> entradaSalidas) => throw UnimplementedError();
+  Future<void> updateEntradaSalidas(List<EntradaSalida> entradaSalidas) =>
+      throw UnimplementedError();
 }

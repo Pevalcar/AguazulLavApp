@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:aguazullavapp/lib.dart';
 
 class ModifieServiceType {
@@ -6,6 +8,6 @@ class ModifieServiceType {
   ModifieServiceType(this.serviceInfoRepository);
 
   Future<void> call(ServiceType service) {
-    return serviceInfoRepository.modifieServiceType( service);
+    return serviceInfoRepository.modifieServiceType(service);
   }
 }

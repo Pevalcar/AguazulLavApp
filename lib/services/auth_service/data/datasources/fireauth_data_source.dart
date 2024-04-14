@@ -82,6 +82,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
     } catch (e) {
       logger.e('Error al iniciar sesion catch', error: e);
     }
+    return null;
   }
 
   @override
@@ -110,7 +111,7 @@ class FirebaseAuthDataSource implements IFirebaseAuthDataSource {
       User? credential, String password) async {
     if (credential == null) {
       await FirebaseCrashlytics.instance.recordError(
-          "Error al iniciar sesion credenciale null ${credential}", null);
+          "Error al iniciar sesion credenciale null $credential", null);
       return {};
     }
 

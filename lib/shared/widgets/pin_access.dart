@@ -12,7 +12,7 @@ class PinAccesDialog extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _pin = ref.watch(pinPassProvider).asData?.value ?? 0;
+    final pin = ref.watch(pinPassProvider).asData?.value ?? 0;
     final passController = TextEditingController();
     final form = GlobalKey<FormState>();
     return AlertDialog(
@@ -26,7 +26,7 @@ class PinAccesDialog extends HookConsumerWidget {
             onPressed: () {
               form.currentState!.save();
               if (form.currentState!.validate() &&
-                  int.parse(passController.text) == _pin) {
+                  int.parse(passController.text) == pin) {
                 if (correctPass != null) {
                   correctPass!();
                 }
@@ -57,7 +57,7 @@ class PinAccesDialog extends HookConsumerWidget {
                   onFieldSubmitted: (String value) {
                     form.currentState!.save();
                     if (form.currentState!.validate() &&
-                        int.parse(value) == _pin) {
+                        int.parse(value) == pin) {
                       if (correctPass != null) {
                         correctPass!();
                         Navigator.of(context).pop();
@@ -67,7 +67,7 @@ class PinAccesDialog extends HookConsumerWidget {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Campo requerido';
-                    } else if (int.parse(value) != _pin) {
+                    } else if (int.parse(value) != pin) {
                       return 'Pin incorrecto';
                     }
 

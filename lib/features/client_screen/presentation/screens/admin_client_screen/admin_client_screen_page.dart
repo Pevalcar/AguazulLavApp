@@ -14,7 +14,7 @@ class AdminClientScreenPage extends HookConsumerWidget {
         actions: [
           IconButton(
               onPressed: () => ref.refresh(clientListProvider.future),
-              icon: Icon(Icons.refresh)),
+              icon: const Icon(Icons.refresh)),
           const DarkModeButton()
         ],
         title: const Text('Clientes'),
@@ -230,8 +230,8 @@ class MobileContenido extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _clients = ref.watch(clientListProvider);
-    return _clients.when(
+    final clients = ref.watch(clientListProvider);
+    return clients.when(
       data: (data) {
         return RefreshIndicator(
           onRefresh: () => ref.refresh(clientListProvider.future),

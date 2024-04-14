@@ -1,6 +1,4 @@
 import 'package:aguazullavapp/lib.dart';
-import 'package:aguazullavapp/services/helpers.dart';
-import 'package:aguazullavapp/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -236,7 +234,6 @@ class TextRich extends StatelessWidget {
 
 class _InfoCard extends StatelessWidget {
   const _InfoCard({
-    super.key,
     required this.vehicle,
     required this.client,
   });
@@ -260,8 +257,8 @@ class _InfoCard extends StatelessWidget {
               const SizedBox(height: 30),
               Center(child: CargarImagenDesdeCache(imageUrl: vehicle.photo)),
               const SizedBox(height: 30),
-              Center(
-                child: const Text(
+              const Center(
+                child: Text(
                   "Información",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -329,6 +326,7 @@ class AlerPago extends HookConsumerWidget {
                     .endService(vehicle.copyWith(
                       tipoPago: pagoType.value,
                     ));
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               })
         ],

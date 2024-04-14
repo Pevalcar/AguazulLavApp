@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import  'package:logger/logger.dart';
+import 'package:logger/logger.dart';
 
 var logger = Logger(
   printer: PrettyPrinter(),
@@ -14,7 +14,6 @@ class CurrencyInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.selection.baseOffset == 0) {
-      print(true);
       return newValue;
     }
     double value = double.parse(newValue.text);

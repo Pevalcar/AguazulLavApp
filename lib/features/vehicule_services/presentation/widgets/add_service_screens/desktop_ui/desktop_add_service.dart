@@ -84,7 +84,6 @@ class DesktopAddService extends HookConsumerWidget {
 class _ServiceTypeSelecte extends HookConsumerWidget {
   final String type;
   const _ServiceTypeSelecte({
-    super.key,
     required this.type,
   });
 
@@ -127,7 +126,6 @@ class _ServiceTypeCard extends ConsumerWidget {
   final bool value;
 
   const _ServiceTypeCard({
-    super.key,
     required this.typeCardService,
     required this.value,
   });
