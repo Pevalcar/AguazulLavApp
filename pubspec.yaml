@@ -1,7 +1,7 @@
 name: aguazullavapp
 description: Proyecto para lavadero de carros, control de pagos, etc.
 publish_to: 'none'
-version: 1.1.1
+version: 1.1.2
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -42,7 +42,7 @@ dependencies:
   path_provider: ^2.1.2
   permission_handler: ^11.3.0
   pluto_grid: ^8.0.0
-  print_bluetooth_thermal: ^1.0.9
+  print_bluetooth_thermal: ^1.1.0
   riverpod_annotation: ^2.3.4
   shared_preferences: ^2.2.2
   sign_button: ^2.0.6

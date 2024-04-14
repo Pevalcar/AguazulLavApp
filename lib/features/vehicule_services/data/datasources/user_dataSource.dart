@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';

@@ -22,7 +22,7 @@ class MobileAddService extends HookConsumerWidget {
       child: Scaffold(
           appBar: AppBar(
             title: const Text('Información del vehiculo'),
-            actions: [DarkModeButton()],
+            actions: const [DarkModeButton()],
           ),
           body: SingleChildScrollView(
             child: Column(children: [
@@ -41,7 +41,7 @@ class MobileAddService extends HookConsumerWidget {
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             FloatingActionButton(
               onPressed: () {
-                final vehiculo = ref.watch(vehiculoStateProvider);
+                ref.watch(vehiculoStateProvider);
                 ref.read(vehiculoStateProvider.notifier).addVehiculo(
                   () {
                     showToast(context, "Agreagado con Exito");
@@ -52,7 +52,7 @@ class MobileAddService extends HookConsumerWidget {
                   },
                 );
               },
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(Icons.add),
                   Icon(Icons.room_service_sharp),

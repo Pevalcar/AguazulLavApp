@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, prefer_typing_uninitialized_variables, camel_case_types
+
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -237,17 +239,6 @@ class GripPuto extends HookConsumerWidget {
       description: event.row.cells['description']!.value,
       price: event.row.cells['price']!.value.toInt().toString(),
     );
-  }
-
-  List<ServiceType> _sortList(List<ServiceType>? list, String querry) {
-    List<ServiceType> listFilter = [];
-    listFilter = list
-            ?.where((element) => element.typeVehiculo
-                .toLowerCase()
-                .contains(querry.toLowerCase()))
-            .toList() ??
-        [];
-    return listFilter;
   }
 }
 
@@ -547,6 +538,7 @@ class SliverTypeVeicle extends HookConsumerWidget {
 
 class DescriptionTetField extends StatelessWidget {
   const DescriptionTetField({
+    super.key,
     required this.descriptionController,
   });
 

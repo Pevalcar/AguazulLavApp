@@ -1,4 +1,11 @@
 export 'datasource/datasource.dart';
+export 'datasource/i_firestore_datasource_service.dart';
+export 'providers/configuracion/pinpas_provider.dart';
+export 'providers/configuracion/pinpass.dart';
 export 'providers/providers.dart';
+export 'repository/i_firebase_data_repository.dart';
 export 'repository/repository.dart';
+export 'usecases/pinpass/pinpas_get.dart';
+export 'usecases/pinpass/pinpas_update.dart';
+export 'usecases/pinpass/pinpass.dart';
 export 'usecases/usecases.dart';

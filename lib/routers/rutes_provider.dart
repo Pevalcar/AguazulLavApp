@@ -104,7 +104,7 @@ class UpgraderRoute extends GoRouteData {
   const UpgraderRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      UpdaterScreenPage();
+      const UpdaterScreenPage();
 }
 
 @TypedGoRoute<ConfigPrintScreenRoute>(path: "/configPrint")

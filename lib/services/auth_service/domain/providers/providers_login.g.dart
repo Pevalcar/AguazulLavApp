@@ -122,12 +122,12 @@ final showPassProvider = AutoDisposeNotifierProvider<ShowPass, bool>.internal(
 );
 
 typedef _$ShowPass = AutoDisposeNotifier<bool>;
-String _$screensModeHash() => r'd448078d857e18a36b39c19aa3812f51d162d781';
+String _$screensModeHash() => r'8df4bc8ce5cc5a3fd807563bb1df86b92dad6f40';
 
 /// See also [ScreensMode].
 @ProviderFor(ScreensMode)
 final screensModeProvider =
-    AutoDisposeNotifierProvider<ScreensMode, screensMode>.internal(
+    AutoDisposeNotifierProvider<ScreensMode, ScreenMode>.internal(
   ScreensMode.new,
   name: r'screensModeProvider',
   debugGetCreateSourceHash:
@@ -136,6 +136,6 @@ final screensModeProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ScreensMode = AutoDisposeNotifier<screensMode>;
+typedef _$ScreensMode = AutoDisposeNotifier<ScreenMode>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

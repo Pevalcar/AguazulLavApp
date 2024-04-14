@@ -1,9 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
-class EntradaSalidaRemoteDataSource  implements IEntradaSalidaDataSource {
+class EntradaSalidaRemoteDataSource implements IEntradaSalidaDataSource {
   final CollectionReference collection;
   EntradaSalidaRemoteDataSource(this.collection);
 
@@ -11,12 +11,12 @@ class EntradaSalidaRemoteDataSource  implements IEntradaSalidaDataSource {
   Future<List<EntradaSalida>> getEntradaSalidas() async {
     List<EntradaSalida> list = [];
     try {
-        await collection.get().then((value) {
-          for (var element in value.docs) {
-            list.add(
-                EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
-          }
-        });
+      await collection.get().then((value) {
+        for (var element in value.docs) {
+          list.add(
+              EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
+        }
+      });
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());
     } catch (e) {
@@ -24,20 +24,19 @@ class EntradaSalidaRemoteDataSource  implements IEntradaSalidaDataSource {
     }
     return list;
   }
-
 
   @override
   Future<List<EntradaSalida>> getEntradaSalidasInRange(List<String> ids) async {
     List<EntradaSalida> list = [];
     try {
-        await collection.where("id", whereIn: ids).get().then((value) {
-          for (var element in value.docs) {
-            list.add(
-                EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
-          }
-        });
-        logger.i("lista de entradaSalidas: desde remoto ${list.length}");
-        return list;
+      await collection.where("id", whereIn: ids).get().then((value) {
+        for (var element in value.docs) {
+          list.add(
+              EntradaSalida.fromJson(element.data() as Map<String, dynamic>));
+        }
+      });
+      logger.i("lista de entradaSalidas: desde remoto ${list.length}");
+      return list;
     } on FirebaseException catch (e) {
       logger.e('error Firebase', error: e.toString());
     } catch (e) {
@@ -45,7 +44,6 @@ class EntradaSalidaRemoteDataSource  implements IEntradaSalidaDataSource {
     }
     return list;
   }
-
 
   @override
   Future<void> addEntradaSalida(EntradaSalida entradaSalida) async {

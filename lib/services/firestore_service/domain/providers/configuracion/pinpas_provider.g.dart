@@ -6,23 +6,23 @@ part of 'pinpas_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pinpassDataSourceHash() => r'22893802db7d9ac52a595beb68f8fde75cf6cd24';
+String _$configsDataSourceHash() => r'f34a37a1ef1360c874c46437110a505f362d44eb';
 
-/// See also [pinpassDataSource].
-@ProviderFor(pinpassDataSource)
-final pinpassDataSourceProvider =
-    AutoDisposeProvider<PinPasDataSource>.internal(
-  pinpassDataSource,
-  name: r'pinpassDataSourceProvider',
+/// See also [configsDataSource].
+@ProviderFor(configsDataSource)
+final configsDataSourceProvider =
+    AutoDisposeProvider<ConfigsDataSource>.internal(
+  configsDataSource,
+  name: r'configsDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$pinpassDataSourceHash,
+      : _$configsDataSourceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef PinpassDataSourceRef = AutoDisposeProviderRef<PinPasDataSource>;
-String _$pinpassRepositoryHash() => r'0a4ee253c7c6375671892342fd9146d14770d715';
+typedef ConfigsDataSourceRef = AutoDisposeProviderRef<ConfigsDataSource>;
+String _$pinpassRepositoryHash() => r'df7c9938ac8d9592829b2bb2ba0167988acdec80';
 
 /// See also [pinpassRepository].
 @ProviderFor(pinpassRepository)
@@ -52,7 +52,7 @@ final pinpassGetProvider = AutoDisposeProvider<PinPassGet>.internal(
 );
 
 typedef PinpassGetRef = AutoDisposeProviderRef<PinPassGet>;
-String _$pinpassUpdateHash() => r'c97202eedff7a8ed90942a5ae371055ab4b7e1e1';
+String _$pinpassUpdateHash() => r'c322c82329556361444f82372ff9f104a0c82d7e';
 
 /// See also [pinpassUpdate].
 @ProviderFor(pinpassUpdate)
@@ -67,7 +67,7 @@ final pinpassUpdateProvider = AutoDisposeProvider<PinPassUpdate>.internal(
 );
 
 typedef PinpassUpdateRef = AutoDisposeProviderRef<PinPassUpdate>;
-String _$pinPassHash() => r'93861a334d9cead2d3a13c6f6c4c0f3314b359fa';
+String _$pinPassHash() => r'd6ccb2f8a3fc9138d81508d27b53438ab1647124';
 
 /// See also [PinPass].
 @ProviderFor(PinPass)
@@ -82,5 +82,20 @@ final pinPassProvider =
 );
 
 typedef _$PinPass = AutoDisposeAsyncNotifier<int?>;
+String _$comicionHash() => r'd75c72ee5dba1365820b6f7741e270f0c10fa244';
+
+/// See also [Comicion].
+@ProviderFor(Comicion)
+final comicionProvider =
+    AutoDisposeAsyncNotifierProvider<Comicion, int?>.internal(
+  Comicion.new,
+  name: r'comicionProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$comicionHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Comicion = AutoDisposeAsyncNotifier<int?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

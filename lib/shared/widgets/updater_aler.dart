@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:aguazullavapp/lib.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +58,6 @@ class UpdaterAlert extends HookConsumerWidget {
         ),
       );
     }
-    ;
   }
 }
 
@@ -67,16 +65,14 @@ Future<bool> checUpdate() async {
   //read the latest version to json nin rawgit
   final response = await Dio().get(URLVERSIONS);
   if (response.statusCode == 200) {
-    final data = JsonDecoder().convert(response.data);
+    final data = const JsonDecoder().convert(response.data);
     Map<String, dynamic> version = {};
     final String currentVersion =
         await PackageInfo.fromPlatform().then((value) => value.version);
     //check os
-    final deviceInfo = DeviceInfoPlugin();
     if (kIsWeb) {
       version = data["android"];
     } else if (Platform.isAndroid) {
-      final androidInfo = await deviceInfo.androidInfo;
       version = data["android"];
     } else if (Platform.isIOS) {
       //TODO soporte descarga

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:aguazullavapp/lib.dart';
+// ignore: depend_on_referenced_packages
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -70,11 +71,10 @@ class UpdaterScreenPage extends HookConsumerWidget {
                         onPressed: () => _networkInstallApk(
                               context,
                               progressValue,
-                              url ??
-                                  "",
+                              url ?? "",
                             ),
                         child: Text(
-                          ( 'Instalar Actualizacion'.toUpperCase()),
+                          ('Instalar Actualizacion'.toUpperCase()),
                         )),
                   ),
                   Visibility(

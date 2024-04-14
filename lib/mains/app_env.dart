@@ -1,7 +1,7 @@
-enum AppEnvironment { DEV, STAGING, PROD }
+enum AppEnvironment { dev, staging, prod }
 
 abstract class EnvInfo {
-  static AppEnvironment _environment = AppEnvironment.DEV;
+  static AppEnvironment _environment = AppEnvironment.dev;
 
   static void initialize(AppEnvironment environment) {
     EnvInfo._environment = environment;
@@ -11,26 +11,26 @@ abstract class EnvInfo {
   static String get envName => _environment._envName;
   static String get connectionString => _environment._connectionString;
   static AppEnvironment get environment => _environment;
-  static bool get isProduction => _environment == AppEnvironment.PROD;
+  static bool get isProduction => _environment == AppEnvironment.prod;
 }
 
 extension _EnvProperties on AppEnvironment {
   static const _appTitles = {
-    AppEnvironment.DEV: 'AguazullavApp Dev',
-    AppEnvironment.STAGING: 'AguazullavApp Staging',
-    AppEnvironment.PROD: 'AguazullavApp',
+    AppEnvironment.dev: 'AguazullavApp Dev',
+    AppEnvironment.staging: 'AguazullavApp Staging',
+    AppEnvironment.prod: 'AguazullavApp',
   };
 
   static const _connectionStrings = {
-    AppEnvironment.DEV: 'https://api.spoonacular.com',
-    AppEnvironment.STAGING: 'https://api.spoonacular.com',
-    AppEnvironment.PROD: 'https://api.spoonacular.com',
+    AppEnvironment.dev: 'https://api.spoonacular.com',
+    AppEnvironment.staging: 'https://api.spoonacular.com',
+    AppEnvironment.prod: 'https://api.spoonacular.com',
   };
 
   static const _envs = {
-    AppEnvironment.DEV: 'dev',
-    AppEnvironment.STAGING: 'staging',
-    AppEnvironment.PROD: 'prod',
+    AppEnvironment.dev: 'dev',
+    AppEnvironment.staging: 'staging',
+    AppEnvironment.prod: 'prod',
   };
 
   String get _appTitle => _appTitles[this]!;

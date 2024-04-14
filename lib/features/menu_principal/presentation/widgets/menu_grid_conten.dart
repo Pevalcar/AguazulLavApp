@@ -9,7 +9,7 @@ class MenuGridConten extends HookConsumerWidget {
   });
 //TODO Agregar funciones solo administrador
   Future<void> requestPermission() async {
-    final permission = Permission.bluetooth;
+    const permission = Permission.bluetooth;
 
     if (await permission.isDenied) {
       await permission.request();
@@ -54,7 +54,7 @@ class MenuGridConten extends HookConsumerWidget {
             title: "Modificar Servicio",
             icon: Icons.edit,
             //color #8C1DAB
-            color: Color(0xFF006d97),
+            color: const Color(0xFF006d97),
             onPressed: () {
               showDialog(
                   context: context,
@@ -66,7 +66,7 @@ class MenuGridConten extends HookConsumerWidget {
         ActionCardMenu(
             title: "Historial",
             icon: Icons.history,
-            color: Color.fromRGBO(76, 194, 230, 1),
+            color: const Color.fromRGBO(76, 194, 230, 1),
             onPressed: () {
               const HistoryScreenRoute().push(context);
             }),
@@ -94,13 +94,7 @@ class MenuGridConten extends HookConsumerWidget {
             icon: Icons.settings,
             color: disableColorbtn,
             onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (_) => PinAccesDialog(
-                        correctPass: () =>
-                            const ConfigScreenRoute().push(context),
-                      ));
-              ;
+              const ConfigScreenRoute().push(context);
             }),
         ActionCardMenu(
             title: "Correo",

@@ -145,16 +145,16 @@ class ShowPass extends _$ShowPass {
   }
 }
 
-enum screensMode { login, register, forgot }
+enum ScreenMode { login, register, forgot }
 
 @riverpod
 class ScreensMode extends _$ScreensMode {
   @override
-  screensMode build() {
-    return screensMode.login;
+  ScreenMode build() {
+    return ScreenMode.login;
   }
 
-  void toggle(screensMode mode) {
+  void toggle(ScreenMode mode) {
     state = mode;
   }
 }

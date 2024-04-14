@@ -1,32 +1,36 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PinPasDataSource implements IFirestoreDatasourceService<int> {
+class ConfigsDataSource implements IFirestoreDatasourceService<int> {
   final CollectionReference firestoreColection;
 
-  PinPasDataSource(this.firestoreColection);
+  ConfigsDataSource(this.firestoreColection);
 
-  String PINNAME = "pin";
+  // ignore: non_constant_identifier_names
+  static String PINNAME = "configs";
 
   @override
   Future<int?> get(String id) async {
+    int? result;
     try {
       DocumentSnapshot<dynamic> documentSnapshot =
           await firestoreColection.doc(PINNAME).get();
-      return documentSnapshot.data()![PINNAME] as int;
+      result = documentSnapshot.data()![id] as int;
     } on FirebaseException catch (e) {
       logger.e("error get pin", error: e);
-      rethrow ;
+      rethrow;
     } catch (e) {
       logger.e("error get pin", error: e);
     }
-    return null;
+    return result;
   }
 
   @override
-  Future<bool> update(int? data) async {
+  Future<bool> update(int? data, String id) async {
     try {
-      await firestoreColection.doc(PINNAME).set({PINNAME: data});
+      await firestoreColection
+          .doc(PINNAME)
+          .set({id: data}, SetOptions(merge: true));
       return true;
     } on FirebaseException catch (e) {
       logger.e("error Uptadate  pin", error: e);

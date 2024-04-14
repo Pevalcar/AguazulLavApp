@@ -77,9 +77,9 @@ class TitleHandles extends HookConsumerWidget {
         const SizedBox(height: 16),
         Text(
           switch (screensmode) {
-            screensMode.login => "Bienvenido",
-            screensMode.register => "Registrarse",
-            screensMode.forgot => "Recuperar Contraseña",
+            ScreenMode.login => "Bienvenido",
+            ScreenMode.register => "Registrarse",
+            ScreenMode.forgot => "Recuperar Contraseña",
           },
           style: Theme.of(context)
               .textTheme
@@ -155,14 +155,14 @@ class FormLogin extends HookConsumerWidget {
                           border: OutlineInputBorder(),
                         )),
                     const SizedBox(height: 16),
-                    screensmode == screensMode.forgot
+                    screensmode == ScreenMode.forgot
                         ? const SizedBox()
                         : Text(
                             "Contraseña",
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                     const SizedBox(height: 16),
-                    screensmode == screensMode.forgot
+                    screensmode == ScreenMode.forgot
                         ? const SizedBox()
                         : PassField(
                             controllerPass: passController,
@@ -179,9 +179,9 @@ class FormLogin extends HookConsumerWidget {
             onPressed: () => _login(context, mailController, passController,
                 keyForm, ref, screensmode),
             btnText: switch (screensmode) {
-              screensMode.login => "Ingresar",
-              screensMode.register => "Registrarse",
-              screensMode.forgot => "Recuperar Contraseña",
+              ScreenMode.login => "Ingresar",
+              ScreenMode.register => "Registrarse",
+              ScreenMode.forgot => "Recuperar Contraseña",
             },
           ),
           const SizedBox(height: 16),
@@ -207,16 +207,16 @@ class FormLogin extends HookConsumerWidget {
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             TextButton(
                 child: Text(
-                    screensmode != screensMode.login
+                    screensmode != ScreenMode.login
                         ? "Ya tengo una cuenta"
                         : "¿Olvidaste tu \n contraseña?",
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.primary)),
                 onPressed: () {
                   ref.read(screensModeProvider.notifier).toggle(
-                      screensmode == screensMode.login
-                          ? screensMode.forgot
-                          : screensMode.login);
+                      screensmode == ScreenMode.login
+                          ? ScreenMode.forgot
+                          : ScreenMode.login);
                 }),
             Column(
               children: [
@@ -229,7 +229,7 @@ class FormLogin extends HookConsumerWidget {
                             color: Theme.of(context).colorScheme.primary)),
                     onPressed: () {
                       ref.read(screensModeProvider.notifier).toggle(
-                            screensMode.register,
+                            ScreenMode.register,
                           );
                     }),
               ],
@@ -246,29 +246,29 @@ class FormLogin extends HookConsumerWidget {
       TextEditingController pass,
       GlobalKey<FormState> keyForm,
       WidgetRef ref,
-      screensMode screensmode) {
+      ScreenMode screensmode) {
     if (keyForm.currentState!.validate()) {
       switch (screensmode) {
-        case screensMode.login:
+        case ScreenMode.login:
           {
             ref
                 .read(userStateCurrentProvider.notifier)
                 .login(mail.text, pass.text);
           }
 
-        case screensMode.register:
+        case ScreenMode.register:
           {
             ref
                 .read(userStateCurrentProvider.notifier)
                 .register(mail.text, pass.text);
           }
 
-        case screensMode.forgot:
+        case ScreenMode.forgot:
           {
             ref.read(userStateCurrentProvider.notifier).forgot(mail.text);
             showToast(context,
                 "Se ha enviado un correo para recuperar tu contraseña");
-            ref.read(screensModeProvider.notifier).toggle(screensMode.login);
+            ref.read(screensModeProvider.notifier).toggle(ScreenMode.login);
           }
       }
     }
