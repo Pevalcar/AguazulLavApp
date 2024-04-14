@@ -41,6 +41,37 @@ class ConfigsDataSource implements IFirestoreDatasourceService<int> {
     return false;
   }
 
+  Future<ConfiguracionModel?> getConfiguraciones() async {
+    ConfiguracionModel? result;
+    try {
+      await firestoreColection.doc("configuraciones").get().then((value) {
+        result =
+            ConfiguracionModel.fromJson(value.data() as Map<String, dynamic>);
+      });
+    } on FirebaseException catch (e) {
+      logger.e("error Uptadate  pin", error: e);
+    } catch (e) {
+      logger.e("error Uptadate pin", error: e);
+    }
+
+    return result;
+  }
+
+  Future<bool> updateConfiguraciones(ConfiguracionModel? data) async {
+    try {
+      await firestoreColection
+          .doc("configuraciones")
+          .set(data!.toJson(), SetOptions(merge: true));
+      return true;
+    } on FirebaseException catch (e) {
+      logger.e("error Uptadate  pin", error: e);
+    } catch (e) {
+      logger.e("error Uptadate pin", error: e);
+    }
+
+    return false;
+  }
+
   @override
   Future<List<int?>> getAll() => throw UnimplementedError();
 

@@ -1,5 +1,5 @@
+import 'package:aguazullavapp/lib.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../../lib.dart';
 
 part 'pinpas_provider.g.dart';
 
@@ -20,6 +20,13 @@ PinPassRepository pinpassRepository(PinpassRepositoryRef ref) {
 }
 
 @riverpod
+ConfiguracionRepository configuracionrRepositorye(
+    ConfiguracionrRepositoryeRef ref) {
+  final dataSource = ref.watch(configsDataSourceProvider);
+  return ConfiguracionRepository(dataSource);
+}
+
+@riverpod
 PinPassGet pinpassGet(PinpassGetRef ref) {
   final repository = ref.watch(pinpassRepositoryProvider);
   return PinPassGet(repository);
@@ -27,8 +34,20 @@ PinPassGet pinpassGet(PinpassGetRef ref) {
 
 @riverpod
 PinPassUpdate pinpassUpdate(PinpassUpdateRef ref) {
-  final datasource = ref.watch(configsDataSourceProvider);
+  final datasource = ref.watch(pinpassRepositoryProvider);
   return PinPassUpdate(datasource);
+}
+
+@riverpod
+GetConfiguraciones configsGet(ConfigsGetRef ref) {
+  final repository = ref.watch(configuracionrRepositoryeProvider);
+  return GetConfiguraciones(repository);
+}
+
+@riverpod
+UpdateConfiguraciones configsUpdate(ConfigsUpdateRef ref) {
+  final datasource = ref.watch(configuracionrRepositoryeProvider);
+  return UpdateConfiguraciones(datasource);
 }
 
 @riverpod
@@ -68,6 +87,38 @@ class Comicion extends _$Comicion {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       await ref.read(pinpassUpdateProvider).call(value, title);
+      return value;
+    });
+  }
+}
+
+@riverpod
+class Configuraciones extends _$Configuraciones {
+  @override
+  FutureOr<ConfiguracionModel?> build() {
+    return _featchConfiguraciones();
+  }
+
+  Future<ConfiguracionModel?> _featchConfiguraciones() async {
+    final result = await ref.read(configsGetProvider).call("configuraciones");
+    if (result != null) {
+      state = AsyncValue.data(result);
+    } else {
+      state = const AsyncValue.data(ConfiguracionModel(
+          nameEmpresa: "nameEmpresa",
+          lema: "lema",
+          correo: "correo",
+          direccion: "direccion",
+          phone: "phone"));
+    }
+    return result;
+  }
+
+  void setConfiguraciones(ConfiguracionModel? value) async {
+    if (value == null) return;
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      await ref.read(configsUpdateProvider).call(value);
       return value;
     });
   }

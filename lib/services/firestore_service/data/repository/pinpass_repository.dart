@@ -1,6 +1,6 @@
-import 'package:aguazullavapp/services/firestore_service/domain/repository/i_firebase_data_repository.dart';
 
-import '../../datasource/pinpass_datasource/pinpass_datasource.dart';
+
+import 'package:aguazullavapp/lib.dart';
 
 class PinPassRepository extends IFirebasDataRepository<int> {
   final ConfigsDataSource dataSource;

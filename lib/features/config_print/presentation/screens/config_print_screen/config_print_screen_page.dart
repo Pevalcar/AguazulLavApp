@@ -32,9 +32,6 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
   bool _progress = false;
   String _msjprogress = "";
 
-  List<String> options = ["58 mm", "80 mm"];
-  String optionprinttype = "80 mm";
-
   @override
   void initState() {
     super.initState();
@@ -106,25 +103,35 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
             children: [
               Text('info: $_info\n '),
               Text(_msj),
-              Row(
-                children: [
-                  const Text("Tipo de impresora: "),
-                  const SizedBox(width: 10),
-                  DropdownButton<String>(
-                    value: optionprinttype,
-                    items: options.map((String option) {
-                      return DropdownMenuItem<String>(
-                        value: option,
-                        child: Text(option),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        optionprinttype = newValue!;
-                      });
-                    },
-                  ),
-                ],
+              Consumer(
+                builder: (context, ref, child) {
+                  String optionprinttype =
+                      ref.watch(optionPrintTypeProvider) == PaperSize.mm80
+                          ? "80 mm"
+                          : "58 mm";
+                  List<String> options = ["58 mm", "80 mm"];
+                  return Row(
+                    children: [
+                      const Text("Tipo de impresora: "),
+                      const SizedBox(width: 10),
+                      DropdownButton<String>(
+                        value: optionprinttype,
+                        items: options.map((String option) {
+                          return DropdownMenuItem<String>(
+                            value: option,
+                            child: Text(option),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          ref.read(optionPrintTypeProvider.notifier).update(
+                              newValue == "80 mm"
+                                  ? PaperSize.mm80
+                                  : PaperSize.mm58);
+                        },
+                      ),
+                    ],
+                  );
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -354,73 +361,6 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
       connected = false;
     });
     logger.i("status disconnect $status");
-  }
-
-  Future<void> printTest() async {
-    bool conexionStatus = await PrintBluetoothThermal.connectionStatus;
-    //logger.i("connection status: $conexionStatus");
-    if (conexionStatus) {
-      List<int> ticket = await testTicket();
-      final result = await PrintBluetoothThermal.writeBytes(ticket);
-      logger.i("logger.i test result:  $result");
-    } else {
-      //no conectado, reconecte
-    }
-  }
-
-  Future<List<int>> testTicket({
-    String name = "Andry Hernandez",
-    String placa = "Mi corazon",
-    String servicio = "Cositas en la cama",
-    String horaIngreso = "12:00 am",
-    String correo = "a@a.com",
-    String direccion = "Calle 123",
-    String telefono = "+573213617182",
-  }) async {
-    List<int> bytes = [];
-    // Using default profile
-    final profile = await CapabilityProfile.load();
-    final generator = Generator(
-        optionprinttype == "58 mm" ? PaperSize.mm58 : PaperSize.mm80, profile);
-    //bytes += generator.setGlobalFont(PosFontType.fontA);
-
-    const fontTipe = PosFontType.fontB;
-    bytes += generator.reset();
-    bytes += generator.text(
-      "Lavadero POMPILIO",
-      styles: const PosStyles(
-        align: PosAlign.center,
-        height: PosTextSize.size2,
-        width: PosTextSize.size2,
-      ),
-    );
-    bytes += generator.text(
-      "Su Autolavado de confianza",
-      styles: const PosStyles(
-        align: PosAlign.center,
-        fontType: fontTipe,
-      ),
-      linesAfter: 1,
-    );
-
-    bytes += generator.text(
-      "Propietario: $name",
-    );
-    bytes += generator.text(
-      "Plcaca: $placa",
-    );
-    bytes += generator.text(
-      "Servicio: $servicio",
-    );
-    bytes += generator.text("Hora de Ingreso: $horaIngreso", linesAfter: 1);
-    bytes += generator.text("$direccion - $correo",
-        styles: const PosStyles(align: PosAlign.center));
-    bytes += generator.text(telefono,
-        styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
-    bytes += generator.qrcode('https://wa.me/$telefono', size: QRSize.Size2);
-    bytes += generator.feed(4);
-    //QR code
-    return bytes;
   }
 
   Future<void> printWithoutPackage() async {

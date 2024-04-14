@@ -16,6 +16,7 @@ class JornadaInfoScreen extends HookConsumerWidget {
     final jornada = ref.watch(jornadaInfoProvider(jornadaId));
     final dateFormat = DateFormat('dd/MM/yyyy');
     final time = dateFormat.format(jornadaId?.dateInit ?? DateTime.now());
+    final comicion = ref.watch(comicionProvider);
     return Scaffold(
         appBar: AppBar(
           title: Text('Jornada $time'),
@@ -78,7 +79,8 @@ class JornadaInfoScreen extends HookConsumerWidget {
                             ),
                           ),
                         ),
-                        _ListaPorTrabajadores(data: data),
+                        _ListaPorTrabajadores(
+                            data: data, comicion: comicion.asData?.value ?? 50),
                         SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
@@ -146,14 +148,17 @@ class TituloSliver extends StatelessWidget {
 class _ListaPorTrabajadores extends StatelessWidget {
   const _ListaPorTrabajadores({
     required this.data,
+    required this.comicion,
   });
   final JornadaInfoModel data;
+  final int comicion;
   @override
   Widget build(BuildContext context) {
     return SliverList.builder(
         itemCount: data.listaOrdenada.length,
         itemBuilder: (context, index) {
-          return SingleListTrabajador(servicios: data.listaOrdenada[index]);
+          return SingleListTrabajador(
+              servicios: data.listaOrdenada[index], comicion: comicion);
         });
   }
 }
@@ -162,14 +167,16 @@ class SingleListTrabajador extends StatelessWidget {
   const SingleListTrabajador({
     super.key,
     required List<Vehicle> servicios,
+    required this.comicion,
   }) : _servicios = servicios;
   final List<Vehicle> _servicios;
-  String calculerTotal(List<Vehicle> servicios) {
+  final int comicion;
+  int calculerTotal(List<Vehicle> servicios) {
     int total = 0;
     for (var element in servicios) {
       if (element.terminado) total += element.typePrice;
     }
-    return formatearIntACantidad(total);
+    return total;
   }
 
   String serviciosConteo(list) {
@@ -182,6 +189,9 @@ class SingleListTrabajador extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int comicione = calculerTotal(_servicios);
+    final double comicion_calcule = comicione * comicion / 100;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -207,7 +217,11 @@ class SingleListTrabajador extends StatelessWidget {
             const SizedBox(height: 10),
             const Divider(),
             Text(
-              'Total  ${calculerTotal(_servicios)}',
+              'Total  ${formatearIntACantidad(comicione)}',
+            ),
+            const Divider(),
+            Text(
+              'Ganancia  ${formatearIntACantidad(comicion_calcule.toInt())}',
             ),
           ],
         ),

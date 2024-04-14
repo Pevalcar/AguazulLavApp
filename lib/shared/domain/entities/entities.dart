@@ -1,7 +1,15 @@
 export 'client/client.dart';
+export 'client/user.dart';
+export 'configuracion/configuracion_model.dart';
 export 'jornada_info/jornada_info.dart';
+export 'jornada_info/jornada_info_model.dart';
+export 'jornadas/jornada_model.dart';
 export 'jornadas/jornadas.dart';
 export 'photo_state/photo_state.dart';
+export 'photo_state/photo_state_model.dart';
 export 'service_type/service_type.dart';
+export 'service_type/service_type_model.dart';
 export 'user_information/user_information.dart';
+export 'user_information/user_information_model.dart';
 export 'vehiculo/vehiculo.dart';
+export 'vehiculo/vehiculo_model.dart';

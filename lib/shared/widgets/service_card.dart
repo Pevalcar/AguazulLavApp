@@ -4,6 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import 'print_button.dart';
+
 class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
   final bool _editable;
@@ -17,12 +19,6 @@ class CardCarService extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final client = ref.watch(getUserInfoProvider(vehicle.propietarioid));
-    final ButtonStyle myStileButton = TextButton.styleFrom(
-      foregroundColor: Theme.of(context).colorScheme.secondary,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-      ),
-    );
 
     final controller = ExpansionTileController();
     return Padding(
@@ -88,9 +84,7 @@ class CardCarService extends HookConsumerWidget {
                     text: vehicle.trabjador,
                   ),
                 ])),
-            vehicle.terminado
-                ? const TerminadoBadge()
-                : const SinTerminarBadge(),
+            TerminadoBadge(vehicle.terminado)
           ],
         ),
         children: [
@@ -120,37 +114,30 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                 child: CargarImagenDesdeCache(imageUrl: vehicle.photo)),
           ),
           ButtonBar(
-            alignment: MainAxisAlignment.spaceAround,
+            alignment: MainAxisAlignment.center,
             buttonHeight: 52.0,
             buttonMinWidth: 90.0,
             children: <Widget>[
-              Visibility(
-                visible: _editable,
-                child: TextButton(
-                  style: myStileButton,
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => PinAccesDialog(correctPass: () {
-                        ref
-                            .read(serviceListProvider.notifier)
-                            .deleteService(vehicle);
-                      }),
-                    );
-                  },
-                  child: const Column(
-                    children: <Widget>[
-                      Icon(Icons.delete),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.0),
-                      ),
-                      Text('Borrar'),
-                    ],
-                  ),
-                ),
+              PrintButton(client: client, vehicle: vehicle),
+              MyActionButton(
+                editable: _editable,
+                icon: Icons.delete,
+                text: 'Borrar',
+                onPressed: () => {
+                  showDialog(
+                    context: context,
+                    builder: (context) => PinAccesDialog(correctPass: () {
+                      ref
+                          .read(serviceListProvider.notifier)
+                          .deleteService(vehicle);
+                    }),
+                  )
+                },
               ),
-              TextButton(
-                style: myStileButton,
+              MyActionButton(
+                editable: true,
+                icon: Icons.document_scanner,
+                text: 'Informacion',
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -159,45 +146,71 @@ Consider resizing the asset ahead of time, supplying a cacheWidth parameter of 5
                     },
                   );
                 },
-                child: const Column(
-                  children: <Widget>[
-                    Icon(Icons.document_scanner_outlined),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2.0),
-                    ),
-                    Text('Información'),
-                  ],
-                ),
               ),
-              Visibility(
-                visible: (vehicle.terminado == false && _editable),
-                child: TextButton(
-                  style: myStileButton,
-                  onPressed: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlerPago(
-                          vehicle: vehicle,
-                        );
-                      },
-                    );
-                    controller.collapse();
-                  },
-                  child: const Column(
-                    children: <Widget>[
-                      Icon(Icons.task),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.0),
-                      ),
-                      Text('Terminar'),
-                    ],
-                  ),
-                ),
+              MyActionButton(
+                editable: _editable,
+                terminado: vehicle.terminado,
+                icon: Icons.task,
+                text: 'Terminar',
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlerPago(
+                        vehicle: vehicle,
+                      );
+                    },
+                  );
+                  controller.collapse();
+                  ;
+                },
               ),
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class MyActionButton extends HookConsumerWidget {
+  const MyActionButton({
+    super.key,
+    required bool editable,
+    required this.onPressed,
+    required this.icon,
+    required this.text,
+    bool terminado = true,
+  })  : _editable = editable,
+        _terminado = terminado;
+
+  final bool _editable;
+  final bool _terminado;
+  final Function()? onPressed;
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ButtonStyle myStileButton = TextButton.styleFrom(
+        foregroundColor: Theme.of(context).colorScheme.secondary,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        ));
+    return Visibility(
+      visible: _editable && _terminado,
+      child: TextButton(
+        style: myStileButton,
+        onPressed: () => onPressed!(),
+        child: Column(
+          children: <Widget>[
+            Icon(icon),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.0),
+            ),
+            Text(text),
+          ],
+        ),
       ),
     );
   }
@@ -356,15 +369,19 @@ class AlerPago extends HookConsumerWidget {
 }
 
 class TerminadoBadge extends StatelessWidget {
-  const TerminadoBadge({
+  const TerminadoBadge(
+    bool this.terminado, {
     super.key,
   });
-
+  final bool terminado;
   @override
   Widget build(BuildContext context) {
+    final color = terminado
+        ? Theme.of(context).colorScheme.secondary
+        : Theme.of(context).colorScheme.errorContainer;
     return RoundedBadge(
-      icon: Icon(Icons.check, color: Theme.of(context).colorScheme.secondary),
-      title: "Terminado",
+      icon: Icon(Icons.check, color: color),
+      title: terminado ? "Terminado" : "Pendiente",
     );
   }
 }
