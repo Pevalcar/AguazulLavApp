@@ -6,7 +6,7 @@ part of 'add_service_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$vehiculoStateHash() => r'b708bb73967f8ea76dce3cad998261427860fc7b';
+String _$vehiculoStateHash() => r'61309cf9983279568e6775b9aa7bfd42706e6b0a';
 
 /// See also [VehiculoState].
 @ProviderFor(VehiculoState)
@@ -22,7 +22,7 @@ final vehiculoStateProvider =
 );
 
 typedef _$VehiculoState = AutoDisposeAsyncNotifier<Vehicle?>;
-String _$propietarioHash() => r'553ab8a65804b91adda0a148a66ebd1d2b6f9637';
+String _$propietarioHash() => r'7f063b507dc6a520919b11e8e6a5fe6d19aca582';
 
 /// See also [Propietario].
 @ProviderFor(Propietario)

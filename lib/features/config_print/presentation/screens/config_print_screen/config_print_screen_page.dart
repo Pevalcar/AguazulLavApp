@@ -23,11 +23,12 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     "Permiso Bluetooth admitido",
     "bluetooth activado",
     "estado de conexión",
-    "Actualizar información"
+    "Actualizar información",
+    "Desconeccion de dispositivo",
   ];
 
   String _selectSize = "2";
-  final _txtText = TextEditingController(text: "Hola Como estas");
+  final _txtText = TextEditingController();
   bool _progress = false;
   String _msjprogress = "";
 
@@ -77,6 +78,12 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                   connected = result;
                   _info = "estado de conexión: $result";
                 });
+              } else if (sel == "Desconeccion de dispositivo") {
+                final bool result = await PrintBluetoothThermal.disconnect;
+                setState(() {
+                  connected = result;
+                  _info = "Desconeccion de dispositivo: $result";
+                });
               }
             },
             itemBuilder: (BuildContext context) {
@@ -101,7 +108,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
               Text(_msj),
               Row(
                 children: [
-                  const Text("Type logger.i"),
+                  const Text("Tipo de impresora: "),
                   const SizedBox(width: 10),
                   DropdownButton<String>(
                     value: optionprinttype,
@@ -123,8 +130,8 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      getBluetoots();
+                    onPressed: () async {
+                      await getBluetoots();
                     },
                     child: Row(
                       children: [
@@ -137,8 +144,11 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                                 strokeWidth: 1, backgroundColor: Colors.white),
                           ),
                         ),
-                        const SizedBox(width: 5),
-                        Text(_progress ? _msjprogress : "Buscar"),
+                        SizedBox(width: 5),
+                        Text(
+                          _progress ? _msjprogress : "Buscar",
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ],
                     ),
                   ),
@@ -210,8 +220,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                   color: Colors.grey.withOpacity(0.3),
                 ),
                 child: Column(children: [
-                  const Text(
-                      "Tamaño de texto sin biblioteca ni paquetes externos, imprimir imágenes pero sin usar una biblioteca."),
+                  const Text("Probar el uso de la impresora bluetooth."),
                   const SizedBox(height: 10),
                   Row(
                     children: [
@@ -220,7 +229,8 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
                           controller: _txtText,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "Texto",
+                            labelText: "Texto a imprimir",
+                            hintText: "Texto para imprimir",
                           ),
                         ),
                       ),
@@ -267,6 +277,9 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
       porcentbatery = await PrintBluetoothThermal.batteryLevel;
     } on PlatformException {
       platformVersion = 'Fallo al obtener la plataforma.';
+    } catch (e) {
+      platformVersion = 'Fallo al obtener la plataforma.';
+      logger.e("error al obtener la plataforma: $e");
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -293,7 +306,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
   Future<void> getBluetoots() async {
     setState(() {
       _progress = true;
-      _msjprogress = "Buscando dispositivos...";
+      _msjprogress = "Buscando...";
       items = [];
     });
     final List<BluetoothInfo> listResult =
@@ -355,104 +368,58 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
     }
   }
 
-  Future<void> printString() async {
-    bool conexionStatus = await PrintBluetoothThermal.connectionStatus;
-    if (conexionStatus) {
-      String enter = '\n';
-      await PrintBluetoothThermal.writeBytes(enter.codeUnits);
-      //size of 1-5
-      String text = "Hello";
-      await PrintBluetoothThermal.writeString(
-          printText: PrintTextSize(size: 1, text: text));
-      await PrintBluetoothThermal.writeString(
-          printText: PrintTextSize(size: 2, text: "$text size 2"));
-      await PrintBluetoothThermal.writeString(
-          printText: PrintTextSize(size: 3, text: "$text size 3"));
-    } else {
-      //desconectado
-      logger.i("desconectado bluetooth $conexionStatus");
-    }
-  }
-
-  Future<List<int>> testTicket() async {
+  Future<List<int>> testTicket({
+    String name = "Andry Hernandez",
+    String placa = "Mi corazon",
+    String servicio = "Cositas en la cama",
+    String horaIngreso = "12:00 am",
+    String correo = "a@a.com",
+    String direccion = "Calle 123",
+    String telefono = "+573213617182",
+  }) async {
     List<int> bytes = [];
     // Using default profile
     final profile = await CapabilityProfile.load();
     final generator = Generator(
         optionprinttype == "58 mm" ? PaperSize.mm58 : PaperSize.mm80, profile);
     //bytes += generator.setGlobalFont(PosFontType.fontA);
+
+    const fontTipe = PosFontType.fontB;
     bytes += generator.reset();
-
-    //Using `ESC *`
-    // bytes += generator.image(image!);|
-
     bytes += generator.text(
-        'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
-    bytes += generator.text('Special 1: ñÑ àÀ èÈ éÉ üÜ çÇ ôÔ',
-        styles: const PosStyles(codeTable: 'CP1252'));
-    bytes += generator.text('Special 2: blåbærgrød',
-        styles: const PosStyles(codeTable: 'CP1252'));
-
-    bytes += generator.text('Bold text', styles: const PosStyles(bold: true));
-    bytes +=
-        generator.text('Reverse text', styles: const PosStyles(reverse: true));
-    bytes += generator.text('Underlined text',
-        styles: const PosStyles(underline: true), linesAfter: 1);
-    bytes += generator.text('Align left',
-        styles: const PosStyles(align: PosAlign.left));
-    bytes += generator.text('Align center',
-        styles: const PosStyles(align: PosAlign.center));
-    bytes += generator.text('Align right',
-        styles: const PosStyles(align: PosAlign.right), linesAfter: 1);
-
-    bytes += generator.row([
-      PosColumn(
-        text: 'col3',
-        width: 3,
-        styles: const PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: 'col6',
-        width: 6,
-        styles: const PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: 'col3',
-        width: 3,
-        styles: const PosStyles(align: PosAlign.center, underline: true),
-      ),
-    ]);
-
-    //barcode
-
-    final List<int> barData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 4];
-    bytes += generator.barcode(Barcode.upcA(barData));
-
-    //QR code
-    bytes += generator.qrcode('example.com');
-
-    bytes += generator.text(
-      'Text size 50%',
+      "Lavadero POMPILIO",
       styles: const PosStyles(
-        fontType: PosFontType.fontB,
-      ),
-    );
-    bytes += generator.text(
-      'Text size 100%',
-      styles: const PosStyles(
-        fontType: PosFontType.fontA,
-      ),
-    );
-    bytes += generator.text(
-      'Text size 200%',
-      styles: const PosStyles(
+        align: PosAlign.center,
         height: PosTextSize.size2,
         width: PosTextSize.size2,
       ),
     );
+    bytes += generator.text(
+      "Su Autolavado de confianza",
+      styles: const PosStyles(
+        align: PosAlign.center,
+        fontType: fontTipe,
+      ),
+      linesAfter: 1,
+    );
 
-    bytes += generator.feed(2);
-    //bytes += generator.cut();
+    bytes += generator.text(
+      "Propietario: $name",
+    );
+    bytes += generator.text(
+      "Plcaca: $placa",
+    );
+    bytes += generator.text(
+      "Servicio: $servicio",
+    );
+    bytes += generator.text("Hora de Ingreso: $horaIngreso", linesAfter: 1);
+    bytes += generator.text("$direccion - $correo",
+        styles: const PosStyles(align: PosAlign.center));
+    bytes += generator.text(telefono,
+        styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
+    bytes += generator.qrcode('https://wa.me/$telefono', size: QRSize.Size2);
+    bytes += generator.feed(4);
+    //QR code
     return bytes;
   }
 

@@ -6,7 +6,7 @@ part of 'ligthmodeprovider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dartModeHash() => r'2ed9658e3f21f7c1f013b5e861a6d02aafc41f7b';
+String _$dartModeHash() => r'1eff3296a95446b82c73ec5b71ee44b70026f27f';
 
 /// See also [DartMode].
 @ProviderFor(DartMode)

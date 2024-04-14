@@ -3,11 +3,11 @@ import 'package:aguazullavapp/services/firestore_service/domain/repository/i_fir
 import '../../datasource/pinpass_datasource/pinpass_datasource.dart';
 
 class PinPassRepository extends IFirebasDataRepository<int> {
-  final PinPasDataSource dataSource;
+  final ConfigsDataSource dataSource;
   PinPassRepository(this.dataSource);
   @override
-  Future<bool> update(int? data) {
-    return dataSource.update(data);
+  Future<bool> update(int? data, String id) {
+    return dataSource.update(data, id);
   }
 
   @override
