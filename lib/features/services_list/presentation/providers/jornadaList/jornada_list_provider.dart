@@ -75,13 +75,13 @@ class JornadasList extends _$JornadasList {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       List<Jornada> list = state.value ?? [];
-      final _jornada = ref.watch(jornadaInfoProvider(jornada)).asData!.value;
-      if (_jornada == null) return list;
-      if (_jornada.serviciosList.isNotEmpty) {
-        await deleteVehiculos(_jornada.serviciosList);
+      final jornada0 = ref.watch(jornadaInfoProvider(jornada)).asData!.value;
+      if (jornada0 == null) return list;
+      if (jornada0.serviciosList.isNotEmpty) {
+        await deleteVehiculos(jornada0.serviciosList);
       }
       if (jornada.entradaSalidaIDs.isNotEmpty) {
-        await deleteEntradaSalida(_jornada.entradaSalidasList);
+        await deleteEntradaSalida(jornada0.entradaSalidasList);
       }
 
       await ref.read(deleteJornadaProvider).call(jornada);

@@ -65,16 +65,16 @@ class CalendarJornada extends HookConsumerWidget {
     return jornadas.when(
       data: (data) => Expanded(
         child: SfCalendar(
-          onTap: (_data) {
-            if (_data.appointments == null) return;
-            if (_data.appointments!.isEmpty) {
+          onTap: (cellInput) {
+            if (cellInput.appointments == null) return;
+            if (cellInput.appointments!.isEmpty) {
               showAgenda.value = false;
               return;
             }
             showAgenda.value = true;
             Jornada jornada;
-            if (_data.targetElement == CalendarElement.appointment) {
-              jornada = _getJornadaByID(data, _data.appointments!.first.id);
+            if (cellInput.targetElement == CalendarElement.appointment) {
+              jornada = _getJornadaByID(data, cellInput.appointments!.first.id);
               JornadaInfoRoute($extra: jornada).push(context);
             }
           },
