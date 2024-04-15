@@ -28,9 +28,9 @@ class PhotoDataResource {
   }
 
   Future<PhotoState> deletePhoto(String photo, DateTime time) async {
-    String _time = DateFormat("yyyy_MM_dd").format(time);
+    String time0 = DateFormat("yyyy_MM_dd").format(time);
     try {
-      final upref = _firestore.child("imagenes/$_time/$photo");
+      final upref = _firestore.child("imagenes/$time0/$photo");
       await upref.delete();
       logger.i("Eliminado correctamente la foto $photo");
       return const PhotoState(

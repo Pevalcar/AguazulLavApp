@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ConfigurationPage extends StatefulWidget {
   const ConfigurationPage({super.key});
@@ -186,7 +187,43 @@ class GeneralTextFields extends HookConsumerWidget {
               ],
             ),
         error: (error, stackTrace) => Text(error.toString()),
-        loading: () => const CircularProgressIndicator());
+        loading: () => const Skeletonizer(
+                child: Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Nombre del comercio",
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Lema del negocio",
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Correo del comercio",
+                  ),
+                ),
+                IntlPhoneField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(),
+                    ),
+                    labelText: "Celular del comercio",
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Direccion del comercio",
+                  ),
+                )
+              ],
+            )));
   }
 }
 

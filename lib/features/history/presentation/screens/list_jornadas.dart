@@ -2,7 +2,7 @@ import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
+//deprecated porque no se usa en el historial
 class ListJornadas extends HookConsumerWidget {
   const ListJornadas({
     super.key,
