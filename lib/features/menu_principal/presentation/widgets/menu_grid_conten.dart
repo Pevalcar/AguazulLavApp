@@ -8,21 +8,12 @@ class MenuGridConten extends HookConsumerWidget {
     super.key,
   });
 //TODO Agregar funciones solo administrador
-  Future<void> requestPermission() async {
-    const permission = Permission.bluetooth;
-
-    if (await permission.isDenied) {
-      await permission.request();
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jornadaState = ref.watch(jornadaStateProvider);
 
     const disableColorbtn = Color(0xFFD8E4EB);
-
-    requestPermission();
 
     return GridView(
       padding: const EdgeInsets.all(8),

@@ -111,7 +111,7 @@ final getCurrentJornadaProvider =
 );
 
 typedef GetCurrentJornadaRef = AutoDisposeProviderRef<GetCurrentJornada>;
-String _$jornadasListHash() => r'a16e6104e9ac8880cbb2dd1cdeb40e24831f94ea';
+String _$jornadasListHash() => r'44478067529b84c64226b65040638b1f047c3374';
 
 /// See also [JornadasList].
 @ProviderFor(JornadasList)

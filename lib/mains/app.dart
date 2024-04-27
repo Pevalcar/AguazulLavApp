@@ -1,4 +1,5 @@
 import 'package:aguazullavapp/lib.dart';
+import 'package:aguazullavapp/shared/theme/flex_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,12 +25,14 @@ class MyApp extends HookConsumerWidget {
       ],
       locale: const Locale('es'),
       title: EnvInfo.appName,
-      theme: MaterialTheme(
-              GoogleFonts.robotoTextTheme(Theme.of(context).textTheme))
-          .light(),
-      darkTheme: MaterialTheme(
-              GoogleFonts.robotoTextTheme(Theme.of(context).textTheme))
-          .dark(),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      // theme: MaterialTheme(
+      //         GoogleFonts.robotoTextTheme(Theme.of(context).textTheme))
+      //     .light(),
+      // darkTheme: MaterialTheme(
+      //         GoogleFonts.robotoTextTheme(Theme.of(context).textTheme))
+      //     .dark(),
       themeMode: themeMode,
       debugShowCheckedModeBanner: false,
       routerConfig: navigatorKey,

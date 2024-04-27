@@ -5,6 +5,7 @@ import 'package:esc_pos_utils_plus/esc_pos_utils_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 
 class ConfigPrintScreenPage extends StatefulWidget {
@@ -33,9 +34,10 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
   String _msjprogress = "";
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
-    initPlatformState();
+    await requestPermission();
+    await initPlatformState();
   }
 
   @override
@@ -57,6 +59,7 @@ class _ConfigPrintScreenPageState extends State<ConfigPrintScreenPage> {
               if (sel == "Permiso Bluetooth admitido") {
                 bool status =
                     await PrintBluetoothThermal.isPermissionBluetoothGranted;
+
                 setState(() {
                   _info = "Permiso Bluetooth admitido: $status";
                 });
@@ -397,4 +400,22 @@ class UpdaterConected extends StatelessWidget {
     final icon = contectedo ? Icons.check : Icons.close;
     return Icon(icon, color: color);
   }
+}
+
+Future<void> requestPermission() async {
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.bluetoothScan,
+    Permission.bluetoothAdvertise,
+    Permission.bluetooth,
+    Permission.bluetoothConnect,
+    Permission.location
+  ].request();
+
+  if (statuses[Permission.bluetoothScan] == PermissionStatus.granted &&
+      statuses[Permission.bluetoothAdvertise] == PermissionStatus.granted &&
+      statuses[Permission.bluetooth] == PermissionStatus.granted) {
+    // permission granted
+    logger.i("permission granted");
+  }
+  return;
 }
