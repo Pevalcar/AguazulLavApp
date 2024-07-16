@@ -1,10 +1,10 @@
 name: aguazullavapp
 description: Proyecto para lavadero de carros, control de pagos, etc.
-publish_to: 'none'
-version: 1.1.3
+publish_to: "none"
+version: 1.2.1
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ">=3.0.6 <4.0.0"
 
 dependencies:
   cached_network_image: ^3.3.1
@@ -78,7 +78,6 @@ flutter_gen:
     rive: true
     lottie: true
 flutter:
-
   uses-material-design: true
   assets:
     - assets/images/

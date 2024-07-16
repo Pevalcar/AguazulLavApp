@@ -46,7 +46,7 @@ class MobileAddService extends HookConsumerWidget {
                 ref.read(vehiculoStateProvider.notifier).addVehiculo(
                   () {
                     showToast(context, "Agreagado con Exito");
-                    context.pop();
+                    const HomeMenuRoute().push(context);
                   },
                   (errorMesage) {
                     showToast(context, errorMesage);
