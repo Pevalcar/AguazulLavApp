@@ -140,7 +140,7 @@ Future<List<int>> testTicket({
       styles: const PosStyles(align: PosAlign.center));
   bytes += generator.text(telefono,
       styles: const PosStyles(align: PosAlign.center), linesAfter: 1);
-  bytes += generator.qrcode('https://wa.me/$telefono', size: QRSize.Size2);
+  bytes += generator.qrcode('https://wa.me/$telefono', size: QRSize.size2);
   bytes += generator.feed(4);
   //QR code
   return bytes;
