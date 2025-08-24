@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-
 class CardCarService extends HookConsumerWidget {
   final Vehicle vehicle;
   final bool _editable;
@@ -338,6 +337,7 @@ class AlerPago extends HookConsumerWidget {
                       tipoPago: pagoType.value,
                     ));
                 // ignore: use_build_context_synchronously
+                await ref.read(jornadaStateProvider.notifier).reloadCalculos();
                 Navigator.of(context).pop();
               })
         ],

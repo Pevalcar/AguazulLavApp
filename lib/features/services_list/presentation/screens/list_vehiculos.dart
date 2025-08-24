@@ -222,9 +222,12 @@ class InformacionJornada extends HookConsumerWidget {
                         title: enjornada
                             ? "¿Desea finalizar la jornada?"
                             : "¿Desea iniciar la jornada?",
-                        onAcept: () {
+                        onAcept: () async {
                           if (enjornada) {
-                            ref
+                            await ref
+                                .read(jornadaStateProvider.notifier)
+                                .reloadCalculos();
+                            await ref
                                 .read(jornadaStateProvider.notifier)
                                 .finalizarJornada((String message) {
                               showToast(context, message);
