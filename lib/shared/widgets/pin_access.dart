@@ -1,5 +1,6 @@
 import 'package:aguazullavapp/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PinAccesDialog extends HookConsumerWidget {
@@ -12,7 +13,8 @@ class PinAccesDialog extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pin = ref.watch(pinPassProvider).asData?.value ?? 0;
+    final pinAsync = ref.watch(pinPassProvider);
+    final int? pin = pinAsync.asData?.value; // null while loading or on error
     final passController = TextEditingController();
     final form = GlobalKey<FormState>();
     return AlertDialog(
@@ -23,16 +25,19 @@ class PinAccesDialog extends HookConsumerWidget {
             },
             child: const Text('Cancelar')),
         TextButton(
-            onPressed: () {
-              form.currentState!.save();
-              if (form.currentState!.validate() &&
-                  int.parse(passController.text) == pin) {
-                if (correctPass != null) {
-                  correctPass!();
-                }
-                Navigator.of(context).pop();
-              }
-            },
+            onPressed: (pin == null)
+                ? null
+                : () {
+                    form.currentState!.save();
+                    if (!form.currentState!.validate()) return;
+                    final entered = int.tryParse(passController.text);
+                    if (entered != null && entered == pin) {
+                      if (correctPass != null) {
+                        correctPass!();
+                      }
+                      Navigator.of(context).pop();
+                    }
+                  },
             child: const Text('Aceptar')),
       ],
       title: const Text(
@@ -44,6 +49,21 @@ class PinAccesDialog extends HookConsumerWidget {
           Column(
             children: [
               const SizedBox(height: 20),
+              // Estado del PIN
+              if (pinAsync.isLoading)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: LinearProgressIndicator(),
+                ),
+              if (pinAsync.hasError)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'No se pudo cargar el PIN',
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.error),
+                  ),
+                ),
               Form(
                 key: form,
                 child: TextFormField(
@@ -54,10 +74,16 @@ class PinAccesDialog extends HookConsumerWidget {
                   obscuringCharacter: '*',
                   obscureText: true,
                   keyboardType: TextInputType.number,
+                  maxLength: 4,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   onFieldSubmitted: (String value) {
                     form.currentState!.save();
-                    if (form.currentState!.validate() &&
-                        int.parse(value) == pin) {
+                    if (pin == null) return; // aún no disponible
+                    if (!form.currentState!.validate()) return;
+                    final entered = int.tryParse(value);
+                    if (entered != null && entered == pin) {
                       if (correctPass != null) {
                         correctPass!();
                         Navigator.of(context).pop();
@@ -67,10 +93,13 @@ class PinAccesDialog extends HookConsumerWidget {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Campo requerido';
-                    } else if (int.parse(value) != pin) {
-                      return 'Pin incorrecto';
                     }
-
+                    if (pin == null) {
+                      return 'PIN no disponible, intente de nuevo';
+                    }
+                    final entered = int.tryParse(value);
+                    if (entered == null) return 'Solo números';
+                    if (entered != pin) return 'Pin incorrecto';
                     return null;
                   },
                 ),
